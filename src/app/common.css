@@ -1,0 +1,90 @@
+body, h1, h2, h3, h4, h5, h6, p, div, span {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  background: #000033;
+  color: #fff;
+  min-height: calc(100dvh - 82px);
+  padding-bottom: 2.5rem;
+  padding-top: 3rem;
+}
+
+.card-body, .card-header {
+  background: #2B2B4B;
+  border-color: #2B2B4B;
+}
+
+.card {
+  border-color: #2B2B4B;
+}
+
+.color-secondary {
+  color: #8D91A0;
+}
+
+.breadcrumb span,
+.breadcrumb a {
+  font-size: 1.1rem;
+}
+
+.card-header {
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.d-flex-1 {
+  flex: 1;
+}
+
+.form-control {
+  background-color: transparent;
+  color: #fff;
+}
+
+.table {
+  background: #fff;
+}
+
+.bg-primary {
+  background: #0095EA !important;
+}
+
+.btn-primary {
+  background: #0095EA !important;
+  border-color: #0095EA !important
+}
+
+.btn-primary:hover {
+  background: #008BDA !important;
+  border-color: #008BDA !important
+}
+
+thead th {
+  font-weight: 600;
+}
+
+.bg-secondary {
+  background: #2B2B4B !important;
+}
+
+.form-select {
+  background-color: #fff;
+  color: black;
+}
+
+.breadcrumb a {
+  color: #fff;
+}
+
+.dropdown-toggle.after-none:after {
+  display: none;
+}
