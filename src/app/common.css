@@ -88,3 +88,13 @@ thead th {
 .dropdown-toggle.after-none:after {
   display: none;
 }
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background: #0255DA;
+  border-color: #fff;
+}
+
+.nav-tabs .nav-link {
+  border-radius: 0;
+  border-color: #fff;
+}

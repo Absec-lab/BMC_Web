@@ -16,6 +16,7 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
+import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { DriverMasterComponent } from './driver-master/driver-master.component';
     GoodsMasterComponent,
     GoodsSubMasterComponent,
     VehicleMasterComponent,
-    DriverMasterComponent
+    DriverMasterComponent,
+    PitViewComponent
   ],
   imports: [
     CommonModule,
