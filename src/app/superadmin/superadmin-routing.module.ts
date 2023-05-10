@@ -12,6 +12,8 @@ import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.com
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+import { MrfComponent } from './mrf/mrf.component';
+import { GarbageComponent } from './garbage/garbage.component';
 
 const routes: Routes = [
   {path: 'superadmin/dashboard',component: DashboardComponent},
@@ -26,6 +28,8 @@ const routes: Routes = [
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
+  {path: 'superadmin/mrf',component: MrfComponent},
+  {path: 'superadmin/garbage',component: GarbageComponent},
 ];
 
 @NgModule({
