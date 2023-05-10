@@ -13,6 +13,10 @@
     position: relative;
 }
 
+.pit-item.today {
+    width: calc(100%/4);
+}
+
 .pit-warning {
     position: absolute;
     top: -30px;
@@ -122,3 +126,103 @@
 .wc-ml-10{
 	margin-left: 10px;
 }
+
+.pit-today-view-head {
+    margin-top: 3rem;
+    color: #fff;
+    background: #0395EB;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.pit-today-view-head div {
+    flex: 1;
+    padding: 0.25rem;
+}
+
+.today-item {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+}
+
+.today-item > div {
+    flex: 1;
+}
+
+.today-item .day-no {
+    background: #D9D9D9;
+    color: black;
+    padding: 0.25rem;
+    text-align: center;
+}
+
+.today-item .postponed {
+    background: #CD8804;
+    color: #fff;
+    padding: 0.25rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.today-item .cancel {
+    background: #F41100;
+    color: #fff;
+    padding: 0.25rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.today-item .completed {
+    background: #078139;
+    color: #fff;
+    padding: 0.25rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.today-item > div:nth-child(2) > div:first-child {
+    width: 88%;
+}
+
+.today-item .turn {
+    padding: 0.25rem;
+    background: #07C824;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .today-item .empty {
+    padding: 0.25rem;
+    background: #505358;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .today-item .fill {
+    padding: 0.25rem;
+    background: #F41100;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .today-item .shift {
+    padding: 0.25rem;
+    background: #0395EB;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
