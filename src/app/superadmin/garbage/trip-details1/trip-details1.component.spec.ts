@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GarbageComponent } from './garbage.component';
+import { TripDetails1Component } from './trip-details1.component';
 
-describe('GarbageComponent', () => {
-  let component: GarbageComponent;
-  let fixture: ComponentFixture<GarbageComponent>;
+describe('TripDetails1Component', () => {
+  let component: TripDetails1Component;
+  let fixture: ComponentFixture<TripDetails1Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GarbageComponent ]
+      declarations: [ TripDetails1Component ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GarbageComponent);
+    fixture = TestBed.createComponent(TripDetails1Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
