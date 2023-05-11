@@ -37,10 +37,36 @@
 			<i class="fa-brands fa-bitbucket"></i>
 			<span>MRF</span>
 		</a>
-		<a routerLink="/superadmin/garbage" class="sidebar-link">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarGarbageLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
 			<i class="fa-solid fa-recycle"></i>
 			<span>Garbage</span>
 		</a>
+		<div class="sidebar-sub-menu collapse show" id="collapseSidebarGarbageLinks">
+			<a routerLink="/superadmin/zone-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details1</span>
+			</a>
+			<a routerLink="/superadmin/wealth-center-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details2</span>
+			</a>
+			<a routerLink="/superadmin/ward-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details3</span>
+			</a>
+			<a routerLink="/superadmin/mcc-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details4</span>
+			</a>
+			<a routerLink="/superadmin/pit-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details5</span>
+			</a>
+			<a routerLink="/superadmin/route-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Trip Details6</span>
+			</a>
+		</div>
 		<a routerLink="" class="sidebar-link">
 			<i class="fa-solid fa-truck"></i>
 			<span>Vehicle Management</span>
