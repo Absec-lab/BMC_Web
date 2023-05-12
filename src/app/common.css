@@ -88,3 +88,70 @@ thead th {
 .dropdown-toggle.after-none:after {
   display: none;
 }
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background: #0255DA;
+  border-color: #fff;
+}
+
+.nav-tabs .nav-link {
+  border-radius: 0;
+  border-color: #fff;
+}
+
+.btn-trip {
+  /* background-image: linear-gradient(to right, #E9B44E 0%, #B49143 100%); */
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-gross-weight {
+  /* background-image: linear-gradient(to right, #9149EC 0%, #6510D0 100%); */
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-gross-weight-img {
+  background-image: linear-gradient(to right, #9149EC 0%, #6510D0 100%);
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-dry-weight {
+  /* background-image: linear-gradient(to right, #0391EA 0%, #0241D3 100%); */
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-dry-weight-img {
+  background-image: linear-gradient(to right, #0391EA 0%, #0241D3 100%);
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-wet-weight {
+  /* background-image: linear-gradient(to right, #1ECD6D 0%, #04AB48 100%); */
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+.btn-wet-weight-img {
+  background-image: linear-gradient(to right, #1ECD6D 0%, #04AB48 100%);
+  color: #fff;
+  padding: 0.7rem 3rem;
+  font-size: 1.1rem;
+}
+
+form.align-form-items {
+  
+}
+
+.ml-10{
+	margin-left: 10px;
+}

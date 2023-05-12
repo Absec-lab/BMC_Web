@@ -107,7 +107,7 @@
                                 Goods Sub Master
                             </div>
                             <div class="card-body">
-                                <form [formGroup]="form">
+                                <form action="">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
@@ -115,10 +115,12 @@
                                                     Goods Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="goodsId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName }}</option>
-                                                        </select>
+                                                    <select class="form-select">
+                                                        <option>Goods Name</option>
+                                                        <option>Plastic</option>
+                                                        <option>Glass</option>
+                                                        <option>Polythin</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,7 +130,7 @@
                                                     Sub Goods Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="subgoodsName" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -140,7 +142,7 @@
                                                     Goods Price/kg
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="subGoodsPerKg" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +152,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="subGoodsDesc" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +161,7 @@
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
+                            <button class="btn btn-primary px-5 py-2">Add</button>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -168,15 +170,13 @@
                             <div>Goods Name</div>
                             <div class="ms-3 w-25">
                                 <select name="" id="" class="form-control form-select">
-									<option value="" disabled selected>Select Goods</option>
-                                                                        <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{ x.goodsName }}</option>
+                                    <option value="">Select Goods</option>
                                 </select>
                             </div>
                             <div class="wc-ml-10">Sub Goods Name</div>
                             <div class="ms-3 w-25">
                                 <select name="" id="" class="form-control form-select">
-                                    <option value="" disabled selected>Select Sub Goods</option>
-                                    <option [value]="x.goodssubId" *ngFor="let x of list;">{{ x.subgoodsName }}</option>
+                                    <option value="">Select Sub Goods</option>
                                 </select>
                             </div>
                             <div class="ms-3">
@@ -198,24 +198,37 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr *ngFor="let x of list; index as i;">
-                                        <td>{{ i + 1}}</td>
-                                        <td>{{ x.goods?.goodsName || '--' }}</td>
-                                        <td>{{ x.subgoodsName || '--' }}</td>
-                                        <td>{{ x.subGoodsPerKg || '--' }}</td>
-                                        <td>{{ x.subGoodsDesc || '--' }}</td>
-                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
-                                        </td>
-                                        <td
-                                                class="d-flex align-items-center gap-1 justify-content-center">
-                                                <button class="btn btn-primary btn-sm">
-                                                        <i class="fa-solid fa-edit"></i>
-                                                </button>
-                                                <button (click)="remove(x.goodssubId)" class="btn btn-danger btn-sm">
-                                                        <i
-                                                                class="fa-solid fa-trash-alt"></i>
-                                                </button>
-                                        </td>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Plastic</td>
+                                    <td>Bottle</td>
+                                    <td>₹100</td>
+                                    <td>Plastic sub goods</td>
+                                    <td>04/04/2023</td>
+                                    <td class="d-flex align-items-center gap-1 justify-content-center">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Glass</td>
+                                    <td>Glass Bottle</td>
+                                    <td>₹100</td>
+                                    <td>Glass sub goods</td>
+                                    <td>04/04/2023</td>
+                                    <td class="d-flex align-items-center gap-1 justify-content-center">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

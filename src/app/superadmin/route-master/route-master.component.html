@@ -107,7 +107,7 @@
 								Route Master
 							</div>
 							<div class="card-body">
-								<form [formGroup]="form">
+								<form action="">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
@@ -115,10 +115,12 @@
 													Wealth Center
 												</div>
 												<div class="ms-3 d-flex-1">
-													<select formControlName="wcId" class="form-select" (ngModelChange)="getWcById()">
-                                                                                                                <option value="" disabled selected>--Select--</option>
-                                                                                                                <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
-                                                                                                        </select>
+													<select class="form-select">
+                                                        <option>Select WC</option>
+                                                        <option>Pokhariput wc</option>
+                                                        <option>Pokhariput wc</option>
+                                                        <option>Pokhariput wc</option>
+                                                    </select>
 												</div>
 											</div>
 										</div>
@@ -128,10 +130,12 @@
 													Select Zone
 												</div>
 												<div class="ms-3 d-flex-1">
-													<select formControlName="zoneId" class="form-select" [(ngModel)]="zoneName">
-                                                                                                                <option value={{zoneName}}  selected>{{zoneName}}</option>
-                                                                                                                <!-- <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option> -->
-                                                                                                        </select>
+													<select class="form-select">
+                                                        <option>Select Zone</option>
+                                                        <option>South West Zone</option>
+                                                        <option>South West Zone</option>
+                                                        <option>South West Zone</option>
+                                                    </select>
 												</div>
 											</div>
 										</div>
@@ -143,7 +147,7 @@
 													Route Name
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="routeName" type="text" name="" id="" class="form-control">
+													<input type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -153,7 +157,7 @@
 													Description
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="routeDesc" type="text" name="" id="" class="form-control">
+													<input type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -162,7 +166,7 @@
 							</div>
 						</div>
 						<div class="text-end mt-3">
-							<button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
+							<button class="btn btn-primary px-5 py-2">Add</button>
 						</div>
 					</div>
 					<div class="mt-4">
@@ -171,21 +175,18 @@
 							<div class="ms-3 w-20">
 								<select name="" id="" class="form-control form-select">
 									<option value="">Zone Name</option>
-									<option [value]="x.zoneId" *ngFor="let x of zoneList;">{{ x.zoneName }}</option>
 								</select>
 							</div>
 							<div class="wc-ml-10">WC Name</div>
 							<div class="ms-3 w-20">
 								<select name="" id="" class="form-control form-select">
-									<option value="" disabled selected>Select WC</option>
-									<option [value]="x.wcId" *ngFor="let x of wcList;">{{ x.wcName }}</option>
+									<option value="">WC Name</option>
 								</select>
 							</div>
                             <div class="wc-ml-10">Route Name</div>
 							<div class="ms-3 w-20">
 								<select name="" id="" class="form-control form-select">
-									<option value="" disabled selected>Route Name</option>
-									<option [value]="x.routeId" *ngFor="let x of list;">{{ x.routeName }}</option>
+									<option value="">Route Name</option>
 								</select>
 							</div>
 							<div class="ms-3">
@@ -207,26 +208,54 @@
 								</tr>
 							</thead>
 							<tbody class="text-center">
-
-								<tr *ngFor="let x of list; index as i;">
-                                                                        <td>{{ i + 1}}</td>
-                                                                        <td>{{ x.zone?.zoneName || '--' }}</td>
-                                                                        <td>{{ x.wc?.wcName || '--' }}</td>
-                                                                        <td>{{ x.routeName || '--' }}</td>
-                                                                        <td>{{ x.routeDesc || '--' }}</td>
-                                                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
-                                                                        </td>
-                                                                        <td
-                                                                                class="d-flex align-items-center gap-1 justify-content-center">
-                                                                                <button class="btn btn-primary btn-sm">
-                                                                                        <i class="fa-solid fa-edit"></i>
-                                                                                </button>
-                                                                                <button (click)="deactivateRoute(x.routeId)" class="btn btn-danger btn-sm">
-                                                                                        <i
-                                                                                                class="fa-solid fa-trash-alt"></i>
-                                                                                </button>
-                                                                        </td>
-                                                                </tr>
+								<tr>
+									<td>1</td>
+									<td>North Zone</td>
+                                    <td>Baramunda WC</td>
+                                    <td>Route1</td>
+									<td>Bhubaneswar North Zone</td>
+									<td>04/04/2023</td>
+									<td class="d-flex align-items-center gap-1 justify-content-center">
+										<button class="btn btn-primary btn-sm">
+											<i class="fa-solid fa-edit"></i>
+										</button>
+										<button class="btn btn-danger btn-sm">
+											<i class="fa-solid fa-trash-alt"></i>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>North Zone</td>
+                                    <td>Baramunda WC</td>
+                                    <td>Route1</td>
+									<td>Bhubaneswar North Zone</td>
+									<td>04/04/2023</td>
+									<td class="d-flex align-items-center gap-1 justify-content-center">
+										<button class="btn btn-primary btn-sm">
+											<i class="fa-solid fa-edit"></i>
+										</button>
+										<button class="btn btn-danger btn-sm">
+											<i class="fa-solid fa-trash-alt"></i>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>North Zone</td>
+                                    <td>Baramunda WC</td>
+                                    <td>Route1</td>
+									<td>Bhubaneswar North Zone</td>
+									<td>04/04/2023</td>
+									<td class="d-flex align-items-center gap-1 justify-content-center">
+										<button class="btn btn-primary btn-sm">
+											<i class="fa-solid fa-edit"></i>
+										</button>
+										<button class="btn btn-danger btn-sm">
+											<i class="fa-solid fa-trash-alt"></i>
+										</button>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

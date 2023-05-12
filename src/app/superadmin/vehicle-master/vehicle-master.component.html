@@ -107,7 +107,7 @@
                                 Vehicle Registration
                             </div>
                             <div class="card-body">
-                                <form [formGroup]="form">
+                                <form action="">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
@@ -115,7 +115,7 @@
                                                     Vehicle No
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleNo" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -125,10 +125,12 @@
                                                     Zone Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="zoneId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
-                                                        </select>
+                                                    <select class="form-select">
+                                                        <option>Select Zone</option>
+                                                        <option>South West Zone</option>
+                                                        <option>South West Zone</option>
+                                                        <option>South West Zone</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,10 +142,12 @@
                                                     WC Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="wcId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
-                                                        </select>
+                                                    <select class="form-select">
+                                                        <option>Select WC</option>
+                                                        <option>WC1</option>
+                                                        <option>WC1</option>
+                                                        <option>WC1</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,10 +157,12 @@
                                                     Route Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="routeId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName }}</option>
-                                                        </select>
+                                                    <select class="form-select">
+                                                        <option>Select Route</option>
+                                                        <option>Route1</option>
+                                                        <option>Route1</option>
+                                                        <option>Route1</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -168,7 +174,7 @@
                                                     Driver Name/DL
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="driverId" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -178,7 +184,7 @@
                                                     RC Number
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="rcNo" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +196,7 @@
                                                     RC Photo
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="rcPhoto" type="file" name="" id="" class="form-control">
+                                                    <input type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -200,7 +206,7 @@
                                                     Vehicle Image
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleImage" type="file" name="" id="" class="form-control">
+                                                    <input type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -212,7 +218,7 @@
                                                     Insurance
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="insurance" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -222,7 +228,7 @@
                                                     Vehicle Passing Weight
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehiclePassingWt" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -234,7 +240,7 @@
                                                     Vehicle Weight
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleWt" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -244,7 +250,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleDesc" type="text" name="" id="" class="form-control">
+                                                    <input type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -253,7 +259,7 @@
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
+                            <button class="btn btn-primary px-5 py-2">Add</button>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -302,32 +308,50 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-
-								<tr *ngFor="let x of list; index as i;">
-                                                                        <td>{{ i + 1}}</td>
-                                                                        <td>{{ x.vehicleNo || '--' }}</td>
-                                                                        <td>{{ x.zone?.zoneName || '--' }}</td>
-                                                                        <td>{{ x.wc?.wcName || '--' }}</td>
-                                                                        <td>{{ x.route?.routeName || '--' }}</td>
-                                                                        <td>{{ x.dlNo || '--' }}</td>
-                                                                        <td>{{ x.rcNo || '--' }}</td>
-                                                                        <td>{{ x.insurance || '--' }}</td>
-                                                                        <td>{{ x.vehiclePassingWt || '--' }}</td>
-                                                                        <td>{{ x.vehicleWt || '--' }}</td>
-                                                                        <td>{{ x.vehicleDesc || '--' }}</td>
-                                                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
-                                                                        </td>
-                                                                        <td
-                                                                                class="d-flex align-items-center gap-1 justify-content-center">
-                                                                                <button class="btn btn-primary btn-sm">
-                                                                                        <i class="fa-solid fa-edit"></i>
-                                                                                </button>
-                                                                                <button (click)="remove(x.vehicleId)" class="btn btn-danger btn-sm">
-                                                                                        <i
-                                                                                                class="fa-solid fa-trash-alt"></i>
-                                                                                </button>
-                                                                        </td>
-                                                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>VEH001</td>
+                                    <td>South Zone</td>
+                                    <td>Baramunda Wc</td>
+                                    <td>Route1</td>
+                                    <td>DEW234243223425</td>
+                                    <td>OD02BH0000</td>
+                                    <td>New India Insurance</td>
+                                    <td>1200KG</td>
+                                    <td>1000Kg</td>
+                                    <td>Vehicle Info</td>
+                                    <td>04/04/2023</td>
+                                    <td class="d-flex align-items-center gap-1 justify-content-center">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>VEH001</td>
+                                    <td>South Zone</td>
+                                    <td>Baramunda Wc</td>
+                                    <td>Route1</td>
+                                    <td>DEW234243223425</td>
+                                    <td>OD02BH0000</td>
+                                    <td>New India Insurance</td>
+                                    <td>1200KG</td>
+                                    <td>1000Kg</td>
+                                    <td>Vehicle Info</td>
+                                    <td>04/04/2023</td>
+                                    <td class="d-flex align-items-center gap-1 justify-content-center">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

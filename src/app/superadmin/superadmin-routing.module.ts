@@ -11,6 +11,15 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
+import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+import { MrfComponent } from './mrf/mrf.component';
+import { TripDetails1Component } from './garbage/trip-details1/trip-details1.component';
+import { TripDetails2Component } from './garbage/trip-details2/trip-details2.component';
+import { TripDetails3Component } from './garbage/trip-details3/trip-details3.component';
+import { TripDetails4Component } from './garbage/trip-details4/trip-details4.component';
+import { TripDetails5Component } from './garbage/trip-details5/trip-details5.component';
+import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
+// import { GarbageComponent } from './garbage/garbage.component';
 
 const routes: Routes = [
   {path: 'superadmin/dashboard',component: DashboardComponent},
@@ -24,6 +33,15 @@ const routes: Routes = [
   {path: 'superadmin/goods-sub-master',component: GoodsSubMasterComponent},
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
+  {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
+  {path: 'superadmin/mrf',component: MrfComponent},
+  {path: 'superadmin/garbage/trip-details1',component: TripDetails1Component},
+  {path: 'superadmin/garbage/trip-details2',component: TripDetails2Component},
+  {path: 'superadmin/garbage/trip-details3',component: TripDetails3Component},
+  {path: 'superadmin/garbage/trip-details4',component: TripDetails4Component},
+  {path: 'superadmin/garbage/trip-details5',component: TripDetails5Component},
+  {path: 'superadmin/garbage/trip-details6',component: TripDetails6Component},
+  // {path: 'superadmin/garbage',component: GarbageComponent},
 ];
 
 @NgModule({
