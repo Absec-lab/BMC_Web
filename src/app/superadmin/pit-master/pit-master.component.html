@@ -115,7 +115,7 @@
                                                     Wealth Center
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="wcId" class="form-select">
+                                                        <select formControlName="wcId" class="form-select" (ngModelChange)="getMccDataByWcId()">
                                                                 <option value="" disabled selected>--Select--</option>
                                                                 <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
                                                         </select>
@@ -128,9 +128,9 @@
                                                     Select Zone
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="zoneId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
+                                                        <select formControlName="zoneId" class="form-select" [(ngModel)]="zoneName">
+                                                                <option value={{zoneName}}  selected>{{zoneName}}</option>
+                                                                <!-- <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option> -->
                                                         </select>
                                                 </div>
                                             </div>

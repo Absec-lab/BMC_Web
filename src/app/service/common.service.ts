@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-export class DeactivationDto{
-        id:any
-        activationStatus:Boolean=false
+export class DeactivationDto {
+        id: any
+        activationStatus: Boolean = false
 }
 
 const environment = {
 
-        
-       URL: `http://15.207.62.200:9091`  //prod url
+
+               URL: `http://15.207.62.200:9091`  //prod url
 
         // URL: `http://localhost:9091`  //manoranjan ip
 }
@@ -18,7 +18,7 @@ const environment = {
         providedIn: 'root'
 })
 export class CommonService {
-        deactivationDto:DeactivationDto=new DeactivationDto
+        deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private http: HttpClient) { }
 
         get(path: string): any {
@@ -57,48 +57,57 @@ export class CommonService {
         }
 
 
-         //manoj code
-      
-      
-         addZone(data:any){
-                return this.http.post(environment.URL+'/zone/addZone',data);
+        //manoj code
+
+
+        addZone(data: any) {
+                return this.http.post(environment.URL + '/zone/addZone', data);
         }
 
-        getZoneAllData(){
-                return this.http.get(environment.URL+'/zone/getAllZone')
+        getZoneAllData() {
+                return this.http.get(environment.URL + '/zone/getAllZone')
         }
 
-        deactivateZone(id:any){
-                return this.http.get(environment.URL+'/zone/deactivate?id='+id)
+        deactivateZone(id: any) {
+                return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
         }
-        deactivateWc(id:any){
-                return this.http.get(environment.URL+'/wc/deactivate?id='+id)
+        deactivateWc(id: any) {
+                return this.http.get(environment.URL + '/wc/deactivate?id=' + id)
         }
-        getAllWcData(){
-                return this.http.get(environment.URL+'/zone/getAllWc')
+        getAllWcData() {
+                return this.http.get(environment.URL + '/zone/getAllWc')
         }
-        deactivateWard(id:any){
-                return this.http.get(environment.URL+'/ward/deactivate?id='+id)
+        deactivateWard(id: any) {
+                return this.http.get(environment.URL + '/ward/deactivate?id=' + id)
         }
-        getAllWardData(){
-                return this.http.get(environment.URL+'/zone/getAllWard')
+        getAllWardData() {
+                return this.http.get(environment.URL + '/zone/getAllWard')
         }
-        deactivateMcc(id:any){
-                return this.http.get(environment.URL+'/mcc/deactivate?id='+id)
+        deactivateMcc(id: any) {
+                return this.http.get(environment.URL + '/mcc/deactivate?id=' + id)
         }
-        getAllMccData(){
-                return this.http.get(environment.URL+'/zone/getAllMcc')
+        getAllMccData() {
+                return this.http.get(environment.URL + '/zone/getAllMcc')
         }
-        deactivatePit(id:any){
-                return this.http.get(environment.URL+'/pit/deactivate?id='+id)
+        deactivatePit(id: any) {
+                return this.http.get(environment.URL + '/pit/deactivate?id=' + id)
         }
-        getAllPitData(){
-                return this.http.get(environment.URL+'/zone/getAllPit')
+        getAllPitData() {
+                return this.http.get(environment.URL + '/zone/getAllPit')
         }
-        deactivateRoute(id:any){
-                return this.http.get(environment.URL+'/route/deactivate?id='+id)
+        deactivateRoute(id: any) {
+                return this.http.get(environment.URL + '/route/deactivate?id=' + id)
         }
-        getAllRouteData(){
-                return this.http.get(environment.URL+'/zone/getAllRoute')
+        getAllRouteData() {
+                return this.http.get(environment.URL + '/zone/getAllRoute')
+        }
+        getWcListByZoneId(id: any) {
+                return this.http.get(environment.URL + '/get/all/wcData/by/zoneId?zoneId=' + id)
+        }
+        getWcById(id:any){
+                return this.http.get(environment.URL+'/zone/getWcById/'+id)
+        }
+        getAllMccByWcId(id:any){
+                return this.http.get(environment.URL+'/get/all/mcc/by/wcId?wcId='+id)
         }
 }

@@ -8,10 +8,11 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css', './ward-master.component.css']
 })
 export class WardMasterComponent {
+        responseData:any
         constructor(private service: CommonService) {
                 this.getList()
                 this.getZones()
-                this.getWCList()
+                // this.getWCList()
         }
 
         form = new FormGroup({
@@ -32,14 +33,14 @@ export class WardMasterComponent {
                         console.error(e)
                 }
         }
-        async getWCList() {
-                try {
-                        this.wcList = await this.service.get(`/zone/getAllWc`)
-                        this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
+        // async getWCList() {
+        //         try {
+        //                 this.wcList = await this.service.get(`/zone/getAllWc`)
+        //                 this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
+        //         } catch (e) {
+        //                 console.error(e)
+        //         }
+        // }
         async getList() {
                 try {
                         this.list = await this.service.get(`/zone/getAllWard`)
@@ -87,6 +88,15 @@ export class WardMasterComponent {
                         },
                         error=>{
                                 window.alert("Something went wrong!!")
+                        }
+                );
+        }
+        getWccListByZoneId(){
+                console.log(this.form.value.zoneId)
+                this.service.getWcListByZoneId(this.form.value.zoneId).subscribe(
+                        data=>{
+                                this.responseData=data
+                                this.wcList = this.responseData.data.sort((a: any, b: any) => a.wcName - b.wcName)
                         }
                 );
         }

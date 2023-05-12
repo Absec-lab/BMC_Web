@@ -8,9 +8,11 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css','./mcc-master.component.css']
 })
 export class MccMasterComponent {
+        responseData:any
+        zoneName:any=''
         constructor(private service: CommonService) {
                 this.getList()
-                this.getZones()
+                // this.getZones()
                 this.getWCList()
         }
 
@@ -24,14 +26,14 @@ export class MccMasterComponent {
         zoneList: any = []
         wcList: any = []
 
-        async getZones() {
-                try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
+        // async getZones() {
+        //         try {
+        //                 this.zoneList = await this.service.get(`/zone/getAllZone`)
+        //                 this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
+        //         } catch (e) {
+        //                 console.error(e)
+        //         }
+        // }
         async getWCList() {
                 try {
                         this.wcList = await this.service.get(`/zone/getAllWc`)
@@ -50,7 +52,8 @@ export class MccMasterComponent {
         }
         async addNew() {
                 try {
-                        const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
+                        // const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
+                        const zone=this.responseData.zone
                         const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
                         const data = {
                                 "mccDesc": this.form.value.mccDesc,
@@ -86,6 +89,18 @@ export class MccMasterComponent {
                         },
                         error=>{
                                 window.alert("Something went wrong!!")
+                        }
+                );
+        }
+
+        getWcById(){
+                console.log(this.form.value.wcId)
+                this.service.getWcById(this.form.value.wcId).subscribe(
+                        data=>{
+                                this.responseData=data
+                                this.form.value.zoneId=this.responseData.zone.zoneId
+                                this.zoneName=this.responseData.zone.zoneName
+                                console.log(this.zoneName)
                         }
                 );
         }
