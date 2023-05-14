@@ -115,8 +115,8 @@
                                                     Goods Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="goodsId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                        <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsName">
+                                                                <option value={{goodsName}}  selected>{{goodsName}}</option>
                                                                 <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName }}</option>
                                                         </select>
                                                 </div>
@@ -158,9 +158,13 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="text-end mt-3">
-                            <button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
-                        </div>
+                        <div class="text-end mt-3" *ngIf="isAdd">
+							<button class="btn btn-primary px-5 py-2" (click)="addNew()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWcc()">Update</button>
+						</div>
                     </div>
                     <div class="mt-4">
                         <div
@@ -175,7 +179,7 @@
                             <div class="wc-ml-10">Sub Goods Name</div>
                             <div class="ms-3 w-25">
                                 <select name="" id="" class="form-control form-select">
-                                    <option value="" disabled selected>Select Sub Goods</option>
+                                    <option value="" selected>Select Sub Goods</option>
                                     <option [value]="x.goodssubId" *ngFor="let x of list;">{{ x.subgoodsName }}</option>
                                 </select>
                             </div>
@@ -208,7 +212,7 @@
                                         </td>
                                         <td
                                                 class="d-flex align-items-center gap-1 justify-content-center">
-                                                <button class="btn btn-primary btn-sm">
+                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                         <i class="fa-solid fa-edit"></i>
                                                 </button>
                                                 <button (click)="remove(x.goodssubId)" class="btn btn-danger btn-sm">
