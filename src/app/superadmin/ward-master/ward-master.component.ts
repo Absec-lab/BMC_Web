@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -7,38 +7,20 @@ import { CommonService } from 'src/app/service/common.service';
   templateUrl: './ward-master.component.html',
   styleUrls: ['../../common.css', './ward-master.component.css']
 })
-export class WardMasterComponent implements OnInit{
-        isAdd: boolean = false
-        isUpdate: boolean = false
-        zoneName:any
-        wcId:any
-        wardId:any
+export class WardMasterComponent {
         responseData:any
-        wealthCentreName:any
-        wcName:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService) {
                 this.getList()
                 this.getZones()
                 // this.getWCList()
         }
-        ngOnInit(){
-                this.isAdd=true
-                this.isUpdate=false
-         }
+
         form = new FormGroup({
-                zoneId: new FormControl,
-                wcId: new FormControl,
-                wardId: new FormControl,
-                wardName: new FormControl,
-                wardDesc: new FormControl
+                zoneId: new FormControl(''),
+                wcId: new FormControl(''),
+                wardName: new FormControl(''),
+                wardDesc: new FormControl('')
               });
-        editForm = new FormGroup({
-                zoneId: new FormControl,
-                wcId: new FormControl,
-                wardId: new FormControl,
-                wardName: new FormControl,
-                wardDesc: new FormControl               
-        })
         list: any = []
         zoneList: any = []
         wcList: any = []
@@ -117,54 +99,5 @@ export class WardMasterComponent implements OnInit{
                                 this.wcList = this.responseData.data.sort((a: any, b: any) => a.wcName - b.wcName)
                         }
                 );
-        }
-        updateData(item: any) {
-                this.isUpdate = true
-                this.isAdd = false
-                console.log(item)
-                this.wcId=item.wcId
-                this.wardId=item.wardId
-                this.zoneName=item.zone.zoneName
-                console.log(item.zone.zoneName)
-
-                this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        wcId: item.wcId,
-                        wardId: item.wardId,
-                        wardName: item.wardName,
-                        wardDesc: item.wardDesc,
-                        
-                })
-                this.service.getZoneAllData().subscribe(
-                        data=>{
-                                this.zoneList=data
-                        }
-                );
-
-        }
-        cancel() {
-                this.isAdd = true
-                this.isUpdate = false
-                this.form.reset()
-        }
-
-        updateWard() {
-                console.log(this.form.value)
-                this.service.updateWard(this.form.value).subscribe(
-                        data => {
-                                window.alert("Ward data updated successfully!!")
-                                this.isAdd = true
-                                this.isUpdate = false
-                                this.service.getAllWcData().subscribe(
-                                        data => {
-                                                this.list = data
-                                        }
-                                );
-                        },
-                        error => {
-                                window.alert("something went wrong")
-                        }
-                );
-
         }
 }

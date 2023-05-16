@@ -1,34 +1,24 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
-        selector: 'app-goods-sub-master',
-        templateUrl: './goods-sub-master.component.html',
-        styleUrls: ['../../common.css', './goods-sub-master.component.css']
+  selector: 'app-goods-sub-master',
+  templateUrl: './goods-sub-master.component.html',
+  styleUrls: ['../../common.css','./goods-sub-master.component.css']
 })
 export class GoodsSubMasterComponent {
-        isAdd: boolean = false
-        isUpdate: boolean = false
-        goodsName: any
-        subGoodsId:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService) {
                 this.getList()
                 this.getGoodsList()
         }
 
         form = new FormGroup({
-                goodsId: new FormControl,
-                subgoodsName: new FormControl,
-                subGoodsPerKg: new FormControl,
-                subGoodsDesc: new FormControl
-        });
-        editForm = new FormGroup({
-                goodsId: new FormControl,
-                subgoodsName: new FormControl,
-                subGoodsPerKg: new FormControl,
-                subGoodsDesc: new FormControl
-        })
+                goodsId: new FormControl(''),
+                subgoodsName: new FormControl(''),
+                subGoodsPerKg: new FormControl(''),
+                subGoodsDesc: new FormControl('')
+              });
         list: any = []
         goodsList: any = []
 
@@ -72,46 +62,5 @@ export class GoodsSubMasterComponent {
                 } catch (e) {
                         console.error(e)
                 }
-        }
-        updateData(item: any) {
-                this.isUpdate = true
-                this.isAdd = false
-                console.log(item)
-                this.goodsName = item.goods.goodsName
-                this.form = this.formBuilder.group({
-                        goodsId: item.goods.goodsId,
-                        subgoodsName: item.subgoodsName,
-                        subGoodsPerKg: item.subGoodsPerKg,
-                        subGoodsDesc: item.subGoodsDesc
-                })
-                this.subGoodsId=item.goodssubId
-                // this.service.getZoneAllData().subscribe(
-                //         async data => {
-                //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
-                //         }
-                // );
-
-        }
-        cancel() {
-                this.isAdd = true
-                this.isUpdate = false
-                this.form.reset()
-        }
-
-        updateWcc() {
-                console.log(this.form.value)
-                this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
-                        data => {
-                                window.alert("SubGood data updated successfully!!")
-                                this.isAdd = true
-                                this.isUpdate = false
-                                this.getList()
-                                this.form.reset()
-                        },
-                        error => {
-                                window.alert("something went wrong")
-                        }
-                );
-
         }
 }

@@ -23,7 +23,10 @@ import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+<<<<<<< HEAD
 import { MapComponent } from './map/map.component';
+=======
+>>>>>>> parent of d1f64ed (SRC Code Push)
 
 
 @NgModule({
