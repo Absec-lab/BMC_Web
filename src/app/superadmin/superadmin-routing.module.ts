@@ -15,13 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
-<<<<<<< HEAD
 import { MapComponent } from './map/map.component';
-=======
->>>>>>> parent of d1f64ed (SRC Code Push)
 
 const routes: Routes = [
-  {path:'',component:LoginComponent},
   {path: 'superadmin/dashboard',component: DashboardComponent},
   {path: 'superadmin/zone-master',component: ZoneMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},
@@ -35,12 +31,8 @@ const routes: Routes = [
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
   {path: 'superadmin/garbage',component: GarbageComponent},
   {path: 'superadmin/mrf',component: MrfComponent},
-<<<<<<< HEAD
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path:'map/view',component:MapComponent}
-=======
-  {path: 'superadmin/mcc/pit-view',component: PitViewComponent}
->>>>>>> parent of d1f64ed (SRC Code Push)
 ];
 
 @NgModule({

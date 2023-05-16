@@ -134,9 +134,9 @@
                                                                                                         Select Zone
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
-                                                                                                        <select formControlName="zoneId" class="form-select">
-                                                                                                                <option value="" disabled selected>Select Zone</option>
-                                                                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
+                                                                                                        <select formControlName="zoneId" class="form-select" [(ngModel)]="zoneName">
+                                                                                                                <option value={{zoneName}} >{{zoneName}}</option>
+                                                                                                                <option [value]="x.zoneName" *ngFor="let x of zoneList;">{{x.zoneName}}</option>
                                                                                                         </select>
                                                                                                 </div>
                                                                                         </div>
@@ -175,10 +175,13 @@
                                                                 </form>
                                                         </div>
                                                 </div>
-                                                <div class="text-end mt-3">
-                                                        <button (click)="addNew()"
-                                                                class="btn btn-primary px-5 py-2">Add</button>
-                                                </div>
+                                                <div class="text-end mt-3" *ngIf="isAdd">
+							<button class="btn btn-primary px-5 py-2" (click)="addNew()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWcc()">Update</button>
+						</div>
                                         </div>
                                         <div class="mt-4">
                                                 <div
@@ -224,7 +227,7 @@
                                                                         </td>
                                                                         <td
                                                                                 class="d-flex align-items-center gap-1 justify-content-center">
-                                                                                <button class="btn btn-primary btn-sm">
+                                                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                                                         <i class="fa-solid fa-edit"></i>
                                                                                 </button>
                                                                                 <button (click)="deactivateWc(x.wcId)" class="btn btn-danger btn-sm">
