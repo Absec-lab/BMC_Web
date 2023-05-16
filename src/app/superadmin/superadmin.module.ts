@@ -19,6 +19,11 @@ import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { GarbageComponent } from './garbage/garbage.component';
+import { MrfComponent } from './mrf/mrf.component';
+import { MccComponent } from './mcc/mcc.component';
+import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 
 
 @NgModule({
@@ -37,8 +42,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     GoodsSubMasterComponent,
     VehicleMasterComponent,
     DriverMasterComponent,
-    PitViewComponent,
-    MrfComponent
+    LoginComponent,
+    GarbageComponent,
+    MrfComponent,
+    MccComponent,
+    PitViewComponent
   ],
   imports: [
     CommonModule,
