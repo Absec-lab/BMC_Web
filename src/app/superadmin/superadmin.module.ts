@@ -18,6 +18,7 @@ import { VehicleMasterComponent } from './vehicle-master/vehicle-master.componen
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     GoodsMasterComponent,
     GoodsSubMasterComponent,
     VehicleMasterComponent,
-    DriverMasterComponent
+    DriverMasterComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

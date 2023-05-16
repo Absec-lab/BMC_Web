@@ -11,8 +11,10 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
+  {path:'',component:LoginComponent},
   {path: 'superadmin/dashboard',component: DashboardComponent},
   {path: 'superadmin/zone-master',component: ZoneMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},

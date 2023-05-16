@@ -1,40 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
-        selector: 'app-wealth-center-master',
-        templateUrl: './wealth-center-master.component.html',
-        styleUrls: ['../../common.css', './wealth-center-master.component.css']
+  selector: 'app-wealth-center-master',
+  templateUrl: './wealth-center-master.component.html',
+  styleUrls: ['../../common.css', './wealth-center-master.component.css']
 })
-export class WealthCenterMasterComponent implements OnInit{
-        isAdd: boolean = false
-        isUpdate: boolean = false
-        zoneName:any
-        wcId:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+export class WealthCenterMasterComponent {
+        constructor(private service: CommonService) {
                 this.getList()
                 this.getZones()
         }
-        ngOnInit(){
-               this.isAdd=true
-               this.isUpdate=false
-        }
 
         form = new FormGroup({
-                zoneId: new FormControl,
-                wcName: new FormControl,
-                wcDesc: new FormControl,
-                wcId: new FormControl
-        });
-
-        editForm = new FormGroup({
-                zoneId: new FormControl,
-                wcName: new FormControl,
-                wcDesc: new FormControl,
-                wcId: new FormControl
-        })
-
+                zoneId: new FormControl(''),
+                wcName: new FormControl(''),
+                wcDesc: new FormControl('')
+              });
         list: any = []
         zoneList: any = []
 
@@ -78,66 +61,19 @@ export class WealthCenterMasterComponent implements OnInit{
                 }
         }
 
-        deactivateWc(id: any) {
+        deactivateWc(id:any){
                 this.service.deactivateWc(id).subscribe(
-                        data => {
+                        data=>{
                                 window.alert("Wealth Centre deleted successfully")
                                 this.service.getAllWcData().subscribe(
-                                        data => {
-                                                this.list = data
+                                        data=>{
+                                                this.list=data
                                         }
                                 );
                         },
-                        error => {
+                        error=>{
                                 window.alert("Something went wrong!!")
                         }
                 );
-        }
-
-        updateData(item: any) {
-                this.isUpdate = true
-                this.isAdd = false
-                console.log(item)
-                this.wcId=item.wcId
-                this.zoneName=item.zone.zoneName
-                console.log(item.zone.zoneName)
-
-                this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        wcName: item.wcName,
-                        wcDesc: item.wcDesc,
-                        wcId: item.wcId
-                })
-                this.service.getZoneAllData().subscribe(
-                        data=>{
-                                this.zoneList=data
-                        }
-                );
-
-        }
-        cancel() {
-                this.isAdd = true
-                this.isUpdate = false
-                this.form.reset()
-        }
-
-        updateWcc() {
-                console.log(this.form.value)
-                this.service.updateWc(this.form.value).subscribe(
-                        data => {
-                                window.alert("Wcc data updated successfully!!")
-                                this.isAdd = true
-                                this.isUpdate = false
-                                this.service.getAllWcData().subscribe(
-                                        data => {
-                                                this.list = data
-                                        }
-                                );
-                        },
-                        error => {
-                                window.alert("something went wrong")
-                        }
-                );
-
         }
 }
