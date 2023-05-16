@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -8,17 +8,31 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css','./route-master.component.css']
 })
 export class RouteMasterComponent {
+        isAdd: boolean = false
+        isUpdate: boolean = false
         responseData:any
+        zoneId:any
+        wealthCentreName:any
         zoneName:any
-        constructor(private service: CommonService) {
+        wcId:any
+        constructor(private service: CommonService, private formBuilder:FormBuilder) {
                 this.getList()
                 // this.getZones()
                 this.getWCList()
         }
 
         form = new FormGroup({
-                zoneId: new FormControl(''),
-                wcId: new FormControl(''),
+                zoneId: new FormControl,
+                wcId: new FormControl,
+                routeName: new FormControl,
+                routeDesc: new FormControl,
+                zone:new FormControl,
+                wc:new FormControl,
+                routeId:new FormControl
+              });
+        editForm = new FormGroup({
+                zone: new FormControl(''),
+                wc: new FormControl(''),
                 routeName: new FormControl(''),
                 routeDesc: new FormControl('')
               });
@@ -101,5 +115,56 @@ export class RouteMasterComponent {
                                 console.log(this.zoneName)
                         }
                 );
+        }
+        updateData(item: any) {
+                this.isUpdate = true
+                this.isAdd = false
+                console.log(item)
+                this.zoneName=item.zone.zoneName
+                this.wealthCentreName=item.wc.wcName
+                // this.zoneId = item.zoneId
+                this.form = this.formBuilder.group({
+                        zoneId: item.zone.zoneId,
+                        wcId: item.wc.wcId,
+                        routeName: item.routeName,
+                        routeDesc: item.routeDesc,
+                        zone:item.zone,
+                        wc:item.wc,
+                        routeId:item.routeId                               
+                })
+                
+                this.wcId=item.wcId
+                // this.service.getZoneAllData().subscribe(
+                //         async data => {
+                //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
+                //         }
+                // );
+
+        }
+        cancel() {
+                this.isAdd = true
+                this.isUpdate = false
+                this.form.reset()
+        }
+
+        updateRoute() {
+                console.log(this.form.value)
+                this.service.updateRoute(this.form.value).subscribe(
+                        data => {
+                                window.alert("Route data updated successfully!!")
+                                this.isAdd = true
+                                this.isUpdate = false
+                                this.getList()
+                                this.form.reset()
+                        },
+                        error => {
+                                window.alert("Route data updated successfully!!")
+                                this.isAdd = true
+                                this.isUpdate = false
+                                this.getList()
+                                this.form.reset()
+                        }
+                );
+
         }
 }

@@ -18,7 +18,6 @@ import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
-  {path:'',component:LoginComponent},
   {path: 'superadmin/dashboard',component: DashboardComponent},
   {path: 'superadmin/zone-master',component: ZoneMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},
