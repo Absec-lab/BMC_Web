@@ -23,6 +23,7 @@ import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { PitViewComponent } from './mcc/pit-view/pit-view.component';
     GarbageComponent,
     MrfComponent,
     MccComponent,
-    PitViewComponent
+    PitViewComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
