@@ -16,8 +16,7 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
-import { PitViewComponent } from './mcc/pit-view/pit-view.component';
-import { MrfComponent } from './mrf/mrf.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -36,9 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     GoodsMasterComponent,
     GoodsSubMasterComponent,
     VehicleMasterComponent,
-    DriverMasterComponent,
-    PitViewComponent,
-    MrfComponent
+    DriverMasterComponent
   ],
   imports: [
     CommonModule,
