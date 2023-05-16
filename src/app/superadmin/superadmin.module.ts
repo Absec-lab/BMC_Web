@@ -20,6 +20,9 @@ import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { GarbageComponent } from './garbage/garbage.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { GarbageComponent } from './garbage/garbage.component';
     DriverMasterComponent,
     PitViewComponent,
     MrfComponent,
-    GarbageComponent
+    GarbageComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
