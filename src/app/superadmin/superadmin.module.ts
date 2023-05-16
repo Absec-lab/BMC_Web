@@ -18,12 +18,7 @@ import { VehicleMasterComponent } from './vehicle-master/vehicle-master.componen
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MrfComponent } from './mrf/mrf.component';
-import { TripDetails1Component } from './garbage/trip-details1/trip-details1.component';
-import { TripDetails2Component } from './garbage/trip-details2/trip-details2.component';
-import { TripDetails3Component } from './garbage/trip-details3/trip-details3.component';
-import { TripDetails4Component } from './garbage/trip-details4/trip-details4.component';
-import { TripDetails5Component } from './garbage/trip-details5/trip-details5.component';
-import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
+import { GarbageComponent } from './garbage/garbage.component';
 
 
 @NgModule({
@@ -44,12 +39,7 @@ import { TripDetails6Component } from './garbage/trip-details6/trip-details6.com
     DriverMasterComponent,
     PitViewComponent,
     MrfComponent,
-    TripDetails1Component,
-    TripDetails2Component,
-    TripDetails3Component,
-    TripDetails4Component,
-    TripDetails5Component,
-    TripDetails6Component
+    GarbageComponent
   ],
   imports: [
     CommonModule,
