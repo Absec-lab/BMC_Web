@@ -51,7 +51,8 @@ import { MapComponent } from './map/map.component';
   ],
   imports: [
     CommonModule,
-    SuperadminRoutingModule
+    SuperadminRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class SuperadminModule { }

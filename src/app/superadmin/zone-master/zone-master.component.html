@@ -107,7 +107,7 @@
 								Zone Master
 							</div>
 							<div class="card-body">
-								<form action="">
+								<form [formGroup]="form">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
@@ -115,7 +115,7 @@
 													Zone name
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input type="text" name="" id="" class="form-control">
+													<input formControlName="zoneName" type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -125,7 +125,7 @@
 													Description
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input type="text" name="" id="" class="form-control">
+													<input formControlName="zoneDesc" type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -134,7 +134,7 @@
 							</div>
 						</div>
 						<div class="text-end mt-3">
-							<button class="btn btn-primary px-5 py-2">Add</button>
+							<button class="btn btn-primary px-5 py-2" (click)="addNewZone()">Add</button>
 						</div>
 					</div>
 					<div class="mt-4">
@@ -142,7 +142,8 @@
 							<div>Zone Name</div>
 							<div class="ms-3 w-25">
 								<select name="" id="" class="form-control form-select">
-									<option value="">Select Zone</option>
+									<option value="" disabled selected>Select Zone</option>
+									<option [value]="x.zoneId" *ngFor="let x of zoneList;">{{ x.zoneName }}</option>
 								</select>
 							</div>
 							<div class="ms-3">
@@ -162,48 +163,21 @@
 								</tr>
 							</thead>
 							<tbody class="text-center">
-								<tr>
-									<td>1</td>
-									<td>North Zone</td>
-									<td>Bhubaneswar North Zone</td>
-									<td>04/04/2023</td>
+                                                                <tr *ngFor="let zone of zoneList; index as i;">
+                                                                        <td>{{ i + 1 }}</td>
+									<td>{{ zone.zoneName || '--' }}</td>
+									<td>{{ zone.zoneDesc || '--' }}</td>
+									<td>{{ zone.createdDate | date:'dd/MM/yyyy' }}</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center">
 										<button class="btn btn-primary btn-sm">
 											<i class="fa-solid fa-edit"></i>
 										</button>
-										<button class="btn btn-danger btn-sm">
+										<!-- <button  (click)="removeZone(zone.zoneId)"class="btn btn-danger btn-sm"> -->
+											<button  class="btn btn-danger btn-sm" (click)="deactivateZone(zone.zoneId)">
 											<i class="fa-solid fa-trash-alt"></i>
 										</button>
 									</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>North Zone</td>
-									<td>Bhubaneswar North Zone</td>
-									<td>04/04/2023</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm">
-											<i class="fa-solid fa-edit"></i>
-										</button>
-										<button class="btn btn-danger btn-sm">
-											<i class="fa-solid fa-trash-alt"></i>
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>North Zone</td>
-									<td>Bhubaneswar North Zone</td>
-									<td>04/04/2023</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm">
-											<i class="fa-solid fa-edit"></i>
-										</button>
-										<button class="btn btn-danger btn-sm">
-											<i class="fa-solid fa-trash-alt"></i>
-										</button>
-									</td>
-								</tr>
+                                                                </tr>
 							</tbody>
 						</table>
 					</div>

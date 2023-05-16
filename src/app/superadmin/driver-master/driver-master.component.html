@@ -107,7 +107,7 @@
                                 Driver Registration
                             </div>
                             <div class="card-body">
-                                <form action="">
+                                <form [formGroup]="form">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
@@ -115,7 +115,7 @@
                                                     Driver Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="text" name="" id="" class="form-control">
+                                                    <input formControlName="driverName" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -125,7 +125,7 @@
                                                     DL No
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="text" name="" id="" class="form-control">
+                                                    <input formControlName="dlNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
                                                     Driver Photo
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="file" name="" id="" class="form-control">
+                                                    <input formControlName="driverPhoto" type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -147,7 +147,7 @@
                                                     DL Photo
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="file" name="" id="" class="form-control">
+                                                    <input formControlName="dlPhoto" type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +159,7 @@
                                                     Phone Number
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="text" name="" id="" class="form-control">
+                                                    <input formControlName="phoneNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -169,7 +169,7 @@
                                                     DL Expiry Date
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="date" name="" id="" class="form-control">
+                                                    <input formControlName="dlExpiry" type="date" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -181,7 +181,7 @@
                                                     Address
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="text" name="" id="" class="form-control">
+                                                    <input formControlName="address" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input type="text" name="" id="" class="form-control">
+                                                    <input formControlName="dlDesc" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <button class="btn btn-primary px-5 py-2">Add</button>
+                            <button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -243,42 +243,27 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Madhusudan Das</td>
-                                    <td>DEW234243223425</td>
-                                    <td>7894561230</td>
-                                    <td>15 Apr 2023</td>
-                                    <td>Jagannaath Nagar</td>
-                                    <td>Driver Info</td>
-                                    <td>04/04/2023</td>
-                                    <td class="d-flex align-items-center gap-1 justify-content-center">
-                                        <button class="btn btn-primary btn-sm">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa-solid fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Madhusudan Das</td>
-                                    <td>DEW234243223425</td>
-                                    <td>7894561230</td>
-                                    <td>15 Apr 2023</td>
-                                    <td>Jagannaath Nagar</td>
-                                    <td>Driver Info</td>
-                                    <td>04/04/2023</td>
-                                    <td class="d-flex align-items-center gap-1 justify-content-center">
-                                        <button class="btn btn-primary btn-sm">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa-solid fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+								<tr *ngFor="let x of list; index as i;">
+                                                                        <td>{{ i + 1}}</td>
+                                                                        <td>{{ x.driverName || '--' }}</td>
+                                                                        <td>{{ x.dlNo || '--' }}</td>
+                                                                        <td>{{ x.phoneNo || '--' }}</td>
+                                                                        <td>{{ x.dlExpiry || '--' }}</td>
+                                                                        <td>{{ x.address || '--' }}</td>
+                                                                        <td>{{ x.dlDesc || '--' }}</td>
+                                                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
+                                                                        </td>
+                                                                        <td
+                                                                                class="d-flex align-items-center gap-1 justify-content-center">
+                                                                                <button class="btn btn-primary btn-sm">
+                                                                                        <i class="fa-solid fa-edit"></i>
+                                                                                </button>
+                                                                                <button (click)="remove(x.driverId)" class="btn btn-danger btn-sm">
+                                                                                        <i
+                                                                                                class="fa-solid fa-trash-alt"></i>
+                                                                                </button>
+                                                                        </td>
+                                                                </tr>
                             </tbody>
                         </table>
                     </div>
