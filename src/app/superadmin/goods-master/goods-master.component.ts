@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
+import { FormControl,FormBuilder, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -7,16 +7,34 @@ import { CommonService } from 'src/app/service/common.service';
   templateUrl: './goods-master.component.html',
   styleUrls: ['../../common.css','./goods-master.component.css']
 })
-export class GoodsMasterComponent {
-        constructor(private service: CommonService) {
+export class GoodsMasterComponent implements OnInit{
+        isAdd: boolean = false
+        isUpdate: boolean = false
+        constructor(private service: CommonService, private formBuilder:FormBuilder) {
                 this.getList()
         }
-
+        ngOnInit() {
+                this.isAdd = true
+                this.isUpdate = false
+                this.service.getAllGoods().subscribe(
+                        data => {
+                                this.list = data
+                        }
+                );
+        }
         form = new FormGroup({
-                goodsName: new FormControl(''),
-                goodsPerKg: new FormControl(''),
-                goodsDesc: new FormControl('')
+                goodsId: new FormControl,
+                goodsName: new FormControl,
+                goodsPerKg: new FormControl,
+                goodsDesc: new FormControl
               });
+
+        editFormData = new FormGroup({
+                goodsId: new FormControl,
+                goodsName: new FormControl,
+                goodsPerKg: new FormControl,
+                goodsDesc: new FormControl
+        })
         list: any = []
         async getList() {
                 try {
@@ -43,5 +61,42 @@ export class GoodsMasterComponent {
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        updateData(item: any) {
+                this.isUpdate = true
+                this.isAdd = false
+                console.log(item)
+
+        this.form = this.formBuilder.group({
+                goodsId: item.goodsId,
+                goodsName: item.goodsName,
+                goodsPerKg: item.goodsPerKg,
+                goodsDesc: item.goodsDesc
+                })
+               
+         }
+        cancel() {
+                this.isAdd = true
+                this.isUpdate = false
+        }
+
+        updateGoods(){
+                console.log(this.form.value)
+                this.service.updateGoods(this.form.value).subscribe(
+                        data=>{
+                                window.alert("Goods data updated successfully!!")
+                                this.isAdd=true
+                                this.isUpdate=false
+                                this.service.getAllGoods().subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
+                        },
+                        error=>{
+                                window.alert("something went wrong")
+                        }
+                );
+
         }
 }
