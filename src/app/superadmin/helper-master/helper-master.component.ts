@@ -3,14 +3,14 @@ import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder } from '@angula
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
-  selector: 'app-driver-master',
-  templateUrl: './driver-master.component.html',
-  styleUrls: ['../../common.css','./driver-master.component.css']
+  selector: 'app-helper-master',
+  templateUrl: './helper-master.component.html',
+  styleUrls: ['../../common.css','./helper-master.component.css']
 })
-export class DriverMasterComponent {
+export class HelperMasterComponent {
         isAdd: boolean = true
         isUpdate: boolean = false
-        driverId:any
+        helperId:any
         wcId: any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
@@ -18,8 +18,8 @@ export class DriverMasterComponent {
         }
 
         form = new FormGroup({
-                driverName: new FormControl,
-                driverPhoto: new FormControl,
+                helperName: new FormControl,
+                helperPhoto: new FormControl,
                 phoneNo: new FormControl,
                 dlNo: new FormControl,
                 dlExpiry: new FormControl,
@@ -28,8 +28,8 @@ export class DriverMasterComponent {
                 dlDesc: new FormControl
               });
         editForm =new FormGroup({
-                driverName: new FormControl(''),
-                driverPhoto: new FormControl(''),
+                helperName: new FormControl(''),
+                helperPhoto: new FormControl(''),
                 phoneNo: new FormControl(''),
                 dlNo: new FormControl(''),
                 dlExpiry: new FormControl(''),
@@ -50,8 +50,8 @@ export class DriverMasterComponent {
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllDriver`)
-                        this.list = this.list.sort((a: any, b: any) => a.driverName - b.driverName)
+                        this.list = await this.service.get(`/zone/getAllHelper`)
+                        this.list = this.list.sort((a: any, b: any) => a.helperName - b.helperName)
                 } catch (e) {
                         console.error(e)
                 }
@@ -63,7 +63,7 @@ export class DriverMasterComponent {
                                 "status": true
                         }
                         console.log(data)
-                        await this.service.post(`/zone/addDriver`, data)
+                        await this.service.post(`/zone/addHelper`, data)
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -72,7 +72,7 @@ export class DriverMasterComponent {
         }
         async remove(id: string) {
                 try {
-                        const res = await this.service.delete(`/zone/deleteDriver/${id}`)
+                        const res = await this.service.delete(`/zone/deleteHeleper/${id}`)
                         this.getList()
                 } catch (e) {
                         console.error(e)
@@ -82,10 +82,10 @@ export class DriverMasterComponent {
                 this.isUpdate = true
                 this.isAdd = false
                 console.log(item)
-                this.driverId = item.driverId
+                this.helperId = item.helperId
                 this.form = this.formBuilder.group({
-                        driverName: item.driverName,
-                        driverPhoto: item.driverPhoto,
+                        helperName: item.helperName,
+                        helperPhoto: item.helperPhoto,
                         phoneNo: item.phoneNo,
                         dlNo: item.dlNo,
                         dlExpiry: item.dlExpiry,
@@ -107,11 +107,11 @@ export class DriverMasterComponent {
                 this.form.reset()
         }
 
-        updateDriver() {
+        updateHelper() {
                 console.log(this.form.value)
-                this.service.updateDriver(this.form.value).subscribe(
+                this.service.updateHelper(this.form.value).subscribe(
                         data => {
-                                window.alert("SubGood data updated successfully!!")
+                                window.alert("Helper data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()

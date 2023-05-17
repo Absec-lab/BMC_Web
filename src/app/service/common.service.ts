@@ -129,6 +129,9 @@ export class CommonService {
         updateRoute(item:any){
                 return this.http.put(environment.URL+'/zone/updateRoute',item)
         }
+        updateVehicle(item:any){
+                return this.http.put(environment.URL+'/zone/updateRoute',item)
+        }
         updateWard(item:any){
                 return this.http.put(environment.URL+'/zone/updateWard',item)
         }
@@ -140,6 +143,9 @@ export class CommonService {
         }
         updateDriver(item:any){
                 return this.http.put(environment.URL+'/zone/updateDriver',item)
+        }
+        updateHelper(item:any){
+                return this.http.put(environment.URL+'/zone/updateHelper',item)
         }
         getAllGoods(){
                 return this.http.get(environment.URL+'/zone/getAllGoods')

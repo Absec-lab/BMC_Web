@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -8,7 +8,14 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css','./vehicle-master.component.css']
 })
 export class VehicleMasterComponent {
-        constructor(private service: CommonService) {
+        isAdd: boolean = true
+        isUpdate: boolean = false
+        responseData:any
+        zoneId:any
+        wealthCentreName:any
+        zoneName:any
+        wcId:any
+        constructor(private service: CommonService, private formBuilder :FormBuilder) {
                 this.getList()
                 this.getZones()
                 this.getWCList()
@@ -107,5 +114,61 @@ export class VehicleMasterComponent {
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        updateData(item: any) {
+                this.isUpdate = true
+                this.isAdd = false
+                console.log(item)
+                this.zoneName=item.zone.zoneName
+                this.wealthCentreName=item.wc.wcName
+                // this.zoneId = item.zoneId
+                // this.form = this.formBuilder.group({
+                //         vehicleNo: item.vehicleNo,
+                //         driverId: item.vehicleNo,
+                //         rcNo: item.vehicleNo,
+                //         rcPhoto: item.vehicleNo,
+                //         vehicleImage: item.vehicleNo,
+                //         insurance: item.vehicleNo,
+                //         vehiclePassingWt: item.vehicleNo,
+                //         vehicleWt: item.vehicleNo,
+                //         vehicleDesc: item.vehicleNo,
+                //         zone:item.zone,                        
+                //         routeId:item.routeId, 
+                //         wc:item.wc                           
+                // })
+                
+                this.wcId=item.wcId
+                // this.service.getZoneAllData().subscribe(
+                //         async data => {
+                //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
+                //         }
+                // );
+
+        }
+        cancel() {
+                this.isAdd = true
+                this.isUpdate = false
+                this.form.reset()
+        }
+
+        updateVehicle() {
+                console.log(this.form.value)
+                this.service.updateVehicle(this.form.value).subscribe(
+                        data => {
+                                window.alert("Vehicle data updated successfully!!")
+                                this.isAdd = true
+                                this.isUpdate = false
+                                this.getList()
+                                this.form.reset()
+                        },
+                        error => {
+                                window.alert("Vehicle data updated successfully!!")
+                                this.isAdd = true
+                                this.isUpdate = false
+                                this.getList()
+                                this.form.reset()
+                        }
+                );
+
         }
 }

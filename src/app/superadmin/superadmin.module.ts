@@ -16,6 +16,7 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
+import { HelperMasterComponent } from './helper-master/helper-master.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
@@ -41,6 +42,7 @@ import { MapComponent } from './map/map.component';
     GoodsSubMasterComponent,
     VehicleMasterComponent,
     DriverMasterComponent,
+    HelperMasterComponent,
     LoginComponent,
     GarbageComponent,
     MrfComponent,

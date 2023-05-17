@@ -8,7 +8,7 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css','./route-master.component.css']
 })
 export class RouteMasterComponent {
-        isAdd: boolean = false
+        isAdd: boolean = true
         isUpdate: boolean = false
         responseData:any
         zoneId:any

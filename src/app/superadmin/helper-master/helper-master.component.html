@@ -99,36 +99,33 @@
                         <span class="mx-2">/</span>
                         <a routerLink="">Master Entry</a>
                         <span class="mx-2">/</span>
-                        <a routerLink="">Vehicle Registration</a>
+                        <a routerLink="">Helper Registration</a>
                     </div>
                     <div class="mt-4">
                         <div class="card rounded-0">
                             <div class="card-header rounded-0">
-                                Vehicle Registration
+                                Helper Registration
                             </div>
                             <div class="card-body">
-                                <form [formGroup]="form">
+                                <form *ngIf="form" [formGroup]="form">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Vehicle No
+                                                    Helper Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleNo" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="helperName" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Zone Name
+                                                    DL No
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="zoneId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
-                                                        </select>
+                                                    <input formControlName="dlNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -137,26 +134,20 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    WC Name
+                                                    Helper Photo
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="wcId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
-                                                        </select>
+                                                    <input formControlName="helperPhoto" type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Route Name
+                                                    DL Photo
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="routeId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName }}</option>
-                                                        </select>
+                                                    <input formControlName="dlPhoto" type="file" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -165,42 +156,20 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Driver Name/DL
+                                                    Phone Number
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="driverId" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="phoneNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    RC Number
+                                                    DL Expiry Date
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="rcNo" type="text" name="" id="" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="d-flex align-items-center w-100">
-                                                <div>
-                                                    RC Photo
-                                                </div>
-                                                <div class="ms-3 d-flex-1">
-                                                    <input formControlName="rcPhoto" type="file" name="" id="" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex align-items-center w-100">
-                                                <div>
-                                                    Vehicle Image
-                                                </div>
-                                                <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleImage" type="file" name="" id="" class="form-control">
+                                                    <input formControlName="dlExpiry" type="date" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -209,32 +178,10 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Insurance
+                                                    Address
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="insurance" type="text" name="" id="" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex align-items-center w-100">
-                                                <div>
-                                                    Vehicle Passing Weight
-                                                </div>
-                                                <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehiclePassingWt" type="text" name="" id="" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="d-flex align-items-center w-100">
-                                                <div>
-                                                    Vehicle Weight
-                                                </div>
-                                                <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleWt" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="address" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -244,7 +191,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleDesc" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="dlDesc" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -253,35 +200,30 @@
                             </div>
                         </div>
                         <div class="text-end mt-3" *ngIf="isAdd">
-                            <button (click)="addNew()" class="btn btn-primary px-5 py-2">Add</button>
-                        </div>
-                        <div class="text-end mt-3" *ngIf="isUpdate">
-							<button class="btn btn-primary px-5 py-2"
-								(click)="cancel()">Cancel</button>
-							<button class="btn btn-primary px-5 py-2"
-								style="margin-left: 20px;"
-								(click)="updateVehicle()">Update</button>
+							<button class="btn btn-primary px-5 py-2" (click)="addNew()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateHelper()">Update</button>
 						</div>
                     </div>
                     <div class="mt-4">
                         <div
                             class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
-                            <div>Vehicle No</div>
-                            <div class="ms-3 w-20">
-                                <select name="" id="" class="form-control form-select">
-                                    <option value="">Vehicle No</option>
-                                </select>
-                            </div>
-                            <div class="wc-ml-10">RC</div>
-                            <div class="ms-3 w-20">
-                                <select name="" id="" class="form-control form-select">
-                                    <option value="">RC</option>
-                                </select>
-                            </div>
-                            <div class="wc-ml-10">DL Number</div>
+                            <div>DL Number</div>
                             <div class="ms-3 w-20">
                                 <select name="" id="" class="form-control form-select">
                                     <option value="">DL Number</option>
+                                </select>
+                            </div>
+                            <div class="wc-ml-10">Name</div>
+                            <div class="ms-3 w-20">
+                                <input type="text" name="" id="" class="form-control">
+                            </div>
+                            <div class="wc-ml-10">Phone Number</div>
+                            <div class="ms-3 w-20">
+                                <select name="" id="" class="form-control form-select">
+                                    <option value="">Phone Number</option>
                                 </select>
                             </div>
                             <div class="ms-3">
@@ -294,34 +236,25 @@
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>Sl. No.</th>
-                                    <th>Vehicle No</th>
-                                    <th>Zone Name</th>
-                                    <th>WC Name</th>
-                                    <th>Route Name</th>
-                                    <th>DL</th>
-                                    <th>RC</th>
-                                    <th>Insurance</th>
-                                    <th>Vehicle Passing Wt.</th>
-                                    <th>Vehicle Wt.</th>
+                                    <th>Helper Name</th>
+                                    <th>DL Number</th>
+                                    <th>Phone Number</th>
+                                    <th>DL Exp Dt.</th>
+                                    <th>Address</th>
                                     <th>Description</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-
 								<tr *ngFor="let x of list; index as i;">
                                                                         <td>{{ i + 1}}</td>
-                                                                        <td>{{ x.vehicleNo || '--' }}</td>
-                                                                        <td>{{ x.zone?.zoneName || '--' }}</td>
-                                                                        <td>{{ x.wc?.wcName || '--' }}</td>
-                                                                        <td>{{ x.route?.routeName || '--' }}</td>
+                                                                        <td>{{ x.helperName || '--' }}</td>
                                                                         <td>{{ x.dlNo || '--' }}</td>
-                                                                        <td>{{ x.rcNo || '--' }}</td>
-                                                                        <td>{{ x.insurance || '--' }}</td>
-                                                                        <td>{{ x.vehiclePassingWt || '--' }}</td>
-                                                                        <td>{{ x.vehicleWt || '--' }}</td>
-                                                                        <td>{{ x.vehicleDesc || '--' }}</td>
+                                                                        <td>{{ x.phoneNo || '--' }}</td>
+                                                                        <td>{{ x.dlExpiry || '--' }}</td>
+                                                                        <td>{{ x.address || '--' }}</td>
+                                                                        <td>{{ x.dlDesc || '--' }}</td>
                                                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                                                         </td>
                                                                         <td
@@ -329,7 +262,7 @@
                                                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                                                         <i class="fa-solid fa-edit"></i>
                                                                                 </button>
-                                                                                <button (click)="remove(x.vehicleId)" class="btn btn-danger btn-sm">
+                                                                                <button (click)="remove(x.helperId)" class="btn btn-danger btn-sm">
                                                                                         <i
                                                                                                 class="fa-solid fa-trash-alt"></i>
                                                                                 </button>

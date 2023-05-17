@@ -11,6 +11,7 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
+import { HelperMasterComponent } from './helper-master/helper-master.component';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: 'superadmin/goods-sub-master',component: GoodsSubMasterComponent},
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
+  {path: 'superadmin/helper-master',component: HelperMasterComponent},
   {path: 'superadmin/garbage',component: GarbageComponent},
   {path: 'superadmin/mrf',component: MrfComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
