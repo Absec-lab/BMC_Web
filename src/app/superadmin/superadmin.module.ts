@@ -17,12 +17,11 @@ import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.com
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
-import { MrfComponent } from './mrf/mrf.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
+import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
-import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
 
 
@@ -52,8 +51,7 @@ import { MapComponent } from './map/map.component';
   imports: [
     CommonModule,
     SuperadminRoutingModule,
-    ReactiveFormsModule,
-    SuperadminModule
+    ReactiveFormsModule
   ]
 })
 export class SuperadminModule { }
