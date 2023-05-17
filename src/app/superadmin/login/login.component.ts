@@ -27,7 +27,7 @@ export class LoginComponent {
         this.loginResponse=data
         localStorage.setItem('token',this.loginResponse.bearerToken)
         window.alert("Login Success")
-        this.route.navigate(['/superadmin/dashboard'])
+        this.route.navigate(['/map/view'])
       },
       error=>{
         window.alert("Invalid Credentials")

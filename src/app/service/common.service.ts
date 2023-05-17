@@ -9,10 +9,10 @@ export class DeactivationDto {
 const environment = {
 
 
-               URL: `http://15.207.62.200:9091`,  //prod url
+        //        URL: `http://15.207.62.200:9091`,  //prod url
                LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
 
-        // URL: `http://15.207.62.200:9091`  //manoranjan ip
+        URL: `http://localhost:9091`  //local ip
 }
 
 @Injectable({
@@ -143,5 +143,8 @@ export class CommonService {
         }
         getAllGoods(){
                 return this.http.get(environment.URL+'/zone/getAllGoods')
+        }
+        getWardsCount(){
+                return this.http.get(environment.URL+'/get/all/wards/count')
         }
 }

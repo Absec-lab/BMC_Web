@@ -53,7 +53,7 @@
     width:  100%;
     min-height:  103px;
     position:  relative;
-    background: url(../../../assets/images/logo.png) no-repeat;
+    background: url('../../../assets/images/logo.png') no-repeat;
     background-size:  auto;
     background-position:  center;
 }
@@ -63,7 +63,7 @@
     position:  relative;    
     background-size:  auto;
     background-position:  center;
-	background: url(../../../assets/images/devider.png) no-repeat;
+	background: url('../../../assets/images/devider.png') no-repeat;
 	background-position: center;
 }
 .login_topimg img {
@@ -402,6 +402,9 @@ input {
 .m-b-16 {
     margin-bottom:  16px;
 }
+.m-b-20 {
+    margin-bottom:  20px;
+}
 .m-t-16 {
     margin-top:  16px;
 }
@@ -423,12 +426,86 @@ input {
     font-size: 12px;
 padding-top: 7px;
 }
+.copy-right{
+  text-align:left;
+}
+.term{
+  text-align:right;
+}
+
+.right-panel{
+  height:400px;
+  max-height:500px;
+  margin-top:50px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0px 20px 30px 20px;
+}
+
+      /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.right-panel-form-btn{
+font-size:  22px;
+line-height:  1.5;
+color:  #1A2C5B;
+text-transform:  uppercase;
+width:  100%;
+height:  50px;
+border-radius:  5px;
+background:  #fff;
+display:  -webkit-box;
+display:  -webkit-flex;
+display:  -moz-box;
+display:  -ms-flexbox;
+display:  flex;
+justify-content:  center;
+align-items:  center;
+padding:  0 25px;
+-webkit-transition:  all 0.4s;
+-o-transition:  all 0.4s;
+-moz-transition:  all 0.4s;
+transition:  all 0.4s;
+font-weight:bold;
+border-radius: 7px;
+
+}
+.right-panel-form-btn:hover {
+text-shadow: -4.67px -4.67px 14.02px rgba(0, 0, 0, 0.25), 4.67px 4.67px 14.02px rgba(0, 0, 0, 0.25);
+
+}
+@media (max-width: 768px) {
+.heading-text{
+    
+    font-size: 28px;
+    
+ }
+ .copy-right, .term{
+  text-align:center;
+}
+}
 /* Made with love by Mutiullah Samim*/
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-    background-color: #000033 !important;
+    background-color: #333333;
 background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
@@ -562,4 +639,3 @@ margin-left: 4px;
     position: absolute;
     z-index: -2;
 }
-
