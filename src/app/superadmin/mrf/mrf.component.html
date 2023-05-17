@@ -113,8 +113,8 @@
 													Goods Name
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                        <option value="plastic">Plastic</option>
+													<select name="" id="" class="form-control form-select bg-black text-white">
+                                                        <option [value]="item.goodsName" *ngFor="let item of goodList">{{item.goodsName}}</option>
                                                     </select>
 												</div>
 											</div>
