@@ -7,22 +7,18 @@ import { SuperadminModule } from './superadmin/superadmin.module';
 import { WebModule } from './web/web.module';
 import { CommonService } from './service/common.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    NgModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     SuperadminModule,
     WebModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
+    HttpClientModule
   ],
   providers: [
         CommonService

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+
 import { ZoneMasterComponent } from './zone-master.component';
 
 describe('ZoneMasterComponent', () => {
