@@ -21,9 +21,8 @@ import { MrfComponent } from './mrf/mrf.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
-import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
-import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+
 
 
 @NgModule({
@@ -51,7 +50,8 @@ import { PitViewComponent } from './mcc/pit-view/pit-view.component';
   imports: [
     CommonModule,
     SuperadminRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SuperadminModule
   ]
 })
 export class SuperadminModule { }

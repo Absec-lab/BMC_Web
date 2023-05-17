@@ -8,11 +8,13 @@ export class DeactivationDto {
 
 const environment = {
 
-
-        URL: `http://15.207.62.200:9091`  //prod url
+  
+        //URL: `http://15.207.62.200:9091`  //prod url
 
         // URL: `http://192.168.1.9:9091`  //manoranjan ip
-        // URL: `http://localhost:9091`  //Local  ip
+        URL: `http://localhost:9091`,  //Local  ip
+        LOGIN_SERVICE_URL: `http://15.207.62.200:8062`  
+        
 }
 
 @Injectable({
@@ -139,5 +141,8 @@ export class CommonService {
         }
         updateDriver(item:any){
                 return this.http.put(environment.URL+'/zone/updateDriver',item)
+        }
+        login(data:any){
+                return this.http.post(environment.LOGIN_SERVICE_URL+'/api/v1/login',data)
         }
 }
