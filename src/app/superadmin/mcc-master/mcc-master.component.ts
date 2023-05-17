@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
@@ -8,20 +8,35 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css','./mcc-master.component.css']
 })
 export class MccMasterComponent {
+        isAdd: boolean = true
+        isUpdate: boolean = false
         responseData:any
-        zoneName:any=''
-        constructor(private service: CommonService) {
+        zoneId:any
+        zoneName:any
+        wealthCentreName:any
+        wcId:any
+        constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 // this.getZones()
                 this.getWCList()
         }
 
         form = new FormGroup({
-                zoneId: new FormControl(''),
-                wcId: new FormControl(''),
+                zoneId: new FormControl,
+                wcId: new FormControl,
+                mccName: new FormControl,
+                mccDesc: new FormControl,
+                zone: new FormControl,
+                wc: new FormControl,
+                mccId: new FormControl
+              });
+        editForm = new FormGroup({
+                zone: new FormControl(''),
+                wc: new FormControl(''),
                 mccName: new FormControl(''),
                 mccDesc: new FormControl('')
               });
+
         list: any = []
         zoneList: any = []
         wcList: any = []
@@ -103,5 +118,47 @@ export class MccMasterComponent {
                                 console.log(this.zoneName)
                         }
                 );
+        }
+        updateData(item: any) {
+                alert(item.value);
+                this.isUpdate = true
+                this.isAdd = false
+                console.log(item)
+                this.zoneName=item.zone.zoneName
+                this.wealthCentreName=item.wc.wcName
+                this.form = this.formBuilder.group({
+                        zoneId: item.zoneId,
+                        wcId: item.wcId,
+                        mccName: item.mccName,
+                        mccDesc: item.mccDesc,
+                        zone :item.zone,
+                        wc:item.wc,
+                        mccId:item.mccId
+                })
+                
+
+        }
+        cancel() {
+                this.isAdd = true
+                this.isUpdate = false
+                this.form.reset()
+        }
+
+        updateMcc() {
+                alert('update MCC');
+                console.log(this.form.value)
+                this.service.updateMcc(this.form.value).subscribe(
+                        data => {
+                                window.alert("SubGood data updated successfully!!")
+                                this.isAdd = true
+                                this.isUpdate = false
+                                this.getList()
+                                this.form.reset()
+                        },
+                        error => {
+                                window.alert("something went wrong")
+                        }
+                );
+
         }
 }
