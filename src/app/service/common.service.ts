@@ -9,10 +9,10 @@ export class DeactivationDto {
 const environment = {
 
 
-        //        URL: `http://15.207.62.200:9091`,  //prod url
+               URL: `http://15.207.62.200:9091`,  //prod url
                LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
 
-        URL: `http://localhost:9091`  //local ip
+        // URL: `http://localhost:9091`  //local ip
 }
 
 @Injectable({
@@ -152,5 +152,23 @@ export class CommonService {
         }
         getWardsCount(){
                 return this.http.get(environment.URL+'/get/all/wards/count')
+        }
+        getActiveTrip(){
+                return this.http.get(environment.URL+'/get/active/trip')
+        }
+        getCompletedTrips(){
+                return this.http.get(environment.URL+'/get/inActive/trip')
+        }
+        getVehicleByVehicleNumber(vehicleNo:any){
+                return this.http.get(environment.URL+'/get/vehicle/by/vehicle/number?vehicleNumber='+vehicleNo)
+        }
+        getTripByVehicleNumber(vehicleNo:any){
+                return this.http.get(environment.URL+'/get/trip/by/vehicle/number?vehicleNumber='+vehicleNo)
+        }
+        createTrip(data:any){
+                return this.http.post(environment.URL+'/create/trip',data)
+        }
+        updateTrip(data:any){
+                return this.http.put(environment.URL+'/update/trip',data)
         }
 }

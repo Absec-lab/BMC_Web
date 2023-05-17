@@ -8,7 +8,7 @@ import { CommonService } from 'src/app/service/common.service';
         styleUrls: ['../../common.css', './goods-sub-master.component.css']
 })
 export class GoodsSubMasterComponent {
-        isAdd: boolean = false
+        isAdd: boolean = true
         isUpdate: boolean = false
         goodsName: any
         subGoodsId:any
