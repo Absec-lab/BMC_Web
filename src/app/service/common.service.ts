@@ -114,4 +114,34 @@ export class CommonService {
         login(data:any){
                 return this.http.post(environment.LOGIN_SERVICE_URL+'/api/v1/login',data)
         }
+        getZoneById(id:any){
+                return this.http.get(environment.URL+'/zone/getZoneById/'+id)
+        }
+        updateZone(item:any){
+                return this.http.put(environment.URL+'/zone/updateZone',item)
+        }
+        updateWc(item:any){
+                return this.http.put(environment.URL+'/zone/updateWc',item)
+        }
+        updateMcc(item:any){
+                return this.http.put(environment.URL+'/zone/updateMcc',item)
+        }
+        updateRoute(item:any){
+                return this.http.put(environment.URL+'/zone/updateRoute',item)
+        }
+        updateWard(item:any){
+                return this.http.put(environment.URL+'/zone/updateWard',item)
+        }
+        updateGoods(item:any){
+                return this.http.put(environment.URL+'/zone/updateGoods',item)
+        }
+        updateSubGood(item:any,subGoodId:any){
+                return this.http.put(environment.URL+'/zone/updateGoodssub/'+subGoodId,item)
+        }
+        updateDriver(item:any){
+                return this.http.put(environment.URL+'/zone/updateDriver',item)
+        }
+        getAllGoods(){
+                return this.http.get(environment.URL + '/zone/zone/getAllGood')
+        }
 }
