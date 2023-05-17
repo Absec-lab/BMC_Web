@@ -8,13 +8,11 @@ export class DeactivationDto {
 
 const environment = {
 
-  
-        //URL: `http://15.207.62.200:9091`  //prod url
 
-        // URL: `http://192.168.1.9:9091`  //manoranjan ip
-        URL: `http://localhost:9091`,  //Local  ip
-        LOGIN_SERVICE_URL: `http://15.207.62.200:8062`  
-        
+               URL: `http://15.207.62.200:9091`,  //prod url
+               LOGIN_SERVICE_URL: 'http://15.207.62.200:8062'
+
+        // URL: `http://localhost:9091`  //manoranjan ip
 }
 
 @Injectable({
@@ -70,9 +68,7 @@ export class CommonService {
         getZoneAllData() {
                 return this.http.get(environment.URL + '/zone/getAllZone')
         }
-        getAllGoods(){
-                return this.http.get(environment.URL + '/zone/zone/getAllGood')
-        }
+
         deactivateZone(id: any) {
                 return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
         }
@@ -115,6 +111,9 @@ export class CommonService {
         getAllMccByWcId(id:any){
                 return this.http.get(environment.URL+'/get/all/mcc/by/wcId?wcId='+id)
         }
+        login(data:any){
+                return this.http.post(environment.LOGIN_SERVICE_URL+'/api/v1/login',data)
+        }
         getZoneById(id:any){
                 return this.http.get(environment.URL+'/zone/getZoneById/'+id)
         }
@@ -142,7 +141,7 @@ export class CommonService {
         updateDriver(item:any){
                 return this.http.put(environment.URL+'/zone/updateDriver',item)
         }
-        login(data:any){
-                return this.http.post(environment.LOGIN_SERVICE_URL+'/api/v1/login',data)
+        getAllGoods(){
+                return this.http.get(environment.URL + '/zone/zone/getAllGood')
         }
 }
