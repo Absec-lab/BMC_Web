@@ -165,4 +165,10 @@ export class CommonService {
         updateTrip(data:any){
                 return this.http.put(environment.URL+'/update/trip',data)
         }
+        getAllSubGood(){
+                return this.http.get(environment.URL+'/zone/getAllGoodssub')
+        }
+        saveMrfData(data:any){
+                return this.http.post(environment.URL+'/zone/addMrf',data)
+        }
 }
