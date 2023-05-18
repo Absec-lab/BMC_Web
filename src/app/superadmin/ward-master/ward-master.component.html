@@ -121,8 +121,8 @@
 														<option [value]="x.zoneId" *ngFor="let x of zoneList;">
 															{{x.zoneName }}</option>
 													</select> -->
-													<select name="" id="" class="form-control form-select" (ngModelChange)="getWccListByZoneId()">
-														<option value="" disabled selected>Select WC
+													<select formControlName="zoneId" class="form-control form-select" (ngModelChange)="getWccListByZoneId()" [(ngModel)]="zoneName">
+														<option value="{{zoneName}}" selected>{{zoneName}}
 														</option>
 														<option [value]="x.zoneId" *ngFor="let x of zoneList;">
 															{{x.zoneName }}
@@ -139,7 +139,7 @@
 												<div class="ms-3 d-flex-1">
 													<select formControlName="wcId" class="form-select">
 														<option value="" disabled selected>--Select--</option>
-														<option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}
+														<option [value]="y.wcId" *ngFor="let y of wcList;">{{y.wcName }}
 														</option>
 													</select>
 												</div>
