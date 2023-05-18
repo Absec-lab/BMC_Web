@@ -30,14 +30,18 @@ export class WardMasterComponent implements OnInit{
                 wcId: new FormControl,
                 wardId: new FormControl,
                 wardName: new FormControl,
-                wardDesc: new FormControl
+                wardDesc: new FormControl,
+                wc:new FormControl,
+                zone:new FormControl
               });
         editForm = new FormGroup({
                 zoneId: new FormControl,
                 wcId: new FormControl,
                 wardId: new FormControl,
                 wardName: new FormControl,
-                wardDesc: new FormControl               
+                wardDesc: new FormControl, 
+                wc:new FormControl,
+                zone:new FormControl             
         })
         list: any = []
         zoneList: any = []
@@ -125,6 +129,7 @@ export class WardMasterComponent implements OnInit{
                 this.wcId=item.wcId
                 this.wardId=item.wardId
                 this.zoneName=item.zone.zoneName
+                this.wealthCentreName=item.wc.wcName
                 console.log(item.zone.zoneName)
 
                 this.form = this.formBuilder.group({
@@ -133,6 +138,8 @@ export class WardMasterComponent implements OnInit{
                         wardId: item.wardId,
                         wardName: item.wardName,
                         wardDesc: item.wardDesc,
+                        wc:item.wardDesc,
+                        zone:item.wardDesc
                         
                 })
                 this.service.getZoneAllData().subscribe(

@@ -115,11 +115,18 @@
 													Select Zone
 												</div>
 												<div class="ms-3 d-flex-1">
-													<select formControlName="zoneId" class="form-select"
-														(ngModelChange)="getWccListByZoneId()">
+													<!-- <select formControlName="zoneId" class="form-select"
+														(ngModelChange)="getWccListByZoneId()" [(ngmodule)]>
 														<option value="" disabled selected>--Select--</option>
 														<option [value]="x.zoneId" *ngFor="let x of zoneList;">
 															{{x.zoneName }}</option>
+													</select> -->
+													<select name="" id="" class="form-control form-select" (ngModelChange)="getWccListByZoneId()">
+														<option value="" disabled selected>Select WC
+														</option>
+														<option [value]="x.zoneId" *ngFor="let x of zoneList;">
+															{{x.zoneName }}
+														</option>
 													</select>
 												</div>
 											</div>

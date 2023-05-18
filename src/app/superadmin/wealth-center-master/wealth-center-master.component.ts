@@ -12,6 +12,8 @@ export class WealthCenterMasterComponent implements OnInit{
         isUpdate: boolean = false
         zoneName:any
         wcId:any
+        zoneId:any
+        responseData:any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 this.getZones()
@@ -23,6 +25,7 @@ export class WealthCenterMasterComponent implements OnInit{
 
         form = new FormGroup({
                 zoneId: new FormControl,
+                zoneName:new FormControl,
                 wcName: new FormControl,
                 wcDesc: new FormControl,
                 wcId: new FormControl
@@ -30,6 +33,7 @@ export class WealthCenterMasterComponent implements OnInit{
 
         editForm = new FormGroup({
                 zoneId: new FormControl,
+                zoneName: new FormControl,
                 wcName: new FormControl,
                 wcDesc: new FormControl,
                 wcId: new FormControl
@@ -56,7 +60,7 @@ export class WealthCenterMasterComponent implements OnInit{
         }
         async addNew() {
                 try {
-                        const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
+                        var zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
                         const data = {
                                 "wcDesc": this.form.value.wcDesc,
                                 "wcName": this.form.value.wcName,
@@ -104,6 +108,7 @@ export class WealthCenterMasterComponent implements OnInit{
 
                 this.form = this.formBuilder.group({
                         zoneId: item.zoneId,
+                        zoneName: item.zoneName,
                         wcName: item.wcName,
                         wcDesc: item.wcDesc,
                         wcId: item.wcId
