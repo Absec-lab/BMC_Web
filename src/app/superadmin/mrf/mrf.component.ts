@@ -12,8 +12,17 @@ export class MrfComponent implements OnInit{
   goodResponse:any
   subGoodResponse:any
   subgoodList:any=[]
+  mrfResponse:any
+  mrfList:any=[]
   constructor(private service:CommonService){}
   ngOnInit() {
+    this.service.getAllMrf().subscribe(
+      data=>{
+        this.mrfResponse=data
+        this.mrfList=this.mrfResponse
+        console.log(this.mrfList)
+      }
+    );
      this.getAllGoods()
      this.getAllSubGoods()
   }
@@ -56,6 +65,13 @@ export class MrfComponent implements OnInit{
    this.service.saveMrfData(data).subscribe(
     data=>{
       window.alert("Mrf data saved successfully")
+      this.service.getAllMrf().subscribe(
+        data=>{
+          this.mrfResponse=data
+          this.mrfList=this.mrfResponse
+          console.log(this.mrfList)
+        }
+      );
     }
    );
   }

@@ -21,9 +21,21 @@ export class GarbageComponent implements OnInit {
   dryButton: boolean = true
   wetWeightCapturedButton: boolean = false
   tripResponse: any
+  errorResponse:any
   ngOnInit() {
-    this.getActiveTrip()
-    this.getCompletedTrip()
+    this.service.getActiveTrip().subscribe(
+      data => {
+        this.activeTripResponse = data
+        this.activeTripList = this.activeTripResponse.data
+        // console.log(this.activeTripList)
+      }
+    );
+    this.service.getCompletedTrips().subscribe(
+      data => {
+        this.inActiveTripResponse = data
+        this.inActiveTripList = this.inActiveTripResponse.data
+      }
+    );
   }
 
   form = new FormGroup({
@@ -101,6 +113,7 @@ export class GarbageComponent implements OnInit {
           this.dryButton = false
           this.wetWeightCapturedButton = false
           this.grossWeightCapturedButton = true
+          
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 2){
           this.tripStartButton = false
@@ -164,7 +177,8 @@ export class GarbageComponent implements OnInit {
       },
       error=>{
         console.log(error)
-        window.alert("Something went wrong")
+        this.errorResponse=error
+        window.alert(this.errorResponse.error.message)
       }
     );
   }
@@ -183,7 +197,8 @@ export class GarbageComponent implements OnInit {
         window.alert("Gross Weight captured successfully")
       },
       error=>{
-        console.log("Please provide the gross weight value")
+        this.errorResponse=error
+        window.alert(this.errorResponse.error.message)
       }
     );
     
@@ -204,7 +219,8 @@ export class GarbageComponent implements OnInit {
         window.alert("Dry Weight captured successfully")
       },
       error=>{
-        console.log("Please provide the dry weight value")
+        this.errorResponse=error
+        window.alert(this.errorResponse.error.message)
       }
     );
     
@@ -224,7 +240,8 @@ export class GarbageComponent implements OnInit {
         window.alert("Wet Weight captured successfully")
       },
       error=>{
-        console.log("Please provide the wet weight value")
+        this.errorResponse=error
+        window.alert(this.errorResponse.error.message)
       }
     );
     
@@ -241,9 +258,23 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Trip completed")
+        this.service.getActiveTrip().subscribe(
+          data => {
+            this.activeTripResponse = data
+            this.activeTripList = this.activeTripResponse.data
+            // console.log(this.activeTripList)
+          }
+        );
+        this.service.getCompletedTrips().subscribe(
+          data => {
+            this.inActiveTripResponse = data
+            this.inActiveTripList = this.inActiveTripResponse.data
+          }
+        );
       },
       error=>{
-        window.alert("Please provide the trip end reading value")
+        this.errorResponse=error
+        window.alert(this.errorResponse.error.message)
       }
     );
   }

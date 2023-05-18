@@ -188,29 +188,13 @@
 								</tr>
 							</thead>
 							<tbody class="text-center">
-								<tr>
-									<td>Plastic</td>
-									<td>Plastic Bottle</td>
-									<td>&#8377; 50</td>
-									<td>20 Qtm</td>
-									<td>Plastic Bottle</td>
-									<td>04/04/2023</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm">
-											<i class="fa-solid fa-edit"></i>
-										</button>
-										<button class="btn btn-danger btn-sm">
-											<i class="fa-solid fa-trash-alt"></i>
-										</button>
-									</td>
-								</tr>
-                                <tr>
-									<td>Plastic</td>
-									<td>Plastic Bottle</td>
-									<td>&#8377; 50</td>
-									<td>20 Qtm</td>
-									<td>Plastic Bottle</td>
-									<td>04/04/2023</td>
+								<tr *ngFor="let item of mrfList">
+									<td>{{item.goods.goodsName}}</td>
+									<td>{{item.subGood.subgoodsName}}</td>
+									<td>&#8377; {{item.quntaum}}</td>
+									<td>{{item.interMaterial}}</td>
+									<td>{{item.mrfDesc}}</td>
+									<td>{{item.createdDate|date}}</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center">
 										<button class="btn btn-primary btn-sm">
 											<i class="fa-solid fa-edit"></i>
