@@ -159,3 +159,7 @@ form.align-form-items {
 .w-33{
   width: 33.33%;
 }
+
+.table td {
+  background-color: #e2e8f0 !important;
+}
