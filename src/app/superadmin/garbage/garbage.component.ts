@@ -15,10 +15,10 @@ export class GarbageComponent implements OnInit {
   inActiveTripList: any = []
   inActiveTripResponse: any
   vehcileDataResponse: any
-  tripStartButton: boolean = true
+  tripStartButton: boolean = false
   tripEndButton: boolean = false
   grossWeightCapturedButton: boolean = false
-  dryButton: boolean = true
+  dryButton: boolean = false
   wetWeightCapturedButton: boolean = false
   tripResponse: any
   errorResponse:any
