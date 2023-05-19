@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
@@ -7,7 +7,7 @@ import { CommonService } from 'src/app/service/common.service';
   templateUrl: './vehicle-master.component.html',
   styleUrls: ['../../common.css','./vehicle-master.component.css']
 })
-export class VehicleMasterComponent {
+export class VehicleMasterComponent implements OnInit{
         isAdd: boolean = true
         isUpdate: boolean = false
         responseData:any
@@ -15,11 +15,21 @@ export class VehicleMasterComponent {
         wealthCentreName:any
         zoneName:any
         wcId:any
+        vehicleResponse:any
+        driverList:any=[]
         constructor(private service: CommonService, private formBuilder :FormBuilder) {
                 this.getList()
                 this.getZones()
                 this.getWCList()
                 this.getRouteList()
+        }
+        ngOnInit(){
+                this.service.getAllDriverList().subscribe(
+                        data=>{
+                              this.driverList=data
+                              console.log(this.driverList)
+                        }
+                      );
         }
 
         form = new FormGroup({
@@ -170,5 +180,29 @@ export class VehicleMasterComponent {
                         }
                 );
 
+        }
+        deactivateVehicle(id: any) {
+                this.service.deactivateVehicle(id).subscribe(
+                        data => {
+                                window.alert("Vehicle deleted successfully")
+                                this.service.getAllActiveVehicle().subscribe(
+                                        data => {
+                                                this.vehicleResponse = data
+                                                this.list=this.vehicleResponse.data
+                                        }
+                                );
+                        },
+                        error => {
+                                window.alert("Something went wrong!!")
+                        }
+                );
+        }
+
+        getAllDrivers(){
+                this.service.getAllDriverList().subscribe(
+                  data=>{
+                        this.driverList=data
+                  }
+                );
         }
 }

@@ -12,6 +12,7 @@ export class GoodsSubMasterComponent {
         isUpdate: boolean = false
         goodsName: any
         subGoodsId:any
+        goodsId:any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 this.getGoodsList()

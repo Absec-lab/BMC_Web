@@ -18,21 +18,29 @@ export class MrfComponent implements OnInit{
   isUpdate: boolean = false
   goodsName: any
   subGoodsId:any
+  mrfResponse:any
+  mrfList:any
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllGoods()
      this.getAllSubGoods()
   }
   ngOnInit() {
-     this.getAllGoods()
-     this.getAllSubGoods()
+    this.service.getAllMrf().subscribe(
+      data => {
+        this.mrfResponse = data
+        this.mrfList = this.mrfResponse
+        console.log(this.mrfList)
+      }
+    );
+    this.getAllGoods()
   }
   form = new FormGroup({
     goodId: new FormControl,
     subGoodId: new FormControl,
-    inertMaterial:new FormControl,
+    inertMaterial: new FormControl,
     mrfDescription: new FormControl,
-    quntaum:new FormControl
+    quntaum: new FormControl
   });
   editForm = new FormGroup({
     goodId: new FormControl,
@@ -78,17 +86,11 @@ export class MrfComponent implements OnInit{
       "mrfDesc": this.form.value.mrfDescription,
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods
-   }
-   console.log(data)
-   this.service.saveMrfData(data).subscribe(
-    data=>{
-      window.alert("Mrf data saved successfully")
-    }
-   );
+    }   
    this.form.reset()
    this.getList()
   }
-  getGoodId(){
+  getGoodId() {
     console.log(this.form.value)
   }
   async remove(id: string) {
@@ -144,15 +146,4 @@ updateWcc() {
 }
 }
 
-// {
-//   "goods": {
-//     "goodsId": 0
-//   },
-//   "interMaterial": 0,
-//   "mrfDesc": "string",
-//   "mrfTrnsId": 0,
-//   "quntaum": 0,
-//   "subGood": {
-//     "goodssubId": 0
-//   }
-// }
+

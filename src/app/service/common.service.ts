@@ -178,4 +178,22 @@ export class CommonService {
                 return this.http.post(environment.URL+'/zone/addMrf',data)
         }
         
+        getAllMrf(){
+                return this.http.get(environment.URL+'/zone/getAllMrf')
+        }
+        deactivateVehicle(id:any){
+                return this.http.get(environment.URL+'/vehicle/deactivate?id='+id)
+        }
+        getAllActiveVehicle(){
+                return this.http.get(environment.URL+'/getAll/vehicle')
+        }
+        getAllDriverList(){
+               return  this.http.get(environment.URL+'/zone/getAllDriver')
+        }
+        getAllSubGoodByGoodId(id:any){
+                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
+        }
+        deactivateMrf(id:any){
+                return this.http.get(environment.URL+'/mrf/deactivate?id='+id)
+        }
 }

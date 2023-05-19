@@ -168,7 +168,10 @@
                                                     Driver Name/DL
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="driverId" type="text" name="" id="" class="form-control">
+                                                    <select formControlName="driverId" class="form-select">
+                                                        <option value="" disabled selected>--Select--</option>
+                                                        <option [value]="x.driverId" *ngFor="let x of driverList;">{{x.driverName}}</option>
+                                                </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -298,7 +301,7 @@
                                     <th>Zone Name</th>
                                     <th>WC Name</th>
                                     <th>Route Name</th>
-                                    <th>DL</th>
+                                    <th>Driver Name</th>
                                     <th>RC</th>
                                     <th>Insurance</th>
                                     <th>Vehicle Passing Wt.</th>
@@ -316,7 +319,7 @@
                                                                         <td>{{ x.zone?.zoneName || '--' }}</td>
                                                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                                                         <td>{{ x.route?.routeName || '--' }}</td>
-                                                                        <td>{{ x.dlNo || '--' }}</td>
+                                                                        <td>{{ x.driver?.driverName || '--' }}</td>
                                                                         <td>{{ x.rcNo || '--' }}</td>
                                                                         <td>{{ x.insurance || '--' }}</td>
                                                                         <td>{{ x.vehiclePassingWt || '--' }}</td>
@@ -329,7 +332,7 @@
                                                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                                                         <i class="fa-solid fa-edit"></i>
                                                                                 </button>
-                                                                                <button (click)="remove(x.vehicleId)" class="btn btn-danger btn-sm">
+                                                                                <button (click)="deactivateVehicle(x.vehicleId)" class="btn btn-danger btn-sm">
                                                                                         <i
                                                                                                 class="fa-solid fa-trash-alt"></i>
                                                                                 </button>
