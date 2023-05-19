@@ -19,7 +19,6 @@ import { TripDetails3Component } from './garbage/trip-details3/trip-details3.com
 import { TripDetails4Component } from './garbage/trip-details4/trip-details4.component';
 import { TripDetails5Component } from './garbage/trip-details5/trip-details5.component';
 import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
-// import { GarbageComponent } from './garbage/garbage.component';
 
 const routes: Routes = [
   {path: 'superadmin/dashboard',component: DashboardComponent},
@@ -41,7 +40,6 @@ const routes: Routes = [
   {path: 'superadmin/garbage/trip-details4',component: TripDetails4Component},
   {path: 'superadmin/garbage/trip-details5',component: TripDetails5Component},
   {path: 'superadmin/garbage/trip-details6',component: TripDetails6Component},
-  // {path: 'superadmin/garbage',component: GarbageComponent},
 ];
 
 @NgModule({

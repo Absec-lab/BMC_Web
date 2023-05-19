@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SuperadminRoutingModule } from './superadmin-routing.module';
-import { HeaderComponent } from './common/header/header.component';
-import { FooterComponent } from './common/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { WealthCenterMasterComponent } from './wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './ward-master/ward-master.component';
 import { ZoneMasterComponent } from './zone-master/zone-master.component';
@@ -24,14 +20,12 @@ import { TripDetails3Component } from './garbage/trip-details3/trip-details3.com
 import { TripDetails4Component } from './garbage/trip-details4/trip-details4.component';
 import { TripDetails5Component } from './garbage/trip-details5/trip-details5.component';
 import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
-
+import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
     DashboardComponent,
-    SidebarComponent,
     WealthCenterMasterComponent,
     WardMasterComponent,
     ZoneMasterComponent,
@@ -53,7 +47,10 @@ import { TripDetails6Component } from './garbage/trip-details6/trip-details6.com
   ],
   imports: [
     CommonModule,
-    SuperadminRoutingModule
+    SuperadminRoutingModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SuperadminModule { }
