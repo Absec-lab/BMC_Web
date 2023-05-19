@@ -177,4 +177,5 @@ export class CommonService {
         saveMrfData(data:any){
                 return this.http.post(environment.URL+'/zone/addMrf',data)
         }
+        
 }
