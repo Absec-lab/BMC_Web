@@ -1,4 +1,144 @@
 <app-header></app-header>
+
+            
+
+
+<!-- Modal -->
+<div class="modal" id="pitenzymeModal" role="dialog"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" [style.display]="pitmodalstatus ? 'block':'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pitModalLabel">PIT   QUANTUM 3 TON</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitmodalstatus()"></button>
+        </div>
+        <div class="modal-body">
+                
+                    <div class="input-group">
+                        <Label>
+                            Segregation : 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="segregation" (change)="onActiveStatusChange($event,'segregation')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Visual Inspection : 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="visualinspection" (change)="onActiveStatusChange($event,'visuaInspection')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Mixed of enzymes: 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="mixedenzyme" (change)="onActiveStatusChange($event,'mixedEnzyme')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Shreding: 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="shreding" (change)="onActiveStatusChange($event,'shreading')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Transfer to Pit: 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="transfertopit" (change)="onActiveStatusChange($event,'tranferToPit')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Pit Fillup Status : 
+                        </Label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="pitfillupstatus" (change)="onActiveStatusChange($event,'isFilledUp')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <Label>
+                            Inert Material : 
+                        </Label>
+                        <div class="col-sm-5">
+                            <input type="number" required name="insertmaterial" min="0" value="0" step=".01" style="color: #000000;" lass="form-control" id="insertmaterial" placeholder="Enter the InertbMaterial weight"  >
+                         </div>
+                         <Label>
+                            QTM
+                        </Label>
+                    </div>
+           </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closePitmodalstatus()">Close</button>
+          <button type="button" class="btn btn-primary" (click)= "onSubmitRequestForInit()" >Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+<div class="modal" id="activityModal" role="dialog"  tabindex="-1" aria-labelledby="activityModal" aria-hidden="true" [style.display]="activityModal ? 'block':'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="activityModal" > PIT Activity Status </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitActivityModalstatus()"></button>
+        </div>
+        <div class="modal-body">
+                
+            <p>{{activeNotification}}</p>
+
+           </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closePitActivityModalstatus()">Close</button>
+          <button type="button" class="btn btn-primary" (click)= "onSubmitPitUpdateStatusRequest()"  *ngIf="actionRequired == true">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="activityMixedUpModal" role="dialog"  tabindex="-1" aria-labelledby="activityModal" aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="activityModal" >PIT Mixed Up Activity</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitMixedUpModalstatus()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="grid">
+                <div class="grid__col-5">
+                    <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
+            <div class="input-group">
+                <label> Select the pit Mixed Up To</label>
+                   <div class="select"> 
+                       <select  name = "mixThisPitwithSelected" (change)="getSelected($event)" > 
+                          <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId" > 
+                              {{pitmixedup.pitName}} 
+                          </option>  
+                       </select>  
+                   </div> 
+            </div>
+        </div>
+    </div>
+
+           </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closePitMixedUpModalstatus()">Close</button>
+          <button type="button" class="btn btn-primary" (click)= "onSubmitPitUpdateStatusRequest()" >Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 <main class="container-fluid">
 	<div class="page-content p-3">
 		<div class="row">
@@ -110,170 +250,34 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
+                       
+                       
                         <div class="tab-pane fade show active bg-secondary border border-white border-top-0 p-5" id="pitview-tab-pane" role="tabpanel" aria-labelledby="pitview-tab" tabindex="0">
                             <div class="pit-view">
-                                <div class="pit-item">
+                                <div class="pit-item" *ngFor="let pit of allPitbyMcc.responseBody">
                                     <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-free.png" alt="Pit Icon" />
+                                        <input type="text"  value="{{pit.pitId}}" name="pitId"  hidden>
+                                        <img src="{{pit.pitStatus.activityColr}}" alt="Pit Icon" (click)="showPitmodalstatus(pit)"/>
                                         <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
+                                            <img src="/assets/images/icons/stopwatch.png" alt=""/>
                                             <span class="pit-icon-timer-count">14</span>
                                         </div>
                                     </div>
                                     <div class="pit-label">
-                                        PIT 1
+                                        {{pit.pitName}}
                                     </div>
-                                    <div class="pit-warning">
-                                        <img src="/assets/images/icons/warning.png" alt="Pit Warning" />
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-empty.png" alt="Pit Icon" />
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 2
+                                    <div height="20px"></div>
+                                    <div class="pit-warning" *ngIf="pit.pitStatus.isNotfEnable == 1">
+                                        <img src="/assets/images/icons/warning.png" alt="Pit Warning"  (click)="showPitmodalstatus(pit)" data-bs-target="#pitenzymeModal" />
                                     </div>
                                 </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-free.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">12</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 3
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-empty.png" alt="Pit Icon" />
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 4
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-free.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">10</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 5
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-empty.png" alt="Pit Icon" />
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 6
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-free.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">8</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 7
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pit-view mt-5">
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-empty.png" alt="Pit Icon" />
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 8
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-half.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">6</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 9
-                                    </div>
-                                    <div class="pit-warning">
-                                        <img src="/assets/images/icons/warning.png" alt="Pit Warning" />
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">5</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 10
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">4</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 11
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">3</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 12
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">2</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 13
-                                    </div>
-                                </div>
-                                <div class="pit-item">
-                                    <div class="pit-icon">
-                                        <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                        <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="pit-label">
-                                        PIT 14
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
+
+          
+
+
                         <div class="tab-pane fade bg-secondary border border-white border-top-0 p-5" id="todayview-tab-pane" role="tabpanel" aria-labelledby="todayview-tab" tabindex="0">
                             <div class="row">
                                 <div class="col-md-8 mx-auto">

@@ -24,6 +24,7 @@ import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
+import { ModalComponent } from './mcc/pit-view/modal/modal.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { MapComponent } from './map/map.component';
     MrfComponent,
     MccComponent,
     PitViewComponent,
-    MapComponent
+    MapComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
