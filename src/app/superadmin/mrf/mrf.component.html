@@ -113,7 +113,7 @@
 													Goods Name
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-black text-white" formControlName="goodId" (ngModelChange)="getsubGoodListByGoodId()">
+													<select name="" id="" class="form-control form-select bg-black text-white" formControlName="goodId" >
                                                         <option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
                                                     </select>
 												</div>

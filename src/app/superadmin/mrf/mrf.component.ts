@@ -23,7 +23,7 @@ export class MrfComponent implements OnInit{
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllGoods()
-     this.getAllSubGoods()
+     this.getAllSubGoods() 
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
@@ -86,7 +86,13 @@ export class MrfComponent implements OnInit{
       "mrfDesc": this.form.value.mrfDescription,
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods
-    }   
+   }
+   console.log(data)
+   this.service.saveMrfData(data).subscribe(
+    data=>{
+      window.alert("Mrf data saved successfully")
+    }
+   );
    this.form.reset()
    this.getList()
   }
