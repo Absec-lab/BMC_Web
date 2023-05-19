@@ -139,7 +139,7 @@ export class CommonService {
                 return this.http.put(environment.URL+'/zone/updateGoods',item)
         }
         updateSubGood(item:any,subGoodId:any){
-                return this.http.put(environment.URL+'/zone/updateGoodssub/'+subGoodId,item)
+                return this.http.put(environment.URL+'/zone/updateGoodssub/',item)
         }
         updateDriver(item:any){
                 return this.http.put(environment.URL+'/zone/updateDriver',item)

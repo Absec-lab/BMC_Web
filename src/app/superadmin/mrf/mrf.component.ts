@@ -114,10 +114,10 @@ updateData(item: any) {
     this.goodsName = item.goods.goodsName
     // this.form = this.formBuilder.group({
     //         goodsId: item.goods.goodsId,
-    //         subgoodsName: item.subgoodsName,
-    //         subGoodsPerKg: item.subGoodsPerKg,
-    //         mrfDescription: item.mrfDescription, 
-    //         inertMaterial: item.inertMaterial 
+    //         subGoodsId: item.subGoodsId,
+    //         inertMaterial: item.inertMaterial,
+    //         mrfDescription: item.mrfDescription,
+    //         quntaum: item.quntaum           
                          
     // })
     this.subGoodsId=item.goodssubId
