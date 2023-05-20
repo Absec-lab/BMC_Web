@@ -26,7 +26,6 @@ export class LoginComponent {
       data=>{
         this.loginResponse=data
         localStorage.setItem('token',this.loginResponse.bearerToken)
-        window.alert("Login Success")
         this.route.navigate(['/map/view'])
       },
       error=>{
