@@ -23,6 +23,7 @@ import { TripDetails6Component } from './garbage/trip-details6/trip-details6.com
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
+import { PopupsComponent } from './popups/popups.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AgGridModule } from 'ag-grid-angular';
     TripDetails3Component,
     TripDetails4Component,
     TripDetails5Component,
-    TripDetails6Component
+    TripDetails6Component,
+    PopupsComponent
   ],
   imports: [
     CommonModule,

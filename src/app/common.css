@@ -99,6 +99,61 @@ thead th {
   border-color: #fff;
 }
 
+.stat-card-icon {
+	background: #fff;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.stat-card h4 {
+	font-size: 1.4rem;
+}
+
+.card-1 {
+	background: linear-gradient(to right, #f28f34 0%, #ff2a28 100%);
+	border-radius: 0.25rem;
+}
+
+.card-1 .stat-card-icon {
+	color: #ff2a28;
+}
+
+.card-2 {
+	background: linear-gradient(to right, #0393eb 0%, #003cd2 100%);
+	border-radius: 0.25rem;
+}
+
+.card-2 .stat-card-icon {
+	color: #003cd2;
+}
+
+.card-3 {
+	background: linear-gradient(to right, #1cce6f 0%, #00a844 100%);
+	border-radius: 0.25rem;
+}
+
+.card-3 .stat-card-icon {
+	color: #00a844;
+}
+
+.card-4 {
+	background: linear-gradient(to right, #954eee 0%, #5b04ca 100%);
+	border-radius: 0.25rem;
+}
+
+.card-4 .stat-card-icon {
+	color: #5b04ca;
+}
+
+.stat-card-sub-title {
+	font-size: 12px;
+	margin-bottom: 0.6rem;
+}
+
 .btn-trip {
   /* background-image: linear-gradient(to right, #E9B44E 0%, #B49143 100%); */
   color: #fff;
