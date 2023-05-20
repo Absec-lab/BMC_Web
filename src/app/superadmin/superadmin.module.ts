@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { PopupsComponent } from './popups/popups.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { TodayTaskComponent } from './mcc/today-task/today-task.component';
     TripDetails5Component,
     TripDetails6Component,
     PopupsComponent,
-    TodayTaskComponent
+    TodayTaskComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
