@@ -55,7 +55,7 @@ export class GarbageComponent implements OnInit {
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
+        this.activeTripList = this.activeTripResponse.data 
         // console.log(this.activeTripList)
       }
     );

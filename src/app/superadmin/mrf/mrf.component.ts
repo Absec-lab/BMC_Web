@@ -113,9 +113,9 @@ export class MrfComponent implements OnInit{
     data=>{
       window.alert("Mrf data saved successfully")
     }
-   );
-   this.form.reset()
+   );   
    this.getList()
+   this.form.reset()
   }
   getGoodId() {
     console.log(this.form.value)
