@@ -52,7 +52,7 @@ export class MrfComponent implements OnInit{
   editForm = new FormGroup({
     goodsId: new FormControl,
     subGoodId: new FormControl,
-    inertMaterial:new FormControl,
+    interMaterial:new FormControl,
     mrfDescription: new FormControl,
     quntaum:new FormControl,
     goods: new FormControl,
