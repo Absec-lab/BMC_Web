@@ -9,10 +9,10 @@ export class DeactivationDto {
 const environment = {
 
 
-               URL: `http://15.207.62.200:9091`,  //prod url
+              URL: `http://15.207.62.200:9091`,  //prod url
                LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
 
-        // URL: `http://localhost:9091`  //local ip
+        // URL: `http://localhost:9091`  //local ip 
 }
 
 @Injectable({
@@ -45,7 +45,7 @@ export class CommonService {
                 });
         }
         delete(path: string): any {
-                return new Promise(async (resolve, reject) => {
+                return new Promise(async (resolve, reject) => { 
                         try {
                                 const url = environment.URL + path
                                 console.log(url)
@@ -139,7 +139,7 @@ export class CommonService {
                 return this.http.put(environment.URL+'/zone/updateGoods',item)
         }
         updateSubGood(item:any,subGoodId:any){
-                return this.http.put(environment.URL+'/zone/updateGoodssub/'+subGoodId,item)
+                return this.http.put(environment.URL+'/zone/updateGoodssub/',item)
         }
         updateDriver(item:any){
                 return this.http.put(environment.URL+'/zone/updateDriver',item)
@@ -177,7 +177,9 @@ export class CommonService {
         saveMrfData(data:any){
                 return this.http.post(environment.URL+'/zone/addMrf',data)
         }
-        
+        updateMrf(data:any){
+                return this.http.post(environment.URL+'/zone/updateMrf',data)
+        }
         getAllMrf(){
                 return this.http.get(environment.URL+'/zone/getAllMrf')
         }
