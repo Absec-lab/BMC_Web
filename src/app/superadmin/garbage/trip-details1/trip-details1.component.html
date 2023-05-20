@@ -312,13 +312,118 @@
 						</div>
 						<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
 							id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
-							<div class="mt-4">
+							<div class="">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
 										Active Trips
 									</div>
 									<div class="card-body">
-										
+										<div>
+											<ag-grid-angular
+												class="ag-theme-alpine"
+												[rowData]="rowData"
+												[columnDefs]="columnDefs"
+												[gridOptions]="gridOptions"
+												[animateRows]="true"
+												[suppressMenuHide]="true"
+											>
+											</ag-grid-angular>
+											<!-- <table class="table table-bordered">
+												<thead class="bg-primary text-white text-center">
+													<tr>
+														<th>Vehicle No.</th>
+														<th>Driver Name</th>
+														<th>Helper Name</th>
+														<th>Route</th>
+														<th>Initial Reading</th>
+														<th>Vehicle Start Time</th>
+														<th>Edit</th>
+													</tr>
+												</thead>
+												<tbody class="text-center">
+													<tr>
+														<td>Vehicle 20231</td>
+														<td>Faraz Choudhry</td>
+														<td>Bahadur Basu</td>
+														<td>Patia</td>
+														<td>100.5</td>
+														<td>2023-05-19 06:00:00</td>
+														<td class="d-flex align-items-center gap-1 justify-content-center">
+															<button class="btn btn-primary btn-sm">
+																<i class="fa-solid fa-edit"></i>
+															</button>
+															<button class="btn btn-danger btn-sm">
+																<i class="fa-solid fa-trash-alt"></i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>Vehicle 20232</td>
+														<td>Tanay Chaudhry</td>
+														<td>Rupal Sura</td>
+														<td>Patia</td>
+														<td>100.5</td>
+														<td>2023-05-18 06:00:00</td>
+														<td class="d-flex align-items-center gap-1 justify-content-center">
+															<button class="btn btn-primary btn-sm">
+																<i class="fa-solid fa-edit"></i>
+															</button>
+															<button class="btn btn-danger btn-sm">
+																<i class="fa-solid fa-trash-alt"></i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>Vehicle 20233</td>
+														<td>Anand Palan</td>
+														<td>Nawab Dua</td>
+														<td>Patia</td>
+														<td>100.5</td>
+														<td>2023-05-17 06:00:00</td>
+														<td class="d-flex align-items-center gap-1 justify-content-center">
+															<button class="btn btn-primary btn-sm">
+																<i class="fa-solid fa-edit"></i>
+															</button>
+															<button class="btn btn-danger btn-sm">
+																<i class="fa-solid fa-trash-alt"></i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>Vehicle 20234</td>
+														<td>Iqbal Bir</td>
+														<td>Pranay Dey</td>
+														<td>Patia</td>
+														<td>100.5</td>
+														<td>2023-05-16 06:00:00</td>
+														<td class="d-flex align-items-center gap-1 justify-content-center">
+															<button class="btn btn-primary btn-sm">
+																<i class="fa-solid fa-edit"></i>
+															</button>
+															<button class="btn btn-danger btn-sm">
+																<i class="fa-solid fa-trash-alt"></i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>Vehicle 20235</td>
+														<td>Ujwal Kapur</td>
+														<td>Zaad Gara</td>
+														<td>Patia</td>
+														<td>100.5</td>
+														<td>2023-05-15 06:00:00</td>
+														<td class="d-flex align-items-center gap-1 justify-content-center">
+															<button class="btn btn-primary btn-sm">
+																<i class="fa-solid fa-edit"></i>
+															</button>
+															<button class="btn btn-danger btn-sm">
+																<i class="fa-solid fa-trash-alt"></i>
+															</button>
+														</td>
+													</tr>
+												</tbody>
+											</table> -->
+										</div>
 									</div>
 								</div>
 							</div>

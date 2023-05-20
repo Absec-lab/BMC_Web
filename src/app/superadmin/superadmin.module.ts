@@ -22,6 +22,7 @@ import { TripDetails5Component } from './garbage/trip-details5/trip-details5.com
 import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SuperadminRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgGridModule
   ]
 })
 export class SuperadminModule { }
