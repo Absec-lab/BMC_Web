@@ -1,7 +1,7 @@
 .pit-view {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     flex-grow: 1;
     flex-wrap: wrap;
     flex-direction: row;

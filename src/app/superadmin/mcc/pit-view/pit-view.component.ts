@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['../../../common.css', './pit-view.component.css']
 })
 export class PitViewComponent {
-
+  displayPopover() {
+    const popoverItem = document.querySelector('.popover-item') as HTMLDivElement;
+    popoverItem.classList.toggle('show');
+  }
 }

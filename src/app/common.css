@@ -394,3 +394,32 @@ form.align-form-items {
 .bg-danger {
   background: #F82700 !important;
 }
+
+.popover-item {
+  display: none;
+}
+
+.popover-item.show {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: -116%;
+  width: 350px;
+  background: #F9CD35;
+  color: black;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.popover-item-title {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #000;
+  font-weight: bold;
+}
+
+.popover-item-body {
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.1rem;
+  border-top: 1px solid #000;
+  font-weight: normal;
+}
