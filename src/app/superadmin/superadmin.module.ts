@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SuperadminRoutingModule } from './superadmin-routing.module';
-import { HeaderComponent } from './common/header/header.component';
-import { FooterComponent } from './common/footer/footer.component';
+//import { HeaderComponent } from './common/header/header.component';
+//import { FooterComponent } from './common/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { SidebarComponent } from './common/sidebar/sidebar.component';
+//import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { WealthCenterMasterComponent } from './wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './ward-master/ward-master.component';
 import { ZoneMasterComponent } from './zone-master/zone-master.component';
@@ -25,14 +25,16 @@ import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { HomeComponent } from './home/home.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
+    //HeaderComponent,
+    //FooterComponent,
     DashboardComponent,
-    SidebarComponent,
+    //SidebarComponent,
     WealthCenterMasterComponent,
     WardMasterComponent,
     ZoneMasterComponent,
@@ -49,13 +51,15 @@ import { AgGridModule } from 'ag-grid-angular';
     MrfComponent,
     MccComponent,
     PitViewComponent,
-    MapComponent
+    MapComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
     SuperadminRoutingModule,
     ReactiveFormsModule,
-    AgGridModule
+    AgGridModule,
+    SharedModule
   ]
 })
 export class SuperadminModule { }

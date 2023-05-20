@@ -28,53 +28,6 @@ export class GarbageComponent implements OnInit {
   wetWeightCapturedButton: boolean = false
   tripResponse: any
   errorResponse:any
- 
-  ngOnInit() {
-    this.service.getActiveTrip().subscribe(
-      data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; initial_reading: any; createdDate: any; }) => {
-         
-          return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            initial_reading: item.route.tripStartReadingImg,
-            vehicle_starttime: item.createdDate
-          };
-        });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
-       this.rowData=rowData;
-      }
-    );
-    this.service.getCompletedTrips().subscribe(
-      data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
-        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; initial_reading: any; createdDate: any; updateDate:any; }) => {
-         
-          return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            initial_reading: item.route.tripStartReadingImg,
-            vehicle_starttime: item.createdDate,
-            vehicle_endtime:item.updateDate
-          };
-        });
-       console.log("InActiveList",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
-       this.rowDataComp=rowDataComp;
-        
-      }
-    );
-    //this.setVehicleNumber();
-  }
-  routeList: any = []
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
@@ -88,6 +41,57 @@ export class GarbageComponent implements OnInit {
     tareWeightValue: new FormControl,
     routeId: new FormControl,
   });
+  ngOnInit() {
+    this.setVehicleNumber()
+    this.service.getActiveTrip().subscribe(
+      data => {
+        this.activeTripResponse = data
+        this.activeTripList = this.activeTripResponse.data
+        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+         
+          return {
+            vehicle_vehicleNo: item.vehicleNo,
+            driver_driverName: item.driver.driverName,
+            helper_name: "Ramakant Das",
+            route_routeName: item.route.routeName,
+            tripStartReading: item.tripStartReading,
+            vehicle_starttime: item.createdDate
+          };
+        });
+       console.log("ActiveList",this.activeTripList)
+       console.log("rowData",rowData)
+       this.rowData=rowData;
+      }
+    );
+    this.service.getCompletedTrips().subscribe(
+      data => {
+        this.inActiveTripResponse = data
+        this.inActiveTripList = this.inActiveTripResponse.data
+        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
+         
+          return {
+            vehicle_vehicleNo: item.vehicleNo,
+            driver_driverName: item.driver.driverName,
+            helper_name: "Ramakant Das",
+            route_routeName: item.route.routeName,
+            tripStartReading: item.tripStartReading,
+            tripEndReading:item.tripEndReading,
+            vehicle_starttime: item.createdDate,
+            vehicle_endtime:item.updateDate
+          };
+        });
+       console.log("InActiveList",this.inActiveTripList)
+       console.log("rowData",rowDataComp)
+       this.rowDataComp=rowDataComp;
+        
+      }
+    );
+    // this.setVehicleNumber();
+    
+    
+  }
+  routeList: any = []
+ 
 
   getActiveTrip() {
     this.service.getActiveTrip().subscribe(
@@ -107,7 +111,7 @@ export class GarbageComponent implements OnInit {
     );
   }
 
-  setVehicleNumber() {
+ async setVehicleNumber() {
     console.log(this.form.value.vehicleNumber)
     this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
       data => {
@@ -201,7 +205,83 @@ export class GarbageComponent implements OnInit {
     this.service.createTrip(data).subscribe(
       data=>{
         window.alert("Trip Created Successfully")
-        this.setVehicleNumber();
+        // this.setVehicleNumber();
+        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.vehcileDataResponse = data
+            console.log("vehcileDataResponse",this.vehcileDataResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+              grossWeightValue:this.vehcileDataResponse.data.grossWt,
+              dryWeightValue:this.vehcileDataResponse.data.dryWt,
+              wetWeightValue:this.vehcileDataResponse.data.wetWt,
+              tareWeightValue:this.vehcileDataResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+          },
+          error => {
+          }
+        );
+        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.tripResponse = data
+            console.log(this.tripResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.tripResponse.data.tripStartReading,
+              tripEndReading: this.tripResponse.data.tripEndReading,
+              grossWeightValue: this.tripResponse.data.grossWt,
+              dryWeightValue:this.tripResponse.data.dryWt,
+              wetWeightValue:this.tripResponse.data.wetWt,
+              tareWeightValue:this.tripResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+            if (this.tripResponse.data.tripStatusEntity.id == 1) {
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = true
+              
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 2){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = true
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 3){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = true
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 4){
+              this.tripStartButton = false
+              this.tripEndButton = true
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+          },
+          error=>{
+            this.tripStartButton = true
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+          }
+        );
         this.service.getActiveTrip().subscribe(
           data => {
             this.activeTripResponse = data
@@ -238,6 +318,12 @@ export class GarbageComponent implements OnInit {
       data=>{
         window.alert("Gross Weight captured successfully")
         this.setVehicleNumber();
+        this.service.getCompletedTrips().subscribe(
+          data => {
+            this.inActiveTripResponse = data
+            this.inActiveTripList = this.inActiveTripResponse.data
+          }
+        );
       },
       
       error=>{
@@ -261,7 +347,22 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Dry Weight captured successfully")
-        this.setVehicleNumber();
+        // setTimeout(()=>{this.setVehicleNumber()},1000);
+        this.setVehicleNumber()
+       
+        this.service.getActiveTrip().subscribe(
+          data => {
+            this.activeTripResponse = data
+            this.activeTripList = this.activeTripResponse.data
+            // console.log(this.activeTripList)
+          }
+        );
+        this.service.getCompletedTrips().subscribe(
+          data => {
+            this.inActiveTripResponse = data
+            this.inActiveTripList = this.inActiveTripResponse.data
+          }
+        );
       },
       error=>{
         this.errorResponse=error
@@ -283,7 +384,96 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Wet Weight captured successfully")
-        //this.setVehicleNumber();
+        // this.setVehicleNumber();
+        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.vehcileDataResponse = data
+            console.log("vehcileDataResponse",this.vehcileDataResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+              grossWeightValue:this.vehcileDataResponse.data.grossWt,
+              dryWeightValue:this.vehcileDataResponse.data.dryWt,
+              wetWeightValue:this.vehcileDataResponse.data.wetWt,
+              tareWeightValue:this.vehcileDataResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+          },
+          error => {
+          }
+        );
+        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.tripResponse = data
+            console.log(this.tripResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.tripResponse.data.tripStartReading,
+              tripEndReading: this.tripResponse.data.tripEndReading,
+              grossWeightValue: this.tripResponse.data.grossWt,
+              dryWeightValue:this.tripResponse.data.dryWt,
+              wetWeightValue:this.tripResponse.data.wetWt,
+              tareWeightValue:this.tripResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+            if (this.tripResponse.data.tripStatusEntity.id == 1) {
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = true
+              
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 2){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = true
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 3){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = true
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 4){
+              this.tripStartButton = false
+              this.tripEndButton = true
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+          },
+          error=>{
+            this.tripStartButton = true
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+          }
+        );
+        this.service.getActiveTrip().subscribe(
+          data => {
+            this.activeTripResponse = data
+            this.activeTripList = this.activeTripResponse.data
+            // console.log(this.activeTripList)
+          }
+        );
+        this.service.getCompletedTrips().subscribe(
+          data => {
+            this.inActiveTripResponse = data
+            this.inActiveTripList = this.inActiveTripResponse.data
+          }
+        );
       },
       error=>{
         this.errorResponse=error
@@ -343,12 +533,13 @@ updateData(item: any) {
 
   
 }
+
 columnDefs: ColDef[] = [
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
   { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
-  { field: 'initial_reading', headerName: 'Initial Reading', unSortIcon: true},
+  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
@@ -365,6 +556,7 @@ columnDefs: ColDef[] = [
 defaultColDef: ColDef = {
   sortable: true,
   filter: true,
+  editable:true
 };
 
 gridOptions = {
@@ -373,10 +565,12 @@ gridOptions = {
   },
   pagination: true,
   paginationPageSize: 10,
-  rowStyle: { background: '#e2e8f0' }
+  rowStyle: { background: '#e2e8f0' },
+  copyHeadersToClipboard:true,
+  enableRangeSelection:true
 }
 rowData = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', initial_reading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5',tripEndReading: '120.6', vehicle_starttime: '2023-05-19 06:00:00' }
 ];
 
 
@@ -386,7 +580,8 @@ columnDefsComp: ColDef[] = [
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
   { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
-  { field: 'initial_reading', headerName: 'Initial Reading', unSortIcon: true},
+  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true},
+  { field: 'tripEndReading', headerName: 'Final Reading', unSortIcon: true},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
   { field: 'vehicle_endtime', headerName: 'Vehicle End Time', unSortIcon: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
@@ -417,7 +612,7 @@ gridOptionsComp = {
   rowStyle: { background: '#e2e8f0' }
 }
 rowDataComp = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', initial_reading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
 ];
 
 
