@@ -166,3 +166,23 @@ form.align-form-items {
 .b-red{
   background-color: red;
 }
+.ag-theme-alpine {
+  --ag-header-height: 30px;
+  --ag-header-foreground-color: white;
+  --ag-header-background-color: #0095E9;
+  --ag-header-cell-hover-background-color: #0095E9;
+  --ag-header-cell-moving-background-color: #0095E9;
+  --ag-odd-row-background-color: #e2e8f0;
+  --ag-even-row-background-color: #e2e8f0;
+  --ag-row-hover-color: #e2e8f0;
+  --ag-header-foreground-color: #fff;
+}
+
+.ag-theme-alpine {
+  height: 375px;
+  background: #e2e8f0;
+}
+
+.ag-center-cols-container .ag-cell {
+  background: #e2e8f0;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
-
+import { ColDef } from 'ag-grid-community';
 @Component({
   selector: 'app-garbage',
   templateUrl: './garbage.component.html',
@@ -9,7 +9,13 @@ import { CommonService } from 'src/app/service/common.service';
 })
 export class GarbageComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder) { }
+  constructor(private service: CommonService, private formBuilder: FormBuilder) {
+    this.getRouteList()
+   }
+   isAdd: boolean = true
+   isUpdate: boolean = false
+   vehicleNo:any
+   searchText: any;
   activeTripResponse: any
   activeTripList: any = []
   inActiveTripList: any = []
@@ -22,22 +28,53 @@ export class GarbageComponent implements OnInit {
   wetWeightCapturedButton: boolean = false
   tripResponse: any
   errorResponse:any
+ 
   ngOnInit() {
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-        // console.log(this.activeTripList)
+        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; initial_reading: any; createdDate: any; }) => {
+         
+          return {
+            vehicle_vehicleNo: item.vehicleNo,
+            driver_driverName: item.driver.driverName,
+            helper_name: "Ramakant Das",
+            route_routeName: item.route.routeName,
+            initial_reading: item.route.tripStartReadingImg,
+            vehicle_starttime: item.createdDate
+          };
+        });
+       console.log("ActiveList",this.activeTripList)
+       console.log("rowData",rowData)
+       this.rowData=rowData;
       }
     );
     this.service.getCompletedTrips().subscribe(
       data => {
         this.inActiveTripResponse = data
         this.inActiveTripList = this.inActiveTripResponse.data
+        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; initial_reading: any; createdDate: any; updateDate:any; }) => {
+         
+          return {
+            vehicle_vehicleNo: item.vehicleNo,
+            driver_driverName: item.driver.driverName,
+            helper_name: "Ramakant Das",
+            route_routeName: item.route.routeName,
+            initial_reading: item.route.tripStartReadingImg,
+            vehicle_starttime: item.createdDate,
+            vehicle_endtime:item.updateDate
+          };
+        });
+       console.log("InActiveList",this.inActiveTripList)
+       console.log("rowData",rowDataComp)
+       this.rowDataComp=rowDataComp;
+        
       }
     );
+    //this.setVehicleNumber();
   }
-
+  routeList: any = []
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
@@ -48,7 +85,8 @@ export class GarbageComponent implements OnInit {
     grossWeightValue: new FormControl,
     dryWeightValue: new FormControl,
     wetWeightValue: new FormControl,
-    tareWeightValue: new FormControl
+    tareWeightValue: new FormControl,
+    routeId: new FormControl,
   });
 
   getActiveTrip() {
@@ -56,7 +94,7 @@ export class GarbageComponent implements OnInit {
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-        // console.log(this.activeTripList)
+         console.log("ActiveList",this.activeTripList)
       }
     );
   }
@@ -74,18 +112,19 @@ export class GarbageComponent implements OnInit {
     this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
       data => {
         this.vehcileDataResponse = data
-        console.log(this.vehcileDataResponse)
-        this.form = this.formBuilder.group({
+        console.log("vehcileDataResponse",this.vehcileDataResponse)
+        this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
           driverName: this.vehcileDataResponse.data.driver.driverName,
           routeName: this.vehcileDataResponse.data.route.routeName,
-          tripStartReading: null,
-          tripEndReading: null,
-          grossWeightValue:null,
-          dryWeightValue:null,
-          wetWeightValue:null,
-          tareWeightValue:null
+          tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+          tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+          grossWeightValue:this.vehcileDataResponse.data.grossWt,
+          dryWeightValue:this.vehcileDataResponse.data.dryWt,
+          wetWeightValue:this.vehcileDataResponse.data.wetWt,
+          tareWeightValue:this.vehcileDataResponse.data.tareWt,
+          routeId: this.vehcileDataResponse.data.route.routeId
         })
       },
       error => {
@@ -95,7 +134,7 @@ export class GarbageComponent implements OnInit {
       data => {
         this.tripResponse = data
         console.log(this.tripResponse)
-        this.form = this.formBuilder.group({
+        this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
           driverName: this.vehcileDataResponse.data.driver.driverName,
@@ -105,7 +144,8 @@ export class GarbageComponent implements OnInit {
           grossWeightValue: this.tripResponse.data.grossWt,
           dryWeightValue:this.tripResponse.data.dryWt,
           wetWeightValue:this.tripResponse.data.wetWt,
-          tareWeightValue:this.tripResponse.data.tareWt
+          tareWeightValue:this.tripResponse.data.tareWt,
+          routeId: this.vehcileDataResponse.data.route.routeId
         })
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
@@ -161,6 +201,7 @@ export class GarbageComponent implements OnInit {
     this.service.createTrip(data).subscribe(
       data=>{
         window.alert("Trip Created Successfully")
+        this.setVehicleNumber();
         this.service.getActiveTrip().subscribe(
           data => {
             this.activeTripResponse = data
@@ -174,6 +215,7 @@ export class GarbageComponent implements OnInit {
             this.inActiveTripList = this.inActiveTripResponse.data
           }
         );
+        
       },
       error=>{
         console.log(error)
@@ -195,7 +237,9 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Gross Weight captured successfully")
+        this.setVehicleNumber();
       },
+      
       error=>{
         this.errorResponse=error
         window.alert(this.errorResponse.error.message)
@@ -217,6 +261,7 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Dry Weight captured successfully")
+        this.setVehicleNumber();
       },
       error=>{
         this.errorResponse=error
@@ -238,6 +283,7 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Wet Weight captured successfully")
+        //this.setVehicleNumber();
       },
       error=>{
         this.errorResponse=error
@@ -258,6 +304,7 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Trip completed")
+        this.setVehicleNumber();
         this.service.getActiveTrip().subscribe(
           data => {
             this.activeTripResponse = data
@@ -278,4 +325,100 @@ export class GarbageComponent implements OnInit {
       }
     );
   }
+
+  async getRouteList() {
+    try {
+            this.routeList = await this.service.get(`/zone/getAllRoute`)
+            this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
+    } catch (e) {
+            console.error(e)
+    }
+}
+
+updateData(item: any) {
+  this.isUpdate = true
+  this.isAdd = false
+  console.log(item)
+  this.vehicleNo=item.vehicle.vehicleNo
+
+  
+}
+columnDefs: ColDef[] = [
+  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true},
+  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true},
+  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
+  { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
+  { field: 'initial_reading', headerName: 'Initial Reading', unSortIcon: true},
+  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
+  { headerName: 'Edit', width: 125, sortable: false, filter: false,
+    cellRenderer: (data: any) => {
+     return `
+      <button class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+    
+     `; 
+    }
+  }
+];
+
+defaultColDef: ColDef = {
+  sortable: true,
+  filter: true,
+};
+
+gridOptions = {
+  defaultColDef: {
+    ...this.defaultColDef
+  },
+  pagination: true,
+  paginationPageSize: 10,
+  rowStyle: { background: '#e2e8f0' }
+}
+rowData = [
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', initial_reading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+];
+
+
+
+columnDefsComp: ColDef[] = [
+  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true},
+  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true},
+  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
+  { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
+  { field: 'initial_reading', headerName: 'Initial Reading', unSortIcon: true},
+  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
+  { field: 'vehicle_endtime', headerName: 'Vehicle End Time', unSortIcon: true},
+  { headerName: 'Edit', width: 125, sortable: false, filter: false,
+    cellRenderer: (data: any) => {
+     return `
+      <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+      <button class="btn btn-danger btn-sm">
+      <i class="fa-solid fa-trash-alt"></i>
+    </button>
+     `; 
+    }
+  }
+];
+
+defaultColDefComp: ColDef = {
+  sortable: true,
+  filter: true,
+};
+
+gridOptionsComp = {
+  defaultColDef: {
+    ...this.defaultColDefComp
+  },
+  pagination: true,
+  paginationPageSize: 10,
+  rowStyle: { background: '#e2e8f0' }
+}
+rowDataComp = [
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', initial_reading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+];
+
+
 }

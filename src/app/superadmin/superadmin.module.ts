@@ -24,6 +24,7 @@ import { MrfComponent } from './mrf/mrf.component';
 import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { MapComponent } from './map/map.component';
   imports: [
     CommonModule,
     SuperadminRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgGridModule
   ]
 })
 export class SuperadminModule { }
