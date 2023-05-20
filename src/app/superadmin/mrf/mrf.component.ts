@@ -8,21 +8,18 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../common.css', './mrf.component.css']
 })
 export class MrfComponent implements OnInit{
-  isAdd: boolean = true
-  isUpdate: boolean = false
   goodList:any=[]
   goodResponse:any
   subGoodResponse:any
   subgoodList:any=[]
   list: any = []
   goodsList: any = []
+  isAdd: boolean = true
+  isUpdate: boolean = false
   goodsName: any
   subGoodsId:any
-  mrfTrnsId:any
   mrfResponse:any
   mrfList:any
-  responseData:any
-  isActive:any
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllGoods()
@@ -39,24 +36,18 @@ export class MrfComponent implements OnInit{
     this.getAllGoods()
   }
   form = new FormGroup({
-    mrfTrnsId: new FormControl,
-    goodsId: new FormControl,
-    goodssubId: new FormControl,
-    interMaterial: new FormControl,
-    mrfDesc: new FormControl,
-    quntaum: new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl,
-    isActive: new FormControl
+    goodId: new FormControl,
+    subGoodId: new FormControl,
+    inertMaterial: new FormControl,
+    mrfDescription: new FormControl,
+    quntaum: new FormControl
   });
   editForm = new FormGroup({
-    goodsId: new FormControl,
+    goodId: new FormControl,
     subGoodId: new FormControl,
-    interMaterial:new FormControl,
+    inertMaterial:new FormControl,
     mrfDescription: new FormControl,
-    quntaum:new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl
+    quntaum:new FormControl
 })
   getAllGoods(){
      this.service.getAllGoods().subscribe(
@@ -76,18 +67,6 @@ export class MrfComponent implements OnInit{
       }
     );
   }
-  getAllSubGoodByGoodId(){
-    console.log(this.form.value.goodsId)
-    this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
-            data=>{
-                    this.responseData=data
-                    this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-                    //this.form.value.goodId=this.responseData.goods.goodId
-                    //this.goodsName=this.responseData.goods.goodsName
-                    console.log(this.subGoodsId)
-            }
-    );
-}
   async getList() {
     try {
             this.list = await this.service.get(`/zone/getAllMrf`)
@@ -99,12 +78,12 @@ export class MrfComponent implements OnInit{
     }
 }
   saveMrf(){
-    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
-    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodId)]
+    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.subGoodId)]
     const data = {
       "goods": goods,
-      "interMaterial": this.form.value.interMaterial,
-      "mrfDesc": this.form.value.mrfDesc,
+      "interMaterial": this.form.value.inertMaterial,
+      "mrfDesc": this.form.value.mrfDescription,
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods
    }
@@ -113,66 +92,62 @@ export class MrfComponent implements OnInit{
     data=>{
       window.alert("Mrf data saved successfully")
     }
-   );   
-   this.getList()
+   );
    this.form.reset()
+   this.getList()
   }
   getGoodId() {
     console.log(this.form.value)
   }
   async remove(id: string) {
     try {
-            const res = await this.service.delete(`/zone/deleteMrf/${id}`)
+            const res = await this.service.delete(`/zone/deleteGoodssub/${id}`)
             this.getList()
     } catch (e) {
             console.error(e)
     }
 }
 updateData(item: any) {
-  this.isUpdate = true
-  this.isAdd = false
-  console.log(item)
-  console.log(item.goodssubId)
-  this.goodsName = item.goods.goodsName
-  this.form.patchValue({
-          goodsId: item.goods.goodsId,
-          goodssubId: item.subGood.goodssubId,
-          mrfTrnsId:item.mrfTrnsId,
-          interMaterial: item.interMaterial,
-          mrfDesc: item.mrfDesc,
-          quntaum: item.quntaum,
-          //goods: item.goods,
-          //subGood:item.subGood,
-          isActive: true
-  })
-  this.subGoodsId=item.goodssubId
-  // this.service.getZoneAllData().subscribe(
-  //         async data => {
-  //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
-  //         }
-  // );
+    this.isUpdate = true
+    this.isAdd = false
+    console.log(item)
+    this.goodsName = item.goods.goodsName
+    // this.form = this.formBuilder.group({
+    //         goodsId: item.goods.goodsId,
+    //         subgoodsName: item.subgoodsName,
+    //         subGoodsPerKg: item.subGoodsPerKg,
+    //         mrfDescription: item.mrfDescription, 
+    //         inertMaterial: item.inertMaterial 
+                         
+    // })
+    this.subGoodsId=item.goodssubId
+    // this.service.getZoneAllData().subscribe(
+    //         async data => {
+    //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
+    //         }
+    // );
 
 }
 cancel() {
-  this.isAdd = true
-  this.isUpdate = false
-  this.form.reset()
+    this.isAdd = true
+    this.isUpdate = false
+    this.form.reset()
 }
 
-updateMrf() {
-  console.log("Form Value"+this.form.value)
-  this.service.updateMrf(this.form.value).subscribe(
-          data => {
-                  window.alert("Mrf data updated successfully!!")
-                  this.isAdd = true
-                  this.isUpdate = false
-                  this.getList()
-                  this.form.reset()
-          },
-          error => {
-                  window.alert("something went wrong")
-          }
-  );
+updateWcc() {
+    console.log(this.form.value)
+    this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
+            data => {
+                    window.alert("MRF data updated successfully!!")
+                    this.isAdd = true
+                    this.isUpdate = false
+                    this.getList()
+                    this.form.reset()
+            },
+            error => {
+                    window.alert("something went wrong")
+            }
+    );
 
 }
 }

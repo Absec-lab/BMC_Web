@@ -17,7 +17,6 @@ import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { MapComponent } from './map/map.component';
-import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -36,8 +35,7 @@ const routes: Routes = [
   {path: 'superadmin/garbage',component: GarbageComponent},
   {path: 'superadmin/mrf',component: MrfComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
-  {path:'map/view',component:MapComponent},
-  {path:'superadmin/home',component:HomeComponent}
+  {path:'map/view',component:MapComponent}
 ];
 
 @NgModule({
