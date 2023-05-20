@@ -3,6 +3,7 @@ import { HeaderComponent } from '../superadmin/common/header/header.component';
 import { FooterComponent } from '../superadmin/common/footer/footer.component';
 import { SidebarComponent } from '../superadmin/common/sidebar/sidebar.component';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { NgModule } from '@angular/core';
     SidebarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent,
