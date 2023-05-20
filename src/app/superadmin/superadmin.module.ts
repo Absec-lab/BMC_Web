@@ -24,6 +24,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { PopupsComponent } from './popups/popups.component';
+import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PopupsComponent } from './popups/popups.component';
     TripDetails4Component,
     TripDetails5Component,
     TripDetails6Component,
-    PopupsComponent
+    PopupsComponent,
+    TodayTaskComponent
   ],
   imports: [
     CommonModule,

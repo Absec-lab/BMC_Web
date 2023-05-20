@@ -20,6 +20,7 @@ import { TripDetails4Component } from './garbage/trip-details4/trip-details4.com
 import { TripDetails5Component } from './garbage/trip-details5/trip-details5.component';
 import { TripDetails6Component } from './garbage/trip-details6/trip-details6.component';
 import { PopupsComponent } from './popups/popups.component';
+import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 
 const routes: Routes = [
   {path: 'superadmin/dashboard',component: DashboardComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   {path: 'superadmin/garbage/trip-details5',component: TripDetails5Component},
   {path: 'superadmin/garbage/trip-details6',component: TripDetails6Component},
   {path: 'superadmin/popups',component: PopupsComponent},
+  {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
 ];
 
 @NgModule({
