@@ -8,11 +8,14 @@
 
 .home-card {
     min-height: 100px;
-    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
     border-radius: 20px;
     padding: 1.2rem 1.3rem;
     display: block;
     text-decoration: none;
+    flex: 1 1 0;
+    /* margin-bottom: 3rem; */
 }
 
 .home-card-1 {
@@ -58,11 +61,12 @@
 }
 
 .home-card-boxes {
-    max-width: 68%;
+    max-width: 65%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 2rem;
     display: flex;
-    gap: 4rem;
     flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: space-around;
 }
