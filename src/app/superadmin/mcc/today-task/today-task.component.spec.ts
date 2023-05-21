@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MccComponent } from './mcc.component';
+import { TodayTaskComponent } from './today-task.component';
 
-describe('MccComponent', () => {
-  let component: MccComponent;
-  let fixture: ComponentFixture<MccComponent>;
+describe('TodayTaskComponent', () => {
+  let component: TodayTaskComponent;
+  let fixture: ComponentFixture<TodayTaskComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MccComponent ]
+      declarations: [ TodayTaskComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MccComponent);
+    fixture = TestBed.createComponent(TodayTaskComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
