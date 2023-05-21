@@ -1,0 +1,18 @@
+.action{
+    max-width: 200px;
+    min-width: 100px;
+    word-wrap: break-word;
+}
+
+.modal .modal-dialog {
+    max-width: 600px;
+    max-height: 500px; 
+    }
+
+    .optionsselected{
+        background:#089efb;
+        color: #fff;
+    }
+    .optionsnotselected{
+        background:transparent;
+    }

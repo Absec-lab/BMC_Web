@@ -24,6 +24,7 @@ import { MrfComponent } from './mrf/mrf.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { MapComponent } from './map/map.component';
+import { ModalComponent } from './mcc/pit-view/modal/modal.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
@@ -50,6 +51,8 @@ import { SharedModule } from '../shared/shared.module';
     GarbageComponent,
     MrfComponent,
     PitViewComponent,
+    MapComponent,
+    ModalComponent,
     TodayTaskComponent,
     MapComponent,
     HomeComponent
