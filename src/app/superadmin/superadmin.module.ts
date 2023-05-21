@@ -16,13 +16,13 @@ import { GoodsMasterComponent } from './goods-master/goods-master.component';
 import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
-import { HelperMasterComponent } from './helper-master/helper-master.component';
+import { HelperMasterComponent } from './helper-master/helper-master.component'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
-import { MccComponent } from './mcc/mcc.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
+import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { MapComponent } from './map/map.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
@@ -48,8 +48,8 @@ import { SharedModule } from '../shared/shared.module';
     LoginComponent,
     GarbageComponent,
     MrfComponent,
-    MccComponent,
     PitViewComponent,
+    TodayTaskComponent,
     MapComponent,
     HomeComponent
   ],

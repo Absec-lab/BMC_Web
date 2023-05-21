@@ -29,13 +29,27 @@
 			<i class="fa-solid fa-gauge-high"></i>
 			<span>Dashboard</span>
 		</a>
-		<a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
-			<i class="fa-solid fa-layer-group"></i>
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+			<i class="fa-solid fa-user-gear"></i>
 			<span>MCC</span>
 		</a>
+		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks">
+			<a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Pit View</span>
+			</a>
+			<a routerLink="/superadmin/mcc/today-task" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Today Task</span>
+			</a>
+
+		</div>
+			
+			
+		
 		<a routerLink="/superadmin/mrf" class="sidebar-link">
-			<i class="fa-brands fa-bitbucket"></i>
-			<span>MRF</span>
+			<i class="fa-brands fa-bitbucket">
+				<span>MRF</span></i>			
 		</a>
 		<a routerLink="/superadmin/garbage" class="sidebar-link">
 			<i class="fa-solid fa-recycle"></i>
@@ -50,12 +64,12 @@
 			<span>Manpower</span>
 		</a>
     <!-- org: aria-expanded: false -->
-		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks1">
 			<i class="fa-solid fa-user-gear"></i>
 			<span>Master Entry</span>
 		</a>
     <!-- org: class: sidebar-sub-menu collapse -->
-		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks">
+		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks1">
 			<a routerLink="/superadmin/zone-master" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Zone Master</span>
