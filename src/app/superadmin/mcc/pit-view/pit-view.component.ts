@@ -13,6 +13,7 @@ import { ModalComponent } from 'src/app/superadmin/mcc/pit-view/modal/modal.comp
 })
 export class PitViewComponent {
 
+
   pitmodalstatus : any = false;
   public inertMaterialVal:any=0.0;
   public jsonObject: any = {};
@@ -35,6 +36,11 @@ export class PitViewComponent {
      code: 0,
      responseBody: []
    }
+ 
+   tabName: string = 'Pit View';
+   showPitTabView: boolean = true;
+   showTodayTaskView:boolean = false;
+
   public submitToWorkflowPayload: SubmitWorkflowPayload = {
    payload:{
      wcId: 1,
@@ -240,8 +246,21 @@ export class PitViewComponent {
       console.log('PIT Status Update{} ', this.responseforWorkflowstart);
       alert('PIT Status Update Successfully');
       this.closePitActivityModalstatus();
+      this.closePitMixedUpModalstatus();
+      this.closePitmodalstatus();
   }
 
+  public showPitView(){
+    this.showPitTabView = true;
+    this.showTodayTaskView = false;
+    this.tabName = "Pit View"
+      }
+    
+      public showTodayTask(){
+        this.showPitTabView = false;
+        this.showTodayTaskView = true;
+        this.tabName = "Today Task"
+      }
 }
 
 export enum pitStatus{

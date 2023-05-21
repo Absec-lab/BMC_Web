@@ -1,233 +1,50 @@
-<app-header></app-header>
-<main class="container-fluid">
-	<div class="page-content p-3">
-		<div class="row">
-			<div class="col-lg-3">
-				<app-sidebar></app-sidebar>
-			</div>
-			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-1 stat-card">
-										<div>
-											<div>PIT Quantum</div>
-											<h4 class="mt-2">1 TON</h4>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-file-lines"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-2 stat-card">
-										<div>
-											<div>Empty PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">13</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-receipt"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-3 stat-card">
-										<div>
-											<div>PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">1</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-circle-check"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-4 stat-card">
-										<div>
-											<div>Assigned To Me</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">3</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-user-plus"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mt-4">
-					<div class="breadcrumb">
-						<a routerLink=""><i class="fa-solid fa-home"></i></a>
-						<span class="mx-2">/</span>
-						<a routerLink="/superadmin/mcc/pit-view">MCC - Today Task</a>
-					</div>
-				</div>
-                <div class="mt-4">
-                    <div class="d-flex align-items-center today-task-header text-center" style="padding-left: 0.6rem">
-                        <div style="width: 10%; border-right: 1px solid rgba(255,255,255, 0.7)">
-                            PIT No.
-                        </div>
-                        <div style="width: 10.5%; border-right: 1px solid rgba(255,255,255, 0.7)">
-                            Day's Count
-                        </div>
-                        <div style="width: 23%; border-right: 1px solid rgba(255,255,255, 0.7)">
-                            Task
-                        </div>
-                        <div style="width: 17%; border-right: 1px solid rgba(255,255,255, 0.7)">
-                            Status
-                        </div>
-                        <div style="width: 40%">
-                            Remarks
-                        </div>
-                    </div>
-                    <div class="today-view-body">
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div style="width: 10%">
-                                <div class="today-view-item">1</div>
-                            </div>
-                            <div style="width: 10%">
-                                <div class="today-view-item">28</div>
-                            </div>
-                            <div style="width: 23%">
-                                <div class="today-view-item bg-blue">
-                                    Transfer to Drying Yard
-                                </div>
-                            </div>
-                            <div style="width: 17%">
-                                <select name="" id="" class="form-control form-select select-red">
-                                    <option value="">Not yet started</option>
-                                </select>
-                            </div>
-                            <div style="width: 40%">
-                                <input type="text" name="" id="" class="form-control bg-white text-dark">
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div style="width: 10%">
-                                <div class="today-view-item">7</div>
-                            </div>
-                            <div style="width: 10%">
-                                <div class="today-view-item">22</div>
-                            </div>
-                            <div style="width: 23%">
-                                <div class="today-view-item bg-cyan">
-                                    Second Turn of Compost
-                                </div>
-                            </div>
-                            <div style="width: 17%">
-                                <select name="" id="" class="form-control form-select select-blue">
-                                    <option value="">In Progress</option>
-                                </select>
-                            </div>
-                            <div style="width: 40%">
-                                <input type="text" name="" id="" class="form-control bg-white text-dark">
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div style="width: 10%">
-                                <div class="today-view-item">2</div>
-                            </div>
-                            <div style="width: 10%">
-                                <div class="today-view-item">14</div>
-                            </div>
-                            <div style="width: 23%">
-                                <div class="today-view-item bg-green">
-                                    First Turn of Compost
-                                </div>
-                            </div>
-                            <div style="width: 17%">
-                                <select name="" id="" class="form-control form-select select-green">
-                                    <option value="">Completed</option>
-                                </select>
-                            </div>
-                            <div style="width: 40%">
-                                <input type="text" name="" id="" class="form-control bg-white text-dark">
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div style="width: 10%">
-                                <div class="today-view-item">4</div>
-                            </div>
-                            <div style="width: 10%">
-                                <div class="today-view-item">1</div>
-                            </div>
-                            <div style="width: 23%">
-                                <div class="today-view-item bg-grey">
-                                    Fill Empty PIT
-                                </div>
-                            </div>
-                            <div style="width: 17%">
-                                <select name="" id="" class="form-control form-select select-green">
-                                    <option value="">Completed</option>
-                                </select>
-                            </div>
-                            <div style="width: 40%">
-                                <input type="text" name="" id="" class="form-control bg-white text-dark">
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div style="width: 10%">
-                                <div class="today-view-item">9</div>
-                            </div>
-                            <div style="width: 10%">
-                                <div class="today-view-item">21</div>
-                            </div>
-                            <div style="width: 23%">
-                                <div class="today-view-item bg-cyan">
-                                    Second Turn of Compost
-                                </div>
-                            </div>
-                            <div style="width: 17%">
-                                <select name="" id="" class="form-control form-select select-cyan">
-                                    <option value="">Postpone</option>
-                                </select>
-                            </div>
-                            <div style="width: 40%">
-                                <input type="text" name="" id="" class="form-control bg-white text-dark">
-                            </div>
-                        </div>
-                    </div>              
+<div class="mt-4">
+    <div class="d-flex align-items-center today-task-header text-center" style="padding-left: 0.6rem">
+        <div style="width: 10%; border-right: 1px solid rgba(255,255,255, 0.7)">
+            PIT No.
+        </div>
+        <div style="width: 10.5%; border-right: 1px solid rgba(255,255,255, 0.7)">
+            Day's Count
+        </div>
+        <div style="width: 23%; border-right: 1px solid rgba(255,255,255, 0.7)">
+            Task
+        </div>
+        <div style="width: 17%; border-right: 1px solid rgba(255,255,255, 0.7)">
+            Status
+        </div>
+        <div style="width: 40%">
+            Remarks
+        </div>
+    </div>
+    <div class="today-view-body">
+        <div class="d-flex align-items-center gap-2 mb-2" *ngFor="let task of taskList">
+            <div style="width: 10%">
+                <div class="today-view-item">{{task.pitId}}</div>
+            </div>
+            <div style="width: 10%">
+                <div class="today-view-item">{{task.noOfDaysInTodaysTask}}</div>
+            </div>
+            <div style="width: 23%">
+                <div class="today-view-item bg-blue">
+                    {{task.task}}
                 </div>
-			</div>
-		</div>
-	</div>
-</main>
-<app-footer></app-footer>
+            </div>
+            <div style="width: 17%">
+                <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect($event, task)">
+                    <option [value]="status.id" *ngFor="let status of pitStatusArr">{{status.statusName}}</option>
+                </select>
+            </div>
+            <div style="width: 40%">
+                <input type="text" name="" id="" class="form-control bg-white text-dark">
+            </div>
+        </div>
+    </div>  
+    <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect1($event)">
+        <option [value]="status.id" *ngFor="let status of pitStatusArr">{{status.statusName}}</option>
+        <option value="1">1</option>
+        <option value="2">1</option>
+        <option value="13">1</option>
+        <option value="15">1</option>
+        <option value="16">1</option>
+    </select>     
+</div>

@@ -1,3 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
+
+
+.modal {
+    --bs-modal-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    .modal-dialog{
+        max-width: var(--bs-modal-width);
+        margin-right: auto;
+        margin-left: 30% !important;
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - var(--bs-modal-margin) * 2);
+        position: absolute;
+        width: 35%;
+        margin: var(--bs-modal-margin);
+        pointer-events: none;
+    }
+    
+    .modal-header{
+        background: #0255DA;
+        color: #fff;
+    }
+    
+    .btn-close{
+        color: #fff;
+    }
+
+    .modal-body{
+        .row{
+            width: 100%;
+        }
+    }
+
+    .modal-footer{
+        text-align: center;
+        justify-content: center;
+        align-content: center;
+    }
+}

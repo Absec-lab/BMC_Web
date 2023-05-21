@@ -1,265 +1,315 @@
 <app-header></app-header>
 
-            
+
+
 
 
 <!-- Modal -->
-<div class="modal" id="pitenzymeModal" role="dialog"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" [style.display]="pitmodalstatus ? 'block':'none'">
+<div class="modal" id="pitenzymeModal"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" 
+    [style.display]="pitmodalstatus ? 'block':'none'">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pitModalLabel">PIT   QUANTUM 3 TON</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitmodalstatus()"></button>
-        </div>
-        <div class="modal-body">
-                
-                    <div class="input-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pitModalLabel">PIT QUANTUM 3 TON</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closePitmodalstatus()"></button> -->
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Segregation : 
+                            Segregation :
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="segregation" (change)="onActiveStatusChange($event,'segregation')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="segregation"
+                                (change)="onActiveStatusChange($event,'segregation')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Visual Inspection : 
+                            Visual Inspection :
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="visualinspection" (change)="onActiveStatusChange($event,'visuaInspection')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="visualinspection"
+                                (change)="onActiveStatusChange($event,'visuaInspection')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Mixed of enzymes: 
+                            Mixed of enzymes:
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="mixedenzyme" (change)="onActiveStatusChange($event,'mixedEnzyme')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="mixedenzyme"
+                                (change)="onActiveStatusChange($event,'mixedEnzyme')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Shreding: 
+                            Shreding:
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="shreding" (change)="onActiveStatusChange($event,'shreading')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="shreding"
+                                (change)="onActiveStatusChange($event,'shreading')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Transfer to Pit: 
+                            Transfer to Pit:
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="transfertopit" (change)="onActiveStatusChange($event,'tranferToPit')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="transfertopit"
+                                (change)="onActiveStatusChange($event,'tranferToPit')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Pit Fillup Status : 
+                            Pit Fillup Status :
                         </Label>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="pitfillupstatus" (change)="onActiveStatusChange($event,'isFilledUp')">
+                            <input class="form-check-input" type="checkbox" role="switch" id="pitfillupstatus"
+                                (change)="onActiveStatusChange($event,'isFilledUp')">
                         </div>
                     </div>
-                    <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <Label>
-                            Inert Material : 
-                        </Label>
-                        <div class="col-sm-5">
-                            <input type="number" required name="insertmaterial" min="0" value="0" step=".01" style="color: #000000;" lass="form-control" id="insertmaterial" placeholder="Enter the InertbMaterial weight"  >
-                         </div>
-                         <Label>
-                            QTM
+                            Inert Material :
                         </Label>
                     </div>
-           </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closePitmodalstatus()">Close</button>
-          <button type="button" class="btn btn-primary" (click)= "onSubmitRequestForInit()" >Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Modal -->
-<div class="modal" id="activityModal" role="dialog"  tabindex="-1" aria-labelledby="activityModal" aria-hidden="true" [style.display]="activityModal ? 'block':'none'">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="activityModal" > PIT Activity Status </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitActivityModalstatus()"></button>
-        </div>
-        <div class="modal-body">
-                
-            <p>{{activeNotification}}</p>
-
-           </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closePitActivityModalstatus()">Close</button>
-          <button type="button" class="btn btn-primary" (click)= "onSubmitPitUpdateStatusRequest()"  *ngIf="actionRequired == true">Confirm</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="activityMixedUpModal" role="dialog"  tabindex="-1" aria-labelledby="activityModal" aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="activityModal" >PIT Mixed Up Activity</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closePitMixedUpModalstatus()"></button>
-        </div>
-        <div class="modal-body">
-            <div class="grid">
-                <div class="grid__col-5">
-                    <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
-            <div class="input-group">
-                <label> Select the pit Mixed Up To</label>
-                   <div class="select"> 
-                       <select  name = "mixThisPitwithSelected" (change)="getSelected($event)" > 
-                          <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId" > 
-                              {{pitmixedup.pitName}} 
-                          </option>  
-                       </select>  
-                   </div> 
+                    <div class="col-lg-6">
+                        <input type="number" required name="insertmaterial" min="0" value="0" step=".01"
+                        style="color: #000000;" lass="form-control" id="insertmaterial"
+                        placeholder="Enter the InertbMaterial weight"> QTM
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closePitmodalstatus()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmitRequestForInit()">Submit</button>
             </div>
         </div>
     </div>
+</div>
 
-           </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closePitMixedUpModalstatus()">Close</button>
-          <button type="button" class="btn btn-primary" (click)= "onSubmitPitUpdateStatusRequest()" >Submit</button>
+
+<!-- Modal -->
+<div class="modal" id="activityModal" role="dialog" tabindex="-1" aria-labelledby="activityModal" aria-hidden="true"
+    [style.display]="activityModal ? 'block':'none'">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityModal"> PIT Activity Status </h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closePitActivityModalstatus()"></button> -->
+            </div>
+            <div class="modal-body">
+
+                <p>{{activeNotification}}</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closePitActivityModalstatus()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmitPitUpdateStatusRequest()"
+                    *ngIf="actionRequired == true">Confirm</button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="activityMixedUpModal" role="dialog" tabindex="-1" aria-labelledby="activityModal"
+    aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityModal">PIT Mixed Up Activity</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closePitMixedUpModalstatus()"></button> -->
+            </div>
+            <div class="modal-body">
+                <div class="grid">
+                    <div class="grid__col-5">
+                        <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
+                        <div class="input-group">
+                            <label> Select the pit Mixed Up To &nbsp;</label>
+                            <div class="select">
+                                <select name="mixThisPitwithSelected" (change)="getSelected($event)">
+                                    <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
+                                        {{pitmixedup.pitName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closePitMixedUpModalstatus()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmitPitUpdateStatusRequest()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <main class="container-fluid">
-	<div class="page-content p-3">
-		<div class="row">
-			<div class="col-lg-3">
-				<app-sidebar></app-sidebar>
-			</div>
-			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-1 stat-card">
-										<div>
-											<div>PIT Quantum</div>
-											<h4 class="mt-2">1 TON</h4>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-file-lines"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-2 stat-card">
-										<div>
-											<div>Empty PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">13</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-receipt"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-3 stat-card">
-										<div>
-											<div>PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">1</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-circle-check"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-4 stat-card">
-										<div>
-											<div>Assigned To Me</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">3</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-user-plus"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mt-4">
-					<div class="breadcrumb">
-						<a routerLink=""><i class="fa-solid fa-home"></i></a>
-						<span class="mx-2">/</span>
-						<a routerLink="/superadmin/mcc/pit-view">MCC - Pit View</a>
-					</div>
-				</div>
+    <div class="modal-dialog modal-dialog-centered">
+        
+    </div>
+    <div class="page-content p-3">
+        <div class="row">
+            <div class="col-lg-3">
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body d-flex w-100 align-items-center card-1 stat-card">
+                                        <div>
+                                            <div>PIT Quantum</div>
+                                            <h4 class="mt-2">1 TON</h4>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="stat-card-icon">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                            </div>
+                                            <div class="mt-2 text-center">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body d-flex w-100 align-items-center card-2 stat-card">
+                                        <div>
+                                            <div>Empty PIT</div>
+                                            <div class="d-flex align-items-end gap-2">
+                                                <h4 class="mt-2">13</h4>
+                                                <span class="stat-card-sub-title">Quality</span>
+                                            </div>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="stat-card-icon">
+                                                <i class="fa-solid fa-receipt"></i>
+                                            </div>
+                                            <div class="mt-2 text-center">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body d-flex w-100 align-items-center card-3 stat-card">
+                                        <div>
+                                            <div>PIT</div>
+                                            <div class="d-flex align-items-end gap-2">
+                                                <h4 class="mt-2">1</h4>
+                                                <span class="stat-card-sub-title">Quality</span>
+                                            </div>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="stat-card-icon">
+                                                <i class="fa-regular fa-circle-check"></i>
+                                            </div>
+                                            <div class="mt-2 text-center">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body d-flex w-100 align-items-center card-4 stat-card">
+                                        <div>
+                                            <div>Assigned To Me</div>
+                                            <div class="d-flex align-items-end gap-2">
+                                                <h4 class="mt-2">3</h4>
+                                                <span class="stat-card-sub-title">Quality</span>
+                                            </div>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="stat-card-icon">
+                                                <i class="fa-solid fa-user-plus"></i>
+                                            </div>
+                                            <div class="mt-2 text-center">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="breadcrumb">
+                        <a routerLink=""><i class="fa-solid fa-home"></i></a>
+                        <span class="mx-2">/</span>
+                        <a routerLink="/superadmin/mcc/pit-view">MCC - {{tabName}}</a>
+                    </div>
+                </div>
                 <div class="mt-4">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item w-50" role="presentation">
-                            <button class="nav-link active w-100 text-uppercase text-white" id="pitview-tab" data-bs-toggle="tab" data-bs-target="#pitview-tab-pane" type="button" role="tab" aria-controls="pitview-tab-pane" aria-selected="true">Pit View</button>
+                            <button class="nav-link active w-100 text-uppercase text-white" data-bs-toggle="tab"
+                                data-bs-target="#pitview-tab-pane" type="button" role="tab"
+                                aria-controls="pitview-tab-pane" aria-selected="true" (click)="showPitView()">Pit
+                                View</button>
                         </li>
                         <li class="nav-item w-50" role="presentation">
-                            <button class="nav-link w-100 text-uppercase text-white" id="todayview-tab" data-bs-toggle="tab" data-bs-target="#todayview-tab-pane" type="button" role="tab" aria-controls="todayview-tab-pane" aria-selected="false">Today Task</button>
+                            <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
+                                data-bs-target="#todayview-tab-pane" type="button" role="tab"
+                                aria-controls="todayview-tab-pane" aria-selected="false" (click)="showTodayTask()">Today
+                                Task</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                       
-                       
-                        <div class="tab-pane fade show active bg-secondary border border-white border-top-0 p-5" id="pitview-tab-pane" role="tabpanel" aria-labelledby="pitview-tab" tabindex="0">
+
+
+                        <div class="tab-pane fade show active bg-secondary border border-white border-top-0 p-5"
+                            id="pitview-tab-pane" role="tabpanel" aria-labelledby="pitview-tab" tabindex="0"
+                            *ngIf="showPitTabView">
                             <div class="pit-view">
                                 <div class="pit-item" *ngFor="let pit of allPitbyMcc.responseBody">
                                     <div class="pit-icon">
-                                        <input type="text"  value="{{pit.pitId}}" name="pitId"  hidden>
-                                        <img src="{{pit.pitStatus.activityColr}}" alt="Pit Icon" (click)="showPitmodalstatus(pit)"/>
+                                        <input type="text" value="{{pit.pitId}}" name="pitId" hidden>
+                                        <img src="{{pit.pitStatus.activityColr}}" alt="Pit Icon"
+                                            (click)="showPitmodalstatus(pit)" />
                                         <div class="pit-icon-timer">
-                                            <img src="/assets/images/icons/stopwatch.png" alt=""/>
+                                            <img src="/assets/images/icons/stopwatch.png" alt="" />
                                             <span class="pit-icon-timer-count">14</span>
                                         </div>
                                     </div>
@@ -268,216 +318,20 @@
                                     </div>
                                     <div height="20px"></div>
                                     <div class="pit-warning" *ngIf="pit.pitStatus.isNotfEnable == 1">
-                                        <img src="/assets/images/icons/warning.png" alt="Pit Warning"  (click)="showPitmodalstatus(pit)" data-bs-target="#pitenzymeModal" />
+                                        <img src="/assets/images/icons/warning.png" alt="Pit Warning"
+                                            (click)="showPitmodalstatus(pit)" data-bs-target="#pitenzymeModal" />
                                     </div>
                                 </div>
 
                             </div>
                         </div>
 
-          
+                        <app-today-task id="todayview-tab-pane" *ngIf="showTodayTaskView"></app-today-task>
 
-
-                        <div class="tab-pane fade bg-secondary border border-white border-top-0 p-5" id="todayview-tab-pane" role="tabpanel" aria-labelledby="todayview-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-md-8 mx-auto">
-                                    <div class="pit-view">
-                                        <div class="pit-item today">
-                                            <div class="pit-icon">
-                                                <img src="/assets/images/icons/recycling-bin-empty.png" alt="Pit Icon" />
-                                            </div>
-                                            <div class="pit-label">
-                                                4
-                                            </div>
-                                        </div>
-                                        <div class="pit-item today">
-                                            <div class="pit-icon">
-                                                <img src="/assets/images/icons/recycling-bin-full.png" alt="Pit Icon" />
-                                            </div>
-                                            <div class="pit-label">
-                                                3
-                                            </div>
-                                        </div>
-                                        <div class="pit-item today">
-                                            <div class="pit-icon">
-                                                <img src="/assets/images/icons/recycling-bin-free.png" alt="Pit Icon" />
-                                            </div>
-                                            <div class="pit-label">
-                                                4
-                                            </div>
-                                        </div>
-                                        <div class="pit-item today">
-                                            <div class="pit-icon">
-                                                <img src="/assets/images/icons/recycling-bin-shift.png" alt="Pit Icon" />
-                                            </div>
-                                            <div class="pit-label">
-                                                3
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="pit-today-view-head">
-                                        <div>PIT No.</div>
-                                        <div>Status</div>
-                                        <div>Task</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">1</div>
-                                        <div class="postponed">
-                                            <div>Postponed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="turn">Turn</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">2</div>
-                                        <div class="cancel">
-                                            <div>Cancel</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="empty">Empty</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">3</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="fill">Fill</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">4</div>
-                                        <div class="postponed">
-                                            <div>Postponed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="turn">Turn</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">5</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="empty">Empty</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">6</div>
-                                        <div class="cancel">
-                                            <div>Cancel</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="fill">Fill</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">7</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="shift">Shift</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pit-today-view-head">
-                                        <div>PIT No.</div>
-                                        <div>Status</div>
-                                        <div>Task</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">8</div>
-                                        <div class="postponed">
-                                            <div>Postponed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="turn">Turn</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">9</div>
-                                        <div class="cancel">
-                                            <div>Cancel</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="empty">Empty</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">10</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="shift">Shift</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">11</div>
-                                        <div class="postponed">
-                                            <div>Postponed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="fill">Fill</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">12</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="turn">Turn</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">13</div>
-                                        <div class="completed">
-                                            <div>Completed</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="shift">Shift</div>
-                                    </div>
-                                    <div class="today-item">
-                                        <div class="day-no">14</div>
-                                        <div class="cancel">
-                                            <div>Cancel</div>
-                                            <div class="ms-auto pe-2">
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </div>
-                                        </div>
-                                        <div class="empty">Empty</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
+                    </div>
                 </div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </main>
 <app-footer></app-footer>
