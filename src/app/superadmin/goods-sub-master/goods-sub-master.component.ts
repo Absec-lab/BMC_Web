@@ -12,22 +12,28 @@ export class GoodsSubMasterComponent {
         isUpdate: boolean = false
         goodsName: any
         subGoodsId:any
+        goodsId:any
+        goods: any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 this.getGoodsList()
         }
 
         form = new FormGroup({
+                goodssubId: new FormControl,
                 goodsId: new FormControl,
                 subgoodsName: new FormControl,
                 subGoodsPerKg: new FormControl,
-                subGoodsDesc: new FormControl
+                subGoodsDesc: new FormControl,
+                goods: new FormControl
         });
         editForm = new FormGroup({
-                goodsId: new FormControl,
+                //goodsId: new FormControl,
+                goodssubId: new FormControl,
                 subgoodsName: new FormControl,
                 subGoodsPerKg: new FormControl,
-                subGoodsDesc: new FormControl
+                subGoodsDesc: new FormControl,
+                goods: new FormControl
         })
         list: any = []
         goodsList: any = []
@@ -77,12 +83,15 @@ export class GoodsSubMasterComponent {
                 this.isUpdate = true
                 this.isAdd = false
                 console.log(item)
+                console.log(item.goodssubId)
                 this.goodsName = item.goods.goodsName
                 this.form = this.formBuilder.group({
                         goodsId: item.goods.goodsId,
+                        goodssubId: item.goodssubId,
                         subgoodsName: item.subgoodsName,
                         subGoodsPerKg: item.subGoodsPerKg,
-                        subGoodsDesc: item.subGoodsDesc
+                        subGoodsDesc: item.subGoodsDesc,
+                        goods: item.goods
                 })
                 this.subGoodsId=item.goodssubId
                 // this.service.getZoneAllData().subscribe(

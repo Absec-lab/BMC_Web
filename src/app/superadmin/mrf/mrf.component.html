@@ -113,9 +113,10 @@
 													Goods Name
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-black text-white" formControlName="goodId" >
-                                                        <option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
-                                                    </select>
+  
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+														<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+													</select>
 												</div>
 											</div>
 										</div>
@@ -125,9 +126,9 @@
 													Sub Goods Name
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-black text-white" formControlName="subGoodId">
-                                                        <option [value]="item.goodssubId" *ngFor="let item of subgoodList">{{item.subgoodsName}}</option>
-                                                    </select>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodssubId">
+														<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+													</select>
 												</div>
 											</div>
 										</div>
@@ -148,7 +149,7 @@
 												</div>
 												<div class="col-md-9">
 													<div class="input-group">
-                                                        <input type="text" name="" id="" class="form-control" formControlName="inertMaterial">
+                                                        <input type="text" name="" id="" class="form-control" formControlName="interMaterial">
                                                         <div class="input-group-text text-white bg-danger">
                                                             Quantum
                                                         </div>
@@ -162,7 +163,7 @@
 													Description
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="mrfDescription">
+													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
 												</div>
 											</div>
 										</div>
@@ -170,14 +171,19 @@
 								</form>
 							</div>
 						</div>
-						<div class="text-end mt-3">
+						<div class="text-end mt-3" *ngIf="isAdd">
 							<button class="btn btn-primary px-5 py-2" (click)="saveMrf()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateMrf()">Update</button>
 						</div>
 					</div>
 					<div class="mt-4">
 						<table class="table table-bordered table-striped">
 							<thead class="bg-primary text-white text-center">
 								<tr>
+									<th>Sl. No.</th>
 									<th>Goods Name</th>
 									<th>Sub-Goods Name</th>
 									<th>Goods (Kg)</th>
@@ -187,40 +193,27 @@
 									<th>Action</th>
 								</tr>
 							</thead>
-							<tbody class="text-center">
-								<tr>
-									<td>Plastic</td>
-									<td>Plastic Bottle</td>
-									<td>&#8377; 50</td>
-									<td>20 Qtm</td>
-									<td>Plastic Bottle</td>
-									<td>04/04/2023</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm">
-											<i class="fa-solid fa-edit"></i>
-										</button>
-										<button class="btn btn-danger btn-sm">
-											<i class="fa-solid fa-trash-alt"></i>
-										</button>
-									</td>
-								</tr>
-                                <tr>
-									<td>Plastic</td>
-									<td>Plastic Bottle</td>
-									<td>&#8377; 50</td>
-									<td>20 Qtm</td>
-									<td>Plastic Bottle</td>
-									<td>04/04/2023</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm">
-											<i class="fa-solid fa-edit"></i>
-										</button>
-										<button class="btn btn-danger btn-sm">
-											<i class="fa-solid fa-trash-alt"></i>
-										</button>
-									</td>
-								</tr>
-							</tbody>
+							 <tbody class="text-center">
+                                <tr *ngFor="let x of list; index as i;">
+                                        <td>{{ i + 1}}</td>
+                                        <td>{{ x.goods?.goodsName || '--' }}</td>
+                                        <td>{{ x.subGood?.subgoodsName || '--' }}</td>
+                                        <td>{{ x.quntaum || '--' }}</td>
+					<td>{{ x.interMaterial || '--' }}</td>
+                                        <td>{{ x.mrfDesc || '--' }}</td>
+                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
+                                        </td>
+                                        <td
+                                                class="d-flex align-items-center gap-1 justify-content-center">
+                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+                                                        <i class="fa-solid fa-edit"></i>
+                                                </button>
+                                                <button (click)="remove(x.mrfTrnsId)" class="btn btn-danger btn-sm">
+                                                        <i class="fa-solid fa-trash-alt"></i>
+                                                </button>
+                                        </td>
+                                </tr>
+                            </tbody>
 						</table>
 					</div>
 				</div>

@@ -15,7 +15,7 @@ export class MapComponent implements OnInit{
   wcList:any=[]
   ngOnInit(){
     this.getWardData()
-    this.getWealthCentreData(92)
+    this.getWealthCentreData(99)
   }
 
   getWardData(){

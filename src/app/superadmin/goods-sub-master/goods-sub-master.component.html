@@ -115,9 +115,9 @@
                                                     Goods Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                        <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsName">
+                                                        <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsId">
                                                                 <option value={{goodsName}}  selected>{{goodsName}}</option>
-                                                                <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName }}</option>
+                                                                <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName}}</option>
                                                         </select>
                                                 </div>
                                             </div>
