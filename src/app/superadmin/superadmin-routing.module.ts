@@ -23,6 +23,7 @@ import { PopupsComponent } from "./popups/popups.component";
 import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { HomeComponent } from "./home/home.component";
 import { DashboardOneComponent } from "./portal-dashboards/dashboard-one/dashboard-one.component";
+import { DashboardTwoComponent } from "./portal-dashboards/dashboard-two/dashboard-two.component";
 
 const routes: Routes = [
   {
@@ -116,6 +117,10 @@ const routes: Routes = [
   {
     path: 'superadmin/dashboards/dashboard-1',
     component: DashboardOneComponent
+  },
+  {
+    path: 'superadmin/dashboards/dashboard-2',
+    component: DashboardTwoComponent
   }
 ];
 

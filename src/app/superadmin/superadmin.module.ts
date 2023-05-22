@@ -27,6 +27,7 @@ import { PopupsComponent } from './popups/popups.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboard-one.component';
+import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboa
     PopupsComponent,
     TodayTaskComponent,
     HomeComponent,
-    DashboardOneComponent
+    DashboardOneComponent,
+    DashboardTwoComponent
   ],
   imports: [
     CommonModule,
