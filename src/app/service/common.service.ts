@@ -10,7 +10,8 @@ const environment = {
 
 
               URL: `http://15.207.62.200:9091`,  //prod url
-               LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
+              LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
+              //LOGIN_SERVICE_URL: 'http://localhost:8062',
 
         // URL: `http://localhost:9091`  //local ip 
 }

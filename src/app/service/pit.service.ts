@@ -12,6 +12,7 @@ const environment = {
 
   URL: `http://15.207.62.200:9091`,  //prod url
   PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
+  //PIT_SERVICE_URL: 'http://localhost:8062/',
   getAllPit: 'pit/v1/getAllPitListByMccId',
   savePitInit: '/save/pitTransaction/data',
   submitWorkflowInit: 'pit/v1/pitWorkFlow',
@@ -68,7 +69,8 @@ export class PitService {
 
   updatePitStatus(payload: {
     "pitId": Number,
-    "operationStatus": Number
+    "operationStatus": Number,
+    "remark":string
   }) {
     return this.http.post<{code: Number; message:string;}>(`${environment.PIT_SERVICE_URL}pit/v1/updatePitOperationStatus`, payload);
   }

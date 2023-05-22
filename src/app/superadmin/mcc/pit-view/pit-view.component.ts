@@ -68,10 +68,13 @@ export class PitViewComponent {
   }
 
   ngOnInit(): void {
+    this.onRefresh();
+  }
+
+  onRefresh(){
     this.pitService
       .getAllPitsByMcc()
       .subscribe((response) => (this.allPitbyMcc = response));
-
   }
 
   onAlertClick(){
@@ -87,7 +90,7 @@ export class PitViewComponent {
       .savePitInitForCompost(pitInitReqForEnzyme)
       .subscribe((response) => (this.allPitbyMcc = response));
       console.log('Successs Saved Enzyme process.');
-      alert('Successsfully Saved.. Now Composting process started');
+    
       this.closePitmodalstatus();
       this.onSubmitToWorkflow();
   }
@@ -101,7 +104,8 @@ export class PitViewComponent {
       .submitRequestForBatchBeforeCompost(this.submitToWorkflowPayload)
       .subscribe((response) => (this.responseforWorkflowstart = response));
       console.log('Now Workflow process started');
-      alert('Now Workflow process started');
+      alert('Successsfully Saved.. Now Composting process started');
+      this.onRefresh();
   }
 
     /**
@@ -194,16 +198,19 @@ export class PitViewComponent {
     }
 
     public collectAllYellowPits(){
+      console.log('PIT Clikced   {}  {}  ' + this.clickedPit.pitId ,  this.clickedPitId);
       this.allPitbyMcc.responseBody.forEach( (pit)=> {
         if(pit.pitStatus.pitConfigCode == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
           this.yellowPitModel = {
             "pitId":0,
             "pitName":""
           };
-          this.yellowPitModel.pitId = pit.pitId;
-          this.yellowPitModel.pitName = pit.pitName;
-          this.yellowPitarr.push(this.yellowPitModel);
-          this.activityMixedUpModal = true;
+          if(this.clickedPit.pitId != pit.pitId){
+            this.yellowPitModel.pitId = pit.pitId;
+            this.yellowPitModel.pitName = pit.pitName;
+            this.yellowPitarr.push(this.yellowPitModel);
+            this.activityMixedUpModal = true;
+          }
         } 
       })
     }
@@ -222,11 +229,12 @@ export class PitViewComponent {
 
     public getSelectedPit(pit:any,mixedUp :Boolean){
      // alert(mixedUp);
-      console.log(mixedUp+" Selected pit to mix {}  ", pit.pitId);
+      console.log(mixedUp+" Selected pit to mix {} ::   {} ::  {} ", pit.pitId,this.clickedPitId , pit.pitStatus.pitConfigId);
       this.toPitToMixedUp = pit.pitId;
-      if(mixedUp){
-        this.updatePitStatusPayload.payload.pitTo = this.clickedPitId ;
-        this.updatePitStatusPayload.payload.pitFrom = this.toPitToMixedUp;
+      
+      if(this.activityMixedUpModal){
+        this.updatePitStatusPayload.payload.pitTo = this.toPitToMixedUp  ;
+        this.updatePitStatusPayload.payload.pitFrom = this.clickedPitId;
         this.updatePitStatusPayload.payload.pitId = this.clickedPitId;
         this.updatePitStatusPayload.payload.pitStatus= pit.pitStatus.pitConfigId;
       }else{
@@ -235,7 +243,7 @@ export class PitViewComponent {
         this.updatePitStatusPayload.payload.pitId = this.clickedPit.pitId;
         this.updatePitStatusPayload.payload.pitStatus= this.clickedPit.pitStatus.releaseAction;
       }
-   
+      console.log(" REQ OBJ :: {}  ", this.updatePitStatusPayload.payload);
   }
 
   public onSubmitPitUpdateStatusRequest(){
@@ -248,6 +256,7 @@ export class PitViewComponent {
       this.closePitActivityModalstatus();
       this.closePitMixedUpModalstatus();
       this.closePitmodalstatus();
+      this.onRefresh();
   }
 
   public showPitView(){

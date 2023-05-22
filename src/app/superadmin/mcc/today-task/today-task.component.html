@@ -30,21 +30,13 @@
                 </div>
             </div>
             <div style="width: 17%">
-                <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect($event, task)">
-                    <option [value]="status.id" *ngFor="let status of pitStatusArr">{{status.statusName}}</option>
+                <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect($event, task)" [disabled]="task.pitstatus == 1">
+                    <option [value]="status.id" *ngFor="let status of pitStatusArr" [selected]="task.pitstatus">{{status.statusName}}</option>
                 </select>
             </div>
             <div style="width: 40%">
-                <input type="text" name="" id="" class="form-control bg-white text-dark">
+                <input type="text" name="" id="" class="form-control bg-white text-dark"  [disabled]="task.pitstatus === 1">
             </div>
         </div>
     </div>  
-    <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect1($event)">
-        <option [value]="status.id" *ngFor="let status of pitStatusArr">{{status.statusName}}</option>
-        <option value="1">1</option>
-        <option value="2">1</option>
-        <option value="13">1</option>
-        <option value="15">1</option>
-        <option value="16">1</option>
-    </select>     
 </div>

@@ -7,6 +7,7 @@ import { SuperadminModule } from './superadmin/superadmin.module';
 import { WebModule } from './web/web.module';
 import { CommonService } from './service/common.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     SuperadminModule,
     WebModule,
     HttpClientModule,
-    NgbAlertModule
+    NgbAlertModule,
+    FormsModule
   ],
   providers: [
         CommonService,
