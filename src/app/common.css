@@ -13,7 +13,7 @@ a {
 main {
   background: #000033;
   color: #fff;
-  min-height: calc(100dvh - 82px);
+  min-height: calc(100dvh - 34px);
   padding-bottom: 2.5rem;
   padding-top: 3rem;
 }
@@ -422,4 +422,21 @@ form.align-form-items {
   margin-top: 0.1rem;
   border-top: 1px solid #000;
   font-weight: normal;
+}
+
+.dashboard-select-box {
+  background-color: #2B2C4B;
+  color: #fff;
+  border-color: #2B2C4B;
+  padding: 0.7rem 1.5rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+.border-light {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.table.bg-transparent td,
+.table.bg-transparent th {
+  background: transparent !important;
 }

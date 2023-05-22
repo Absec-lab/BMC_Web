@@ -22,6 +22,7 @@ import { TripDetails6Component } from "./garbage/trip-details6/trip-details6.com
 import { PopupsComponent } from "./popups/popups.component";
 import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { HomeComponent } from "./home/home.component";
+import { DashboardOneComponent } from "./portal-dashboards/dashboard-one/dashboard-one.component";
 
 const routes: Routes = [
   {
@@ -112,6 +113,10 @@ const routes: Routes = [
     path: "superadmin/home",
     component: HomeComponent,
   },
+  {
+    path: 'superadmin/dashboards/dashboard-1',
+    component: DashboardOneComponent
+  }
 ];
 
 @NgModule({

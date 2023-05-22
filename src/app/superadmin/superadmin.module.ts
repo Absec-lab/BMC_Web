@@ -26,6 +26,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { PopupsComponent } from './popups/popups.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboard-one.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { HomeComponent } from './home/home.component';
     TripDetails6Component,
     PopupsComponent,
     TodayTaskComponent,
-    HomeComponent
+    HomeComponent,
+    DashboardOneComponent
   ],
   imports: [
     CommonModule,

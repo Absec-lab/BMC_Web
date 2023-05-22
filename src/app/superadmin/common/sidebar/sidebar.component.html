@@ -25,10 +25,28 @@
 </div>
 <div class="card mt-4">
 	<div class="card-body">
-		<a routerLink="" class="sidebar-link active">
-			<i class="fa-solid fa-gauge-high"></i>
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarDashboardLinks" role="button" aria-expanded="false" aria-controls="collapseSidebarDashboardLinks">
+			<i class="fa-solid fa-recycle"></i>
 			<span>Dashboard</span>
 		</a>
+		<div class="sidebar-sub-menu collapse" id="collapseSidebarDashboardLinks">
+			<a routerLink="/superadmin/dashboards/dashboard-1" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dashboard 1</span>
+			</a>
+			<a routerLink="/superadmin/dashboards/dashboard-2" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dashboard 2</span>
+			</a>
+			<a routerLink="/superadmin/dashboards/dashboard-3" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dashboard 3</span>
+			</a>
+			<a routerLink="/superadmin/dashboards/dashboard-4" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dashboard 4</span>
+			</a>
+		</div>
 		<a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
 			<i class="fa-brands fa-bitbucket"></i>
 			<span>MCC</span>
@@ -37,11 +55,11 @@
 			<i class="fa-brands fa-bitbucket"></i>
 			<span>MRF</span>
 		</a>
-		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarGarbageLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarGarbageLinks" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks">
 			<i class="fa-solid fa-recycle"></i>
 			<span>Garbage</span>
 		</a>
-		<div class="sidebar-sub-menu collapse show" id="collapseSidebarGarbageLinks">
+		<div class="sidebar-sub-menu collapse" id="collapseSidebarGarbageLinks">
 			<a routerLink="/superadmin/garbage/trip-details1" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Trip Details1</span>
@@ -67,11 +85,11 @@
 				<span>Trip Details6</span>
 			</a>
 		</div>
-		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarTodayTaskLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarTodayTaskLinks">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarTodayTaskLinks" role="button" aria-expanded="false" aria-controls="collapseSidebarTodayTaskLinks">
 			<i class="fa-solid fa-recycle"></i>
 			<span>Today's Task</span>
 		</a>
-		<div class="sidebar-sub-menu collapse show" id="collapseSidebarTodayTaskLinks">
+		<div class="sidebar-sub-menu collapse" id="collapseSidebarTodayTaskLinks">
 			<a routerLink="/superadmin/mcc/today-task" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>MCC Task</span>
@@ -93,13 +111,11 @@
 			<i class="fa-solid fa-users"></i>
 			<span>Manpower</span>
 		</a>
-    <!-- org: aria-expanded: false -->
-		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks">
 			<i class="fa-solid fa-user-gear"></i>
 			<span>Master Entry</span>
 		</a>
-    <!-- org: class: sidebar-sub-menu collapse -->
-		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks">
+		<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks">
 			<a routerLink="/superadmin/zone-master" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Zone Master</span>
