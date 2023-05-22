@@ -19,6 +19,7 @@ import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { MapComponent } from './map/map.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -39,7 +40,8 @@ const routes: Routes = [
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
   {path:'map/view',component:MapComponent},
-  {path:'superadmin/home',component:HomeComponent}
+  {path:'superadmin/home',component:HomeComponent},
+  {path: 'superadmin/dashboard-one',component: DashboardOneComponent},
 ];
 
 @NgModule({

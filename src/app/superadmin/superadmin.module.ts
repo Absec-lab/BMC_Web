@@ -27,6 +27,7 @@ import { MapComponent } from './map/map.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { SharedModule } from '../shared/shared.module';
     PitViewComponent,
     TodayTaskComponent,
     MapComponent,
-    HomeComponent
+    HomeComponent,
+    DashboardOneComponent,
   ],
   imports: [
     CommonModule,
