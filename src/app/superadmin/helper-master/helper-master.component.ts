@@ -11,31 +11,33 @@ export class HelperMasterComponent {
         isAdd: boolean = true
         isUpdate: boolean = false
         helperId:any
+        helperIdProof:any
         wcId: any
+        isActive: boolean = false
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 this.getWCList()
         }
 
         form = new FormGroup({
+                helperId:new FormControl,
                 helperName: new FormControl,
+                helperIdProof: new FormControl,
                 helperPhoto: new FormControl,
                 phoneNo: new FormControl,
-                dlNo: new FormControl,
-                dlExpiry: new FormControl,
-                dlPhoto: new FormControl,
                 address: new FormControl,
-                dlDesc: new FormControl
+                helperDesc: new FormControl,
+                isActive: new  FormControl,
               });
         editForm =new FormGroup({
+                helperId:new FormControl,
                 helperName: new FormControl(''),
+                helperIdProof: new FormControl(''),
                 helperPhoto: new FormControl(''),
                 phoneNo: new FormControl(''),
-                dlNo: new FormControl(''),
-                dlExpiry: new FormControl(''),
-                dlPhoto: new FormControl(''),
                 address: new FormControl(''),
-                dlDesc: new FormControl('')
+                helperDesc: new FormControl(''),
+                isActive: new FormControl(''),
               });
         list: any = []
         wcList: any = []
@@ -60,7 +62,8 @@ export class HelperMasterComponent {
                 try {
                         const data = {
                                 ...this.form.value,
-                                "status": true
+                                "wc":{"wcId":1},
+                                "isActive": false
                         }
                         console.log(data)
                         await this.service.post(`/zone/addHelper`, data)
@@ -72,7 +75,8 @@ export class HelperMasterComponent {
         }
         async remove(id: string) {
                 try {
-                        const res = await this.service.delete(`/zone/deleteHeleper/${id}`)
+                        const res = await this.service.delete(`/zone/deleteHelper/${id}`)
+                        //this.form.reset()
                         this.getList()
                 } catch (e) {
                         console.error(e)
@@ -84,21 +88,16 @@ export class HelperMasterComponent {
                 console.log(item)
                 this.helperId = item.helperId
                 this.form = this.formBuilder.group({
+                        helperId:item.helperId,
                         helperName: item.helperName,
+                        helperIdProof: item.helperIdProof,
                         helperPhoto: item.helperPhoto,
                         phoneNo: item.phoneNo,
-                        dlNo: item.dlNo,
-                        dlExpiry: item.dlExpiry,
-                        dlPhoto: item.dlPhoto,
                         address: item.address,
-                        dlDesc: item.dlDesc
+                        helperDesc: item.helperDesc,
+                        isActive: false
                 })
-                this.wcId=this.wcList.wcId
-                // this.service.getZoneAllData().subscribe(
-                //         async data => {
-                //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
-                //         }
-                // );
+               
 
         }
         cancel() {
