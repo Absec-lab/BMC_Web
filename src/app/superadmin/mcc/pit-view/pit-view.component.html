@@ -1,9 +1,6 @@
 <app-header></app-header>
 
 
-
-
-
 <!-- Modal -->
 <div class="modal" id="pitenzymeModal"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" 
     [style.display]="pitmodalstatus ? 'block':'none'">
@@ -283,18 +280,18 @@
                 </div>
                 <div class="mt-4">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item w-50" role="presentation">
+                        <li class="nav-item w-100" role="presentation">
                             <button class="nav-link active w-100 text-uppercase text-white" data-bs-toggle="tab"
                                 data-bs-target="#pitview-tab-pane" type="button" role="tab"
                                 aria-controls="pitview-tab-pane" aria-selected="true" (click)="showPitView()">Pit
                                 View</button>
                         </li>
-                        <li class="nav-item w-50" role="presentation">
-                            <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
+                        <!-- <li class="nav-item w-50" role="presentation"> -->
+                            <!-- <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
                                 data-bs-target="#todayview-tab-pane" type="button" role="tab"
                                 aria-controls="todayview-tab-pane" aria-selected="false" (click)="showTodayTask()">Today
                                 Task</button>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="tab-content" id="myTabContent">
 
@@ -303,6 +300,7 @@
                             id="pitview-tab-pane" role="tabpanel" aria-labelledby="pitview-tab" tabindex="0"
                             *ngIf="showPitTabView">
                             <div class="pit-view">
+                          
                                 <div class="pit-item" *ngFor="let pit of allPitbyMcc.responseBody">
                                     <div class="pit-icon">
                                         <input type="text" value="{{pit.pitId}}" name="pitId" hidden>
