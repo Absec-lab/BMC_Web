@@ -1,0 +1,43 @@
+.dashboard-stock-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.dashboard-stock-item:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-stock-item.bg-red {
+    background: #FE2728;
+    color: #fff;
+}
+
+.dashboard-stock-item.bg-blue {
+    background: #0500E1;
+    color: #fff;
+}
+
+.dashboard-stock-item.bg-grey {
+    background: #6D6E84;
+    color: #fff;
+}
+
+.dashboard-stock-item.bg-cyan {
+    background: #0395EB;
+    color: #fff;
+}
+
+.dashboard-stock-item.bg-pink {
+    background: #FF007A;
+    color: #fff;
+}
+
+.dashboard-stock-item.bg-green {
+    background: #0E7C2C;
+    color: #fff;
+}

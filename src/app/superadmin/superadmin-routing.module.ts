@@ -20,6 +20,10 @@ import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { MapComponent } from './map/map.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
+//import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboard-one.component';
+import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
+import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
+import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -42,6 +46,10 @@ const routes: Routes = [
   {path:'map/view',component:MapComponent},
   {path:'superadmin/home',component:HomeComponent},
   {path: 'superadmin/dashboard-one',component: DashboardOneComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-one',component: DashboardOneComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-two',component: DashboardTwoComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
 ];
 
 @NgModule({

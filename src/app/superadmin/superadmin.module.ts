@@ -28,6 +28,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
+//import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboard-one.component';
+import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
+import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
+import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 
 
 @NgModule({
@@ -55,6 +59,9 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
     MapComponent,
     HomeComponent,
     DashboardOneComponent,
+    DashboardTwoComponent,
+    DashboardThreeComponent,
+    DashboardFourComponent
   ],
   imports: [
     CommonModule,

@@ -25,10 +25,34 @@
 </div>
 <div class="card mt-4">
 	<div class="card-body">
-		<a routerLink="/superadmin/dashboard-one" class="sidebar-link active">
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
 			<i class="fa-solid fa-gauge-high"></i>
 			<span>Dashboard</span>
 		</a>
+		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks">
+			<a routerLink="/superadmin/portal-dashboards/dashboard-one" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dshboard 1</span>
+			</a>
+			<a routerLink="/superadmin/portal-dashboards/dashboard-two" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dshboard 2</span>
+			</a>
+			<a routerLink="/superadmin/portal-dashboards/dashboard-three" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dshboard 3</span>
+			</a>
+			<a routerLink="/superadmin/portal-dashboards/dashboard-four" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Dshboard 4</span>
+			</a>
+			
+
+		</div>
+		<!-- <a routerLink="/superadmin/dashboard-one" class="sidebar-link active">
+			<i class="fa-solid fa-gauge-high"></i>
+			<span>Dashboard</span>
+		</a> -->
 		<a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
 			<i class="fa-brands fa-bitbucket"></i>
 			<span>MCC</span>
