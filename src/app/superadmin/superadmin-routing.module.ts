@@ -25,6 +25,7 @@ import { HomeComponent } from "./home/home.component";
 import { DashboardOneComponent } from "./portal-dashboards/dashboard-one/dashboard-one.component";
 import { DashboardTwoComponent } from "./portal-dashboards/dashboard-two/dashboard-two.component";
 import { DashboardThreeComponent } from "./portal-dashboards/dashboard-three/dashboard-three.component";
+import { DashboardFourComponent } from "./portal-dashboards/dashboard-four/dashboard-four.component";
 
 const routes: Routes = [
   {
@@ -126,6 +127,10 @@ const routes: Routes = [
   {
     path: 'superadmin/dashboards/dashboard-3',
     component: DashboardThreeComponent
+  },
+  {
+    path: 'superadmin/dashboards/dashboard-4',
+    component: DashboardFourComponent
   }
 ];
 

@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardOneComponent } from './portal-dashboards/dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
+import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/das
     HomeComponent,
     DashboardOneComponent,
     DashboardTwoComponent,
-    DashboardThreeComponent
+    DashboardThreeComponent,
+    DashboardFourComponent
   ],
   imports: [
     CommonModule,
