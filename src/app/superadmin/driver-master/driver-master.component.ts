@@ -18,6 +18,7 @@ export class DriverMasterComponent {
         }
 
         form = new FormGroup({
+                driverId: new FormControl,
                 driverName: new FormControl,
                 driverPhoto: new FormControl,
                 phoneNo: new FormControl,
@@ -28,6 +29,7 @@ export class DriverMasterComponent {
                 dlDesc: new FormControl
               });
         editForm =new FormGroup({
+                driverId: new FormControl(''),
                 driverName: new FormControl(''),
                 driverPhoto: new FormControl(''),
                 phoneNo: new FormControl(''),
@@ -84,6 +86,7 @@ export class DriverMasterComponent {
                 console.log(item)
                 this.driverId = item.driverId
                 this.form = this.formBuilder.group({
+                        driverId: item.driverId,
                         driverName: item.driverName,
                         driverPhoto: item.driverPhoto,
                         phoneNo: item.phoneNo,

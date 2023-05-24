@@ -120,15 +120,14 @@ export class MccMasterComponent {
                 );
         }
         updateData(item: any) {
-                alert(item.value);
                 this.isUpdate = true
                 this.isAdd = false
                 console.log(item)
                 this.zoneName=item.zone.zoneName
                 this.wealthCentreName=item.wc.wcName
                 this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        wcId: item.wcId,
+                        zoneId: item.zone.zoneId,
+                        wcId: item.wc.wcId,
                         mccName: item.mccName,
                         mccDesc: item.mccDesc,
                         zone :item.zone,
@@ -145,7 +144,6 @@ export class MccMasterComponent {
         }
 
         updateMcc() {
-                alert('update MCC');
                 console.log(this.form.value)
                 this.service.updateMcc(this.form.value).subscribe(
                         data => {
