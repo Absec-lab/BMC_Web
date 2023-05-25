@@ -141,6 +141,7 @@ export class PitViewComponent {
     
       this.closePitmodalstatus();
       this.onSubmitToWorkflow();
+      this.closePitActivityModalstatus();
   }
 
 
@@ -246,7 +247,8 @@ export class PitViewComponent {
     }
 
     public openPitMixedUpModalstatus() {
-      this.collectAllYellowPits();
+      //this.collectAllYellowPits();
+      this.closePitMixedUpModalstatus();
     }
 
     public collectAllYellowPits(){

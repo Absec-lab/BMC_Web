@@ -8,10 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="pitModalLabel">PIT QUANTUM 3 TON</h5>
-<<<<<<< HEAD
                 
-=======
->>>>>>> d6cd8cde928de9f59a0d633f0f1e0b62fc5c8476
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -219,7 +216,7 @@
 
                 <div class="border-bottom py-2">
                     <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
+                        <!-- <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
@@ -231,7 +228,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-3 d-flex align-items-center justify-content-center">PIT Fillup Status</div>
                         <div class="col-md-3 d-flex align-items-center justify-content-center pe-5">
                             <div class="toggle-button-cover">
@@ -247,19 +244,20 @@
                 </div>
                 <div class="border-bottom py-2">
                     <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Filled Garbage Wt.</div>
+                        <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="" id="filledGarbageWt" class="form-control form-control-sm" >
+                                    <input type="text" name="" id="" class="form-control form-control-sm"  id="mixedenzyme">
                                     <div class="input-group-text bg-light">
                                         <span>
-                                            Ton
+                                            Ltr
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                
                         <div class="col-md-3 d-flex align-items-center justify-content-center">Date of 1st Filling</div>
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
@@ -375,7 +373,7 @@
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    (click)="closemodal()">Cancel</button>
+                    (click)="closePitActivityModalstatus()">Cancel</button>
                 <button type="button" class="btn btn-primary" (click)="onSubmitRequestForInit()">Submit</button>
             </div>
         </div>
