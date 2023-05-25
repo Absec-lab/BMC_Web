@@ -25,17 +25,17 @@
                                         <span class="login-form-title"> Welcome to the Bhubaneswar Municipal Corporation </span>
                                         <span class="login-form-subtitle m-b-16"> You are now entering a securer enviroment, where you can view overal activity of your system</span>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="text" placeholder="Username" class="form-control" formControlName="emailId"/> <span class="focus-input"></span>
+                                            <input class="input" type="text" placeholder="Username" value="" class="form-control" formControlName="emailId"/> <span class="focus-input"></span>
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-user"></span> </span> -->
                                         </div>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="password" placeholder="Password" class="form-control" formControlName="password"/> <span class="focus-input"></span>
+                                            <input class="input" type="password" placeholder="Password" value="" class="form-control" formControlName="password"/> <span class="focus-input"></span>
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-lock"></span> </span> -->
                                         </div>
                                         <div class="flex-sb-m w-full p-b-25 m-t-16">
                                             <div class="col-md-6 padding-none">
                                                 <div class="container-login-form-btn p-t-25">
-													<button class="login-form-btn" (click)="login()">Login</button>
+													<button class="login-form-btn" (click)="doLogin()">Login</button>
 												</div>
                                             </div>
                                             <div>

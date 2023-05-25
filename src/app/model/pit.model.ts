@@ -83,4 +83,49 @@ export interface PitModel {
     holdForScheduler: boolean
   }
 
+  export interface LoginReq {
+
+    email: string;
+    hasTermsChecked: boolean;
+    password: string;
+  
+  
+  }
+
+  export interface PitInitModalReq {
+
+    pitid: number;
+    segregation: boolean;
+    shreding: boolean;
+    visualinspection: boolean;
+    mixedenzyme: string;
+    pitfillupstatus: string;
+    filledGarbageWt: string;
+    dateOfFirstFilling: string;
+    filledgardbagewt: string;
+    firstTurnDate: string;
+    dateOfFirstMixedup: string;
+    inertMaterialMxedQty: string;
+    cocopeatMixedQty: string;
+    secondTurnDate: string;
+    totalCompostGen: string;
+    compostDate: string;
+
+  }
+
+  export interface PitStageRoot {
+    message: string
+    code: number
+    responseBody: PitStageBody
+  }
+  
+  export interface PitStageBody {
+    filledUpDate: string
+    firstDayMixedUp: string
+    firstTurnDate: string
+    secondTurnDate: string
+    compostingDate: string
+  }
+  
+  
 

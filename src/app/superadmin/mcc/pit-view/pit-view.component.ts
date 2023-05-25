@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { PitModel } from 'src/app/model/pit.model';
+import { Observable,Subscription, interval  } from 'rxjs';
+import { PitInitModalReq, PitModel, PitStageBody, PitStageRoot } from 'src/app/model/pit.model';
 import { SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
 import { ModalService } from 'src/app/service/modal.service';
 import { PitService } from 'src/app/service/pit.service';
@@ -13,7 +14,7 @@ import { ModalComponent } from 'src/app/superadmin/mcc/pit-view/modal/modal.comp
 })
 export class PitViewComponent {
 
-
+  private updateSubscription: Subscription | undefined;
   pitmodalstatus : any = false;
   public inertMaterialVal:any=0.0;
   public jsonObject: any = {};
@@ -28,6 +29,18 @@ export class PitViewComponent {
   public activityMixedUpModal : any = false;
   public yellowPitarr : any[] = [];
   public pitClicked : any='';
+  public responseBodyT: PitStageBody = {
+    filledUpDate: '',
+    firstDayMixedUp: '',
+    firstTurnDate: '',
+    secondTurnDate: '',
+    compostingDate: ''
+  }
+  public allPitStages : PitStageRoot = {
+    message: '',
+    code: 0,
+    responseBody: this.responseBodyT
+  };
   public yellowPitModel : any = {
     "pitId":0,
     "pitName":""
@@ -40,6 +53,7 @@ export class PitViewComponent {
    tabName: string = 'Pit View';
    showPitTabView: boolean = true;
    showTodayTaskView:boolean = false;
+   commondialog:boolean =true;
 
   public submitToWorkflowPayload: SubmitWorkflowPayload = {
    payload:{
@@ -60,6 +74,25 @@ export class PitViewComponent {
     
   }
 
+  public pitInitModalReq : PitInitModalReq = {
+    pitid: 0,
+    segregation: false,
+    shreding: false,
+    visualinspection: false,
+    mixedenzyme: '',
+    pitfillupstatus: '',
+    filledGarbageWt: '',
+    dateOfFirstFilling: '',
+    filledgardbagewt: '',
+    firstTurnDate: '',
+    dateOfFirstMixedup: '',
+    inertMaterialMxedQty: '',
+    cocopeatMixedQty: '',
+    secondTurnDate: '',
+    totalCompostGen: '',
+    compostDate: ''
+  }
+
   
   constructor(private pitService: PitService,
     protected modalService: ModalService
@@ -69,12 +102,22 @@ export class PitViewComponent {
 
   ngOnInit(): void {
     this.onRefresh();
+    this.getPitStageDetails();
+    this.updateSubscription = interval(30000).subscribe(
+      (val) => { this.onRefresh()});
+
   }
 
   onRefresh(){
     this.pitService
       .getAllPitsByMcc()
       .subscribe((response) => (this.allPitbyMcc = response));
+  }
+
+  getPitStageDetails(){
+    this.pitService
+      .getAllPitStagesStatus()
+      .subscribe((response) => (this.allPitStages = response));
   }
 
   onAlertClick(){
@@ -171,9 +214,13 @@ export class PitViewComponent {
      if(pit.pitStatus.isEventNeeded == true){
       this.getSelectedPit(pit,false);
      }
-    
+     this.getPitStageDetails();
       console.log(" On showPitmodalstatus  Notification ",this.activeNotification);
       console.log(" On showPitmodalstatus  clickedPitId ",this.clickedPitId);
+    }
+
+    public closemodal(){
+      this.commondialog = false;
     }
   
     public closePitmodalstatus() {
