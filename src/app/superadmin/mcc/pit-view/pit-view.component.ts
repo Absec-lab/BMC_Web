@@ -55,6 +55,11 @@ export class PitViewComponent {
    showTodayTaskView:boolean = false;
    commondialog:boolean =true;
 
+   displayPopover() {
+    const popoverItem = document.querySelector('.popover-item') as HTMLDivElement;
+    popoverItem.classList.toggle('show');
+  }
+
   public submitToWorkflowPayload: SubmitWorkflowPayload = {
    payload:{
      wcId: 1,

@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-
+<!-- Commented the old modal and added the new modal below-->
 <!-- Modal -->
 <!-- <div class="modal" id="pitenzymeModal"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" 
     [style.display]="pitmodalstatus ? 'block':'none'">
@@ -8,7 +8,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="pitModalLabel">PIT QUANTUM 3 TON</h5>
+<<<<<<< HEAD
                 
+=======
+>>>>>>> d6cd8cde928de9f59a0d633f0f1e0b62fc5c8476
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -111,6 +114,7 @@
 </div> -->
 
 
+<!-- Commented the old modal and added the new modal below-->
 
 <!-- New pit view modal started from here-->
 
@@ -442,7 +446,7 @@
 
 <main class="container-fluid">
     <div class="modal-dialog modal-dialog-centered">
-        
+
     </div>
     <div class="page-content p-3">
         <div class="row">
@@ -553,7 +557,7 @@
                                 View</button>
                         </li>
                         <!-- <li class="nav-item w-50" role="presentation"> -->
-                            <!-- <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
+                        <!-- <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
                                 data-bs-target="#todayview-tab-pane" type="button" role="tab"
                                 aria-controls="todayview-tab-pane" aria-selected="false" (click)="showTodayTask()">Today
                                 Task</button>
@@ -566,7 +570,7 @@
                             id="pitview-tab-pane" role="tabpanel" aria-labelledby="pitview-tab" tabindex="0"
                             *ngIf="showPitTabView">
                             <div class="pit-view">
-                          
+
                                 <div class="pit-item" *ngFor="let pit of allPitbyMcc.responseBody">
                                     <div class="pit-icon">
                                         <input type="text" value="{{pit.pitId}}" name="pitId" hidden>
