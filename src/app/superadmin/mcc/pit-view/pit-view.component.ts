@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable,Subscription, interval  } from 'rxjs';
-import { PitInitModalReq, PitModel, PitStageBody, PitStageRoot } from 'src/app/model/pit.model';
+import { PitInitModalReq, PitModel, PitStageBody, PitStageReq, PitStageRoot } from 'src/app/model/pit.model';
 import { SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
 import { ModalService } from 'src/app/service/modal.service';
 import { PitService } from 'src/app/service/pit.service';
@@ -13,6 +13,14 @@ import { ModalComponent } from 'src/app/superadmin/mcc/pit-view/modal/modal.comp
   styleUrls: ['../../../common.css', './pit-view.component.css']
 })
 export class PitViewComponent {
+
+ //All modal status by var
+  public pitmixstatus : any;
+  public pitMixupProcessHide(){
+     this.pitmixstatus =false;
+  }
+
+
 
   private updateSubscription: Subscription | undefined;
   pitmodalstatus : any = false;
@@ -29,6 +37,7 @@ export class PitViewComponent {
   public activityMixedUpModal : any = false;
   public yellowPitarr : any[] = [];
   public pitClicked : any='';
+
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
     firstDayMixedUp: '',
@@ -54,10 +63,16 @@ export class PitViewComponent {
    showPitTabView: boolean = true;
    showTodayTaskView:boolean = false;
    commondialog:boolean =true;
+   isEventNeeded :boolean =false;
+   ismixupEventNeeded :boolean =false;
 
    displayPopover() {
     const popoverItem = document.querySelector('.popover-item') as HTMLDivElement;
     popoverItem.classList.toggle('show');
+  }
+
+  public pitAllStages:PitStageReq =   {
+    pitId: 0
   }
 
   public submitToWorkflowPayload: SubmitWorkflowPayload = {
@@ -76,7 +91,6 @@ export class PitViewComponent {
       pitFrom: '',
       pitTo: ''
     }
-    
   }
 
   public pitInitModalReq : PitInitModalReq = {
@@ -113,6 +127,10 @@ export class PitViewComponent {
 
   }
 
+  // onResetModal(){
+
+  // }
+
   onRefresh(){
     this.pitService
       .getAllPitsByMcc()
@@ -120,9 +138,17 @@ export class PitViewComponent {
   }
 
   getPitStageDetails(){
+    console.log('  PIT stages  ', this.pitAllStages);
     this.pitService
-      .getAllPitStagesStatus()
+      .getAllPitStagesStatus(this.pitAllStages)
       .subscribe((response) => (this.allPitStages = response));
+  }
+
+
+  closePitActivityModalstatus(){
+    this.pitmodalstatus =false;
+    this.yellowPitarr=[];
+    this.clickedPit.pitId=0;
   }
 
   onAlertClick(){
@@ -130,6 +156,7 @@ export class PitViewComponent {
     this.modalService.close();
   }
 
+  // aSubmit  for init workflow...............
   onSubmitRequestForInit(){
     this.setterDataToMap(this.getterMap() , 'inertMaterial' , this.inertMaterialVal);
     let pitInitReqForEnzyme = this.convertMaptoJson();
@@ -141,10 +168,10 @@ export class PitViewComponent {
     
       this.closePitmodalstatus();
       this.onSubmitToWorkflow();
-      this.closePitActivityModalstatus();
+  
   }
 
-
+  // Submit of  init workflow...............
   onSubmitToWorkflow(){
     console.log('Request Send before Submit to Workflow process.{} ',this.submitToWorkflowPayload);
     console.log('Clicked pit ID  ', this.clickedPitId);
@@ -185,73 +212,84 @@ export class PitViewComponent {
          return this.mapInput;
     }
 
+    pitFromId : string = "0";
+    pitToPit : string ="0";
+    pitidUpdateOnAny : string = "0";
+    pitStatusOverwrite : string ="0";
+
     public showPitmodalstatus(pit : any) {
-      console.log(" On alett click ",pit);
+      this.pitAllStages.pitId = pit.pitId;
+
+      this.getPitStageDetails();
+
+      console.log(" On alett click {} {} ",pit , this.pitmixstatus);
       this.activeNotification = pit.pitStatus.activityMsg;
+      this.pitFromId = pit.pitId ;
       this.clickedPitId = pit.pitId;
       this.actionRequired = pit.pitStatus.isEventNeeded;
       this.clickedPit = pit;
+      this.pitidUpdateOnAny = pit.pitId;
+     
+     
      if(pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"){
       this.pitmodalstatus = true;
-      this.activityModal = false;
-      this.activityMixedUpModal = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_GARBAGE_COLLECT"){
       this.pitmodalstatus = true;
-      this.activityModal = false;
-      this.activityMixedUpModal = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_EMPTY_AFTER_MIXED_UP"){
       this.pitmodalstatus = false;
-      this.activityModal = true;
-      this.activityMixedUpModal = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_COMPOST_DONE"){
       this.pitmodalstatus = false;
-      this.activityModal = true;
-      this.activityMixedUpModal = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE"){
-      this.openPitMixedUpModalstatus();
-      this.pitmodalstatus = false;
-      this.activityModal = false;
+      this.pitmixstatus =true;
+      this.ismixupEventNeeded = true;
+      console.log(" On alett click innnnnn {} {} ",pit , this.pitmixstatus);
+      this.collectAllYellowPits();
      }else if(pit.pitStatus.isNotfEnable == 1 ){
-      this.activityMixedUpModal = false;
       this.pitmodalstatus = false;
-      this.activityModal = true;
+     }else if(pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE"){
+          this.pitStatusOverwrite="4"
+     }else if(pit.pitStatus.pitConfigCode == "PIT_MIXUP_21_22D_COMPLETE"){
+          this.pitStatusOverwrite= "5";
+     }else if(pit.pitStatus.pitConfigCode == "PIT_COMPOST_DONE"){
+          this.pitStatusOverwrite= "6";
      }
-     
-     if(pit.pitStatus.isEventNeeded == true){
-      this.getSelectedPit(pit,false);
-     }
-     this.getPitStageDetails();
-      console.log(" On showPitmodalstatus  Notification ",this.activeNotification);
-      console.log(" On showPitmodalstatus  clickedPitId ",this.clickedPitId);
-    }
 
-    public closemodal(){
-      this.commondialog = false;
+
+    if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE" || pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE" 
+                              || pit.pitStatus.pitConfigCode == "PIT_MIXUP_21_22D_COMPLETE" ||  pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"  
+                              || pit.pitStatus.pitConfigCode == "PIT_STATUS_FILL_UP_1_2D" ){
+                                this.isEventNeeded = true;    
     }
+ 
+     this.openPitmodalstatus();
+ }
+ 
+
+    
+     
+    
+
+   
   
     public closePitmodalstatus() {
       this.pitmodalstatus = false;
+      this.yellowPitarr=[];
     }
 
-    public closePitActivityModalstatus() {
-      this.activityModal = false;
+    
+    public openPitmodalstatus() {
+      this.pitmodalstatus = true;
     }
 
-    public openPitActivityModalstatus() {
-      this.activityModal = true;
-    }
 
     public closePitMixedUpModalstatus() {
-      this.activityMixedUpModal = false;
+      //  this.activityMixedUpModal = false;
       this.yellowPitarr = [];
     }
 
-    public openPitMixedUpModalstatus() {
-      //this.collectAllYellowPits();
-      this.closePitMixedUpModalstatus();
-    }
 
     public collectAllYellowPits(){
+      
       console.log('PIT Clikced   {}  {}  ' + this.clickedPit.pitId ,  this.clickedPitId);
       this.allPitbyMcc.responseBody.forEach( (pit)=> {
         if(pit.pitStatus.pitConfigCode == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
@@ -263,43 +301,55 @@ export class PitViewComponent {
             this.yellowPitModel.pitId = pit.pitId;
             this.yellowPitModel.pitName = pit.pitName;
             this.yellowPitarr.push(this.yellowPitModel);
-            this.activityMixedUpModal = true;
           }
+          console.log(' mix stag ',this.yellowPitModel)
         } 
       })
     }
     
+    originalVal : number = 0;
+    comparedselectedVal : number = 0;
     getSelected(ev: any) {
-      //alert(ev.target.value);
-      console.log(ev.target.value);
-      this.allPitbyMcc.responseBody.forEach( (pit)=> {
-        if(pit.pitId == ev.target.value){
-          this.getSelectedPit(pit,true);
-        } 
-      })
+      alert(ev.target.value);
+      this.originalVal = ev.target.value;
+      console.log('  mcccc  44444444444444444     ' , ev.target.value);
+      console.log('  mcccc  iddddddddddddd     ' , this.allPitbyMcc);
+       this.pitToPit = ev.target.value,true;
+      this.getSelectedPit(ev.target.value,true);
       return ev.target.value;
     }
 
 
     public getSelectedPit(pit:any,mixedUp :Boolean){
-     // alert(mixedUp);
-      console.log(mixedUp+" Selected pit to mix {} ::   {} ::  {} ", pit.pitId,this.clickedPitId , pit.pitStatus.pitConfigId);
+       console.log(" Test Yellow pits : " , this.yellowPitarr);
+      if(this.originalVal == 0){
+         
+          console.log('Either User has not selected any vallue from dropdown or there is one element in dropdown to be selected bydefault');
+          pit.pitId =   this.yellowPitarr[0].pitId;
+          this.pitToPit = this.yellowPitarr[0].pitId;
+      }
+      console.log(mixedUp+" Selected pit to mix {} ::   {} ::  {}  :: {} ", this.toPitToMixedUp , pit.pitId,this.clickedPit );
       this.toPitToMixedUp = pit.pitId;
-      
-      if(this.activityMixedUpModal){
-        this.updatePitStatusPayload.payload.pitTo = this.toPitToMixedUp  ;
-        this.updatePitStatusPayload.payload.pitFrom = this.clickedPitId;
+      console.log(this.clickedPit.pitStatus.pitConfigCode);
+      if(this.clickedPit.pitStatus.pitConfigCode =='PIT_STATUS_MIXUP_6_8D_COMPLETE'){
+        console.log('111111111');
+        this.updatePitStatusPayload.payload.pitTo =  this.pitToPit ;
+        this.updatePitStatusPayload.payload.pitFrom = this.pitFromId;
         this.updatePitStatusPayload.payload.pitId = this.clickedPitId;
-        this.updatePitStatusPayload.payload.pitStatus= pit.pitStatus.pitConfigId;
+        this.updatePitStatusPayload.payload.pitStatus= this.clickedPit.pitStatus.pitConfigId;
       }else{
+ 
+      
         this.updatePitStatusPayload.payload.pitTo = '';
         this.updatePitStatusPayload.payload.pitFrom = '';
-        this.updatePitStatusPayload.payload.pitId = this.clickedPit.pitId;
-        this.updatePitStatusPayload.payload.pitStatus= this.clickedPit.pitStatus.releaseAction;
+        this.updatePitStatusPayload.payload.pitId = this.pitidUpdateOnAny;
+        this.updatePitStatusPayload.payload.pitStatus=  this.pitStatusOverwrite;
       }
       console.log(" REQ OBJ :: {}  ", this.updatePitStatusPayload.payload);
   }
 
+
+  //Submit for PIT Status update.................................
   public onSubmitPitUpdateStatusRequest(){
     console.log('onSubmitPitUpdateStatusRequest.{} ', this.updatePitStatusPayload);
     this.pitService
@@ -307,10 +357,62 @@ export class PitViewComponent {
       .subscribe((response) => (this.responseforWorkflowstart = response));
       console.log('PIT Status Update{} ', this.responseforWorkflowstart);
       alert('PIT Status Update Successfully');
-      this.closePitActivityModalstatus();
-      this.closePitMixedUpModalstatus();
       this.closePitmodalstatus();
       this.onRefresh();
+
+      this.pitToPit="0";
+      this.pitFromId="0";
+  }
+
+
+  // hanld esingle button click for different event of action in PIT process...
+  public executeUpdateStatusByPitCurrentStatus(){
+    
+   console.log("action event  :::  current status of pit{} ",  this.clickedPit , this.clickedPit.pitStatus.pitConfigCode);
+
+    
+     if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
+      this.activityMixedUpModal = true;
+      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
+      //   if(pit.pitId == this.clickedPitId){
+      //     this.getSelectedPit(pit,true);
+      //   } 
+      // })
+      this.onSubmitPitUpdateStatusRequest();
+    }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_14_16D_COMPLETE'){
+      this.allPitbyMcc.responseBody.forEach( (pit)=> {
+        
+      })
+      this.pitStatusOverwrite = "4";
+      this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
+      this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
+      this.onSubmitPitUpdateStatusRequest();
+    }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_21_22D_COMPLETE'){
+      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
+      //   if(pit.pitId == this.clickedPitId){
+      //     this.getSelectedPit(pit,false);
+      //   } 
+      // })
+      this.pitStatusOverwrite = "5";
+      this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
+      this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
+      this.onSubmitPitUpdateStatusRequest();
+    }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_COMPOST_DONE'){
+      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
+      //   if(pit.pitId == this.clickedPitId){
+      //     this.getSelectedPit(pit,false);
+      //   } 
+      // })
+      this.pitStatusOverwrite = "6";
+      this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
+      this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
+        this.onSubmitPitUpdateStatusRequest();
+    }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_EMPTY_GARBAGE_COL_NOT_STARTED'){
+      console.log("action event  ");
+        this.onSubmitRequestForInit();
+    }
+
+    this.closePitmodalstatus();
   }
 
   public showPitView(){
@@ -326,7 +428,7 @@ export class PitViewComponent {
       }
 }
 
-export enum pitStatus{
+export enum pitNoActionStatusEnum{
   PIT_STATUS_FILL_UP_1_2D,
   PIT_EMPTY_GARBAGE_COL_NOT_STARTED,
   PIT_EMPTY_AFTER_MIXED_UP,
@@ -340,4 +442,11 @@ export enum pitInitStatus{
   PIT_COMPOST_DONE,
   PIT_GARBAGE_COLLECT,
   PIT_UNDER_MAINTENANCE
+}
+
+export enum pitWorkflowEnum{
+  PIT_STATUS_MIXUP_6_8D_COMPLETE,
+  PIT_COMPOST_DONE,
+  PIT_MIXUP_14_16D_COMPLETE,
+  PIT_MIXUP_21_22D_COMPLETE
 }

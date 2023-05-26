@@ -116,7 +116,7 @@
 <!-- New pit view modal started from here-->
 
 <div class="modal" id="pitenzymeModal" tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true"
-    [style.display]=" pitmodalstatus || activityModal  ? 'block':'none'">
+    [style.display]=" pitmodalstatus  ? 'block':'none'">
     <div class="modal-dialog modal-lg modal-width">
         <div class="modal-content">
             <div class="modal-header">
@@ -131,13 +131,14 @@
                 <div class="border-bottom py-2">
                    
                    <!-- Section for mix pits here -->
-
-                    <!-- <div class="row text-center"  aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Mixture of Two PITS</div>
+                   <!-- [style.display]=" pitmixstatus  ? 'block':'none'" -->
+                    <div class="row text-center"  aria-hidden="true" [style.display]=" ismixupEventNeeded  ? 'block':'none'" >
+                        <div class="col-md-3 d-flex align-items-center justify-content-center"  >Mixture of Two PITS</div>
                         <div class="col-md-3 pe-3">
+                            <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" placeholder="PIT 1"/>
+                                     <input type="text" class="form-control" placeholder="" *ngIf="clickedPit != undefined"  value ="{{clickedPit.pitName}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -146,16 +147,46 @@
                                 +
                             </div>
                         </div>
-                        <div class="col-md-3 pe-3">
+
+
+                        <div class="col-md-3 pe-3" [style.display]=" isEventNeeded  ? 'block':'none'">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <select name="" id="" class="form-control">
+                                    <!-- <select name="" id="" class="form-control">
                                         <option value="">select Half empty pit</option>
-                                    </select>
+                                    </select> -->
+                                    <label> Select the pit Mixed Up To &nbsp;</label>
+                                    <div class="select">
+                                        <select name="mixThisPitwithSelected" (change)="getSelected($event)">
+                                            <option value = "">--Select pit to mix up--</option>
+                                            <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
+                                                {{pitmixedup.pitName}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+
+                        <!-- <div class="grid">
+                            <div class="grid__col-5">
+                              
+                                <div class="input-group">
+                                    <label> Select the pit Mixed Up To &nbsp;</label>
+                                    <div class="select">
+                                        <select name="mixThisPitwithSelected" (change)="getSelected($event)">
+                                            <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
+                                                {{pitmixedup.pitName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+                    </div> 
                       <!-- Section for mix pits end here -->
 
 
@@ -164,7 +195,7 @@
                         <h6 class="ms-4">PIT Information</h6>
                     </div>
                 </div>
-                <div class="border-bottom py-2">
+                <div class="border-bottom py-2" [style.display]=" isEventNeeded  ? 'block':'none'">
                     <div class="row text-center">
                         <div class="col-md-3 d-flex align-items-center justify-content-center">Segregation</div>
                         <div class="col-md-3 d-flex align-items-center justify-content-center pe-5">
@@ -189,7 +220,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-bottom py-2">
+                <div class="border-bottom py-2" [style.display]=" isEventNeeded  ? 'block':'none'">
                     <div class="row text-center">
                         <div class="col-md-3 d-flex align-items-center justify-content-center">Visual Inspection</div>
                         <div class="col-md-3 d-flex align-items-center justify-content-center pe-5">
@@ -214,7 +245,7 @@
                     </div>
                 </div>
 
-                <div class="border-bottom py-2">
+                <div class="border-bottom py-2" [style.display]=" isEventNeeded  ? 'block':'none'">
                     <div class="row text-center">
                         <!-- <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
                         <div class="col-md-3 pe-5">
@@ -248,7 +279,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="" id="" class="form-control form-control-sm"  id="mixedenzyme">
+                                    <input type="number" name="" id="" class="form-control form-control-sm"  id="mixedenzyme">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ltr
@@ -262,7 +293,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="dateOfFirstFilling" value="{{responseBodyT.filledUpDate}}" />
+                                    <input type="text" class="form-control" id="dateOfFirstFilling" value="{{allPitStages.responseBody.filledUpDate}}" readonly />
                                 </div>
                             </div>
                         </div>
@@ -274,7 +305,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                    <input type="number" name="" id="" class="form-control form-control-sm">
                                     <div class="input-group-text bg-light" id="filledgardbagewt">
                                         <span>
                                             Ton
@@ -287,19 +318,19 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="dateOfFirstMixedup" value="{{responseBodyT.firstDayMixedUp}}"/>
+                                    <input type="text" class="form-control" id="dateOfFirstMixedup" value="{{allPitStages.responseBody.firstDayMixedUp}}" readonly/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="border-bottom py-2">
+                <div class="border-bottom py-2" >
                     <div class="row text-center">
                         <div class="col-md-3 d-flex align-items-center justify-content-center">Cocopeat mixed Qty</div>
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control form-control-sm">
+                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control form-control-sm">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -312,7 +343,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="firstTurnDate" value="{{responseBodyT.firstTurnDate}}"/>
+                                    <input type="text" class="form-control" id="firstTurnDate" value="{{allPitStages.responseBody.firstTurnDate}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -325,7 +356,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="" id="inertMaterialMxedQty" class="form-control form-control-sm"> 
+                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control form-control-sm"> 
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ton
@@ -338,7 +369,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control"  id="secondTurnDate" value="{{responseBodyT.secondTurnDate}}"/>
+                                    <input type="text" class="form-control"  id="secondTurnDate" value="{{allPitStages.responseBody.secondTurnDate}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +382,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="text" name="" id="totalCompostGen" class="form-control form-control-sm">
+                                    <input type="number" name="" id="totalCompostGen" class="form-control form-control-sm">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -364,7 +395,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="compostDate" value="{{responseBodyT.compostingDate}}"/>
+                                    <input type="text" class="form-control" id="compostDate" value="{{allPitStages.responseBody.compostingDate}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -374,7 +405,7 @@
             <div class="modal-footer d-flex justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                     (click)="closePitActivityModalstatus()">Cancel</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmitRequestForInit()">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="executeUpdateStatusByPitCurrentStatus()"  [style.display]=" isEventNeeded  ? 'block':'none'"   >Submit</button>
             </div>
         </div>
     </div>
@@ -405,14 +436,14 @@
 </div> -->
 
 <!-- Modal -->
-<div class="modal" id="activityMixedUpModal" role="dialog" tabindex="-1" aria-labelledby="activityModal"
+<!-- <div class="modal" id="activityMixedUpModal" role="dialog" tabindex="-1" aria-labelledby="activityModal"
     aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="activityModal">PIT Mixed Up Activity</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closePitMixedUpModalstatus()"></button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closePitMixedUpModalstatus()"></button> 
             </div>
             <div class="modal-body">
                 <div class="grid">
@@ -420,13 +451,13 @@
                         <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
                         <div class="input-group">
                             <label> Select the pit Mixed Up To &nbsp;</label>
-                            <div class="select">
+                           <div class="select">
                                 <select name="mixThisPitwithSelected" (change)="getSelected($event)">
                                     <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
                                         {{pitmixedup.pitName}}
                                     </option>
                                 </select>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -438,7 +469,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 

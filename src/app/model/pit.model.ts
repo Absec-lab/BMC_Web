@@ -126,6 +126,8 @@ export interface PitModel {
     secondTurnDate: string
     compostingDate: string
   }
-  
-  
 
+    
+  export interface PitStageReq {
+    pitId: Number
+  }
