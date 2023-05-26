@@ -132,9 +132,9 @@
                    
                    <!-- Section for mix pits here -->
                    <!-- [style.display]=" pitmixstatus  ? 'block':'none'" -->
-                    <div class="row text-center"  aria-hidden="true" [style.display]=" ismixupEventNeeded  ? 'block':'none'" >
+                    <div class="col-md-6 d-flex row text-center"  aria-hidden="true" [style.display]=" ismixupEventNeeded  ? 'block':'none'" >
                         <div class="col-md-3 d-flex align-items-center justify-content-center"  >Mixture of Two PITS</div>
-                        <div class="col-md-3 pe-3">
+                        <div class="col-md-3 pe-6">
                             <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
                             <div class="d-flex">
                                 <div class="input-group date">
@@ -142,11 +142,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1 p-0 w-10">
+                        <!-- <div class="col-md-1 p-0 w-10">
                             <div class="d-flex">
                                 +
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <div class="col-md-3 pe-3" [style.display]=" isEventNeeded  ? 'block':'none'">
