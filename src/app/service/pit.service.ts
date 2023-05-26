@@ -12,15 +12,12 @@ const environment = {
 
   URL: `http://15.207.62.200:9091`,  //prod url
   PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
-  // URL: `http://localhost:9091`,  //prod url
-  //PIT_SERVICE_URL: 'http://localhost:8062/',
   AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
   getAllPit: 'pit/v1/getAllPitListByMccId',
   savePitInit: '/save/pitTransaction/data',
   submitWorkflowInit: 'pit/v1/pitWorkFlow',
   pitstatusUpdate: 'pit/v1/updatePitStatus',
-  //  http://15.207.62.200:9091/save/pitTransaction/data
-  // URL: `http://localhost:9091`  //local ip
+
 }
 
 @Injectable({
