@@ -135,8 +135,8 @@
                     <div class="col-md-6 d-flex row text-center"  aria-hidden="true" [style.display]=" ismixupEventNeeded  ? 'block':'none'" >
                         <div class="col-md-3 d-flex align-items-center justify-content-center"  >Mixture of Two PITS</div>
                         <div class="col-md-3 pe-6">
-                            <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
-                            <div class="d-flex">
+                            <p> PIT Mixed With</p>
+                            <div class="d-flex" >
                                 <div class="input-group date">
                                      <input type="text" class="form-control" placeholder="" *ngIf="clickedPit != undefined"  value ="{{clickedPit.pitName}}" readonly/>
                                 </div>
@@ -155,8 +155,8 @@
                                     <!-- <select name="" id="" class="form-control">
                                         <option value="">select Half empty pit</option>
                                     </select> -->
-                                    <label> Select the pit Mixed Up To &nbsp;</label>
-                                    <div class="select">
+                                <div class="col-md-10"><label> &nbsp; PIT Mixed From </label></div>
+                                <div class="select">
                                         <select name="mixThisPitwithSelected" (change)="getSelected($event)">
                                             <option value = "">--Select pit to mix up--</option>
                                             <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
