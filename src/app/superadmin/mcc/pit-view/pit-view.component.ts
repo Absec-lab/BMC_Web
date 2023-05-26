@@ -124,7 +124,7 @@ export class PitViewComponent {
     this.getPitStageDetails();
     this.updateSubscription = interval(30000).subscribe(
       (val) => { this.onRefresh()});
-
+      this.ismixupEventNeeded = false;
   }
 
   // onResetModal(){

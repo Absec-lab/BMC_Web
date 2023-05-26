@@ -614,7 +614,7 @@
                                         {{pit.pitName}}
                                     </div>
                                     <div height="20px"></div>
-                                    <div class="pit-warning" [style.display]=" isEventNeeded  ? 'block':'none'">
+                                    <div class="pit-warning" *ngIf="pit.pitStatus.isEventNeeded == true">
                                         <img src="/assets/images/icons/warning.png" alt="Pit Warning"
                                             (click)="showPitmodalstatus(pit)" data-bs-target="#pitenzymeModal" />
                                     </div>
