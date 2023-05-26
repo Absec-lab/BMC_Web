@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,9 +11,8 @@ const environment = {
 
 
               URL: `http://15.207.62.200:9091`,  //prod url
-               LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
-               AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-
+              //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
+             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
 
         // URL: `http://localhost:9091`  //local ip 
 }
@@ -114,7 +114,7 @@ export class CommonService {
                 return this.http.get(environment.URL+'/get/all/mcc/by/wcId?wcId='+id)
         }
         login(data:any){
-                return this.http.post(environment.AUTH_SERVICE_URL,data)
+                return this.http.post('http://15.207.62.200:8064/bmcwastemanagement/auth/users/login' , data)
         }
         getZoneById(id:any){
                 return this.http.get(environment.URL+'/zone/getZoneById/'+id)
@@ -200,4 +200,5 @@ export class CommonService {
         deactivateMrf(id:any){
                 return this.http.get(environment.URL+'/mrf/deactivate?id='+id)
         }
+
 }
