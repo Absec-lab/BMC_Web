@@ -1,7 +1,7 @@
 .pit-view {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     flex-grow: 1;
     flex-wrap: wrap;
     flex-direction: row;
@@ -11,6 +11,7 @@
     width: calc(100%/7);
     text-align: center;
     position: relative;
+    margin-bottom: 3.5rem;
 }
 
 .pit-item.today {
@@ -225,4 +226,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+ }
+
+ .modal-width{
+    width: 1250px;
  }
