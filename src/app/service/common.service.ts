@@ -113,7 +113,7 @@ export class CommonService {
                 return this.http.get(environment.URL+'/get/all/mcc/by/wcId?wcId='+id)
         }
         login(data:any){
-                return this.http.post(environment.LOGIN_SERVICE_URL , data)
+                return this.http.post('http://15.207.62.200:8064/bmcwastemanagement/auth/users/login' , data)
         }
         getZoneById(id:any){
                 return this.http.get(environment.URL+'/zone/getZoneById/'+id)
