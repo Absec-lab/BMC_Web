@@ -132,9 +132,9 @@
                    
                    <!-- Section for mix pits here -->
                    <!-- [style.display]=" pitmixstatus  ? 'block':'none'" -->
-                    <div class="col-md-6 d-flex row text-center"  aria-hidden="true" [style.display]=" ismixupEventNeeded  ? 'block':'none'" >
-                        <div class="col-md-3 d-flex align-items-center justify-content-center"  >Mixture of Two PITS</div>
-                        <div class="col-md-3 pe-6">
+                    <div class="col-md-6 d-flex row text-center"  aria-hidden="true" >
+                        <div class="col-md-3 d-flex align-items-center justify-content-center" [style.display]=" pitMixStatus  ? 'block':'none'" >Mixture of Two PITS</div>
+                        <div class="col-md-3 pe-6" [style.display]=" pitMixStatus  ? 'block':'none'">
                             <p> PIT Mixed With</p>
                             <div class="d-flex" >
                                 <div class="input-group date">
@@ -149,7 +149,7 @@
                         </div> -->
 
 
-                        <div class="col-md-3 pe-3" [style.display]=" isEventNeeded  ? 'block':'none'">
+                        <div class="col-md-3 pe-3"  [style.display]=" pitMixStatus  ? 'block':'none'">
                             <div class="d-flex">
                                 <div class="input-group date">
                                     <!-- <select name="" id="" class="form-control">
@@ -279,7 +279,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="number" name="" id="" class="form-control form-control-sm"  id="mixedenzyme">
+                                    <input type="number" name="" id="" class="form-control modal-body"  id="mixedenzyme">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ltr
@@ -293,7 +293,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="dateOfFirstFilling" value="{{allPitStages.responseBody.filledUpDate}}" readonly />
+                                    <input type="text" class="form-control modal-body" id="dateOfFirstFilling" value="{{allPitStages.responseBody.filledUpDate}}" readonly />
                                 </div>
                             </div>
                         </div>
@@ -305,7 +305,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="number" name="" id="" class="form-control form-control-sm">
+                                    <input type="number" name="" id="" class="form-control modal-body">
                                     <div class="input-group-text bg-light" id="filledgardbagewt">
                                         <span>
                                             Ton
@@ -318,7 +318,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="dateOfFirstMixedup" value="{{allPitStages.responseBody.firstDayMixedUp}}" readonly/>
+                                    <input type="text" class="form-control modal-body" id="dateOfFirstMixedup" value="{{allPitStages.responseBody.firstDayMixedUp}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -330,7 +330,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control form-control-sm">
+                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control modal-body">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -343,7 +343,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="firstTurnDate" value="{{allPitStages.responseBody.firstTurnDate}}" readonly/>
+                                    <input type="text" class="form-control modal-body" id="firstTurnDate" value="{{allPitStages.responseBody.firstTurnDate}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -356,7 +356,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control form-control-sm"> 
+                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control modal-body"> 
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ton
@@ -369,7 +369,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control"  id="secondTurnDate" value="{{allPitStages.responseBody.secondTurnDate}}" readonly/>
+                                    <input type="text" class="form-control modal-body"  id="secondTurnDate" value="{{allPitStages.responseBody.secondTurnDate}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group">
-                                    <input type="number" name="" id="totalCompostGen" class="form-control form-control-sm">
+                                    <input type="number" name="" id="totalCompostGen" class="form-control modal-body">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -395,7 +395,7 @@
                         <div class="col-md-3 pe-5">
                             <div class="d-flex">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" id="compostDate" value="{{allPitStages.responseBody.compostingDate}}" readonly/>
+                                    <input type="text" class="form-control modal-body" id="compostDate" value="{{allPitStages.responseBody.compostingDate}}" readonly/>
                                 </div>
                             </div>
                         </div>

@@ -15,13 +15,6 @@ import { ModalComponent } from 'src/app/superadmin/mcc/pit-view/modal/modal.comp
 export class PitViewComponent {
 
  //All modal status by var
-  public pitmixstatus : any;
-  public pitMixupProcessHide(){
-     this.pitmixstatus =false;
-  }
-
-
-
   private updateSubscription: Subscription | undefined;
   pitmodalstatus : any = false;
   public inertMaterialVal:any=0.0;
@@ -37,6 +30,7 @@ export class PitViewComponent {
   public activityMixedUpModal : any = false;
   public yellowPitarr : any[] = [];
   public pitClicked : any='';
+  public pitMixStatus : Boolean=false;
 
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
@@ -64,7 +58,6 @@ export class PitViewComponent {
    showTodayTaskView:boolean = false;
    commondialog:boolean =true;
    isEventNeeded :boolean =false;
-   ismixupEventNeeded :boolean =false;
 
    displayPopover() {
     const popoverItem = document.querySelector('.popover-item') as HTMLDivElement;
@@ -124,7 +117,6 @@ export class PitViewComponent {
     this.getPitStageDetails();
     this.updateSubscription = interval(30000).subscribe(
       (val) => { this.onRefresh()});
-      this.ismixupEventNeeded = false;
   }
 
   // onResetModal(){
@@ -221,16 +213,13 @@ export class PitViewComponent {
       this.pitAllStages.pitId = pit.pitId;
 
       this.getPitStageDetails();
-
-      console.log(" On alett click {} {} ",pit , this.pitmixstatus);
       this.activeNotification = pit.pitStatus.activityMsg;
       this.pitFromId = pit.pitId ;
       this.clickedPitId = pit.pitId;
       this.actionRequired = pit.pitStatus.isEventNeeded;
       this.clickedPit = pit;
       this.pitidUpdateOnAny = pit.pitId;
-     
-     
+      this.pitMixStatus = false;
      if(pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"){
       this.pitmodalstatus = true;
      }else if(pit.pitStatus.pitConfigCode == "PIT_GARBAGE_COLLECT"){
@@ -240,9 +229,8 @@ export class PitViewComponent {
      }else if(pit.pitStatus.pitConfigCode == "PIT_COMPOST_DONE"){
       this.pitmodalstatus = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE"){
-      this.pitmixstatus =true;
-      this.ismixupEventNeeded = true;
-      console.log(" On alett click innnnnn {} {} ",pit , this.pitmixstatus);
+      this.pitMixStatus =true;
+      console.log(" On alett click innnnnn {} {} ",pit , this.pitMixStatus);
       this.collectAllYellowPits();
      }else if(pit.pitStatus.isNotfEnable == 1 ){
       this.pitmodalstatus = false;
@@ -254,7 +242,7 @@ export class PitViewComponent {
           this.pitStatusOverwrite= "6";
      }
 
-
+    console.log('  MIX STATUS : :::::::::::      ',this.pitMixStatus);
     if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE" || pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE" 
                               || pit.pitStatus.pitConfigCode == "PIT_MIXUP_21_22D_COMPLETE" ||  pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"  
                               || pit.pitStatus.pitConfigCode == "PIT_STATUS_FILL_UP_1_2D" ){
