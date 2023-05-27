@@ -33,6 +33,7 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashb
     DashboardOneComponent,
     DashboardTwoComponent,
     DashboardThreeComponent,
-    DashboardFourComponent
+    DashboardFourComponent,
+    CompostDryingComponent
   ],
   imports: [
     CommonModule,
