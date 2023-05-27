@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
 @Component({
-  selector: 'app-mrf',
+  selector: 'app-compost-drying',
   templateUrl: './compost-drying.component.html',
-  styleUrls: ['../../common.css', './compost-drying.component.css']
+  styleUrls: ['../../../common.css', './compost-drying.component.css']
 })
 export class CompostDryingComponent implements OnInit{
   isAdd: boolean = true
