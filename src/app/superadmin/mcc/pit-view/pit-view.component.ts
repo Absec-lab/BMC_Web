@@ -210,6 +210,7 @@ export class PitViewComponent {
     pitStatusOverwrite : string ="0";
 
     public showPitmodalstatus(pit : any) {
+      console.log(" PIT ::::    ",pit.pitId );
       this.pitAllStages.pitId = pit.pitId;
 
       this.getPitStageDetails();
