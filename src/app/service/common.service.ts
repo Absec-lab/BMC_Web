@@ -61,8 +61,15 @@ export class CommonService {
 
 
         //manoj code
-
-
+        addItemCategory(data: any) {
+                return this.http.post(environment.URL + '/zone/addItemCategory', data);
+        }
+        getAllItemCategory() {
+                return this.http.get(environment.URL + '/zone/getAllItemCategory')
+        }
+        deactivateCategory(id: any) {
+                return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
+        }
         addZone(data: any) {
                 return this.http.post(environment.URL + '/zone/addZone', data);
         }

@@ -9,45 +9,45 @@ import { CommonService, DeactivationDto } from 'src/app/service/common.service';
         templateUrl: './item-category-master.component.html',
         styleUrls: ['../../common.css', './item-category-master.component.css']
 })
-export class ItemCategoryMasterComponent implements OnInit {
+export class ItemCategoryMasterComponent implements OnInit { 
         [x: string]: any;
         isAdd: boolean = false
         isUpdate: boolean = false
-        zoneResponseById: any
+        categoryResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
         }
-        zoneList: any = []
+        categoryList: any = []
         ngOnInit() {
                 this.isAdd = true
                 this.isUpdate = false
-                this.service.getZoneAllData().subscribe(
+                this.service.getAllItemCategory().subscribe(
                         data => {
-                                this.zoneList = data
+                                this.categoryList = data
                         }
                 );
         }
 
         form = new FormGroup({
-                zoneId:new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                itemCategoryId:new FormControl,
+                categoryName: new FormControl,
+                description: new FormControl
         });
 
         editFormData = new FormGroup({
-                zoneId: new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                itemCategoryId: new FormControl,
+                categoryName: new FormControl,
+                description: new FormControl
         })
-        async getZones() {
+        async getItemCategory() {
                 try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                        this.categoryList = await this.service.get(`/zone/getAllItemCategory`)
+                        this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
                 }
         }
-        addNewZone() {
+        addCategory() {
                 /* Manoj Remove Date 08-05-2023 */
                 // try {
                 //         console.log(this.form.value)
@@ -58,13 +58,13 @@ export class ItemCategoryMasterComponent implements OnInit {
                 //         console.error(e)
                 // }
                 /* Manoj added Date 08-05-2023*/
-                this.service.addZone(this.form.value).subscribe(
+                this.service.addItemCategory(this.form.value).subscribe(
                         data => {
-                                window.alert("Zone data saved sucessfully")
+                                window.alert("Category data saved sucessfully")
                                 this.form.reset()
-                                this.service.getZoneAllData().subscribe(
+                                this.service.getAllItemCategory().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.categoryList = data
                                         }
                                 );
                         },
@@ -76,19 +76,19 @@ export class ItemCategoryMasterComponent implements OnInit {
         async removeZone(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteZone/${id}`)
-                        this.getZones()
+                        this.getItemCategory()
                 } catch (e) {
                         console.error(e)
                 }
         }
 
-        deactivateZone(id: any) {
-                this.service.deactivateZone(id).subscribe(
+        deactivateCategory(id: any) {
+                this.service.deactivateCategory(id).subscribe(
                         data => {
-                                window.alert("Zone deleted successfully")
-                                this.service.getZoneAllData().subscribe(
+                                window.alert("Item Category deleted successfully")
+                                this.service.getAllItemCategory().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.categoryList = data
                                         }
                                 );
                         },
@@ -103,9 +103,9 @@ export class ItemCategoryMasterComponent implements OnInit {
                 console.log(item)
 
                 this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        zoneName: item.zoneName,
-                        zoneDesc: item.zoneDesc
+                        itemCategoryId: item.categoryId,
+                        categoryName: item.categoryName,
+                        description: item.categoryDesc
                 })
                
         }
@@ -114,16 +114,16 @@ export class ItemCategoryMasterComponent implements OnInit {
                 this.isUpdate = false
         }
 
-        updateZone(){
+        updateCategory(){
                 console.log(this.form.value)
                 this.service.updateZone(this.form.value).subscribe(
                         data=>{
-                                window.alert("Zone data updated successfully!!")
+                                window.alert("Category data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
                                 this.service.getZoneAllData().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.categoryList = data
                                         }
                                 );
                         },

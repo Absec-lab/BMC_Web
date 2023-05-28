@@ -134,9 +134,9 @@
                                                                                                         Item Category Name
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
-                                                                                                        <select formControlName="zoneId" class="form-control form-select" [(ngModel)]="zoneId">
-                                                                                                                <option value={{zoneName}} disabled selected>{{zoneName}}</option>
-                                                                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName}}</option>
+                                                                                                        <select formControlName="categoryId" class="form-control form-select" [(ngModel)]="categoryId">
+                                                                                                                <option value={{categoryName}} disabled selected>{{categoryName}}</option>
+                                                                                                                <option [value]="x.categoryId" *ngFor="let x of categoryList;">{{x.categoryName}}</option>
                                                                                                         </select>
                                                                                                 </div>
                                                                                         </div>
@@ -149,7 +149,7 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">
-                                                                                                        <input formControlName="wcName" type="text" name="" id="" class="form-control">
+                                                                                                        <input formControlName="itemId" type="text" name="" id="" class="form-control">
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>
@@ -163,7 +163,7 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">
-                                                                                                        <input formControlName="wcDesc"
+                                                                                                        <input formControlName="itemName"
                                                                                                                 type="text"
                                                                                                                 name=""
                                                                                                                 id=""
@@ -190,14 +190,14 @@
                                                         <div class="ms-3 w-25">
                                                                 <select name="" id="" class="form-control form-select">
 									<option value="" disabled selected>Select Item Category Name</option>
-									<option [value]="x.zoneId" *ngFor="let x of zoneList;">{{ x.zoneName }}</option>
+									<option [value]="x.zoneId" *ngFor="let x of categoryList;">{{ x.categoryName }}</option>
                                                                 </select>
                                                         </div>
                                                         <div class="wc-ml-10">Item Name</div>
                                                         <div class="ms-3 w-25">
                                                                 <select name="" id="" class="form-control form-select">
                                                                         <option value="" disabled selected>Select Item </option>
-									<option [value]="x.wcId" *ngFor="let x of list;">{{ x.wcName }}</option>
+									<option [value]="x.wcId" *ngFor="let x of list;">{{ x.itemName }}</option>
                                                                 </select>
                                                         </div>
                                                         <div class="ms-3">
