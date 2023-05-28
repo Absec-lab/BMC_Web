@@ -10,13 +10,15 @@ import { CommonService } from 'src/app/service/common.service';
 export class ItemNameMasterComponent implements OnInit{
         isAdd: boolean = false
         isUpdate: boolean = false
-        zoneName:any
-        wcId:any
-        zoneId:any
+        categoryId:any
+        categoryName:any
+        itemName:any
+        itemCategoryId:any
+        itemId:any
         responseData:any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
-                this.getZones()
+                this.getCategories()
         }
         ngOnInit(){
                this.isAdd=true
@@ -24,28 +26,26 @@ export class ItemNameMasterComponent implements OnInit{
         }
 
         form = new FormGroup({
-                zoneId: new FormControl,
-                zoneName:new FormControl,
-                wcName: new FormControl,
-                wcDesc: new FormControl,
-                wcId: new FormControl
+                categoryId: new FormControl,
+                categoryName:new FormControl,
+                itemId: new FormControl,
+                itemName: new FormControl
         });
 
         editForm = new FormGroup({
-                zoneId: new FormControl,
-                zoneName: new FormControl,
-                wcName: new FormControl,
-                wcDesc: new FormControl,
-                wcId: new FormControl
+                categoryId: new FormControl,
+                categoryName:new FormControl,
+                itemId: new FormControl,
+                itemName: new FormControl
         })
 
         list: any = []
-        zoneList: any = []
+        categoryList: any = []
 
-        async getZones() {
+        async getCategories() {
                 try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                        this.categoryList = await this.service.get(`/zone//zone/getAllItemCategory`)
+                        this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
                 }
@@ -60,11 +60,11 @@ export class ItemNameMasterComponent implements OnInit{
         }
         async addNew() {
                 try {
-                        var zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
+                        var category = this.categoryList[this.categoryList.findIndex((e: any) => e.categoryId == this.form.value.categoryId)]
                         const data = {
-                                "wcDesc": this.form.value.wcDesc,
-                                "wcName": this.form.value.wcName,
-                                "zone": zone
+                                "itemName": this.form.value.itemName,
+                                "itemDesc": this.form.value.itemName,
+                                "category": category
                         }
                         await this.service.post(`/zone/addWc`, data)
                         this.form.reset()
@@ -102,20 +102,20 @@ export class ItemNameMasterComponent implements OnInit{
                 this.isUpdate = true
                 this.isAdd = false
                 console.log(item)
-                this.wcId=item.wcId
-                this.zoneName=item.zone.zoneName
+                //.wcId=item.wcId
+                //this.zoneName=item.zone.zoneName
                 console.log(item.zone.zoneName)
 
                 this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        zoneName: item.zoneName,
-                        wcName: item.wcName,
-                        wcDesc: item.wcDesc,
-                        wcId: item.wcId
+                        categoryId: item.categoryId,
+                        itemId: item.itemId,
+                        itemName: item.itemDesc,
+                        categoryName: item.categoryName,
+                        
                 })
                 this.service.getZoneAllData().subscribe(
                         data=>{
-                                this.zoneList=data
+                                this.categoryList=data
                         }
                 );
 
