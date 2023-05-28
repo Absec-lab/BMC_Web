@@ -25,6 +25,10 @@ import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboa
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
+import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
+import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
+import { InventoryComponent } from './inventory/inventory.component';
+
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -52,6 +56,9 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
+  {path: 'superadmin/item-category-master',component: ItemCategoryMasterComponent},
+  {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
+  {path: 'superadmin/inventory',component: InventoryComponent}, 
 ];
 
 @NgModule({
