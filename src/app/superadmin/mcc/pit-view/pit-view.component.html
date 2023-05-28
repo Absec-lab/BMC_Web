@@ -273,129 +273,69 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-bottom py-2">
-                    <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="number" name="" id="" class="form-control modal-body"  id="mixedenzyme">
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Ltr
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Date of 1st Filling</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control modal-body" id="dateOfFirstFilling" value="{{allPitStages.responseBody.filledUpDate}}" readonly />
+
+                <div class="row mx-2 px-1 mt-3 pb-1">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Enzyme Consumed Qty</label>
+                            <div class="input-group">
+                                <input type="number" name="" id="" class="form-control"  id="mixedenzyme">
+                                <div class="input-group-text bg-light">
+                                    <span>
+                                        Ltr
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="border-bottom py-2">
-                    <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Filled Garbage Wt.</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="number" name="" id="" class="form-control modal-body">
-                                    <div class="input-group-text bg-light" id="filledgardbagewt">
-                                        <span>
-                                            Ton
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Date of 1st Mixup</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control modal-body" id="dateOfFirstMixedup" value="{{allPitStages.responseBody.firstDayMixedUp}}" readonly/>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Filled Garbage Wt.</label>
+                            <div class="input-group">
+                                <input type="number" name="" id="" class="form-control">
+                                <div class="input-group-text bg-light" id="filledgardbagewt">
+                                    <span>
+                                        Ton
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="border-bottom py-2" >
-                    <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Cocopeat mixed Qty</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control modal-body">
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Kg
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">First Turn Date</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control modal-body" id="firstTurnDate" value="{{allPitStages.responseBody.firstTurnDate}}" readonly/>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Cocopeat mixed Qty</label>
+                            <div class="input-group">
+                                <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control">
+                                <div class="input-group-text bg-light">
+                                    <span>
+                                        Kg
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="border-bottom py-2">
-                    <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Innert material mixed Qty
-                        </div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control modal-body"> 
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Ton
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Second Turn Date</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control modal-body"  id="secondTurnDate" value="{{allPitStages.responseBody.secondTurnDate}}" readonly/>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Inert material mixed Qty</label>
+                            <div class="input-group">
+                                <input type="number" name="" id="inertMaterialMxedQty" class="form-control"> 
+                                <div class="input-group-text bg-light">
+                                    <span>
+                                        Ton
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="border-bottom py-2">
-                    <div class="row text-center">
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Total compost Generated
-                        </div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="number" name="" id="totalCompostGen" class="form-control modal-body">
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Kg
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">Compositing Date</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group date">
-                                    <input type="text" class="form-control modal-body" id="compostDate" value="{{allPitStages.responseBody.compostingDate}}" readonly/>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="" class="form-label">Total compost Generated</label>
+                            <div class="input-group">
+                                <input type="number" name="" id="totalCompostGen" class="form-control">
+                                <div class="input-group-text bg-light">
+                                    <span>
+                                        Kg
+                                    </span>
                                 </div>
                             </div>
                         </div>
