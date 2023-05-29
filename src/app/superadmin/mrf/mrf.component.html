@@ -180,7 +180,16 @@
 						</div>
 					</div>
 					<div class="mt-4">
-						<table class="table table-bordered table-striped">
+						<ag-grid-angular
+							class="ag-theme-alpine"
+							[rowData]="rowData"
+							[columnDefs]="columnDefs"
+							[gridOptions]="gridOptions"
+							[animateRows]="true"
+							[suppressMenuHide]="true"
+						>
+						</ag-grid-angular>
+						<!-- <table class="table table-bordered table-striped">
 							<thead class="bg-primary text-white text-center">
 								<tr>
 									<th>Sl. No.</th>
@@ -214,7 +223,7 @@
                                         </td>
                                 </tr>
                             </tbody>
-						</table>
+						</table> -->
 					</div>
 				</div>
 			</div>
