@@ -15,6 +15,7 @@ export class ItemNameMasterComponent implements OnInit{
         itemName:any
         itemCategoryId:any
         itemId:any
+        category:any
         responseData:any
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
@@ -26,17 +27,19 @@ export class ItemNameMasterComponent implements OnInit{
         }
 
         form = new FormGroup({
-                categoryId: new FormControl,
+                itemCategoryId: new FormControl,
                 categoryName:new FormControl,
                 itemId: new FormControl,
-                itemName: new FormControl
+                itemName: new FormControl,
+                itemcategory: new FormControl
         });
 
         editForm = new FormGroup({
-                categoryId: new FormControl,
+                itemCategoryId: new FormControl,
                 categoryName:new FormControl,
                 itemId: new FormControl,
-                itemName: new FormControl
+                itemName: new FormControl,
+                itemcategory: new FormControl
         })
 
         list: any = []
@@ -44,7 +47,7 @@ export class ItemNameMasterComponent implements OnInit{
 
         async getCategories() {
                 try {
-                        this.categoryList = await this.service.get(`/zone//zone/getAllItemCategory`)
+                        this.categoryList = await this.service.get(`/zone/getAllItemCategory`)
                         this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
@@ -52,21 +55,22 @@ export class ItemNameMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllWc`)
-                        this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                        this.list = await this.service.get(`/zone/getAllItemName`)
+                        this.list = this.list.sort((a: any, b: any) => a.itemName - b.itemName)
                 } catch (e) {
                         console.error(e)
                 }
         }
         async addNew() {
                 try {
-                        var category = this.categoryList[this.categoryList.findIndex((e: any) => e.categoryId == this.form.value.categoryId)]
+                        const category = this.categoryList[this.categoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]
                         const data = {
-                                "itemName": this.form.value.itemName,
-                                "itemDesc": this.form.value.itemName,
-                                "category": category
+                                "itemId":this.form.value.itemId,
+                                "itemname": this.form.value.itemName,
+                                "description": this.form.value.itemName,
+                                "itemcategory": category
                         }
-                        await this.service.post(`/zone/addWc`, data)
+                        await this.service.post(`/zone/addItemName`, data)
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -85,7 +89,7 @@ export class ItemNameMasterComponent implements OnInit{
         deactivateWc(id: any) {
                 this.service.deactivateWc(id).subscribe(
                         data => {
-                                window.alert("Wealth Centre deleted successfully")
+                                window.alert("Item deleted successfully")
                                 this.service.getAllWcData().subscribe(
                                         data => {
                                                 this.list = data
@@ -107,10 +111,11 @@ export class ItemNameMasterComponent implements OnInit{
                 console.log(item.zone.zoneName)
 
                 this.form = this.formBuilder.group({
-                        categoryId: item.categoryId,
+                        itemCategoryId: item.categoryId,
                         itemId: item.itemId,
                         itemName: item.itemDesc,
                         categoryName: item.categoryName,
+                        itemcategory: item.category
                         
                 })
                 this.service.getZoneAllData().subscribe(
@@ -130,7 +135,7 @@ export class ItemNameMasterComponent implements OnInit{
                 console.log(this.form.value)
                 this.service.updateWc(this.form.value).subscribe(
                         data => {
-                                window.alert("Wcc data updated successfully!!")
+                                window.alert("Item updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(

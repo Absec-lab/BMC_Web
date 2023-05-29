@@ -97,17 +97,21 @@
             <div class="col-lg-4 mb-4">
                 <div class="card mb-4 h-100">
                     <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                        <div class="d-flex align-items-center w-100">
+                       
+                            <div class="d-flex align-items-center w-100">
                             <div class="fw-bold">Inventory</div>
                             <div class="ms-auto">
                                 <input type="date" name="" id="" class="form-control bg-transparent" value="2023-05-22">
                             </div>
                         </div>
+                       
                     </div>
                     <div class="card-body px-4 pb-3">
+                        <a routerLink="/superadmin/portal-dashboards/dashboard-one" class="home-card home-card-2">
                         <div class="">
                             <canvas id="chart5" style="height: 150px;">{{ chart5 }}</canvas>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -122,9 +126,11 @@
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">
+                        <a routerLink="/superadmin/portal-dashboards/dashboard-three" class="home-card home-card-2">
                         <div class="">
                             <canvas id="chart1" style="height: 200px;">{{ chart1 }}</canvas>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -136,6 +142,7 @@
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">
+                        <a routerLink="/superadmin/portal-dashboards/dashboard-two" class="home-card home-card-2">
                         <table class="table text-center text-white bg-transparent" style="background-image: linear-gradient(to left, #C0252F 0%, #3339A6 100%);">
                             <thead>
                                 <tr>
@@ -166,6 +173,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </a>
                     </div>
                 </div>
             </div>
