@@ -20,8 +20,7 @@ export interface PitModel {
     pitCndStsStDt: string
     pitCndStsEndDt: string
     pitCndRemarks: any
-    pitUserConfirm: boolean,
-    counter?:number
+    pitUserConfirm: boolean
   }
   
   export interface Wc {
@@ -131,43 +130,4 @@ export interface PitModel {
     
   export interface PitStageReq {
     pitId: Number
-  }
-
-
-  export interface PitHistoryReq {
-    batchId: number
-    pitId: number
-  }
-
-
-  export interface PitProcessMain {
-    pitProcess: PitProcess
-    pitHistory: PitHistory[]
-  }
-  
-  export interface PitProcess {
-    filledUpDate: string
-    firstDayMixedUp: string
-    firstTurnDate: string
-    secondTurnDate: string
-    compostingDate: string
-  }
-  
-  export interface PitHistory {
-    inertMapVal?: string
-    code?: string
-    mixedEnzyVal?: string
-    cocopeatVal?: string
-    filledWtGarbageVal?: string
-  }
-
-  export interface CodeValue {
-    value?: string
-    code?: string
-  }
-
-
-  export interface PitCounterInit {
-    pitId: number
-    counter: number
   }
