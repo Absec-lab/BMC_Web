@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { WealthCenterMasterComponent } from './wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './ward-master/ward-master.component';
 import { ZoneMasterComponent } from './zone-master/zone-master.component';
+import { DryingYardMasterComponent } from './drying-yard-master/drying-yard-master.component';
 import { MccMasterComponent } from './mcc-master/mcc-master.component';
 import { PitMasterComponent } from './pit-master/pit-master.component';
 import { RouteMasterComponent } from './route-master/route-master.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
   {path:'',component:LoginComponent},
   {path: 'superadmin/dashboard',component: DashboardComponent},
   {path: 'superadmin/zone-master',component: ZoneMasterComponent},
+  {path: 'superadmin/drying-yard-master',component: DryingYardMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},
   {path: 'superadmin/ward-master',component: WardMasterComponent},
   {path: 'superadmin/mcc-master',component: MccMasterComponent},
