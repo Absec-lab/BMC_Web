@@ -97,12 +97,12 @@
 					<div class="breadcrumb">
 						<a routerLink=""><i class="fa-solid fa-home"></i></a>
 						<span class="mx-2">/</span>
-						<a routerLink="">Compost Material Weightments For Drying</a>
+						<a routerLink="">Dry Compost Weightment</a>
 					</div>
 					<div class="mt-4">
 						<div class="card rounded-0">
 							<div class="card-header rounded-0">
-								Compost Material Weightments For Drying
+								Dry Compost Weightment
 							</div>
 							<div class="card-body">
 								<form [formGroup]="form">
@@ -135,32 +135,39 @@
                                         <div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Wet Compost Wt
+													Dry Compost Wt
 												</div>
 												<div class="col-md-9">
 													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+												</div>
+											</div>
+											
+										</div>
+										<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													NPK Ratio
+												</div>
+												<div class="col-md-9">
+													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+												</div>
+											</div>
+											
+										</div>
+                                        					<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Date
+												</div>
+												<div class="col-md-9">
+													<input type="date" name="" id="" class="form-control" formControlName="mrfDesc">
 												</div>
 											</div>
 										</div>
 										<div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Date
-												</div>
-												<div class="col-md-9">
-													<div class="input-group">
-                                                        <input type="text" name="" id="" class="form-control" formControlName="interMaterial"> 
-                                                        <div class="input-group-text text-white bg-danger">
-                                                            Quantum
-                                                        </div>
-                                                    </div>
-												</div>
-											</div>
-										</div>
-                                        <div class="col-md-6 mt-3">
-											<div class="row">
-												<div class="col-md-3 d-flex align-items-center pe-0">
-													Description
+													Descriptipn
 												</div>
 												<div class="col-md-9">
 													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
@@ -186,7 +193,8 @@
 									<th>Sl. No.</th>
 									<th>WC Name</th>
 									<th>Drying Yard</th>
-									<th>Wet Compost Wt</th>
+									<th>Dry Compost Wt</th>
+									<th>NPK Ratio</th>
 									<th>Description</th>
 									<th>Created Date</th>
 									<th>Action</th>
@@ -198,7 +206,8 @@
                                         <td>{{ x.goods?.goodsName || '--' }}</td>
                                         <td>{{ x.subGood?.subgoodsName || '--' }}</td>
                                         <td>{{ x.quntaum || '--' }}</td>
-					<td>{{ x.mrfDesc || '--' }}</td>
+					<td>{{ x.interMaterial || '--' }}</td>
+                                        <td>{{ x.mrfDesc || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
                                         <td
