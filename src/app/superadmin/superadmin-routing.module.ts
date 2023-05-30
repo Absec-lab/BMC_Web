@@ -25,6 +25,8 @@ import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboa
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
+import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
+import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
@@ -44,7 +46,7 @@ const routes: Routes = [
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
   {path: 'superadmin/helper-master',component: HelperMasterComponent},
-  {path: 'superadmin/garbage',component: GarbageComponent},
+  {path: 'superadmin/garbage',component: GarbageComponent}, 
   {path: 'superadmin/mrf',component: MrfComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
@@ -56,6 +58,8 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
+  {path: 'superadmin/drying-yard/dry-compost-weighment',component: DryCompostWeighmentComponent}, 
+  {path: 'superadmin/drying-yard/compost-material-packaging',component: CompostMaterialPackagingComponent},   
   {path: 'superadmin/item-category-master',component: ItemCategoryMasterComponent},
   {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
   {path: 'superadmin/inventory',component: InventoryComponent}, 
