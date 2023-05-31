@@ -183,6 +183,12 @@ export class CommonService {
         getAllSubGood(){
                 return this.http.get(environment.URL+'/zone/getAllGoodssub')
         }
+        getAllDryingYard(){
+                return this.http.get(environment.URL+'/zone/getAllDryingyard')
+        }
+        saveCompostDrying(data:any){
+                return this.http.post(environment.URL+'/zone/addDryingCompost',data)
+        }
         saveMrfData(data:any){
                 return this.http.post(environment.URL+'/zone/addMrf',data)
         }
@@ -202,6 +208,9 @@ export class CommonService {
                return  this.http.get(environment.URL+'/zone/getAllDriver')
         }
         getAllSubGoodByGoodId(id:any){
+                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
+        }
+        getAllDryingYardByWcId(id:any){
                 return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
         }
         deactivateMrf(id:any){

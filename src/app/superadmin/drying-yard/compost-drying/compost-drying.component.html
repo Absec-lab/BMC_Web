@@ -114,8 +114,8 @@
 												</div>
 												<div class="col-md-9">
   
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
-														<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="wcId" >
+														<option [value]="item.wcId" *ngFor="let item of wcList">{{item.wcName}}</option>
 													</select>
 												</div>
 											</div>
@@ -126,19 +126,19 @@
 													Drying Yard
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodssubId">
-														<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryyardId">
+														<option [value]="item.dryyardId" *ngFor="let item of dryingyardList" selected>{{item.centerName}}</option>
 													</select>
 												</div>
 											</div>
 										</div>
-                                        <div class="col-md-6 mt-3">
+                                        					<div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
 													Wet Compost Wt
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+													<input type="text" name="" id="" class="form-control" formControlName="dryCompostWt">
 												</div>
 											</div>
 										</div>
@@ -149,21 +149,44 @@
 												</div>
 												<div class="col-md-9">
 													<div class="input-group">
-                                                        <input type="text" name="" id="" class="form-control" formControlName="interMaterial"> 
-                                                        <div class="input-group-text text-white bg-danger">
-                                                            Quantum
-                                                        </div>
-                                                    </div>
+												<input type="date" name="" id="" class="form-control" formControlName="date"> 
+												</div>
+											</div>
+												
+											</div>
+										</div>
+										<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Vehicle No
+												</div>
+												<div class="col-md-9">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="vehicleId">
+														<option [value]="item.vehicleId" *ngFor="let item of vehicleList" selected>{{item.vehicleId}}</option>
+													</select>
 												</div>
 											</div>
 										</div>
-                                        <div class="col-md-6 mt-3">
+										<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Driver Name
+												</div>
+												<div class="col-md-9">
+												<select name="" id="" class="form-control form-select bg-white text-black" formControlName="driverId"> 
+														<option [value]="item.driverId" *ngFor="let item of driverList" selected>{{item.driverName}}</option>
+													</select>												
+												</div>
+												
+											</div>
+										</div>
+                                       						<div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
 													Description
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+													<input type="text" name="" id="" class="form-control" formControlName="description">
 												</div>
 											</div>
 										</div>
@@ -187,6 +210,8 @@
 									<th>WC Name</th>
 									<th>Drying Yard</th>
 									<th>Wet Compost Wt</th>
+									<th>Vehicle No.</th>
+									<th>Driver Name</th>
 									<th>Description</th>
 									<th>Created Date</th>
 									<th>Action</th>
@@ -198,6 +223,8 @@
                                         <td>{{ x.goods?.goodsName || '--' }}</td>
                                         <td>{{ x.subGood?.subgoodsName || '--' }}</td>
                                         <td>{{ x.quntaum || '--' }}</td>
+					<td>{{ x.mrfDesc || '--' }}</td>
+					<td>{{ x.mrfDesc || '--' }}</td>
 					<td>{{ x.mrfDesc || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
