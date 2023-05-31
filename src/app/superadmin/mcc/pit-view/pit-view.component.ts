@@ -1,7 +1,10 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Observable,Subscription, interval  } from 'rxjs';
-import { PitInitModalReq, PitModel, PitStageBody, PitStageReq, PitStageRoot } from 'src/app/model/pit.model';
-import { SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
+import { CodeValue, PitCounterInit, PitHistory, PitHistoryReq, PitInitModalReq, PitModel, PitProcess, PitProcessMain, PitStageBody, PitStageReq, PitStageRoot } from 'src/app/model/pit.model';
+import { Header, PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
 import { ModalService } from 'src/app/service/modal.service';
 import { PitService } from 'src/app/service/pit.service';
 import { ModalComponent } from 'src/app/superadmin/mcc/pit-view/modal/modal.component';
@@ -31,6 +34,7 @@ export class PitViewComponent {
   public yellowPitarr : any[] = [];
   public pitClicked : any='';
   public pitMixStatus : Boolean=false;
+  public pitHistoryStatus : Boolean=false;
 
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
@@ -105,18 +109,87 @@ export class PitViewComponent {
     compostDate: ''
   }
 
+  public header : Header ={
+    appName: '',
+    wfLoginToken: ''
+  }
+  public pitInitModal : PitInitModel = {
+    inertMaterial: 0,
+    mixedEnzymeWt: '',
+    cocopeat: '',
+    filledGarbageWt: '',
+    isFilledUp: false,
+    mixedEnzyme: false,
+    segregation: false,
+    shreading: false,
+    tranferToPit: false,
+    visuaInspection: false,
+    totalgarbagewt: '',
+    noWorkflow: false,
+    header: this.header
+  }
+ 
+ public responsePitenzyme : any;
+ 
   
   constructor(private pitService: PitService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    private toastr: ToastrService
    ) {
    
   }
+
+  form = new FormGroup({
+    segregationCrt: new FormControl,
+    shreadingCrt: new FormControl,
+    visualInspectionCrt: new FormControl,
+    transfertoPITCrt: new FormControl,
+    pitFillupStatusCrt: new FormControl,
+    mixedEnzymeWtCrt: new FormControl,
+    filledGarbageWtCrt: new FormControl,
+    cocopeatCrt: new FormControl,
+    inertMaterialCrt: new FormControl,
+    totalCompostGen:new FormControl,
+    batchIdVal:new FormControl,
+    pitIdVal:new FormControl,
+    stageCodeVal:new FormControl
+  });
+
+  formhistory = new FormGroup({
+    fillingDtId: new FormControl,
+    mixingDtId: new FormControl,
+    firstTurnDtId: new FormControl,
+    secondTurnDtId: new FormControl,
+    inertFillingMtFormId: new FormControl,
+    inertMixingMtFormId: new FormControl,
+    inertFirstTurnMtFormId: new FormControl,
+    inertSecondTurnMtFormId: new FormControl,
+    mixedEnzymeFillingForm: new FormControl,
+    mixedEnzymeMixingForm: new FormControl,
+    mixedEnzymeFirstTurnForm: new FormControl,
+    mixedEnzymeSecondTurnForm: new FormControl,
+    cocopeatFillingForm: new FormControl,
+    cocopeatMixingForm: new FormControl,
+    cocopeatFirstTurnForm: new FormControl,
+    cocopeatSecondTurnForm: new FormControl,
+    filledGarbageFillingForm: new FormControl,
+    filledGarbageMixingForm: new FormControl,
+    filledGarbageFirstTurnForm: new FormControl,
+    filledGarbageSecondTurnForm: new FormControl,
+    expectedDateOfCompostForm: new FormControl,
+    totalCompostForm: new FormControl,
+    pitIdForm: new FormControl,
+    batchIdForm: new FormControl
+  });
 
   ngOnInit(): void {
     this.onRefresh();
     this.getPitStageDetails();
     this.updateSubscription = interval(30000).subscribe(
       (val) => { this.onRefresh()});
+
+     this.counterTask();
+    
   }
 
   // onResetModal(){
@@ -140,7 +213,8 @@ export class PitViewComponent {
   closePitActivityModalstatus(){
     this.pitmodalstatus =false;
     this.yellowPitarr=[];
-    this.clickedPit.pitId=0;
+   // this.clickedPit.pitId=0;
+    this.form.reset();
   }
 
   onAlertClick(){
@@ -148,20 +222,261 @@ export class PitViewComponent {
     this.modalService.close();
   }
 
-  // aSubmit  for init workflow...............
-  onSubmitRequestForInit(){
-    this.setterDataToMap(this.getterMap() , 'inertMaterial' , this.inertMaterialVal);
-    let pitInitReqForEnzyme = this.convertMaptoJson();
-    console.log('Request Send before Enzyme process.{} ',pitInitReqForEnzyme);
-    this.pitService
-      .savePitInitForCompost(pitInitReqForEnzyme)
-      .subscribe((response) => (this.allPitbyMcc = response));
-      console.log('Successs Saved Enzyme process.');
-    
-      this.closePitmodalstatus();
-      this.onSubmitToWorkflow();
-  
+  onSubmitNewModalForViewHistory(pit : any){
+    console.log(" PIT ::::    ",pit.pitId );
+    this.pitAllStages.pitId = pit.pitId
+    this.getPitStageDetails();
+
+
   }
+  pitName : string = '';
+  showPitHistoryModal(pit : any){
+    console.log('  Show Pit Histiry for PIt :: {} ', pit);
+    this.pitName = pit.pitName;
+    this.pitHistoryStatus=true;
+  }
+
+  pitHistoryReq : PitHistoryReq={
+    batchId: 0,
+    pitId: 0
+  }
+
+   pitProcessObj:PitProcess={
+     filledUpDate: '',
+     firstDayMixedUp: '',
+     firstTurnDate: '',
+     secondTurnDate: '',
+     compostingDate: ''
+   } 
+   pitHistory: PitHistory[] = [{
+    inertMapVal: '',
+    code: '',
+    mixedEnzyVal: '',
+    cocopeatVal: '',
+    filledWtGarbageVal: ''
+   }]
+    public pitProcessMain : PitProcessMain = {
+      pitProcess: this.pitProcessObj,
+      pitHistory: this.pitHistory
+    }
+    inertMapFill:CodeValue={
+      value: '',
+      code: ''
+    }
+    inertMapMix:CodeValue={
+      value: '',
+      code: ''
+    }
+    inertMapFirstTurn:CodeValue={
+      value: '',
+      code: ''
+    }
+    inertMapSecond:CodeValue={
+      value: '',
+      code: ''
+    }
+
+    onCloseOfHistory(){
+      this.pitHistoryStatus=false;
+      this.expectedTrMix=false;
+      this.expectedTrFirstTurn=false;
+      this.expectedTrSecondTurn=false;
+      this.formhistory.reset();
+    }
+
+    expectedTrMix:Boolean=false;
+    expectedTrFirstTurn:Boolean=false;
+    expectedTrSecondTurn:Boolean=false;
+
+  onFetchPitHistoryDetails(pit :any){
+    console.log(" PIT ::::    ",pit);
+    console.log('  Show Pit Histiry for PIt :: {} ', pit);
+    this.pitName = pit.pitName;
+    this.pitHistoryReq.pitId = pit.pitId;
+    this.pitHistoryReq.batchId = pit.batch;
+    console.log("  PIT History :: {} ", this.pitHistoryReq);
+    console.log("  PIT  :: {} ",pit.pitStatus.pitConfigCode);
+    console.log( pitNoActionStatusEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString()+" *****  PIT ******** :: {} ",pit.pitStatus.pitConfigCode.toString() );
+    if( pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString() || 
+        pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_EMPTY_AFTER_MIXED_UP.toString() ||
+        pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_UNDER_MAINTENANCE.toString() ||
+        pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_GARBAGE_COLLECT.toString() ){
+
+       alert('  No information available in this stage. ');
+       return;
+
+    }
+
+    this.pitService
+        .onFetchPitHistoryDetails(this.pitHistoryReq)
+        .subscribe((response) => {
+          console.log('Main pit process {} ',response);
+          this.pitProcessMain = response;
+          this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
+          this.formhistory.controls.fillingDtId.setValue(this.pitProcessMain.pitProcess.filledUpDate);
+         
+         if(this.pitProcessMain.pitProcess.firstDayMixedUp.toString().includes('E.D:')){
+          this.expectedTrMix=true;
+          this.formhistory.controls.mixingDtId.setValue(this.pitProcessMain.pitProcess.firstDayMixedUp.toString().replace('E.D:',''));
+         }else{
+          this.formhistory.controls.mixingDtId.setValue(this.pitProcessMain.pitProcess.firstDayMixedUp.toString());
+         }
+         if(this.pitProcessMain.pitProcess.firstTurnDate.toString().includes('E.D:')){
+          this.expectedTrFirstTurn = true;
+          this.formhistory.controls.firstTurnDtId.setValue(this.pitProcessMain.pitProcess.firstTurnDate.toString().replace('E.D:',''));
+         }else{
+          this.formhistory.controls.firstTurnDtId.setValue(this.pitProcessMain.pitProcess.firstTurnDate.toString());
+         }
+         if(this.pitProcessMain.pitProcess.secondTurnDate.toString().includes('E.D:')){
+          this.expectedTrSecondTurn = true;
+          this.formhistory.controls.secondTurnDtId.setValue(this.pitProcessMain.pitProcess.secondTurnDate.toString().replace('E.D:',''));
+         }else{
+          this.formhistory.controls.secondTurnDtId.setValue(this.pitProcessMain.pitProcess.secondTurnDate.toString());
+         }
+          
+         console.log('  Final Compost Date {} : ', this.pitProcessMain.pitProcess.compostingDate);
+         this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
+
+         this.pitProcessMain.pitHistory.forEach((pitHis) =>{
+            if(pitHis.code == 'PIT_STATUS_FILL_UP_1_2D'){
+              if(pitHis.inertMapVal != undefined){
+                this.formhistory.controls.inertFillingMtFormId.setValue(pitHis.inertMapVal);
+              }
+              if(pitHis.mixedEnzyVal != undefined){
+                this.formhistory.controls.mixedEnzymeFillingForm.setValue(pitHis.mixedEnzyVal);
+              }
+              if(pitHis.cocopeatVal != undefined){
+                this.formhistory.controls.cocopeatFillingForm.setValue(pitHis.cocopeatVal);
+              }
+              if(pitHis.filledWtGarbageVal != undefined){
+                this.formhistory.controls.filledGarbageFillingForm.setValue(pitHis.filledWtGarbageVal);
+              }
+            
+            }else if(pitHis.code == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
+
+              if(pitHis.inertMapVal != undefined){
+                this.formhistory.controls.inertMixingMtFormId.setValue(pitHis.inertMapVal);
+              }
+              if(pitHis.mixedEnzyVal != undefined){
+                this.formhistory.controls.mixedEnzymeMixingForm.setValue(pitHis.mixedEnzyVal);
+              }
+              if(pitHis.cocopeatVal != undefined){
+                this.formhistory.controls.cocopeatMixingForm.setValue(pitHis.cocopeatVal);
+              }
+              if(pitHis.filledWtGarbageVal != undefined){
+                this.formhistory.controls.filledGarbageMixingForm.setValue(pitHis.filledWtGarbageVal);
+              }
+
+            }else if(pitHis.code == 'PIT_MIXUP_14_16D_COMPLETE'){
+
+              if(pitHis.inertMapVal != undefined){
+                this.formhistory.controls.inertFirstTurnMtFormId.setValue(pitHis.inertMapVal);
+              }
+              if(pitHis.mixedEnzyVal != undefined){
+                this.formhistory.controls.mixedEnzymeFirstTurnForm.setValue(pitHis.mixedEnzyVal);
+              }
+              if(pitHis.cocopeatVal != undefined){
+                this.formhistory.controls.cocopeatFirstTurnForm.setValue(pitHis.cocopeatVal);
+              }
+              if(pitHis.filledWtGarbageVal != undefined){
+                this.formhistory.controls.filledGarbageFirstTurnForm.setValue(pitHis.filledWtGarbageVal);
+              }
+
+            }else if(pitHis.code == 'PIT_MIXUP_21_22D_COMPLETE'){
+
+              if(pitHis.inertMapVal != undefined){
+                this.formhistory.controls.inertSecondTurnMtFormId.setValue(pitHis.inertMapVal);
+              }
+              if(pitHis.mixedEnzyVal != undefined){
+                this.formhistory.controls.mixedEnzymeSecondTurnForm.setValue(pitHis.mixedEnzyVal);
+              }
+              if(pitHis.cocopeatVal != undefined){
+                this.formhistory.controls.cocopeatSecondTurnForm.setValue(pitHis.cocopeatVal);
+              }
+              if(pitHis.filledWtGarbageVal != undefined){
+                this.formhistory.controls.filledGarbageSecondTurnForm.setValue(pitHis.filledWtGarbageVal);
+              }
+
+
+              }
+
+           });
+
+           this.pitHistoryStatus=true;
+
+        });
+  }
+
+  // aSubmit  for init workflow...............
+  onSubmitRequestForInit( statusCode : string , status : boolean){
+
+   this.pitInitModal.cocopeat = this.form.controls.cocopeatCrt.value;
+   this.pitInitModal.filledGarbageWt = this.form.controls.filledGarbageWtCrt.value;
+   this.pitInitModal.inertMaterial = this.form.controls.inertMaterialCrt.value;
+   this.pitInitModal.mixedEnzymeWt = this.form.controls.mixedEnzymeWtCrt.value;
+   this.pitInitModal.batchId = this.form.controls.batchIdVal.value;
+   this.pitInitModal.pitId = this.form.controls.pitIdVal.value;
+   this.pitInitModal.header.appName='BMC-APP';
+   this.pitInitModal.header.wfLoginToken = '';
+
+   this.pitInitModal.isFilledUp = this.form.controls.filledGarbageWtCrt.value;
+   this.pitInitModal.segregation = this.form.controls.segregationCrt.value;
+   this.pitInitModal.shreading = this.form.controls.shreadingCrt.value;
+   this.pitInitModal.tranferToPit = this.form.controls.transfertoPITCrt.value;
+   this.pitInitModal.visuaInspection = this.form.controls.visualInspectionCrt.value;
+   
+
+   if(this.pitInitModal.isFilledUp == true){
+      this.pitInitModal.stageCode = pitNoActionStatusEnum.PIT_STATUS_FILL_UP_1_2D.toString();
+      this.pitInitModal.stageCode = statusCode;
+   }
+ 
+   if(!status){
+    this.pitInitModal.noWorkflow = true;
+   }else{
+    this.pitInitModal.noWorkflow = false;
+   }
+  
+
+    if(this.pitInitModal.filledGarbageWt == undefined || this.pitInitModal.filledGarbageWt == ''){
+         alert('Please fill garbage wt......');
+         this.toastr.error('Error!','   Please fill garbage wt.... ' , {positionClass:'toast-center-center'});
+         return;
+    }
+      console.log('   FILED MATERIAL {}  ',this.pitInitModal);
+      this.pitService
+        .savePitInitForCompost(this.pitInitModal)
+        .subscribe((response) => {
+          this.responsePitenzyme = response;
+          let localPitSave:PitCounterInit={
+            pitId: 0,
+            counter: 0
+          };
+          this.allPitbyMcc.responseBody.forEach( pitVal => {
+            if(pitVal.pitId == this.pitInitModal.pitId){
+              localPitSave.counter = 0;
+              localPitSave.pitId = pitVal.pitId;
+              localStorage.setItem(pitVal.pitId+'_'+pitVal.batch, localPitSave.counter.toString());
+             } 
+          })
+        
+          this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});
+          this.closePitmodalstatus();
+          this.form.reset();
+          this.onRefresh();
+         }, 
+          error => {
+            console.log(error);
+            if(error.error.code == HttpStatusCode.BadRequest){
+              this.toastr.error('Error!',error.error.message , {positionClass:'toast-center-center'});
+              this.form.reset();
+            };
+          });
+        console.log('Successs Saved Enzyme process.  {} ', this.responsePitenzyme);
+     
+  }
+
+
 
   // Submit of  init workflow...............
   onSubmitToWorkflow(){
@@ -210,8 +525,11 @@ export class PitViewComponent {
     pitStatusOverwrite : string ="0";
 
     public showPitmodalstatus(pit : any) {
-      console.log(" PIT ::::    ",pit.pitId );
+      pit.counter = 0;
+      console.log(" PIT ::::    ",pit);
       this.pitAllStages.pitId = pit.pitId;
+      this.form.controls.batchIdVal.setValue(pit.batchId);
+      this.form.controls.pitIdVal.setValue(pit.pitId);
 
       this.getPitStageDetails();
       this.activeNotification = pit.pitStatus.activityMsg;
@@ -221,8 +539,10 @@ export class PitViewComponent {
       this.clickedPit = pit;
       this.pitidUpdateOnAny = pit.pitId;
       this.pitMixStatus = false;
+      
      if(pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"){
       this.pitmodalstatus = true;
+
      }else if(pit.pitStatus.pitConfigCode == "PIT_GARBAGE_COLLECT"){
       this.pitmodalstatus = true;
      }else if(pit.pitStatus.pitConfigCode == "PIT_EMPTY_AFTER_MIXED_UP"){
@@ -237,11 +557,16 @@ export class PitViewComponent {
       this.pitmodalstatus = false;
      }else if(pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE"){
           this.pitStatusOverwrite="4"
+          this.form.controls['stageCodeVal'].setValue("PIT_MIXUP_14_16D_COMPLETE");
      }else if(pit.pitStatus.pitConfigCode == "PIT_MIXUP_21_22D_COMPLETE"){
           this.pitStatusOverwrite= "5";
+          this.form.controls['stageCodeVal'].setValue("PIT_MIXUP_21_22D_COMPLETE");
      }else if(pit.pitStatus.pitConfigCode == "PIT_COMPOST_DONE"){
           this.pitStatusOverwrite= "6";
-     }
+          this.form.controls['stageCodeVal'].setValue("PIT_COMPOST_DONE");
+     }else if(pit.pitStatus.pitConfigCode == pitNoActionStatusEnum.PIT_STATUS_FILL_UP_1_2D){
+          this.form.controls['stageCodeVal'].setValue(pitNoActionStatusEnum.PIT_STATUS_FILL_UP_1_2D);
+    }
 
     console.log('  MIX STATUS : :::::::::::      ',this.pitMixStatus);
     if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE" || pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE" 
@@ -249,8 +574,14 @@ export class PitViewComponent {
                               || pit.pitStatus.pitConfigCode == "PIT_STATUS_FILL_UP_1_2D" ){
                                 this.isEventNeeded = true;    
     }
- 
-     this.openPitmodalstatus();
+    if(pit.pitStatus.pitConfigCode != pitCheckerEnum.PIT_STATUS_MIXUP_6_8D_INPROCESS.toString() 
+       &&  pit.pitStatus.pitConfigCode != pitCheckerEnum.PIT_MIXUP_14_16D_INPROCESS.toString()
+       &&  pit.pitStatus.pitConfigCode != pitCheckerEnum.PIT_MIXUP_21_22D_INPROCESS.toString()){
+         this.openPitmodalstatus();
+    }else{
+      this.toastr.success('', ' pit process is in progress ',  {positionClass:'toast-center-center'});
+    }
+
  }
  
 
@@ -299,10 +630,7 @@ export class PitViewComponent {
     originalVal : number = 0;
     comparedselectedVal : number = 0;
     getSelected(ev: any) {
-      alert(ev.target.value);
       this.originalVal = ev.target.value;
-      console.log('  mcccc  44444444444444444     ' , ev.target.value);
-      console.log('  mcccc  iddddddddddddd     ' , this.allPitbyMcc);
        this.pitToPit = ev.target.value,true;
       this.getSelectedPit(ev.target.value,true);
       return ev.target.value;
@@ -356,49 +684,34 @@ export class PitViewComponent {
 
   // hanld esingle button click for different event of action in PIT process...
   public executeUpdateStatusByPitCurrentStatus(){
-    
    console.log("action event  :::  current status of pit{} ",  this.clickedPit , this.clickedPit.pitStatus.pitConfigCode);
-
-    
      if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
       this.activityMixedUpModal = true;
-      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
-      //   if(pit.pitId == this.clickedPitId){
-      //     this.getSelectedPit(pit,true);
-      //   } 
-      // })
+     
       this.onSubmitPitUpdateStatusRequest();
+      this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_14_16D_COMPLETE'){
-      this.allPitbyMcc.responseBody.forEach( (pit)=> {
-        
-      })
+      
       this.pitStatusOverwrite = "4";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
       this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
       this.onSubmitPitUpdateStatusRequest();
+      this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_21_22D_COMPLETE'){
-      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
-      //   if(pit.pitId == this.clickedPitId){
-      //     this.getSelectedPit(pit,false);
-      //   } 
-      // })
+    
       this.pitStatusOverwrite = "5";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
       this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
       this.onSubmitPitUpdateStatusRequest();
+      this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_COMPOST_DONE'){
-      // this.allPitbyMcc.responseBody.forEach( (pit)=> {
-      //   if(pit.pitId == this.clickedPitId){
-      //     this.getSelectedPit(pit,false);
-      //   } 
-      // })
       this.pitStatusOverwrite = "6";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
       this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
-        this.onSubmitPitUpdateStatusRequest();
+      this.onSubmitPitUpdateStatusRequest();
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_EMPTY_GARBAGE_COL_NOT_STARTED'){
-      console.log("action event  ");
-        this.onSubmitRequestForInit();
+        console.log("action event  ");
+        this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,true);
     }
 
     this.closePitmodalstatus();
@@ -410,32 +723,78 @@ export class PitViewComponent {
     this.tabName = "Pit View"
       }
     
-      public showTodayTask(){
+ public showTodayTask(){
         this.showPitTabView = false;
         this.showTodayTaskView = true;
         this.tabName = "Today Task"
-      }
+  }
+
+ 
+public counterTask(){
+  this.updateSubscription =  interval(10000).subscribe(x => {
+    // something
+       this.allPitbyMcc.responseBody.forEach((pit) => {
+        if(pit.counter != undefined && localStorage.getItem(pit.pitId+"_"+pit.batch) != undefined){
+          if(pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString()
+              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_COMPOST_DONE.toString() 
+              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_EMPTY_AFTER_MIXED_UP.toString() 
+              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_GARBAGE_COLLECT.toString()){
+
+                    pit.counter = pit.counter + 1;
+
+           }else{
+                  if(pit.counter <= 0 ){
+                      pit.counter = 0;
+                  }
+           }
+        }else{
+             pit.counter = 0;
+        }
+        
+       })
+   });
+}
+
+
 }
 
 export enum pitNoActionStatusEnum{
-  PIT_STATUS_FILL_UP_1_2D,
-  PIT_EMPTY_GARBAGE_COL_NOT_STARTED,
-  PIT_EMPTY_AFTER_MIXED_UP,
-  PIT_COMPOST_DONE,
-  PIT_GARBAGE_COLLECT,
-  PIT_UNDER_MAINTENANCE
+  PIT_STATUS_FILL_UP_1_2D = "PIT_STATUS_FILL_UP_1_2D",
+  PIT_EMPTY_GARBAGE_COL_NOT_STARTED = "PIT_EMPTY_GARBAGE_COL_NOT_STARTED",
+  PIT_EMPTY_AFTER_MIXED_UP = "PIT_EMPTY_AFTER_MIXED_UP",
+  PIT_COMPOST_DONE = "PIT_COMPOST_DONE",
+  PIT_GARBAGE_COLLECT = "PIT_GARBAGE_COLLECT",
+  PIT_UNDER_MAINTENANCE = "PIT_UNDER_MAINTENANCE"
 }
 
 export enum pitInitStatus{
-  PIT_EMPTY_GARBAGE_COL_NOT_STARTED,
-  PIT_COMPOST_DONE,
-  PIT_GARBAGE_COLLECT,
-  PIT_UNDER_MAINTENANCE
+  PIT_EMPTY_GARBAGE_COL_NOT_STARTED = "PIT_EMPTY_GARBAGE_COL_NOT_STARTED",
+  PIT_COMPOST_DONE = "PIT_COMPOST_DONE",
+  PIT_GARBAGE_COLLECT = "PIT_GARBAGE_COLLECT",
+  PIT_UNDER_MAINTENANCE = "PIT_UNDER_MAINTENANCE"
 }
 
 export enum pitWorkflowEnum{
-  PIT_STATUS_MIXUP_6_8D_COMPLETE,
-  PIT_COMPOST_DONE,
-  PIT_MIXUP_14_16D_COMPLETE,
-  PIT_MIXUP_21_22D_COMPLETE
+  PIT_STATUS_MIXUP_6_8D_COMPLETE = "PIT_STATUS_MIXUP_6_8D_COMPLETE",
+  PIT_COMPOST_DONE = "PIT_COMPOST_DONE",
+  PIT_MIXUP_14_16D_COMPLETE = "PIT_MIXUP_14_16D_COMPLETE",
+  PIT_MIXUP_21_22D_COMPLETE = "PIT_MIXUP_21_22D_COMPLETE"
+}
+
+export enum pitCounterNegEnum{
+  PIT_EMPTY_GARBAGE_COL_NOT_STARTED = "PIT_EMPTY_GARBAGE_COL_NOT_STARTED",
+  PIT_EMPTY_AFTER_MIXED_UP = "PIT_EMPTY_AFTER_MIXED_UP",
+  PIT_COMPOST_DONE = "PIT_COMPOST_DONE",
+  PIT_GARBAGE_COLLECT = "PIT_GARBAGE_COLLECT"
+}
+
+export enum pitCheckerEnum{
+  PIT_STATUS_FILL_UP_1_2D = "PIT_STATUS_FILL_UP_1_2D",
+  PIT_STATUS_MIXUP_6_8D_COMPLETE = "PIT_STATUS_MIXUP_6_8D_COMPLETE",
+  PIT_MIXUP_14_16D_COMPLETE = "PIT_MIXUP_14_16D_COMPLETE",
+  PIT_MIXUP_21_22D_COMPLETE = "PIT_MIXUP_21_22D_COMPLETE",
+  PIT_STATUS_MIXUP_6_8D_INPROCESS = "PIT_STATUS_MIXUP_6_8D_INPROCESS",
+  PIT_MIXUP_14_16D_INPROCESS = "PIT_MIXUP_14_16D_INPROCESS",
+  PIT_MIXUP_21_22D_INPROCESS = "PIT_MIXUP_21_22D_INPROCESS"
+
 }

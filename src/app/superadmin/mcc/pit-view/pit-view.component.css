@@ -240,3 +240,6 @@
 .pit-form-header:not(:last-child) {
     margin-right: 1.5rem;
 }
+.pit-label {
+    cursor: pointer;
+}
