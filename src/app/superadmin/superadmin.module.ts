@@ -37,6 +37,8 @@ import { CompostDryingComponent } from './drying-yard/compost-drying/compost-dry
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -79,7 +81,8 @@ import { InventoryComponent } from './inventory/inventory.component';
     SuperadminRoutingModule,
     ReactiveFormsModule,
     AgGridModule,
-    SharedModule
+    SharedModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
   ]
 })
 export class SuperadminModule { }

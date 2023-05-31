@@ -3,113 +3,6 @@
 <!-- Commented the old modal and added the new modal below-->
 <!-- Modal -->
 <!-- <div class="modal" id="pitenzymeModal"  tabindex="-1" aria-labelledby="pitModalLabel" aria-hidden="true" 
-    [style.display]="pitmodalstatus ? 'block':'none'">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="pitModalLabel">PIT QUANTUM 3 TON</h5>
-                
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Segregation :
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="segregation"
-                                (change)="onActiveStatusChange($event,'segregation')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Visual Inspection :
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="visualinspection"
-                                (change)="onActiveStatusChange($event,'visuaInspection')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Mixed of enzymes:
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="mixedenzyme"
-                                (change)="onActiveStatusChange($event,'mixedEnzyme')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Shreding:
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="shreding"
-                                (change)="onActiveStatusChange($event,'shreading')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Transfer to Pit:
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="transfertopit"
-                                (change)="onActiveStatusChange($event,'tranferToPit')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Pit Fillup Status :
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="pitfillupstatus"
-                                (change)="onActiveStatusChange($event,'isFilledUp')">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <Label>
-                            Inert Material :
-                        </Label>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="number" required name="insertmaterial" min="0" value="0" step=".01"
-                        style="color: #000000;" lass="form-control" id="insertmaterial"
-                        placeholder="Enter the InertbMaterial weight"> QTM
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closePitmodalstatus()">Cancel</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmitRequestForInit()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 
 <!-- Commented the old modal and added the new modal below-->
 
@@ -136,9 +29,6 @@
                     </div>
                 </div>
                 <div class="border-bottom py-2">
-                   
-                   <!-- Section for mix pits here -->
-                   <!-- [style.display]=" pitmixstatus  ? 'block':'none'" -->
                     <div class="col-md-6 d-flex row text-center"  aria-hidden="true" >
                         <div class="col-md-3 d-flex align-items-center justify-content-center" [style.display]=" pitMixStatus  ? 'block':'none'" >Mixture of Two PITS</div>
                         <div class="col-md-3 pe-6" [style.display]=" pitMixStatus  ? 'block':'none'">
@@ -149,13 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-1 p-0 w-10">
-                            <div class="d-flex">
-                                +
-                            </div>
-                        </div> -->
-
-
                         <div class="col-md-3 pe-3"  [style.display]=" pitMixStatus  ? 'block':'none'">
                             <div class="d-flex">
                                 <div class="input-group date">
@@ -164,7 +47,7 @@
                                     </select> -->
                                 <div class="col-md-10"><label> &nbsp; PIT Mixed From </label></div>
                                 <div class="select">
-                                        <select name="mixThisPitwithSelected" (change)="getSelected($event)">
+                                        <select class = "form-control text-dark mt-3" name="mixThisPitwithSelected" (change)="getSelected($event)">
                                             <option value = "">--Select pit to mix up--</option>
                                             <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
                                                 {{pitmixedup.pitName}}
@@ -174,30 +57,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="grid">
-                            <div class="grid__col-5">
-                              
-                                <div class="input-group">
-                                    <label> Select the pit Mixed Up To &nbsp;</label>
-                                    <div class="select">
-                                        <select name="mixThisPitwithSelected" (change)="getSelected($event)">
-                                            <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
-                                                {{pitmixedup.pitName}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
-
                     </div> 
-                      <!-- Section for mix pits end here -->
-
-
-
                     <div class="row text-primary mt-2">
                         <h6 class="ms-4">PIT Information</h6>
                     </div>
@@ -254,19 +114,6 @@
 
                 <div class="border-bottom py-2" [style.display]=" isEventNeeded  ? 'block':'none'">
                     <div class="row text-center">
-                        <!-- <div class="col-md-3 d-flex align-items-center justify-content-center">Enzyme Consumed Qty</div>
-                        <div class="col-md-3 pe-5">
-                            <div class="d-flex">
-                                <div class="input-group">
-                                    <input type="text" name="" id="" class="form-control form-control-sm"  id="mixedenzyme">
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Litter
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="col-md-3 d-flex align-items-center justify-content-center">PIT Fillup Status</div>
                         <div class="col-md-3 d-flex align-items-center justify-content-center pe-5">
                             <div class="toggle-button-cover">
@@ -287,7 +134,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Enzyme Consumed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="mixedEnzymeWt" id="mixedEnzymeWtId" class="form-control"  id="mixedenzyme" formControlName="mixedEnzymeWtCrt">
+                                    <input type="number" name="mixedEnzymeWt" id="mixedEnzymeWtId" class="form-control text-dark"  id="mixedenzyme" formControlName="mixedEnzymeWtCrt">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ltr
@@ -302,7 +149,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Filled Garbage Wt.</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="filledGarbageWt" id="filledGarbageWtId" class="form-control"  formControlName="filledGarbageWtCrt">
+                                    <input type="number" name="filledGarbageWt" id="filledGarbageWtId" class="form-control text-dark"  formControlName="filledGarbageWtCrt">
                                     <div class="input-group-text bg-light" id="filledgardbagewt">
                                         <span>
                                             Ton
@@ -317,7 +164,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Cocopeat mixed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control"  formControlName="cocopeatCrt">
+                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control text-dark"  formControlName="cocopeatCrt">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -332,7 +179,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Inert material mixed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control"  formControlName="inertMaterialCrt"> 
+                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control text-dark"  formControlName="inertMaterialCrt"> 
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ton
@@ -342,7 +189,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <!-- <div class="col-md-6 mb-3">
                         <div class="form-group d-flex">
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Total compost Generated</label>
                             <div>
@@ -356,7 +203,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </form>   
@@ -368,67 +215,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- Modal -->
-<!-- <div class="modal" id="activityModal" role="dialog" tabindex="-1" aria-labelledby="activityModal" aria-hidden="true"
-    [style.display]="activityModal ? 'block':'none'">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="activityModal"> PIT Activity Status </h5>
-              
-            </div>
-            <div class="modal-body">
-
-                <p>{{activeNotification}}</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closePitActivityModalstatus()">Close</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmitPitUpdateStatusRequest()"
-                    *ngIf="actionRequired == true">Confirm</button>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<!-- Modal -->
-<!-- <div class="modal" id="activityMixedUpModal" role="dialog" tabindex="-1" aria-labelledby="activityModal"
-    aria-hidden="true" [style.display]="activityMixedUpModal ? 'block':'none'">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="activityModal">PIT Mixed Up Activity</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closePitMixedUpModalstatus()"></button> 
-            </div>
-            <div class="modal-body">
-                <div class="grid">
-                    <div class="grid__col-5">
-                        <p> Please mix the pit name {{pitClicked}} to the below Selected PIT</p>
-                        <div class="input-group">
-                            <label> Select the pit Mixed Up To &nbsp;</label>
-                           <div class="select">
-                                <select name="mixThisPitwithSelected" (change)="getSelected($event)">
-                                    <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
-                                        {{pitmixedup.pitName}}
-                                    </option>
-                                </select>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closePitMixedUpModalstatus()">Close</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmitPitUpdateStatusRequest()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 
 
 <main class="container-fluid">
@@ -543,12 +329,6 @@
                                 aria-controls="pitview-tab-pane" aria-selected="true" (click)="showPitView()">Pit
                                 View</button>
                         </li>
-                        <!-- <li class="nav-item w-50" role="presentation"> -->
-                        <!-- <button class="nav-link w-100 text-uppercase text-white" data-bs-toggle="tab"
-                                data-bs-target="#todayview-tab-pane" type="button" role="tab"
-                                aria-controls="todayview-tab-pane" aria-selected="false" (click)="showTodayTask()">Today
-                                Task</button>
-                        </li> -->
                     </ul>
                     <div class="tab-content" id="myTabContent">
 
@@ -612,16 +392,16 @@
                 </div>
                 <div class="text-center d-flex align-items-center py-2 border-bottom">
                     <div class="pit-form-header text-start fw-bold">Date</div>
-                    <div class="pit-form-header"><input type="text" name="filling" id="fillingId" class="form-control text-dark" formControlName="fillingDtId" ></div>
-                    <div class="pit-form-header"><input type="text" name="mixing" id="mixingId" class="form-control text-dark" formControlName="mixingDtId" ></div>
-                    <div class="pit-form-header"><input type="text" name="firstTurn" id="firstTurnId" class="form-control text-dark" formControlName="firstTurnDtId" ></div>
-                    <div class="pit-form-header"><input type="text" name="secondTurn" id="secondTurnId" class="form-control text-dark" formControlName="secondTurnDtId" ></div>
+                    <div class="pit-form-header"><input type="text" name="filling" id="fillingId" class="form-control text-dark" formControlName="fillingDtId" readonly></div>
+                    <div class="pit-form-header"><input type="text" name="mixing" id="mixingId" class="form-control text-dark" formControlName="mixingDtId" readonly></div>
+                    <div class="pit-form-header"><input type="text" name="firstTurn" id="firstTurnId" class="form-control text-dark" formControlName="firstTurnDtId" readonly></div>
+                    <div class="pit-form-header"><input type="text" name="secondTurn" id="secondTurnId" class="form-control text-dark" formControlName="secondTurnDtId" readonly></div>
                 </div>
                 <div class="text-center d-flex align-items-center py-2 border-bottom">
                     <div class="pit-form-header text-start fw-bold">Inert</div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="inertFillingMt" id="inertFillingMtId" class="form-control text-dark" formControlName="inertFillingMtFormId" >
+                            <input type="text" name="inertFillingMt" id="inertFillingMtId" class="form-control text-dark" formControlName="inertFillingMtFormId" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -629,7 +409,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="inertMixingMt" id="inertMixingMtId" class="form-control text-dark" formControlName="inertMixingMtFormId" >
+                            <input type="text" name="inertMixingMt" id="inertMixingMtId" class="form-control text-dark" formControlName="inertMixingMtFormId" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -637,7 +417,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="inertFirstTurnMt" id="inertFirstTurnMtId" class="form-control text-dark" formControlName="inertFirstTurnMtFormId" >
+                            <input type="text" name="inertFirstTurnMt" id="inertFirstTurnMtId" class="form-control text-dark" formControlName="inertFirstTurnMtFormId" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -645,7 +425,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="inertSecondTurn" id="inertSecondTurnId" class="form-control text-dark" formControlName="inertSecondTurnMtFormId" >
+                            <input type="text" name="inertSecondTurn" id="inertSecondTurnId" class="form-control text-dark" formControlName="inertSecondTurnMtFormId" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -656,7 +436,7 @@
                     <div class="pit-form-header text-start fw-bold">Mixed Enzyme</div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="mixedEnzymeId" class="form-control text-dark" formControlName="mixedEnzymeFillingForm">
+                            <input type="text" name="" id="mixedEnzymeId" class="form-control text-dark" formControlName="mixedEnzymeFillingForm" readonly>
                             <div class="input-group-text">
                                 Litre
                             </div>
@@ -664,7 +444,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="mixedEnzymeIdmix" class="form-control text-dark" formControlName="mixedEnzymeMixingForm">
+                            <input type="text" name="" id="mixedEnzymeIdmix" class="form-control text-dark" formControlName="mixedEnzymeMixingForm" readonly>
                             <div class="input-group-text">
                                 Litre
                             </div>
@@ -672,7 +452,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="mixedEnzymeFirstTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="mixedEnzymeFirstTurnForm" readonly>
                             <div class="input-group-text">
                                 Litre
                             </div>
@@ -680,7 +460,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="mixedEnzymeSecondTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="mixedEnzymeSecondTurnForm" readonly>
                             <div class="input-group-text">
                                 Litre
                             </div>
@@ -691,7 +471,7 @@
                     <div class="pit-form-header text-start fw-bold">Cocopeat</div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatFillingForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatFillingForm" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -699,7 +479,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatMixingForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatMixingForm" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -707,7 +487,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatFirstTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatFirstTurnForm" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -715,7 +495,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatSecondTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="cocopeatSecondTurnForm" readonly>
                             <div class="input-group-text">
                                 KG
                             </div>
@@ -726,7 +506,7 @@
                     <div class="pit-form-header text-start fw-bold">Filled Garbage Weight</div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageFillingForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageFillingForm" readonly>
                             <div class="input-group-text">
                                 Ton
                             </div>
@@ -734,7 +514,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageMixingForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageMixingForm" readonly>
                             <div class="input-group-text">
                                 Ton
                             </div>
@@ -742,7 +522,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageFirstTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageFirstTurnForm" readonly>
                             <div class="input-group-text">
                                 Ton
                             </div>
@@ -750,7 +530,7 @@
                     </div>
                     <div class="pit-form-header">
                         <div class="input-group">
-                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageSecondTurnForm">
+                            <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageSecondTurnForm" readonly>
                             <div class="input-group-text">
                                 Ton
                             </div>
@@ -764,7 +544,7 @@
                     <div class="col-md-6">
                         <div class="d-flex align-items-center justify-content-end">
                             <div class="fw-bold">Expected Date of Compost</div>
-                            <div class="ms-2"><input type="text" name="compostdataName" id="compostdataId" class="form-control bg-white text-dark" formControlName="expectedDateOfCompostForm"></div>
+                            <div class="ms-2"><input type="text" name="compostdataName" id="compostdataId" class="form-control bg-white text-dark" formControlName="expectedDateOfCompostForm" readonly></div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -772,7 +552,7 @@
                             <div class="fw-bold">Total Compost</div>
                             <div class="ms-2">
                                 <div class="input-group">
-                                    <input type="text" name="" id="" class="form-control text-dark bg-white" formControlName="totalCompostForm">
+                                    <input type="text" name="" id="" class="form-control text-dark bg-white" formControlName="totalCompostForm" readonly>
                                     <div class="input-group-text">
                                         Ton
                                     </div>

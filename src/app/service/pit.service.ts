@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PitModel, PitStageRoot } from '../model/pit.model';
+import { PitHistoryReq, PitModel, PitProcessMain, PitStageRoot } from '../model/pit.model';
 import { PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from '../model/pitInit.model';
 import { TodayTaskModel } from '../model/todaytask.model';
 import { PitStatusModel } from '../model/pit-status.model';
 
 const environment = {
 
-
-  URL: `http://15.207.62.200:9091`,  //prod url
-  PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
+  URL: `http://localhost:9091`,  //prod url
+  PIT_SERVICE_URL: 'http://localhost:8062/',
+  //URL: `http://15.207.62.200:9091`,  //prod url
+  //PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
   AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
   getAllPit: 'pit/v1/getAllPitListByMccId',
-  savePitInit: '/save/pitTransaction/data',
+  savePitInit: 'pit/v1/savePitProcessDetails',
+  getPitHistory: 'pit/v1/getPitProcessDetails',
   submitWorkflowInit: 'pit/v1/pitWorkFlow',
   pitstatusUpdate: 'pit/v1/updatePitStatus',
 
@@ -35,16 +37,18 @@ export class PitService {
         "wcId": 1
       }
     };
-
-    let urlString = 'http://15.207.62.200:8062/pit/v1/getAllPitListByMccId'; //+ environment.getAllPit;
-
-   // let urlString = environment.PIT_SERVICE_URL + environment.getAllPit;
+    let urlString =   environment.PIT_SERVICE_URL +'pit/v1/getAllPitListByMccId';
     return this.http.post<PitModel>(urlString, param);
   }
 
-  savePitInitForCompost(inParam: String): Observable<PitModel> {
-    let urlString = environment.URL + environment.savePitInit;
-    return this.http.post<PitModel>(urlString, inParam);
+  savePitInitForCompost(inParam: PitInitModel): Observable<PitInitModel> {
+    let urlString = environment.PIT_SERVICE_URL + environment.savePitInit;
+    return this.http.post<PitInitModel>(urlString, inParam);
+  }
+
+  onFetchPitHistoryDetails(inParam: PitHistoryReq): Observable<PitProcessMain> {
+    let urlString = environment.PIT_SERVICE_URL + environment.getPitHistory;
+    return this.http.post<PitProcessMain>(urlString, inParam);
   }
 
   submitRequestForBatchBeforeCompost(inParam: SubmitWorkflowPayload): Observable<PitModel> {
