@@ -2,7 +2,7 @@ import { withNoXsrfProtection } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonService, DeactivationDto } from 'src/app/service/common.service';
+import { CommonService, DeactivationDto } from 'src/app/service/common.service'; 
 
 @Component({
         selector: 'app-drying-yard-master',

@@ -84,8 +84,14 @@ export class CommonService {
         deactivateWc(id: any) {
                 return this.http.get(environment.URL + '/wc/deactivate?id=' + id)
         }
+        deactivateItemName(id: any) {
+                return this.http.get(environment.URL + '/itemName/deactivate?id=' + id)
+        }
         getAllWcData() {
                 return this.http.get(environment.URL + '/zone/getAllWc')
+        }
+        getAllItemNameData() {
+                return this.http.get(environment.URL + '/inventory/getAllItemName')
         }
         deactivateWard(id: any) {
                 return this.http.get(environment.URL + '/ward/deactivate?id=' + id)

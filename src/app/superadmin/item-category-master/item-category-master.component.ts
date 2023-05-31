@@ -29,12 +29,14 @@ export class ItemCategoryMasterComponent implements OnInit {
         }
 
         form = new FormGroup({
+                itemId:new FormControl,
                 itemCategoryId:new FormControl,
                 categoryName: new FormControl,
                 description: new FormControl
         });
 
         editFormData = new FormGroup({
+                itemId: new FormControl,
                 itemCategoryId: new FormControl,
                 categoryName: new FormControl,
                 description: new FormControl
@@ -103,6 +105,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                 console.log(item)
 
                 this.form = this.formBuilder.group({
+                        itemId:item.itemId,
                         itemCategoryId: item.categoryId,
                         categoryName: item.categoryName,
                         description: item.categoryDesc
