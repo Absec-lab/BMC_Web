@@ -1,19 +1,11 @@
 export interface PitInitModel {
     inertMaterial: number
-    mixedEnzymeWt?: string
-    cocopeat?: string
-    filledGarbageWt?: string
-    totalgarbagewt?: string
-    isFilledUp?: boolean
-    mixedEnzyme?: boolean
-    segregation?: boolean
-    shreading?: boolean
-    tranferToPit?: boolean
-    visuaInspection?: boolean,
-    batchId ?: Number,
-    pitId ?: Number,
-    stageCode ?: string,
-    noWorkflow? :boolean
+    isFilledUp: boolean
+    mixedEnzyme: boolean
+    segregation: boolean
+    shreading: boolean
+    tranferToPit: boolean
+    visuaInspection: boolean
   }
 
   export interface SubmitWorkflowPayload {

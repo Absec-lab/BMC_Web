@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ColDef } from 'ag-grid-community';
 
 @Component({
   selector: 'app-mrf',
@@ -175,6 +176,53 @@ updateMrf() {
   );
 
 }
+
+/**
+ * Code for Grid view
+ */
+
+columnDefs: ColDef[] = [
+  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true},
+  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true},
+  { field: 'goods', headerName: 'Goods (Kg)', unSortIcon: true},
+  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true},
+  { field: 'description', headerName: 'Description', unSortIcon: true},
+  { field: 'created_date', headerName: 'Created Date', unSortIcon: true},
+  { headerName: 'Edit', width: 125, sortable: false, filter: false,
+    cellRenderer: (data: any) => {
+     return `
+      <button class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+      <button class="btn btn-danger btn-sm">
+        <i class="fa-solid fa-trash-alt"></i>
+      </button>
+     `; 
+    }
+  }
+];
+
+defaultColDef: ColDef = {
+  sortable: true,
+  filter: true,
+};
+
+gridOptions = {
+  defaultColDef: {
+    ...this.defaultColDef
+  },
+  pagination: true,
+  paginationPageSize: 10,
+  rowStyle: { background: '#e2e8f0' }
+}
+
+rowData = [
+  { goods_name: 'Plastic', sub_goods_name: 'Plastic Bottle', goods: '50', inert_material: '20 QTM', description: 'Wood', created_date: '04/04/2023' },
+  { goods_name: 'Plastic', sub_goods_name: 'Plastic Bottle', goods: '50', inert_material: '20 QTM', description: 'Wood', created_date: '04/04/2023' },
+  { goods_name: 'Plastic', sub_goods_name: 'Plastic Bottle', goods: '50', inert_material: '20 QTM', description: 'Wood', created_date: '04/04/2023' },
+  { goods_name: 'Plastic', sub_goods_name: 'Plastic Bottle', goods: '50', inert_material: '20 QTM', description: 'Wood', created_date: '04/04/2023' },
+  { goods_name: 'Plastic', sub_goods_name: 'Plastic Bottle', goods: '50', inert_material: '20 QTM', description: 'Wood', created_date: '04/04/2023' },
+];
 }
 
 

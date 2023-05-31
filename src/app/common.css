@@ -780,3 +780,7 @@ thead th {
 .table.bg-transparent th {
   background: transparent !important;
 }
+
+.bg-lightblue {
+  background-color: #0566DF !important;
+}
