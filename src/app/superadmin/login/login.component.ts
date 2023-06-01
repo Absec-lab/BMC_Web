@@ -77,7 +77,7 @@ export class LoginComponent {
     console.log("Login RES : ",this.logindata);
    // localStorage.setItem('access_token', data.token);
    // localStorage.setItem('role', data.role);
-   this.route.navigate(['/superadmin/home'])
+    this.route.navigate(['/superadmin/home'])
     // if (data.email) {
     //   localStorage.setItem('logintype', "password_login");
     //   this.route.navigate(['/superadmin/home'])
