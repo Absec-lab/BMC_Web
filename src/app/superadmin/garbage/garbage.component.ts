@@ -67,7 +67,9 @@ export class GarbageComponent implements OnInit {
       data => {
         this.inActiveTripResponse = data
         this.inActiveTripList = this.inActiveTripResponse.data
-        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
+        const rowDataComp =   this.inActiveTripList.map((item: {
+          updatedDate: any; vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; 
+}) => {
          
           return {
             vehicle_vehicleNo: item.vehicleNo,
@@ -77,7 +79,7 @@ export class GarbageComponent implements OnInit {
             tripStartReading: item.tripStartReading,
             tripEndReading:item.tripEndReading,
             vehicle_starttime: item.createdDate,
-            vehicle_endtime:item.updateDate
+            updatedDate:item.updatedDate
           };
         });
        console.log("InActiveList",this.inActiveTripList)
@@ -162,8 +164,8 @@ export class GarbageComponent implements OnInit {
         else if(this.tripResponse.data.tripStatusEntity.id == 2){
           this.tripStartButton = false
           this.tripEndButton = false
-          this.dryButton = true
-          this.wetWeightCapturedButton = false
+          this.dryButton = false
+          this.wetWeightCapturedButton = true
           this.grossWeightCapturedButton = false
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 3){
@@ -223,6 +225,49 @@ export class GarbageComponent implements OnInit {
               tareWeightValue:this.vehcileDataResponse.data.tareWt,
               routeId: this.vehcileDataResponse.data.route.routeId
             })
+            this.service.getActiveTrip().subscribe(
+              data => {
+                this.activeTripResponse = data
+                this.activeTripList = this.activeTripResponse.data
+                const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+                 
+                  return {
+                    vehicle_vehicleNo: item.vehicleNo,
+                    driver_driverName: item.driver.driverName,
+                    helper_name: "Ramakant Das",
+                    route_routeName: item.route.routeName,
+                    tripStartReading: item.tripStartReading,
+                    vehicle_starttime: item.createdDate
+                  };
+                });
+               console.log("ActiveList",this.activeTripList)
+               console.log("rowData",rowData)
+               this.rowData=rowData;
+              }
+            );
+            this.service.getCompletedTrips().subscribe(
+              data => {
+                this.inActiveTripResponse = data
+                this.inActiveTripList = this.inActiveTripResponse.data
+                const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
+                 
+                  return {
+                    vehicle_vehicleNo: item.vehicleNo,
+                    driver_driverName: item.driver.driverName,
+                    helper_name: "Ramakant Das",
+                    route_routeName: item.route.routeName,
+                    tripStartReading: item.tripStartReading,
+                    tripEndReading:item.tripEndReading,
+                    vehicle_starttime: item.createdDate,
+                    vehicle_endtime:item.updateDate
+                  };
+                });
+               console.log("InActiveList",this.inActiveTripList)
+               console.log("rowData",rowDataComp)
+               this.rowDataComp=rowDataComp;
+                
+              }
+            );
           },
           error => {
           }
@@ -255,15 +300,15 @@ export class GarbageComponent implements OnInit {
             else if(this.tripResponse.data.tripStatusEntity.id == 2){
               this.tripStartButton = false
               this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = true
               this.grossWeightCapturedButton = false
             }
             else if(this.tripResponse.data.tripStatusEntity.id == 3){
               this.tripStartButton = false
               this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
+              this.dryButton = true
+              this.wetWeightCapturedButton = false
               this.grossWeightCapturedButton = false
             }
             else if(this.tripResponse.data.tripStatusEntity.id == 4){
@@ -339,7 +384,7 @@ export class GarbageComponent implements OnInit {
     const data={
       "dryWt": this.form.value.dryWeightValue,
       "statusEntity": {
-        "id": 3
+        "id": 4
       },
       "vehicleNo":this.form.value.vehicleNumber
     }
@@ -376,7 +421,7 @@ export class GarbageComponent implements OnInit {
     const data={
       "wetWt": this.form.value.wetWeightValue,
       "statusEntity": {
-        "id": 4
+        "id": 3
       },
       "vehicleNo":this.form.value.vehicleNumber
     }
@@ -434,15 +479,15 @@ export class GarbageComponent implements OnInit {
             else if(this.tripResponse.data.tripStatusEntity.id == 2){
               this.tripStartButton = false
               this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = true
               this.grossWeightCapturedButton = false
             }
             else if(this.tripResponse.data.tripStatusEntity.id == 3){
               this.tripStartButton = false
               this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
+              this.dryButton = true
+              this.wetWeightCapturedButton = false
               this.grossWeightCapturedButton = false
             }
             else if(this.tripResponse.data.tripStatusEntity.id == 4){
@@ -495,17 +540,60 @@ export class GarbageComponent implements OnInit {
       data=>{
         window.alert("Trip completed")
         this.setVehicleNumber();
+        // this.service.getActiveTrip().subscribe(
+        //   data => {
+        //     this.activeTripResponse = data
+        //     this.activeTripList = this.activeTripResponse.data
+        //     // console.log(this.activeTripList)
+        //   }
+        // );
+        // this.service.getCompletedTrips().subscribe(
+        //   data => {
+        //     this.inActiveTripResponse = data
+        //     this.inActiveTripList = this.inActiveTripResponse.data
+        //   }
+        // );
         this.service.getActiveTrip().subscribe(
           data => {
             this.activeTripResponse = data
             this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
+            const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+             
+              return {
+                vehicle_vehicleNo: item.vehicleNo,
+                driver_driverName: item.driver.driverName,
+                helper_name: "Ramakant Das",
+                route_routeName: item.route.routeName,
+                tripStartReading: item.tripStartReading,
+                vehicle_starttime: item.createdDate
+              };
+            });
+           console.log("ActiveList",this.activeTripList)
+           console.log("rowData",rowData)
+           this.rowData=rowData;
           }
         );
         this.service.getCompletedTrips().subscribe(
           data => {
             this.inActiveTripResponse = data
             this.inActiveTripList = this.inActiveTripResponse.data
+            const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
+             
+              return {
+                vehicle_vehicleNo: item.vehicleNo,
+                driver_driverName: item.driver.driverName,
+                helper_name: "Ramakant Das",
+                route_routeName: item.route.routeName,
+                tripStartReading: item.tripStartReading,
+                tripEndReading:item.tripEndReading,
+                vehicle_starttime: item.createdDate,
+                vehicle_endtime:item.updateDate
+              };
+            });
+           console.log("InActiveList",this.inActiveTripList)
+           console.log("rowData",rowDataComp)
+           this.rowDataComp=rowDataComp;
+            
           }
         );
       },
@@ -583,7 +671,7 @@ columnDefsComp: ColDef[] = [
   { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true,},
   { field: 'tripEndReading', headerName: 'Final Reading', unSortIcon: true,resizable: true,},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true,},
-  { field: 'vehicle_endtime', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true,},
+  { field: 'updatedDate', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true,},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
@@ -613,7 +701,7 @@ gridOptionsComp = {
   rowStyle: { background: '#e2e8f0' }
 }
 rowDataComp = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00', updatedDate: '2023-05-19 06:00:00'}
 ];
 
 
