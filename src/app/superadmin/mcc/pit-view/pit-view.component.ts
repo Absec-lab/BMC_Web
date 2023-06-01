@@ -187,8 +187,6 @@ export class PitViewComponent {
     this.getPitStageDetails();
     this.updateSubscription = interval(30000).subscribe(
       (val) => { this.onRefresh()});
-
-     this.counterTask();
     
   }
 
@@ -214,6 +212,7 @@ export class PitViewComponent {
     this.pitmodalstatus =false;
     this.yellowPitarr=[];
    // this.clickedPit.pitId=0;
+   this.isEventNeeded = false;
     this.form.reset();
   }
 
@@ -301,10 +300,8 @@ export class PitViewComponent {
         pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_EMPTY_AFTER_MIXED_UP.toString() ||
         pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_UNDER_MAINTENANCE.toString() ||
         pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_GARBAGE_COLLECT.toString() ){
-
-       alert('  No information available in this stage. ');
+        this.toastr.success('','   No information available in this stage. ' , {positionClass:'toast-center-center'});
        return;
-
     }
 
     this.pitService
@@ -312,7 +309,7 @@ export class PitViewComponent {
         .subscribe((response) => {
           console.log('Main pit process {} ',response);
           this.pitProcessMain = response;
-          this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
+        //  this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
           this.formhistory.controls.fillingDtId.setValue(this.pitProcessMain.pitProcess.filledUpDate);
          
          if(this.pitProcessMain.pitProcess.firstDayMixedUp.toString().includes('E.D:')){
@@ -335,7 +332,12 @@ export class PitViewComponent {
          }
           
          console.log('  Final Compost Date {} : ', this.pitProcessMain.pitProcess.compostingDate);
-         this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
+         if(this.pitProcessMain.pitProcess.compostingDate.toString().includes('E.D:')){
+          this.formhistory.controls.expectedDateOfCompostForm.setValue(this.pitProcessMain.pitProcess.compostingDate.toString().replace('E.D:',''));
+         }else{
+          this.formhistory.controls.expectedDateOfCompostForm.setValue(this.pitProcessMain.pitProcess.compostingDate.toString());
+         }
+         
 
          this.pitProcessMain.pitHistory.forEach((pitHis) =>{
             if(pitHis.code == 'PIT_STATUS_FILL_UP_1_2D'){
@@ -424,12 +426,15 @@ export class PitViewComponent {
    this.pitInitModal.shreading = this.form.controls.shreadingCrt.value;
    this.pitInitModal.tranferToPit = this.form.controls.transfertoPITCrt.value;
    this.pitInitModal.visuaInspection = this.form.controls.visualInspectionCrt.value;
-   
+  
 
    if(this.pitInitModal.isFilledUp == true){
       this.pitInitModal.stageCode = pitNoActionStatusEnum.PIT_STATUS_FILL_UP_1_2D.toString();
       this.pitInitModal.stageCode = statusCode;
    }
+   console.log('onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
+   console.log( this.form.controls.transfertoPITCrt.value+'    onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
+   console.log('onSubmitRequestForInit ###########   {} ',this.pitInitModal);
  
    if(!status){
     this.pitInitModal.noWorkflow = true;
@@ -439,7 +444,6 @@ export class PitViewComponent {
   
 
     if(this.pitInitModal.filledGarbageWt == undefined || this.pitInitModal.filledGarbageWt == ''){
-         alert('Please fill garbage wt......');
          this.toastr.error('Error!','   Please fill garbage wt.... ' , {positionClass:'toast-center-center'});
          return;
     }
@@ -448,18 +452,6 @@ export class PitViewComponent {
         .savePitInitForCompost(this.pitInitModal)
         .subscribe((response) => {
           this.responsePitenzyme = response;
-          let localPitSave:PitCounterInit={
-            pitId: 0,
-            counter: 0
-          };
-          this.allPitbyMcc.responseBody.forEach( pitVal => {
-            if(pitVal.pitId == this.pitInitModal.pitId){
-              localPitSave.counter = 0;
-              localPitSave.pitId = pitVal.pitId;
-              localStorage.setItem(pitVal.pitId+'_'+pitVal.batch, localPitSave.counter.toString());
-             } 
-          })
-        
           this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});
           this.closePitmodalstatus();
           this.form.reset();
@@ -487,7 +479,7 @@ export class PitViewComponent {
       .submitRequestForBatchBeforeCompost(this.submitToWorkflowPayload)
       .subscribe((response) => (this.responseforWorkflowstart = response));
       console.log('Now Workflow process started');
-      alert('Successsfully Saved.. Now Composting process started');
+      //this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});
       this.onRefresh();
   }
 
@@ -525,7 +517,6 @@ export class PitViewComponent {
     pitStatusOverwrite : string ="0";
 
     public showPitmodalstatus(pit : any) {
-      pit.counter = 0;
       console.log(" PIT ::::    ",pit);
       this.pitAllStages.pitId = pit.pitId;
       this.form.controls.batchIdVal.setValue(pit.batchId);
@@ -571,7 +562,7 @@ export class PitViewComponent {
     console.log('  MIX STATUS : :::::::::::      ',this.pitMixStatus);
     if(pit.pitStatus.pitConfigCode == "PIT_STATUS_MIXUP_6_8D_COMPLETE" || pit.pitStatus.pitConfigCode == "PIT_MIXUP_14_16D_COMPLETE" 
                               || pit.pitStatus.pitConfigCode == "PIT_MIXUP_21_22D_COMPLETE" ||  pit.pitStatus.pitConfigCode == "PIT_EMPTY_GARBAGE_COL_NOT_STARTED"  
-                              || pit.pitStatus.pitConfigCode == "PIT_STATUS_FILL_UP_1_2D" ){
+                              || pit.pitStatus.pitConfigCode == "PIT_STATUS_FILL_UP_1_2D" || pit.pitStatus.pitConfigCode == "PIT_COMPOST_DONE"){
                                 this.isEventNeeded = true;    
     }
     if(pit.pitStatus.pitConfigCode != pitCheckerEnum.PIT_STATUS_MIXUP_6_8D_INPROCESS.toString() 
@@ -650,6 +641,7 @@ export class PitViewComponent {
       console.log(this.clickedPit.pitStatus.pitConfigCode);
       if(this.clickedPit.pitStatus.pitConfigCode =='PIT_STATUS_MIXUP_6_8D_COMPLETE'){
         console.log('111111111');
+        this.form.controls.pitIdVal.setValue(this.pitToPit);
         this.updatePitStatusPayload.payload.pitTo =  this.pitToPit ;
         this.updatePitStatusPayload.payload.pitFrom = this.pitFromId;
         this.updatePitStatusPayload.payload.pitId = this.clickedPitId;
@@ -673,7 +665,7 @@ export class PitViewComponent {
       .updateRequestForStatusUpdate(this.updatePitStatusPayload)
       .subscribe((response) => (this.responseforWorkflowstart = response));
       console.log('PIT Status Update{} ', this.responseforWorkflowstart);
-      alert('PIT Status Update Successfully');
+      this.toastr.success('Success!','PIT Status Update Successfully' , {positionClass:'toast-center-center'});
       this.closePitmodalstatus();
       this.onRefresh();
 
@@ -687,23 +679,22 @@ export class PitViewComponent {
    console.log("action event  :::  current status of pit{} ",  this.clickedPit , this.clickedPit.pitStatus.pitConfigCode);
      if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_STATUS_MIXUP_6_8D_COMPLETE'){
       this.activityMixedUpModal = true;
-     
-      this.onSubmitPitUpdateStatusRequest();
       this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
+      this.onSubmitPitUpdateStatusRequest();
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_14_16D_COMPLETE'){
       
       this.pitStatusOverwrite = "4";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
       this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
-      this.onSubmitPitUpdateStatusRequest();
       this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
+      this.onSubmitPitUpdateStatusRequest();
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_MIXUP_21_22D_COMPLETE'){
     
       this.pitStatusOverwrite = "5";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
       this.updatePitStatusPayload.payload.pitStatus = this.pitStatusOverwrite;
-      this.onSubmitPitUpdateStatusRequest();
       this.onSubmitRequestForInit(this.clickedPit.pitStatus.pitConfigCode,false);
+      this.onSubmitPitUpdateStatusRequest();
     }else if(this.clickedPit.pitStatus.pitConfigCode == 'PIT_COMPOST_DONE'){
       this.pitStatusOverwrite = "6";
       this.updatePitStatusPayload.payload.pitId=this.pitidUpdateOnAny;
@@ -728,32 +719,6 @@ export class PitViewComponent {
         this.showTodayTaskView = true;
         this.tabName = "Today Task"
   }
-
- 
-public counterTask(){
-  this.updateSubscription =  interval(10000).subscribe(x => {
-    // something
-       this.allPitbyMcc.responseBody.forEach((pit) => {
-        if(pit.counter != undefined && localStorage.getItem(pit.pitId+"_"+pit.batch) != undefined){
-          if(pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString()
-              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_COMPOST_DONE.toString() 
-              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_EMPTY_AFTER_MIXED_UP.toString() 
-              && pit.pitStatus.pitConfigCode != pitCounterNegEnum.PIT_GARBAGE_COLLECT.toString()){
-
-                    pit.counter = pit.counter + 1;
-
-           }else{
-                  if(pit.counter <= 0 ){
-                      pit.counter = 0;
-                  }
-           }
-        }else{
-             pit.counter = 0;
-        }
-        
-       })
-   });
-}
 
 
 }
