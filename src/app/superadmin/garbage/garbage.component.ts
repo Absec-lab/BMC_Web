@@ -362,7 +362,97 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Gross Weight captured successfully")
-        this.setVehicleNumber();
+        
+        // this.setVehicleNumber();
+        // this.service.getCompletedTrips().subscribe(
+        //   data => {
+        //     this.inActiveTripResponse = data
+        //     this.inActiveTripList = this.inActiveTripResponse.data
+        //   }
+        // );
+        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.vehcileDataResponse = data
+            console.log("vehcileDataResponse",this.vehcileDataResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+              grossWeightValue:this.vehcileDataResponse.data.grossWt,
+              dryWeightValue:this.vehcileDataResponse.data.dryWt,
+              wetWeightValue:this.vehcileDataResponse.data.wetWt,
+              tareWeightValue:this.vehcileDataResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+          },
+          error => {
+          }
+        );
+        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
+          data => {
+            this.tripResponse = data
+            console.log(this.tripResponse)
+            this.form.patchValue({
+              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+              driverName: this.vehcileDataResponse.data.driver.driverName,
+              routeName: this.vehcileDataResponse.data.route.routeName,
+              tripStartReading: this.tripResponse.data.tripStartReading,
+              tripEndReading: this.tripResponse.data.tripEndReading,
+              grossWeightValue: this.tripResponse.data.grossWt,
+              dryWeightValue:this.tripResponse.data.dryWt,
+              wetWeightValue:this.tripResponse.data.wetWt,
+              tareWeightValue:this.tripResponse.data.tareWt,
+              routeId: this.vehcileDataResponse.data.route.routeId
+            })
+            if (this.tripResponse.data.tripStatusEntity.id == 1) {
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = true
+              
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 2){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = true
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 3){
+              this.tripStartButton = false
+              this.tripEndButton = false
+              this.dryButton = true
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+            else if(this.tripResponse.data.tripStatusEntity.id == 4){
+              this.tripStartButton = false
+              this.tripEndButton = true
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+            }
+          },
+          error=>{
+            this.tripStartButton = true
+              this.tripEndButton = false
+              this.dryButton = false
+              this.wetWeightCapturedButton = false
+              this.grossWeightCapturedButton = false
+          }
+        );
+        this.service.getActiveTrip().subscribe(
+          data => {
+            this.activeTripResponse = data
+            this.activeTripList = this.activeTripResponse.data
+            // console.log(this.activeTripList)
+          }
+        );
         this.service.getCompletedTrips().subscribe(
           data => {
             this.inActiveTripResponse = data
