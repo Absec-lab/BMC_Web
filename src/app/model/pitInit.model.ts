@@ -18,8 +18,8 @@ export interface PitInitModel {
   shreading?: boolean
   tranferToPit?: boolean
   visuaInspection?: boolean,
-  batchId ?: Number,
-  pitId ?: Number,
+  batchId ?: number,
+  pitId ?: number,
   stageCode ?: string,
   noWorkflow? :boolean
 }

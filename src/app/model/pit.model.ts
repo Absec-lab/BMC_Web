@@ -21,7 +21,7 @@ export interface ResponseBody {
   pitCndStsEndDt: string
   pitCndRemarks: any
   pitUserConfirm: boolean,
-  counter?:number
+  daysCounter?:number
 }
 
 export interface Wc {

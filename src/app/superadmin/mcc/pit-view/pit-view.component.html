@@ -32,10 +32,10 @@
                     <div class="col-md-6 d-flex row text-center"  aria-hidden="true" >
                         <div class="col-md-3 d-flex align-items-center justify-content-center" [style.display]=" pitMixStatus  ? 'block':'none'" >Mixture of Two PITS</div>
                         <div class="col-md-3 pe-6" [style.display]=" pitMixStatus  ? 'block':'none'">
-                            <p> PIT Mixed With</p>
+                            <p> PIT Mixed From</p>
                             <div class="d-flex" >
                                 <div class="input-group date">
-                                     <input type="text" class="form-control" placeholder="" *ngIf="clickedPit != undefined"  value ="{{clickedPit.pitName}}" readonly/>
+                                     <input type="text" class="form-control text-dark" placeholder="" *ngIf="clickedPit != undefined"  value ="{{clickedPit.pitName}}" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -45,10 +45,10 @@
                                     <!-- <select name="" id="" class="form-control">
                                         <option value="">select Half empty pit</option>
                                     </select> -->
-                                <div class="col-md-10"><label> &nbsp; PIT Mixed From </label></div>
+                                <div class="col-md-10"><label> &nbsp; PIT Mixed To </label></div>
                                 <div class="select">
                                         <select class = "form-control text-dark mt-3" name="mixThisPitwithSelected" (change)="getSelected($event)">
-                                            <option value = "">--Select pit to mix up--</option>
+                                            <option value = "">--Select pit mix up to--</option>
                                             <option *ngFor="let pitmixedup of yellowPitarr" [value]="pitmixedup.pitId">
                                                 {{pitmixedup.pitName}}
                                             </option>
@@ -134,7 +134,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Enzyme Consumed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="mixedEnzymeWt" id="mixedEnzymeWtId" class="form-control text-dark"  id="mixedenzyme" formControlName="mixedEnzymeWtCrt">
+                                    <input type="number" min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="mixedEnzymeWt" id="mixedEnzymeWtId" class="form-control text-dark"  id="mixedenzyme" formControlName="mixedEnzymeWtCrt">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ltr
@@ -149,7 +149,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Filled Garbage Wt.</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="filledGarbageWt" id="filledGarbageWtId" class="form-control text-dark"  formControlName="filledGarbageWtCrt">
+                                    <input type="number"  min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="filledGarbageWt" id="filledGarbageWtId" class="form-control text-dark"  formControlName="filledGarbageWtCrt">
                                     <div class="input-group-text bg-light" id="filledgardbagewt">
                                         <span>
                                             Ton
@@ -164,7 +164,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Cocopeat mixed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control text-dark"  formControlName="cocopeatCrt">
+                                    <input type="number"  min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="cocopeatMixedQtyName" id="cocopeatMixedQty" class="form-control text-dark"  formControlName="cocopeatCrt">
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Kg
@@ -179,7 +179,7 @@
                             <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Inert material mixed Qty</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="number" name="" id="inertMaterialMxedQty" class="form-control text-dark"  formControlName="inertMaterialCrt"> 
+                                    <input type="number"  min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="" id="inertMaterialMxedQty" class="form-control text-dark"  formControlName="inertMaterialCrt"> 
                                     <div class="input-group-text bg-light">
                                         <span>
                                             Ton
@@ -189,21 +189,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-md-6 mb-3">
-                        <div class="form-group d-flex">
-                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Total compost Generated</label>
-                            <div>
-                                <div class="input-group">
-                                    <input type="number" name="" id="totalCompostGen" class="form-control"  formControlName="totalCompostGen">
-                                    <div class="input-group-text bg-light">
-                                        <span>
-                                            Kg
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </form>   
@@ -345,7 +330,7 @@
                                             (click)="showPitmodalstatus(pit)" />
                                         <div class="pit-icon-timer">
                                             <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">{{pit.counter}}</span>
+                                            <span class="pit-icon-timer-count">{{pit.daysCounter}}</span>
                                         </div>
                                     </div>
                                     <div class="pit-label" data-bs-toggle="modal"
@@ -373,6 +358,7 @@
 
 <div class="modal" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" [style.display]=" pitHistoryStatus  ? 'block':'none'">
     <div class="modal-dialog modal-xl">
+        <form [formGroup]="formhistory">
         <div class="modal-content">
             <div class="modal-header bg-blue text-white">
                 <h1 class="modal-title fs-5  fw-bold" id="exampleModalLabel">{{pitName}}</h1>
@@ -382,7 +368,7 @@
                     aria-label="Close"  (click)="onCloseOfHistory()"></button>
             </div>
             <div class="modal-body px-4">
-                <form [formGroup]="formhistory">
+              
                 <div class="text-center d-flex align-items-center border-bottom pb-2">
                     <div class="pit-form-header"></div>
                     <div class="pit-form-header fw-bold">Filling</div>
@@ -537,22 +523,22 @@
                         </div>
                     </div>
                 </div>
-             </form>
+         
             </div>
             <div class="modal-footer bg-lightblue text-white">
                 <div class="row w-100">
                     <div class="col-md-6">
                         <div class="d-flex align-items-center justify-content-end">
                             <div class="fw-bold">Expected Date of Compost</div>
-                            <div class="ms-2"><input type="text" name="compostdataName" id="compostdataId" class="form-control bg-white text-dark" formControlName="expectedDateOfCompostForm" readonly></div>
+                            <div class="ms-2"><input type="text" name="compostdataName" id="compostdataId" class="form-control bg-white text-dark"  formControlName="expectedDateOfCompostForm" readonly></div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" hidden>
                         <div class="d-flex align-items-center">
                             <div class="fw-bold">Total Compost</div>
                             <div class="ms-2">
                                 <div class="input-group">
-                                    <input type="text" name="" id="" class="form-control text-dark bg-white" formControlName="totalCompostForm" readonly>
+                                    <input type="text" name="" id="" class="form-control text-dark bg-white" formControlName="totalCompostForm" >
                                     <div class="input-group-text">
                                         Ton
                                     </div>
@@ -563,6 +549,7 @@
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
 <app-footer></app-footer>
