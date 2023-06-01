@@ -28,18 +28,20 @@ export class ItemNameMasterComponent implements OnInit{
 
         form = new FormGroup({
                 itemCategoryId: new FormControl,
-                categoryName:new FormControl,
+                categoryName: new FormControl,
                 itemId: new FormControl,
                 itemName: new FormControl,
-                itemcategory: new FormControl
+                itemcategory: new FormControl,
+                description: new FormControl
         });
 
         editForm = new FormGroup({
                 itemCategoryId: new FormControl,
-                categoryName:new FormControl,
+                categoryName: new FormControl,
                 itemId: new FormControl,
                 itemName: new FormControl,
-                itemcategory: new FormControl
+                itemcategory: new FormControl,
+                description: new FormControl
         })
 
         list: any = []
@@ -67,8 +69,8 @@ export class ItemNameMasterComponent implements OnInit{
                         const data = {
                                 "itemId":this.form.value.itemId,
                                 "itemname": this.form.value.itemName,
-                                "description": this.form.value.itemName,
-                                "itemcategory": category
+                                "description": this.form.value.description,
+                                "itemcatrgory": category
                         }
                         await this.service.post(`/zone/addItemName`, data)
                         this.form.reset()
@@ -86,11 +88,11 @@ export class ItemNameMasterComponent implements OnInit{
                 }
         }
 
-        deactivateWc(id: any) {
-                this.service.deactivateWc(id).subscribe(
+        deactivateItemName(id: any) {
+                this.service.deactivateItemName(id).subscribe(
                         data => {
                                 window.alert("Item deleted successfully")
-                                this.service.getAllWcData().subscribe(
+                                this.service.getAllItemNameData().subscribe(
                                         data => {
                                                 this.list = data
                                         }
@@ -115,7 +117,8 @@ export class ItemNameMasterComponent implements OnInit{
                         itemId: item.itemId,
                         itemName: item.itemDesc,
                         categoryName: item.categoryName,
-                        itemcategory: item.category
+                        itemcategory: item.category,
+                        description: item.description
                         
                 })
                 this.service.getZoneAllData().subscribe(

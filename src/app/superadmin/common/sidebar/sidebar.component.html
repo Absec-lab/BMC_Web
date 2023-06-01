@@ -25,11 +25,15 @@
 </div>
 <div class="card mt-4">
 	<div class="card-body">
-		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks1" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
-			<i class="fa-solid fa-gauge-high"></i>
+		<a routerLink="/superadmin/portal-dashboards/dashboard-four" class="sidebar-link">
+			<i class="fa-solid fa-arrow-right"></i>
 			<span>Dashboard</span>
 		</a>
-		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks1">
+		<!-- <a class="sidebar-link" data-bs-toggle="collapse" href="/superadmin/portal-dashboards/dashboard-four" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+			<i class="fa-solid fa-gauge-high"></i>
+			<span>Dashboard</span>
+		</a> -->
+		<!-- <div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks1">
 			<a routerLink="/superadmin/portal-dashboards/dashboard-one" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Dashboard 1</span>
@@ -48,7 +52,7 @@
 			</a>
 			
 
-		</div>
+		</div> -->
 		<!-- <a routerLink="/superadmin/dashboard-one" class="sidebar-link active">
 			<i class="fa-solid fa-gauge-high"></i>
 			<span>Dashboard</span>
@@ -98,11 +102,11 @@
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Compost Drying</span>
 			</a>
-			<a routerLink="#" class="sidebar-link">
+			<a routerLink="/superadmin/drying-yard/dry-compost-weighment" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Compost Weightment</span>
 			</a>
-			<a routerLink="#" class="sidebar-link">
+			<a routerLink="/superadmin/drying-yard/compost-material-packaging" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>Compost Packaging</span>
 			</a>	
@@ -140,6 +144,10 @@
 			<a routerLink="/superadmin/mcc-master" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>
 				<span>MCC Master</span>
+			</a>
+			<a routerLink="/superadmin//drying-yard-master" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Drying Yard Master</span>
 			</a>
 			<a routerLink="/superadmin/item-category-master" class="sidebar-link">
 				<i class="fa-solid fa-arrow-right"></i>

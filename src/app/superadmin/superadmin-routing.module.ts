@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { WealthCenterMasterComponent } from './wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './ward-master/ward-master.component';
 import { ZoneMasterComponent } from './zone-master/zone-master.component';
+import { DryingYardMasterComponent } from './drying-yard-master/drying-yard-master.component';
 import { MccMasterComponent } from './mcc-master/mcc-master.component';
 import { PitMasterComponent } from './pit-master/pit-master.component';
 import { RouteMasterComponent } from './route-master/route-master.component';
@@ -25,6 +26,8 @@ import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboa
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
+import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
+import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
@@ -34,6 +37,7 @@ const routes: Routes = [
   {path:'',component:LoginComponent},
   {path: 'superadmin/dashboard',component: DashboardComponent},
   {path: 'superadmin/zone-master',component: ZoneMasterComponent},
+  {path: 'superadmin/drying-yard-master',component: DryingYardMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},
   {path: 'superadmin/ward-master',component: WardMasterComponent},
   {path: 'superadmin/mcc-master',component: MccMasterComponent},
@@ -44,7 +48,7 @@ const routes: Routes = [
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
   {path: 'superadmin/helper-master',component: HelperMasterComponent},
-  {path: 'superadmin/garbage',component: GarbageComponent},
+  {path: 'superadmin/garbage',component: GarbageComponent}, 
   {path: 'superadmin/mrf',component: MrfComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
@@ -56,6 +60,8 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
+  {path: 'superadmin/drying-yard/dry-compost-weighment',component: DryCompostWeighmentComponent}, 
+  {path: 'superadmin/drying-yard/compost-material-packaging',component: CompostMaterialPackagingComponent},   
   {path: 'superadmin/item-category-master',component: ItemCategoryMasterComponent},
   {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
   {path: 'superadmin/inventory',component: InventoryComponent}, 

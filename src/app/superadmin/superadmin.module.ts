@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { WealthCenterMasterComponent } from './wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './ward-master/ward-master.component';
 import { ZoneMasterComponent } from './zone-master/zone-master.component';
+import { DryingYardMasterComponent } from './drying-yard-master/drying-yard-master.component';
 import { MccMasterComponent } from './mcc-master/mcc-master.component';
 import { PitMasterComponent } from './pit-master/pit-master.component';
 import { RouteMasterComponent } from './route-master/route-master.component';
@@ -34,6 +35,8 @@ import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboa
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
+import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
+import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
@@ -50,6 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     WealthCenterMasterComponent,
     WardMasterComponent,
     ZoneMasterComponent,
+    DryingYardMasterComponent,
     MccMasterComponent,
     PitMasterComponent,
     RouteMasterComponent,
@@ -72,6 +76,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardThreeComponent,
     DashboardFourComponent,
     CompostDryingComponent,
+    CompostMaterialPackagingComponent,
+    DryCompostWeighmentComponent,
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
     InventoryComponent

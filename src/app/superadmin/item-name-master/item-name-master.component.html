@@ -134,9 +134,9 @@
                                                                                                         Item Category Name
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
-                                                                                                        <select formControlName="categoryId" class="form-control form-select" [(ngModel)]="categoryId">
+                                                                                                        <select formControlName="itemCategoryId" class="form-control form-select" [(ngModel)]="itemCategoryId">
                                                                                                                 <option value={{categoryName}} disabled selected>{{categoryName}}</option>
-                                                                                                                <option [value]="x.categoryId" *ngFor="let x of categoryList;">{{x.categoryName}}</option>
+                                                                                                                <option [value]="x.itemCategoryId" *ngFor="let x of categoryList;">{{x.categoryName}}</option>
                                                                                                         </select>
                                                                                                 </div>
                                                                                         </div>
@@ -149,7 +149,7 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">
-                                                                                                        <input formControlName="itemId" type="text" name="" id="" class="form-control">
+                                                                                                        <input formControlName="itemName" type="text" name="" id="" class="form-control">
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>
@@ -163,7 +163,7 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">
-                                                                                                        <input formControlName="itemName"
+                                                                                                        <input formControlName="description"
                                                                                                                 type="text"
                                                                                                                 name=""
                                                                                                                 id=""
@@ -188,9 +188,9 @@
                                                         class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
                                                         <div>Iten Category Name</div>
                                                         <div class="ms-3 w-25">
-                                                                <select name="" id="" class="form-control form-select">
+                                                                <select name="" id="itemCategoryId" class="form-control form-select">
 									<option value="" disabled selected>Select Item Category Name</option>
-									<option [value]="x.zoneId" *ngFor="let x of categoryList;">{{ x.categoryName }}</option>
+									<option [value]="x.itemCategoryId" *ngFor="let x of categoryList;">{{ x.categoryName }}</option>
                                                                 </select>
                                                         </div>
                                                         <div class="wc-ml-10">Item Name</div>
@@ -230,7 +230,7 @@
                                                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                                                         <i class="fa-solid fa-edit"></i>
                                                                                 </button>
-                                                                                <button (click)="deactivateWc(x.wcId)" class="btn btn-danger btn-sm">
+                                                                                <button (click)="deactivateItemName(x.itemId)" class="btn btn-danger btn-sm">
                                                                                         <i
                                                                                                 class="fa-solid fa-trash-alt"></i>
                                                                                 </button>
