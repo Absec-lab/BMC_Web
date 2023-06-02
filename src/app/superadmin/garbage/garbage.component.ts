@@ -159,7 +159,7 @@ export class GarbageComponent implements OnInit {
           wetWeightValue:this.tripResponse.data.wetWt,
           tareWeightValue:this.tripResponse.data.tareWt,
           routeId: this.vehcileDataResponse.data.route.routeId,
-          helperId:this.vehcileDataResponse.data.helper.helperId
+          helperId:this.tripResponse.data.helper.helperId
         })
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
@@ -210,7 +210,9 @@ export class GarbageComponent implements OnInit {
       "tripStartReading": this.form.value.tripStartReading,
       "tripStartReadingImg": null,
       "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
-      "helper": this.vehcileDataResponse.data.helper
+      "helper": {
+        "helperId":this.form.value.helperId
+      }
     }
     console.log(data)
     this.service.createTrip(data).subscribe(
@@ -298,7 +300,7 @@ export class GarbageComponent implements OnInit {
               wetWeightValue:this.tripResponse.data.wetWt,
               tareWeightValue:this.tripResponse.data.tareWt,
               routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
+              helperId: this.tripResponse.data.helper.helperId
             })
             if (this.tripResponse.data.tripStatusEntity.id == 1) {
               this.tripStartButton = false
