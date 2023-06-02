@@ -1,0 +1,13 @@
+#footer {
+  background: #2B2B4B;
+  color: #fff;
+  font-size: 12px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer a {
+  color: #fff;
+  text-decoration: none;
+}
