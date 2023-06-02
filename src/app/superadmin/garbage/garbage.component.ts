@@ -19,6 +19,7 @@ export class GarbageComponent implements OnInit {
   activeTripResponse: any
   activeTripList: any = []
   inActiveTripList: any = []
+  helperList: any =[]
   inActiveTripResponse: any
   vehcileDataResponse: any
   tripStartButton: boolean = false
@@ -40,19 +41,21 @@ export class GarbageComponent implements OnInit {
     wetWeightValue: new FormControl,
     tareWeightValue: new FormControl,
     routeId: new FormControl,
+    helperId: new FormControl
   });
   ngOnInit() {
     this.setVehicleNumber()
+    
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helper: any; route: any; tripStartReading: any; createdDate: any; }) => {
          
           return {
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
+            helper_name: item.helper.helperName,
             route_routeName: item.route.routeName,
             tripStartReading: item.tripStartReading,
             vehicle_starttime: item.createdDate
@@ -63,18 +66,24 @@ export class GarbageComponent implements OnInit {
        this.rowData=rowData;
       }
     );
+    this.service.getAllHelperList().subscribe(
+      data=>{
+              this.helperList=data
+              console.log(this.helperList)
+      }
+      );
     this.service.getCompletedTrips().subscribe(
       data => {
         this.inActiveTripResponse = data
         this.inActiveTripList = this.inActiveTripResponse.data
         const rowDataComp =   this.inActiveTripList.map((item: {
-          updatedDate: any; vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; 
+          updatedDate: any; vehicleNo: any; driver: any; helper: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; 
 }) => {
          
           return {
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
+            helper_name: item.helper.helperName,
             route_routeName: item.route.routeName,
             tripStartReading: item.tripStartReading,
             tripEndReading:item.tripEndReading,
@@ -151,7 +160,8 @@ export class GarbageComponent implements OnInit {
           dryWeightValue:this.tripResponse.data.dryWt,
           wetWeightValue:this.tripResponse.data.wetWt,
           tareWeightValue:this.tripResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
+          routeId: this.vehcileDataResponse.data.route.routeId,
+          helperId: this.vehcileDataResponse.data.helper.helperId
         })
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
@@ -199,6 +209,7 @@ export class GarbageComponent implements OnInit {
     const data={
       "driver":this.vehcileDataResponse.data.driver,
       "route": this.vehcileDataResponse.data.route,
+      "helper": this.vehcileDataResponse.data.helper,
       "tripStartReading": this.form.value.tripStartReading,
       "tripStartReadingImg": null,
       "vehicleNo": this.vehcileDataResponse.data.vehicleNo
@@ -229,12 +240,12 @@ export class GarbageComponent implements OnInit {
               data => {
                 this.activeTripResponse = data
                 this.activeTripList = this.activeTripResponse.data
-                const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+                const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helper: any; route: any; tripStartReading: any; createdDate: any; }) => {
                  
                   return {
                     vehicle_vehicleNo: item.vehicleNo,
                     driver_driverName: item.driver.driverName,
-                    helper_name: "Ramakant Das",
+                    helper_name: item.helper.helperName,
                     route_routeName: item.route.routeName,
                     tripStartReading: item.tripStartReading,
                     vehicle_starttime: item.createdDate
@@ -702,6 +713,7 @@ export class GarbageComponent implements OnInit {
             console.error(e)
     }
 }
+
 
 updateData(item: any) {
   this.isUpdate = true

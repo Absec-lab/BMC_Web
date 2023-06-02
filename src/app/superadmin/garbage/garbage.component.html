@@ -218,10 +218,12 @@
 															Helper Name
 														</div>
 														<div class="col-md-9">
-															<select name="" id=""
-																class="form-control form-select bg-transparent text-white">
-																<option value="">Madhusudan Das</option>
-															</select>
+															<div class="ms-3 d-flex-1">
+																<select formControlName="helperId" class="form-select">
+																    <option value="" disabled selected>--Select--</option>
+																    <option [value]="x.helperId" *ngFor="let x of helperList;">{{x.helperName}}</option>
+															    </select>
+															    </div>
 														</div>
 													</div>
 													<div class="row mt-3">

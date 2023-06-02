@@ -10,11 +10,11 @@ export class DeactivationDto {
 const environment = {
 
 
-              URL: `http://15.207.62.200:9091`,  //prod url
+              //URL: `http://15.207.62.200:9091`,  //Prod server url
               //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
              LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
-             //URL: `http://localhost:9091`  //local ip 
+             URL: `http://43.204.240.44:9091`,   //Absec serve url
 }
 
 @Injectable({ 
