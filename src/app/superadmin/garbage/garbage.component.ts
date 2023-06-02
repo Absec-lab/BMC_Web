@@ -718,7 +718,7 @@ columnDefs: ColDef[] = [
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
   { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
   { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true},
-  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,valueFormatter:Date},
+  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
@@ -760,8 +760,8 @@ columnDefsComp: ColDef[] = [
   { field: 'route_routeName', headerName: 'Route', unSortIcon: true,resizable: true,},
   { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true,},
   { field: 'tripEndReading', headerName: 'Final Reading', unSortIcon: true,resizable: true,},
-  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true,valueFormatter:Date},
-  { field: 'updatedDate', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true,valueFormatter:Date},
+  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
+  { field: 'updatedDate', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
