@@ -223,5 +223,8 @@ export class CommonService {
         deactivateMrf(id:any){
                 return this.http.get(environment.URL+'/mrf/deactivate?id='+id)
         }
+        getAllHelper(){
+                return this.http.get(environment.URL+'/zone/getAllHelper')
+        }
 
 }
