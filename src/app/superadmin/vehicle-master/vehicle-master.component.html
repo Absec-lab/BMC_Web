@@ -165,7 +165,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Driver Name/DL
+                                                    Driver Name
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <select formControlName="driverId" class="form-select">
@@ -234,6 +234,19 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
+                                                    Helper Name
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                    <select formControlName="helperId" class="form-select">
+                                                        <option value="" disabled selected>--Select--</option>
+                                                        <option [value]="x.helperId" *ngFor="let x of helperList;">{{x.helperName}}</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
                                                     Vehicle Weight
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
@@ -241,6 +254,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
@@ -303,6 +319,7 @@
                                     <th>Route Name</th>
                                     <th>Driver Name</th>
                                     <th>RC</th>
+                                    <th>Helper Name</th>
                                     <th>Insurance</th>
                                     <th>Vehicle Passing Wt.</th>
                                     <th>Vehicle Wt.</th>
@@ -321,6 +338,7 @@
                                                                         <td>{{ x.route?.routeName || '--' }}</td>
                                                                         <td>{{ x.driver?.driverName || '--' }}</td>
                                                                         <td>{{ x.rcNo || '--' }}</td>
+                                                                        <td>{{ x.helper?.helperName || '--' }}</td>
                                                                         <td>{{ x.insurance || '--' }}</td>
                                                                         <td>{{ x.vehiclePassingWt || '--' }}</td>
                                                                         <td>{{ x.vehicleWt || '--' }}</td>

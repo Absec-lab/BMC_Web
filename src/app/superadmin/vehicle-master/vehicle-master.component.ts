@@ -17,6 +17,7 @@ export class VehicleMasterComponent implements OnInit{
         wcId:any
         vehicleResponse:any
         driverList:any=[]
+        helperList:any=[]
         constructor(private service: CommonService, private formBuilder :FormBuilder) {
                 this.getList()
                 this.getZones()
@@ -30,11 +31,19 @@ export class VehicleMasterComponent implements OnInit{
                               console.log(this.driverList)
                         }
                       );
+                this.service.getAllHelperList().subscribe(
+                data=>{
+                        this.helperList=data
+                        console.log(this.helperList)
+                }
+                );
         }
 
         form = new FormGroup({
                 vehicleNo: new FormControl(''),
                 driverId: new FormControl(''),
+                helperId: new FormControl(''),
+                helperIDProof: new FormControl(''),
                 rcNo: new FormControl(''),
                 rcPhoto: new FormControl(''),
                 vehicleImage: new FormControl(''),
@@ -106,6 +115,9 @@ export class VehicleMasterComponent implements OnInit{
                                 },
                                 driver: {
                                         driverId: this.form.value.driverId
+                                },
+                                helper: {
+                                        helperId: this.form.value.helperId
                                 },
                                 "status":true
                         }
@@ -202,6 +214,13 @@ export class VehicleMasterComponent implements OnInit{
                 this.service.getAllDriverList().subscribe(
                   data=>{
                         this.driverList=data
+                  }
+                );
+        }
+        getAllHelpers(){
+                this.service.getAllHelperList().subscribe(
+                  data=>{
+                        this.helperList=data
                   }
                 );
         }
