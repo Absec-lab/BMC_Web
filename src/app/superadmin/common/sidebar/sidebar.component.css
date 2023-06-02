@@ -1,0 +1,39 @@
+.sidebar-user-info {
+	min-height: 133px;
+}
+
+.dashboard-user-icon {
+	width: 64px;
+	background: #C4C4C4;
+	border-radius: 50%;
+	border: 3px solid #fff;
+}
+
+.sidebar-link {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #8D91A0;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 0.7rem 1rem 0 0.7rem;
+	border-radius: 0.25rem;
+	width: 100%;
+	font-size: 15px;
+}
+
+.sidebar-link:hover {
+	color: #fff;
+}
+
+.sidebar-link.active {
+	background: #000033;
+	color: #fff;
+	padding: 0.7rem 1rem;
+}
+
+.sidebar-sub-menu {
+	margin-left: 1.7rem;
+}
+
+
