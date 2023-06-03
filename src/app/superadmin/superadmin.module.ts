@@ -42,6 +42,7 @@ import { ItemNameMasterComponent } from './item-name-master/item-name-master.com
 import { InventoryComponent } from './inventory/inventory.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DryCompostWeighmentComponent,
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
-    InventoryComponent
+    InventoryComponent,
+    MccMenuComponent
   ],
   imports: [
     CommonModule,

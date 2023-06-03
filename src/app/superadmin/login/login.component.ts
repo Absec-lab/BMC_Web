@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { windowWhen } from 'rxjs';
+import { LoginRes, Userdetail } from 'src/app/model/login.model';
 import { LoginReq } from 'src/app/model/pit.model';
 import { LoginModel, UserInfo } from 'src/app/model/user.model';
 import { CommonService } from 'src/app/service/common.service';
@@ -12,7 +14,9 @@ import { CommonService } from 'src/app/service/common.service';
 })
 export class LoginComponent {
   checkagreeterms: any;
-  constructor(private service: CommonService,private route:Router) {
+    
+    constructor(private toastr: ToastrService,
+      private service: CommonService,private route:Router) {
   }
   loginResponse:any
   form = new FormGroup({
@@ -20,8 +24,28 @@ export class LoginComponent {
     password: new FormControl
   });
 
-
-  
+  public logindata:any;
+  // public logindata: LoginRes = {
+  //   access_token: '',
+  //   refresh_token: '',
+  //   userdetails: []
+  // }
+  // public userDetails: Userdetail={
+  //   id: '',
+  //   createdTimestamp: 0,
+  //   username: '',
+  //   enabled: false,
+  //   totp: false,
+  //   emailVerified: false,
+  //   firstName: '',
+  //   lastName: '',
+  //   email: '',
+  //   attributes: undefined,
+  //   disableableCredentialTypes: [],
+  //   requiredActions: [],
+  //   notBefore: 0,
+  //   access: undefined
+  // }
 
   public loginPayload: LoginReq = {
     email: '',
@@ -56,36 +80,30 @@ export class LoginComponent {
   // }
 
 
-  public logindata: any;
+
  /**
    * Function used to call Bakend Login service
    */
  public doLogin(): void {
 
-//   if (this.loginPayload.email == null || this.loginPayload.email === '' ||
-//     this.loginPayload.password == null || this.loginPayload.password === '') {
-//  //   this.toastr.warning(' Field can not be left empty ', 'Alert!');
-//     return;
-//   }
-  this.loginPayload.email = 'testbmcadmin@gmail.com';
-  this.loginPayload.password = 'Absec@123';
-  this.loginPayload.hasTermsChecked = true;
+  if (this.form.controls.emailId.value == null || this.form.controls.emailId.value  === '' ||
+     this.form.controls.password.value == null || this.form.controls.password.value === '') {
+      this.toastr.error('Error!','   Field can not be left empty   ' , {positionClass:'toast-center-center'});
+    return;
+  }
+   this.loginPayload.email = this.form.controls.emailId.value;
+   this.loginPayload.password = this.form.controls.password.value;
+   this.loginPayload.hasTermsChecked = true;
   
   console.log("Login REQ : ",this.loginPayload);
   this.service.login(this.loginPayload).subscribe(data => {
-    this.logindata = data;
-    console.log("Login RES : ",this.logindata);
-   // localStorage.setItem('access_token', data.token);
-   // localStorage.setItem('role', data.role);
-    this.route.navigate(['/superadmin/home'])
-    // if (data.email) {
-    //   localStorage.setItem('logintype', "password_login");
-    //   this.route.navigate(['/superadmin/home'])
-    //   this.doGetUserDetails(null , data.email , "email_login");
-    // } else {
-    //   this.route.navigate(['login']);
-    // }
-    // call get userdetails by userid to get user details.....
+       this.logindata = data;
+       console.log("Login RES : ",this.logindata);
+       localStorage.setItem('access_token', this.logindata.access_token);
+       localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
+       this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
+       //this.route.navigate(['/superadmin/home'])
+   
   }, error => {
     console.log(error);
   });

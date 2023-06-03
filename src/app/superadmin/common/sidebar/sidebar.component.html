@@ -29,6 +29,24 @@
 			<i class="fa-solid fa-arrow-right"></i>
 			<span>Dashboard</span>
 		</a>
+		<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarWCLinks" role="button" aria-expanded="false" aria-controls="collapseSidebarWCLinks">
+			<i class="fa-brands fa-centercode"></i>
+			<span>WC</span>
+		</a>
+		<div class="sidebar-sub-menu collapse" id="collapseSidebarWCLinks">
+			<div *ngFor="let item of menuItem_; let indexOfItem = index">
+				<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarWCSubLinks-{{ indexOfItem }}" role="button" aria-expanded="false" attr.aria-controls="collapseSidebarWCSubLinks-{{ indexOfItem }}">
+					<i class="fa-solid fa-arrow-right"></i>
+					<span>{{ item.wcName }}</span>
+				</a>
+				<div class="sidebar-sub-menu collapse" id="collapseSidebarWCSubLinks-{{ indexOfItem }}">
+					<a *ngFor="let mccItem of item.mccList" routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
+						<i class="fa-solid fa-arrow-right"></i>
+						<span>{{ mccItem.mccName }}</span>
+					</a>
+				</div>
+			</div>
+		</div>
 		<!-- <a class="sidebar-link" data-bs-toggle="collapse" href="/superadmin/portal-dashboards/dashboard-four" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
 			<i class="fa-solid fa-gauge-high"></i>
 			<span>Dashboard</span>
@@ -57,10 +75,28 @@
 			<i class="fa-solid fa-gauge-high"></i>
 			<span>Dashboard</span>
 		</a> -->
-		<a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
+		<!-- <a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMccView" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
+			<i class="fa-solid fa-user-gear"></i>
+			<span>WC</span>
+		</a>
+		<div class="sidebar-sub-menu collapse show" id="collapseSidebarMccView"> -->
+			<!-- <a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>WC1</span>
+			</a> -->
+			<!-- <a routerLink="/superadmin/drying-yard/dry-compost-weighment" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Compost Weightment</span>
+			</a>
+			<a routerLink="/superadmin/drying-yard/compost-material-packaging" class="sidebar-link">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>Compost Packaging</span>
+			</a>	 -->
+		<!-- </div> -->
+		<!-- <a routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
 			<i class="fa-brands fa-bitbucket"></i>
 			<span>MCC</span>
-		</a>
+		</a> -->
 		<a routerLink="/superadmin/mrf" class="sidebar-link">
 			<i class="fa-brands fa-bitbucket"></i>
 				<span>MRF</span>			

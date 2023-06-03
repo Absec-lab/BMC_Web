@@ -8,6 +8,7 @@ import { WebModule } from './web/web.module';
 import { CommonService } from './service/common.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './superadmin/auth-guard/auth.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [
-        CommonService,
+    AuthService,CommonService,
   ],
   bootstrap: [AppComponent]
 })
