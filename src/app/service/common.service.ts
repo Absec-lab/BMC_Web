@@ -63,10 +63,10 @@ export class CommonService {
 
         //manoj code
         addItemCategory(data: any) {
-                return this.http.post(environment.URL + '/zone/addItemCategory', data);
+                return this.http.post(environment.URL + '/inventory/addItemCategory', data);
         }
         getAllItemCategory() {
-                return this.http.get(environment.URL + '/zone/getAllItemCategory')
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
         deactivateCategory(id: any) {
                 return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
@@ -162,6 +162,9 @@ export class CommonService {
         }
         updateHelper(item:any){
                 return this.http.put(environment.URL+'/zone/updateHelper',item)
+        }
+        updateItemCategory(item:any){
+                return this.http.put(environment.URL+'/inventory/updateItemCategory',item)
         }
         getAllGoods(){
                 return this.http.get(environment.URL+'/zone/getAllGoods')
