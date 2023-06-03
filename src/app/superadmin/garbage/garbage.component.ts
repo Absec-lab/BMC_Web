@@ -42,6 +42,7 @@ export class GarbageComponent implements OnInit {
     dryWeightValue: new FormControl,
     wetWeightValue: new FormControl,
     tareWeightValue: new FormControl,
+    unloadwetWeightValue: new FormControl,
     routeId: new FormControl,
     helperId:new FormControl
   });
@@ -904,6 +905,10 @@ gridOptionsComp = {
 rowDataComp = [
   { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00', updatedDate: '2023-05-19 06:00:00', trip_start_reading_image : "", trip_end_reading_image: ""}
 ];
-
+wetWeightCal(){
+  const temp= this.form.value.grossWeightValue
+  const temp1= this.form.value.unloadwetWeightValue
+  this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
+  }
 
 }

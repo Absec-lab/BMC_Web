@@ -292,11 +292,18 @@
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Gross Weight/Kg
 														</div>
-														<div class="col-md-9">
-															<input type="number" name="" id="" class="form-control"
+														<div class="col-md-3">
+															<input type="number" name="" id="" class="form-control" 
 																formControlName="grossWeightValue">
 														</div>
-													</div>
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Unload Wet Weight/Kg
+														</div>
+														<div class="col-md-3">
+															<input type="number" name="" id="unloadId" class="form-control" 
+																formControlName="unloadwetWeightValue" (mouseout)="wetWeightCal()">
+														</div>
+													</div> 
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Tare Weight/Kg
@@ -312,7 +319,7 @@
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Wet Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
 																formControlName="wetWeightValue">
 														</div>
@@ -321,7 +328,7 @@
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Dry Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
 																formControlName="dryWeightValue">
 														</div>
