@@ -19,7 +19,7 @@ export class WardMasterComponent implements OnInit{
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
                 this.getZones()
-                // this.getWCList()
+                this.getWCList()
         }
         ngOnInit(){
                 this.isAdd=true
@@ -30,9 +30,7 @@ export class WardMasterComponent implements OnInit{
                 wcId: new FormControl,
                 wardId: new FormControl,
                 wardName: new FormControl,
-                wardDesc: new FormControl,
-                wc:new FormControl,
-                zone:new FormControl
+                wardDesc: new FormControl                
               });
         editForm = new FormGroup({
                 zoneId: new FormControl,
@@ -55,14 +53,14 @@ export class WardMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
-        // async getWCList() {
-        //         try {
-        //                 this.wcList = await this.service.get(`/zone/getAllWc`)
-        //                 this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
-        //         } catch (e) {
-        //                 console.error(e)
-        //         }
-        // }
+        async getWCList() {
+                try {
+                        this.wcList = await this.service.get(`/zone/getAllWc`)
+                        this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
+                } catch (e) {
+                        console.error(e)
+                }
+        }
         async getList() {
                 try {
                         this.list = await this.service.get(`/zone/getAllWard`)
@@ -70,6 +68,17 @@ export class WardMasterComponent implements OnInit{
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        getWcById(){
+                console.log(this.form.value.wcId)
+                this.service.getWcById(this.form.value.wcId).subscribe(
+                        data=>{
+                                this.responseData=data
+                                this.form.value.zoneId=this.responseData.zone.zoneId
+                                this.zoneName=this.responseData.zone.zoneName
+                                console.log(this.zoneName)
+                        }
+                );
         }
         async addNew() {
                 try {
@@ -133,13 +142,11 @@ export class WardMasterComponent implements OnInit{
                 console.log(item.zone.zoneName)
 
                 this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        wcId: item.wcId,
+                        zoneId: item.zone.zoneId,
+                        wcId: item.wc.wcId,
                         wardId: item.wardId,
                         wardName: item.wardName,
-                        wardDesc: item.wardDesc,
-                        wc:item.wardDesc,
-                        zone:item.wardDesc
+                        wardDesc: item.wardDesc             
                         
                 })
                 this.service.getZoneAllData().subscribe(
@@ -167,6 +174,8 @@ export class WardMasterComponent implements OnInit{
                                                 this.list = data
                                         }
                                 );
+                                this.form.reset()
+                                this.getList()
                         },
                         error => {
                                 window.alert("something went wrong")
