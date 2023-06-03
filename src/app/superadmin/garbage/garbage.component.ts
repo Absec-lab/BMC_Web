@@ -75,7 +75,7 @@ export class GarbageComponent implements OnInit {
         this.inActiveTripResponse = data
         this.inActiveTripList = this.inActiveTripResponse.data
         const rowDataComp =   this.inActiveTripList.map((item: {
-          updatedDate: any; vehicleNo: any; driver: any; helper: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; 
+          updatedDate: any; vehicleNo: any; driver: any; helper: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; grossWt:any; wetWt:any; dryWt:any; 
 }) => {
          
           return {
@@ -86,7 +86,10 @@ export class GarbageComponent implements OnInit {
             tripStartReading: item.tripStartReading,
             tripEndReading:item.tripEndReading,
             vehicle_starttime: item.createdDate,
-            updatedDate:item.updatedDate
+            updatedDate:item.updatedDate,
+            grossWt: item.grossWt,
+            wetWt: item.wetWt,
+            dryWt: item.dryWt
           };
         });
        console.log("InActiveList",this.inActiveTripList)
@@ -779,18 +782,21 @@ columnDefsComp: ColDef[] = [
   { field: 'tripEndReading', headerName: 'Final Reading', unSortIcon: true,resizable: true,},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
   { field: 'updatedDate', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm" (click)="updateData(x)">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-      <button class="btn btn-danger btn-sm">
-      <i class="fa-solid fa-trash-alt"></i>
-    </button>
-     `; 
-    }
-  }
+  { field: 'grossWt', headerName: 'Gross Wight', unSortIcon: true,resizable: true},
+  { field: 'wetWt', headerName: 'Wet Weight', unSortIcon: true,resizable: true,},
+  { field: 'dryWt', headerName: 'Dry Weight', unSortIcon: true,resizable: true},
+  // { headerName: 'Edit', width: 125, sortable: false, filter: false,
+  //   cellRenderer: (data: any) => {
+  //    return `
+  //     <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+  //       <i class="fa-solid fa-edit"></i>
+  //     </button>
+  //     <button class="btn btn-danger btn-sm">
+  //     <i class="fa-solid fa-trash-alt"></i>
+  //   </button>
+  //    `; 
+  //   }
+  // }
 ];
 
 defaultColDefComp: ColDef = {
