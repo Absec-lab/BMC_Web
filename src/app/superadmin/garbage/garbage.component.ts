@@ -733,12 +733,12 @@ updateData(item: any) {
 }
 
 columnDefs: ColDef[] = [
-  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true},
-  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true},
-  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true},
-  { field: 'route_routeName', headerName: 'Route', unSortIcon: true},
-  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true},
-  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true},
+  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
+  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
+  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true},
+  { field: 'route_routeName', headerName: 'Route', unSortIcon: true,resizable: true},
+  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true},
+  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
