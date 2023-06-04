@@ -330,7 +330,7 @@
                                             (click)="showPitmodalstatus(pit)" />
                                         <div class="pit-icon-timer">
                                             <img src="/assets/images/icons/stopwatch.png" alt="" />
-                                            <span class="pit-icon-timer-count">{{pit.daysCounter}}</span>
+                                            <span class="pit-icon-timer-count" *ngIf="greaterThan(pit)" >{{pit.daysCounter}}</span>
                                         </div>
                                     </div>
                                     <div class="pit-label" data-bs-toggle="modal"

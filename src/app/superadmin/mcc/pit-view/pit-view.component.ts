@@ -141,7 +141,7 @@ export class PitViewComponent {
    ) {
   
     console.log( '  MCC ID  ::::: {} ', this.mccId);
-
+    this.pitPayload.payload.mccId = this.mccId;
   }
 
   form = new FormGroup({
@@ -197,14 +197,13 @@ export class PitViewComponent {
   }
   subscriptions:Subscription[] = [];
   ngOnInit(): void {
+    console.log('   NG ON INIT  ::   {} ',this.pitPayload);
+      this.pitService.selectMccId.subscribe( (val) => {
+        this.mccId = val;
+        this.pitPayload.payload.mccId = this.mccId;
+        this.getPitStageDetails();
+      });
 
-    this.pitService.selectMccId.subscribe( (val) => {
-          this.mccId = val;
-          this.pitPayload.payload.mccId = this.mccId;
-          this.getPitStageDetails();
-        
-    });
-    
     this.updateSubscription = interval(10000).subscribe(
       (val) => { this.onRefresh()});
    
@@ -216,12 +215,19 @@ export class PitViewComponent {
  //   this.pitService.selectMccId?.unsubscribe();
 
   }
-
+  greaterThan(pit : any){
+    if(pit.daysCounter >= 0){
+       return true;
+    }
+    return false;
+  }
 
   onRefresh(){
-    this.pitService
-      .getAllPitsByMcc(this.pitPayload)
-      .subscribe((response) => (this.allPitbyMcc = response));
+      this.pitPayload.payload.mccId = this.mccId;
+        this.pitService
+          .getAllPitsByMcc(this.pitPayload)
+          .subscribe((response) => (this.allPitbyMcc = response));
+
   }
 
   getPitStageDetails(){

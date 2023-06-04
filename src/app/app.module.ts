@@ -9,12 +9,13 @@ import { CommonService } from './service/common.service';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './superadmin/auth-guard/auth.service';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { PitViewComponent } from './superadmin/mcc/pit-view/pit-view.component';
 import { MrfComponent } from './superadmin/mrf/mrf.component';
 import { DryingYardMasterComponent } from './superadmin/drying-yard-master/drying-yard-master.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginGuard } from './superadmin/auth-guard/LoginGuard';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { LoginGuard } from './superadmin/auth-guard/LoginGuard';
   ],
   providers: [
     AuthService,CommonService,
-    { provide: LoginGuard, useClass: LoginGuard }
+    { provide: LoginGuard, useClass: LoginGuard },
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

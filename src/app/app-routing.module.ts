@@ -12,6 +12,7 @@ import { LoginGuard } from './superadmin/auth-guard/LoginGuard';
 import { DryingYardMasterComponent } from './superadmin/drying-yard-master/drying-yard-master.component';
 import { MrfComponent } from './superadmin/mrf/mrf.component';
 import { MccUserAuthGuardService } from './superadmin/auth-guard/mccuser-auth-guard.service';
+import { WcUserAuthGuardService } from './superadmin/auth-guard/wcuser-auth-guard.service';
 
 
 const routes: Routes = [
@@ -43,7 +44,7 @@ const routes: Routes = [
   {
     component:PitViewComponent,
     path:'superadmin/mcc/pit-view',
-    canActivate:[LoginGuard , MccUserAuthGuardService , ]
+    canActivate:[LoginGuard , WcUserAuthGuardService ]
   },
   {
     component:CompostDryingComponent,

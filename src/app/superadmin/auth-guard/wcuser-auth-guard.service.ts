@@ -31,10 +31,14 @@ export class WcUserAuthGuardService  {
   | boolean
   | UrlTree {
     console.log('  Authenticated ::  inside Wcuser auth :::::   ',this.auth.isAuthenticated());
-  if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedByWcuser()) {
+    console.log('  Authenticated ::  inside Wcuser auth 222 ********   :::::   ',this.auth.isAuthenticated());
+    console.log('  Authenticated ::  inside Wcuser auth 3333  ********     :::::   ',this.auth.isAuthenticatedbyMccUser());
+    console.log('  Authenticated ::  inside Wcuser auth 4444   ********    :::::   ',this.auth.isAuthenticatedByWcuser());
+  if (!this.auth.isAuthenticated() && (!this.auth.isAuthenticatedByWcuser() || !this.auth.isAuthenticatedbyMccUser())) {
     console.log('  Authenticated ::  inside Wcuser auth 222    :::::   ',this.auth.isAuthenticated());
     console.log('  Authenticated ::  inside Wcuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
-    
+    console.log('  Authenticated ::  inside Wcuser auth 4444    :::::   ',this.auth.isAuthenticatedByWcuser());
+
     this.router.navigate(['/login']);
     return false;
   }
