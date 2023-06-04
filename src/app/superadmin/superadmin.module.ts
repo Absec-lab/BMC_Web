@@ -42,6 +42,7 @@ import { ItemNameMasterComponent } from './item-name-master/item-name-master.com
 import { InventoryComponent } from './inventory/inventory.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 
 
@@ -82,7 +83,8 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
     InventoryComponent,
-    MccMenuComponent
+    MccMenuComponent,
+    ImageCellRendererComponent
   ],
   imports: [
     CommonModule,

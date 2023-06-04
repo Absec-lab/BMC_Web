@@ -10,11 +10,12 @@ export class DeactivationDto {
 const environment = {
 
 
-           //   URL: `http://15.207.62.200:9091`,  //prod url
-             //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
-             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-             //LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
-             URL: `http://43.204.240.44:9091`  //local ip 
+              URL: `http://15.207.62.200:9091`,  //prod url
+              //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
+             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
+          //   LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
+         //    URL: `http://43.204.240.44:9091`  //Absec ip 
+        // URL: `http://192.168.29.128:9091`
 }
 
 @Injectable({
@@ -62,10 +63,10 @@ export class CommonService {
 
         //manoj code
         addItemCategory(data: any) {
-                return this.http.post(environment.URL + '/zone/addItemCategory', data);
+                return this.http.post(environment.URL + '/inventory/addItemCategory', data);
         }
         getAllItemCategory() {
-                return this.http.get(environment.URL + '/zone/getAllItemCategory')
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
         deactivateCategory(id: any) {
                 return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
@@ -163,6 +164,9 @@ export class CommonService {
         updateHelper(item:any){
                 return this.http.put(environment.URL+'/zone/updateHelper',item)
         }
+        updateItemCategory(item:any){
+                return this.http.put(environment.URL+'/inventory/updateItemCategory',item)
+        }
         getAllGoods(){
                 return this.http.get(environment.URL+'/zone/getAllGoods')
         }
@@ -222,6 +226,9 @@ export class CommonService {
         }
         deactivateMrf(id:any){
                 return this.http.get(environment.URL+'/mrf/deactivate?id='+id)
+        }
+        getAllHelper(){
+                return this.http.get(environment.URL+'/zone/getAllHelper')
         }
 
 }

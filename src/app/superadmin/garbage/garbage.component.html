@@ -155,7 +155,7 @@
 														</div>
 														<div class="col-md-9">
 															<input type="file" name="" id="" class="form-control"
-																accept="image/*">
+																accept="image/*" (change)="onTripStartFileSelected($event)">
 														</div>
 													</div>
 													<div class="row mt-3">
@@ -173,7 +173,7 @@
 														</div>
 														<div class="col-md-9">
 															<input type="file" name="" id="" class="form-control"
-																accept="image/*">
+																accept="image/*" (change)="onTripEndFileSelected($event)">
 														</div>
 													</div>
 													<!-- <div class="row mt-3">
@@ -218,9 +218,10 @@
 															Helper Name
 														</div>
 														<div class="col-md-9">
-															<select name="" id=""
-																class="form-control form-select bg-transparent text-white">
-																<option value="">Madhusudan Das</option>
+															<select 
+																class="form-select" formControlName="helperId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.helperId" *ngFor="let item of helperList">{{item.helperName}}</option>
 															</select>
 														</div>
 													</div>
@@ -289,16 +290,23 @@
 												<div class="col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Gross Weight/Ton
+															Gross Weight/Kg
 														</div>
-														<div class="col-md-9">
-															<input type="number" name="" id="" class="form-control"
+														<div class="col-md-3">
+															<input type="number" name="" id="" class="form-control" 
 																formControlName="grossWeightValue">
 														</div>
-													</div>
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Unload Wet Weight/Kg
+														</div>
+														<div class="col-md-3">
+															<input type="number" name="" id="unloadId" class="form-control" 
+																formControlName="unloadwetWeightValue" (mouseout)="wetWeightCal()">
+														</div>
+													</div> 
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Tare Weight/Ton
+															Tare Weight/Kg
 														</div>
 														<div class="col-md-9">
 															<input type="text" name="" id="" class="form-control" 
@@ -309,20 +317,20 @@
 												<div class="col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Dry Weight/Ton
+															Wet Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
-																formControlName="dryWeightValue">
+																formControlName="wetWeightValue">
 														</div>
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Wet Weight/Ton
+															Dry Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
-																formControlName="wetWeightValue">
+																formControlName="dryWeightValue">
 														</div>
 													</div>
 												</div>
@@ -345,18 +353,6 @@
 											</button>
 										</div>
 									</ng-template>
-									<div class="d-flex-1 text-center" *ngIf="dryButton; else dryButtonNot">
-										<button class="btn btn-dry-weight btn-primary" (click)="setDryWtValue()">
-											Captured Dry Weight
-										</button>
-									</div>
-									<ng-template #dryButtonNot>
-										<div class="d-flex-1 text-center">
-											<button class="btn btn-dry-weight btn-secondary">
-												Captured Dry Weight
-											</button>
-										</div>
-									</ng-template>
 									<div class="d-flex-1 text-end"
 										*ngIf="wetWeightCapturedButton; else wetWeightCapturedButtonNot">
 										<button class="btn btn-wet-weight btn-primary" (click)="setWetWtValue()">
@@ -370,9 +366,22 @@
 											</button>
 										</div>
 									</ng-template>
+									<div class="d-flex-1 text-center" *ngIf="dryButton; else dryButtonNot">
+										<button class="btn btn-dry-weight btn-primary" (click)="setDryWtValue()">
+											Captured Dry Weight
+										</button>
+									</div>
+									<ng-template #dryButtonNot>
+										<div class="d-flex-1 text-center">
+											<button class="btn btn-dry-weight btn-secondary">
+												Captured Dry Weight
+											</button>
+										</div>
+									</ng-template>
+									
 								</div>
 							</div>
-							<div class="tab-pane fade show bg-secondary border border-white border-top-0"
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
 								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
@@ -400,7 +409,7 @@
 										Completed Trips <i class="fa fa-truck b-red" aria-hidden="true"></i>
 									</div>
 									<div class="card-body">
-										<div
+										<!-- <div
 											class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
 											<div class="ms-3 w-25">
 												<input type="text" name="" id="" class="form-control"
@@ -415,7 +424,7 @@
 													Search
 												</button>
 											</div>
-										</div>
+										</div> -->
 										<ag-grid-angular
 										class="ag-theme-alpine"
 										[rowData]="rowDataComp"
