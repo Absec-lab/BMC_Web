@@ -15,9 +15,9 @@ export class MrfComponent implements OnInit{
   goodResponse:any
   subGoodResponse:any
   subgoodList:any=[]
-  list: any = []
   mrfGridList: any = []
   mrfGridResponse: any
+  list: any = []
   goodsList: any = []
   goodsName: any
   subGoodsId:any
@@ -26,6 +26,7 @@ export class MrfComponent implements OnInit{
   mrfList:any
   responseData:any
   isActive:any
+  selectionMode = "multiple";
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllGoods()
@@ -33,34 +34,36 @@ export class MrfComponent implements OnInit{
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
-      data => {
-           this.mrfGridResponse = data
-           this.mrfGridList = this.mrfGridResponse
-           const rowData =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
-            
-             return {
-               goods_name: item.goods.goodsName,
-               sub_goods_name: item.subGood.subgoodsName,
-               goods: item.goods.goodsPerKg,
-               inert_material: item.interMaterial,
-               description: item.mrfDesc,     
-               created_date : item.createdDate
-             };
-           });
-          console.log("MrfGridList",this.mrfGridList)
-          console.log("rowData",rowData)
-          this.rowData=rowData;          
-         
-                 // window.alert("Mrf data updated successfully!!")
-                 // this.isAdd = true
-                 // this.isUpdate = false
-                 // this.getList()
-                 // this.form.reset()
-         
- 
-         console.log(this.mrfList)
-       }
-     );
+     data => {
+          this.mrfGridResponse = data
+          this.mrfGridList = this.mrfGridResponse
+          const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+           
+            return {
+              goods_name: item.goods.goodsName,
+              sub_goods_name: item.subGood.subgoodsName,
+              goods: item.goods.goodsPerKg,
+              inert_material: item.interMaterial,
+              quntaum: item.quntaum,
+              description: item.mrfDesc,     
+              created_date : item.createdDate
+            };
+          });
+         console.log("MrfGridList",this.mrfGridList)
+         console.log("rowData",rowDataMrf)
+         this.rowDataMrf=rowDataMrf;
+          
+        
+                // window.alert("Mrf data updated successfully!!")
+                // this.isAdd = true
+                // this.isUpdate = false
+                // this.getList()
+                // this.form.reset()
+        
+
+        console.log(this.mrfList)
+      }
+    );
     this.getAllGoods()
   }
   form = new FormGroup({
@@ -137,7 +140,35 @@ export class MrfComponent implements OnInit{
    this.service.saveMrfData(data).subscribe(
     data=>{
       window.alert("Mrf data saved successfully")
-    }
+        this.mrfGridResponse = data
+        this.mrfGridList = this.mrfGridResponse.data
+        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+         
+          return {
+            goods_name: item.goods.goodsId,
+            sub_goods_name: item.subGood.goodssubId,
+            goods: item.goods,
+            inert_material: item.interMaterial,
+            description: item.mrfDesc,
+            quntaum:item.quntaum
+
+          };
+        });
+       console.log("MrfList",this.mrfGridList)
+       console.log("rowData",rowDataMrf)
+       this.rowDataMrf=rowDataMrf;
+        
+      
+              // window.alert("Mrf data updated successfully!!")
+              // this.isAdd = true
+              // this.isUpdate = false
+              // this.getList()
+              // this.form.reset()
+      },
+      error => {
+              window.alert("something went wrong")
+      }
+    
    );   
    this.getList()
    this.form.reset()
@@ -153,7 +184,11 @@ export class MrfComponent implements OnInit{
             console.error(e)
     }
 }
+onRowClicked(item:any){
+  alert('Grid row selected'+this.rowDataMrf);
+}
 updateData(item: any) {
+  alert('hi');
   this.isUpdate = true
   this.isAdd = false
   console.log(item)
@@ -190,20 +225,21 @@ updateMrf() {
           data => {
             this.mrfGridResponse = data
             this.mrfGridList = this.mrfGridResponse.data
-            const rowData =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+            const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
              
               return {
                 goods_name: item.goods.goodsId,
                 sub_goods_name: item.subGood.goodssubId,
                 goods: item.goods,
                 inert_material: item.interMaterial,
-                description: item.mrfDesc,     
+                description: item.mrfDesc, 
+                quntaum: item.quntaum    
                 
               };
             });
            console.log("MrfGridList",this.mrfGridList)
-           console.log("rowData",rowData)
-           this.rowData=rowData;
+           console.log("rowData",rowDataMrf)
+           this.rowDataMrf=rowDataMrf;
             
           
                   // window.alert("Mrf data updated successfully!!")
@@ -224,16 +260,16 @@ updateMrf() {
  */
 
 columnDefs: ColDef[] = [
-  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true},
-  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true},
-  { field: 'goods', headerName: 'Goods (Kg)', unSortIcon: true},
-  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true},
-  { field: 'description', headerName: 'Description', unSortIcon: true},
-  { field: 'created_date', headerName: 'Created Date', unSortIcon: true},
+  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
+  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
+  { field: 'quntaum', headerName: 'Goods (Kg)', unSortIcon: true,resizable: true},
+  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true,resizable: true},
+  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true},
+  { field: 'created_date', headerName: 'Created Date', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
-      <button class="btn btn-primary btn-sm">
+      <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
         <i class="fa-solid fa-edit"></i>
       </button>
       <button class="btn btn-danger btn-sm">
@@ -258,8 +294,8 @@ gridOptions = {
   rowStyle: { background: '#e2e8f0' }
 }
 
-rowData = [
-  ];
+rowDataMrf = []
+  ;
 }
 
 

@@ -44,7 +44,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 
-
 @NgModule({
   declarations: [
     //HeaderComponent,
