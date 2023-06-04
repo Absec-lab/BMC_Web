@@ -43,7 +43,7 @@ const routes: Routes = [
   {
     component:PitViewComponent,
     path:'superadmin/mcc/pit-view',
-    canActivate:[LoginGuard , MccUserAuthGuardService]
+    canActivate:[LoginGuard , MccUserAuthGuardService , ]
   },
   {
     component:CompostDryingComponent,

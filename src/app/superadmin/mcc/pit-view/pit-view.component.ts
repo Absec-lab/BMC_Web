@@ -198,14 +198,15 @@ export class PitViewComponent {
   subscriptions:Subscription[] = [];
   ngOnInit(): void {
 
-    this.subscriptions.push( this.pitService.selectMccId.subscribe( (val) => {
+    this.pitService.selectMccId.subscribe( (val) => {
           this.mccId = val;
           this.pitPayload.payload.mccId = this.mccId;
           this.getPitStageDetails();
         
-    }));
-    this.subscriptions.push(this.updateSubscription = interval(10000).subscribe(
-      (val) => { this.onRefresh()}));
+    });
+    
+    this.updateSubscription = interval(10000).subscribe(
+      (val) => { this.onRefresh()});
    
   }
 

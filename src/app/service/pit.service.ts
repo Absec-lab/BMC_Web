@@ -15,6 +15,7 @@ const environment = {
   //PIT_SERVICE_URL: 'http://43.204.240.44:8062/',
   //AUTH_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
   //URL: `http://15.207.62.200:9091`,  //prod url
+
   PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
   AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
   getAllPit: 'pit/v1/getAllPitListByMccId',

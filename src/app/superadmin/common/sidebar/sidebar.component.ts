@@ -112,6 +112,9 @@ export class SidebarComponent {
   lolginDetails: any;
   menuItem_ : any;
 
+  name:string="";
+  role:string="";
+  mccName:string="";
 
   constructor(public router : Router,public pitService : PitService){
     console.log("  Menu Item ::  ",this.menuItem_);
@@ -121,7 +124,11 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.lolginDetails =  JSON.parse(localStorage.getItem('logindetails')??"");
-    this.menuItem_ = this.lolginDetails.menuitem;    
+    this.menuItem_ = this.lolginDetails.menuitem;   
+    
+    this.name = this.lolginDetails.userdetails[0].firstName + " "+ this.lolginDetails.userdetails[0].lastName;
+    this.role = this.lolginDetails.userdetails[0].attributes.role[0];
+    this.mccName = this.lolginDetails.userentity[0].mccEntity.mccName + "("+  this.lolginDetails.userentity[0].mccEntity.wc.wcName  +")"
   }
 
   onClickOnMenu(mccItem : any){

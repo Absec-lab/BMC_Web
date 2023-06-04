@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -57,10 +58,15 @@ export class LoginComponent {
        localStorage.setItem('access_token', this.logindata.access_token);
        localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
        localStorage.setItem('logindetails', JSON.stringify(this.logindata));
+       localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
+       localStorage.setItem('email', this.logindata.userdetails[0].email);
      //  this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
        this.route.navigate(['/superadmin/home'])
    
   }, error => {
+    if(JSON.parse(JSON.stringify(error)).status === HttpStatusCode.BadRequest){
+      this.toastr.error('Error!', JSON.parse(JSON.stringify(error)).error , {positionClass:'toast-center-center'});
+    }
     console.log(error);
   });
 }

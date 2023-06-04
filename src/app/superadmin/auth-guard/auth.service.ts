@@ -55,7 +55,7 @@ export class AuthService {
     //return !this.jwtHelper.isTokenExpired(token);
     // console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
     //console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
-    if (localStorage.getItem('role') === 'wcuser') {
+    if (localStorage.getItem('role')?.includes('wcuser')) {
       return true;
     } else {
       return false;

@@ -92,7 +92,8 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     ReactiveFormsModule,
     AgGridModule,
     SharedModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule // ToastrModule added
   ]
 })
 export class SuperadminModule { }

@@ -32,8 +32,8 @@ import { LoginGuard } from './superadmin/auth-guard/LoginGuard';
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost"],
-        disallowedRoutes: ["http://localhost"],
+        allowedDomains: ["http://15.207.62.200/"],
+        disallowedRoutes: ["http://15.207.62.200/"],
       },
     }),
   ],
