@@ -186,8 +186,8 @@ export class GarbageComponent implements OnInit {
         else if(this.tripResponse.data.tripStatusEntity.id == 3){
           this.tripStartButton = false
           this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = true
+          this.dryButton = true
+          this.wetWeightCapturedButton = false
           this.grossWeightCapturedButton = false
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 4){
@@ -534,7 +534,7 @@ export class GarbageComponent implements OnInit {
 
   setDryWtValue(){
     const data={
-      "dryWt": this.form.value.dryWeightValue,
+      "tareWt": this.form.value.tareWeightValue,
       "statusEntity": {
         "id": 4
       },
@@ -625,9 +625,9 @@ export class GarbageComponent implements OnInit {
             if (this.tripResponse.data.tripStatusEntity.id == 1) {
               this.tripStartButton = false
               this.tripEndButton = false
-              this.dryButton = false
+              this.dryButton = true
               this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
+              this.grossWeightCapturedButton = false
               
             }
             else if(this.tripResponse.data.tripStatusEntity.id == 2){
@@ -871,18 +871,6 @@ columnDefsComp: ColDef[] = [
   // }
   { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
   { field: 'trip_end_reading_image', headerName: 'Trip End Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm" (click)="updateData(x)">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-      <button class="btn btn-danger btn-sm">
-      <i class="fa-solid fa-trash-alt"></i>
-    </button>
-     `; 
-    }
-  }
 ];
 
 defaultColDefComp: ColDef = {
