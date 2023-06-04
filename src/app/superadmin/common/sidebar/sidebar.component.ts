@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Attributes, Access, Userentity, Userrole, Userdetail, UserRoleMenu, ZoneId, WcEntity, MccEntity, Menu } from 'src/app/model/menu.model';
+import { PitService } from 'src/app/service/pit.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -107,10 +109,37 @@ export class SidebarComponent {
     menuitem: []
   }
   
-  @Input() menuItem_: any[] = []
+  lolginDetails: any;
+  menuItem_ : any;
 
-  public ngOninit(){
-    console.log("  Menu Item ::  ",this.menuItem_);
+
+  constructor(public router : Router,public pitService : PitService){
+    console.log("  Menu Item 1111 ::  ",this.menuItem_);
   }
+
+ 
+
+  ngOnInit(): void {
+    this.lolginDetails =  JSON.parse(localStorage.getItem('logindetails')??"");
+    this.menuItem_ = this.lolginDetails.menuitem;
+    console.log("  LoginDet Item ::  ",this.lolginDetails);
+    console.log("  Menu Item ::  ",this.menuItem_);
+    
+  }
+
+  onClickOnMenu(mccItem : any){
+    console.log( '   MCC IDDD  :::  {} ', mccItem.mccId);
+    this.pitService.selectMccId.next(mccItem.mccId)
+    this.router.navigate(['/superadmin/mcc/pit-view']);
+  }
+
+
+public doLogout() : void{
+     localStorage.removeItem('access_token');
+     localStorage.removeItem('role');
+     localStorage.removeItem('logindetails');
+     localStorage.clear();
+     this.router.navigate(['/login'])
+}
 
 }

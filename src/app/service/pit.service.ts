@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PitHistoryReq, PitModel, PitProcessMain, PitStageRoot } from '../model/pit.model';
+import { PitHistoryReq, PitModel, PitProcessMain, PitStageRoot, pitPayload } from '../model/pit.model';
 import { PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from '../model/pitInit.model';
 import { TodayTaskModel } from '../model/todaytask.model';
 import { PitStatusModel } from '../model/pit-status.model';
@@ -30,16 +30,13 @@ const environment = {
 })
 export class PitService {
 
+  public selectMccId : BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor(private http: HttpClient) { }
 
-  getAllPitsByMcc(): Observable<PitModel> {
-    let param = {
-      "payload": {
-        "mccId": 1,
-        "wcId": 1
-      }
-    };
+  getAllPitsByMcc(pitPay : pitPayload): Observable<PitModel> {
+    let param = pitPay;
+    console.log('  Payload for PIT VIEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW          {} ' , param);
     let urlString =   environment.PIT_SERVICE_URL +'pit/v1/getAllPitListByMccId';
     return this.http.post<PitModel>(urlString, param);
   }

@@ -5,12 +5,27 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService {
   constructor(public auth: AuthService, public router: Router) {}
   
-  public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkLogin(state.url);
+  // public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  //   return this.checkLogin(state.url);
+  // }
+
+  canActivate():
+  | Observable<boolean | UrlTree>
+  | Promise<boolean | UrlTree>
+  | boolean
+  | UrlTree {
+    console.log('  Authenticated ::  ',this.auth.isAuthenticatedbyMccUser);
+  if (!this.auth.isAuthenticatedbyMccUser) {
+    this.router.navigate(['login']);
+    return false;
   }
+  // logged in, so return true
+  this.auth.isAuthenticatedbyMccUser();
+  return true;
+}
 
   private checkLogin(url: string): boolean {
     if (localStorage.getItem('access_token')) { 
@@ -19,7 +34,7 @@ export class AuthGuardService implements CanActivate {
     else
   { 
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
     return false;}
   }
 }

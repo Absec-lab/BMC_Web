@@ -25,27 +25,6 @@ export class LoginComponent {
   });
 
   public logindata:any;
-  // public logindata: LoginRes = {
-  //   access_token: '',
-  //   refresh_token: '',
-  //   userdetails: []
-  // }
-  // public userDetails: Userdetail={
-  //   id: '',
-  //   createdTimestamp: 0,
-  //   username: '',
-  //   enabled: false,
-  //   totp: false,
-  //   emailVerified: false,
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   attributes: undefined,
-  //   disableableCredentialTypes: [],
-  //   requiredActions: [],
-  //   notBefore: 0,
-  //   access: undefined
-  // }
 
   public loginPayload: LoginReq = {
     email: '',
@@ -55,32 +34,6 @@ export class LoginComponent {
 
 
   
- /**
-   * Function used to call Bakend OLD Login service *****************
-   */
-  // login(){
-  //   console.log(this.form.value)
-  //   const payload={
-  //     "payload":this.form.value
-  //   }
-  //   this.service.login(payload).subscribe(
-  //     data=>{
-  //       this.loginResponse=data as LoginModel
-  //       localStorage.setItem('userInfo',JSON.stringify(this.loginResponse.responseBody));
-  //       localStorage.setItem('token',this.loginResponse.bearerToken)
-  //      // window.alert("Login Success")
-  //       //this.route.navigate(['/map/view'])
-  //       this.route.navigate(['/superadmin/home'])
-  //     },
-  //     error=>{
-  //       window.alert("Invalid Credentials")
-  //     }
-  //   );
-   
-  // }
-
-
-
  /**
    * Function used to call Bakend Login service
    */
@@ -99,10 +52,13 @@ export class LoginComponent {
   this.service.login(this.loginPayload).subscribe(data => {
        this.logindata = data;
        console.log("Login RES : ",this.logindata);
+       console.log("Login RES : ",this.logindata.userdetails[0].attributes.role);
+
        localStorage.setItem('access_token', this.logindata.access_token);
        localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
-       this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
-       //this.route.navigate(['/superadmin/home'])
+       localStorage.setItem('logindetails', JSON.stringify(this.logindata));
+     //  this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
+       this.route.navigate(['/superadmin/home'])
    
   }, error => {
     console.log(error);

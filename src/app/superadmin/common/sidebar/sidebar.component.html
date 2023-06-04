@@ -40,7 +40,7 @@
 					<span>{{ item.wcName }}</span>
 				</a>
 				<div class="sidebar-sub-menu collapse" id="collapseSidebarWCSubLinks-{{ indexOfItem }}">
-					<a *ngFor="let mccItem of item.mccList" routerLink="/superadmin/mcc/pit-view" class="sidebar-link">
+					<a *ngFor="let mccItem of item.mccList" (click)="onClickOnMenu(mccItem)" class="sidebar-link">
 						<i class="fa-solid fa-arrow-right"></i>
 						<span>{{ mccItem.mccName }}</span>
 					</a>
@@ -227,8 +227,8 @@
 			<span>Settings</span>
 		</a>
 		<div class="d-flex w-100 align-items-center mt-4">
-			<div>
-				<a routerLink="" class="sidebar-link">
+			<div (click)="doLogout()">
+				<a  class="sidebar-link">
 					<i class="fa-solid fa-arrow-right-from-bracket"></i>
 					<span>Logout</span>
 				</a>

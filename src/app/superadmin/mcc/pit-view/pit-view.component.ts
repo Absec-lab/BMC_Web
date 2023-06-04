@@ -1,9 +1,10 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable,Subscription, interval  } from 'rxjs';
-import { CodeValue, PitCounterInit, PitHistory, PitHistoryReq, PitInitModalReq, PitModel, PitProcess, PitProcessMain, PitStageBody, PitStageReq, PitStageRoot } from 'src/app/model/pit.model';
+import { CodeValue, PitCounterInit, PitHistory, PitHistoryReq, PitInitModalReq, PitModel, PitProcess, PitProcessMain, PitStageBody, PitStageReq, PitStageRoot, pitByMccId, pitPayload } from 'src/app/model/pit.model';
 import { Header, PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
 import { ModalService } from 'src/app/service/modal.service';
 import { PitService } from 'src/app/service/pit.service';
@@ -35,6 +36,7 @@ export class PitViewComponent {
   public pitClicked : any='';
   public pitMixStatus : Boolean=false;
   public pitHistoryStatus : Boolean=false;
+  public mccId : number = 0;
 
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
@@ -134,9 +136,12 @@ export class PitViewComponent {
   
   constructor(private pitService: PitService,
     protected modalService: ModalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route:Router
    ) {
-   
+  
+    console.log( '  MCC ID  ::::: {} ', this.mccId);
+
   }
 
   form = new FormGroup({
@@ -182,21 +187,43 @@ export class PitViewComponent {
     batchIdForm: new FormControl
   });
 
-  ngOnInit(): void {
-    this.onRefresh();
-    this.getPitStageDetails();
-    this.updateSubscription = interval(30000).subscribe(
-      (val) => { this.onRefresh()});
-    
+  pitByMcc : pitByMccId = {
+    mccId: 0,
+    wcId: 0
   }
 
-  // onResetModal(){
+  pitPayload : pitPayload = {
+    payload: this.pitByMcc
+  }
+  subscriptions:Subscription[] = [];
+  ngOnInit(): void {
 
-  // }
+    console.log('  localastorage :: ',localStorage.getItem('access_token'));
+    console.log('  localastorage :: ',localStorage.getItem('role'));
+    console.log('  localastorage :: ',localStorage.getItem('logindetails'));
+
+    this.subscriptions.push( this.pitService.selectMccId.subscribe( (val) => {
+          this.mccId = val;
+          this.pitPayload.payload.mccId = this.mccId;
+          this.getPitStageDetails();
+        
+    }));
+    this.subscriptions.push(this.updateSubscription = interval(10000).subscribe(
+      (val) => { this.onRefresh()}));
+   
+  }
+
+  ngOnDestroy(){
+    this.mccId = 0;
+    this.updateSubscription?.unsubscribe();
+    this.pitService.selectMccId?.unsubscribe();
+
+  }
+
 
   onRefresh(){
     this.pitService
-      .getAllPitsByMcc()
+      .getAllPitsByMcc(this.pitPayload)
       .subscribe((response) => (this.allPitbyMcc = response));
   }
 
@@ -211,7 +238,6 @@ export class PitViewComponent {
   closePitActivityModalstatus(){
     this.pitmodalstatus =false;
     this.yellowPitarr=[];
-   // this.clickedPit.pitId=0;
    this.isEventNeeded = false;
     this.form.reset();
   }

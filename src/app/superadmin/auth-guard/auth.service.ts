@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-//import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   constructor(public jwtHelper: JwtHelperService) { }
   // ...
   public isAuthenticated(): boolean {
@@ -16,7 +16,8 @@ export class AuthService {
     //return !this.jwtHelper.isTokenExpired(token);
     //  console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
     console.log("  Auth guard  role  *******    ", localStorage.getItem('role'));
-    if (token) {
+    console.log("  Auth guard  token  *******    ", token);
+    if (token != undefined) {
       return true;
     } else {
       return false;
@@ -69,8 +70,9 @@ export class AuthService {
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
     // console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
+    console.log("   Token expiry :::::::   ", this.isTokenAuthenticated());
     console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
-    if (localStorage.getItem('role') === 'mccuser') {
+    if (localStorage.getItem('role')?.includes('mccuser')) {
       return true;
     } else {
       return false;
