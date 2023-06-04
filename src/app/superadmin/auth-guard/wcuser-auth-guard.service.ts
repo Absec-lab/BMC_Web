@@ -34,6 +34,7 @@ export class WcUserAuthGuardService  {
   if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedByWcuser()) {
     console.log('  Authenticated ::  inside Wcuser auth 222    :::::   ',this.auth.isAuthenticated());
     console.log('  Authenticated ::  inside Wcuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
+    
     this.router.navigate(['/login']);
     return false;
   }

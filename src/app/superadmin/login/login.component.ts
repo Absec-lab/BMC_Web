@@ -33,7 +33,9 @@ export class LoginComponent {
     hasTermsChecked: true
   };
 
-
+  ngOnInit(): void {
+    localStorage.clear();
+  }
   
  /**
    * Function used to call Bakend Login service
