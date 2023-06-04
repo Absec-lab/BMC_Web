@@ -45,7 +45,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 
-
 @NgModule({
   declarations: [
     //HeaderComponent,
