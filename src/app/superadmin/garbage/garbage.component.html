@@ -155,7 +155,7 @@
 														</div>
 														<div class="col-md-9">
 															<input type="file" name="" id="" class="form-control"
-																accept="image/*">
+																accept="image/*" (change)="onTripStartFileSelected($event)">
 														</div>
 													</div>
 													<div class="row mt-3">
@@ -173,7 +173,7 @@
 														</div>
 														<div class="col-md-9">
 															<input type="file" name="" id="" class="form-control"
-																accept="image/*">
+																accept="image/*" (change)="onTripEndFileSelected($event)">
 														</div>
 													</div>
 													<!-- <div class="row mt-3">
@@ -218,12 +218,11 @@
 															Helper Name
 														</div>
 														<div class="col-md-9">
-															<div class="ms-3 d-flex-1">
-																<select formControlName="helperId" class="form-select">
-																    <option value="" disabled selected>--Select--</option>
-																    <option [value]="x.helperId" *ngFor="let x of helperList;">{{x.helperName}}</option>
-															    </select>
-															    </div>
+															<select 
+																class="form-select" formControlName="helperId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.helperId" *ngFor="let item of helperList">{{item.helperName}}</option>
+															</select>
 														</div>
 													</div>
 													<div class="row mt-3">
@@ -291,16 +290,23 @@
 												<div class="col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Gross Weight/Ton
+															Gross Weight/Kg
 														</div>
-														<div class="col-md-9">
-															<input type="number" name="" id="" class="form-control"
+														<div class="col-md-3">
+															<input type="number" name="" id="" class="form-control" 
 																formControlName="grossWeightValue">
 														</div>
-													</div>
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Unload Wet Weight/Kg
+														</div>
+														<div class="col-md-3">
+															<input type="number" name="" id="unloadId" class="form-control" 
+																formControlName="unloadwetWeightValue" (mouseout)="wetWeightCal()">
+														</div>
+													</div> 
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Tare Weight/Ton
+															Tare Weight/Kg
 														</div>
 														<div class="col-md-9">
 															<input type="text" name="" id="" class="form-control" 
@@ -311,18 +317,18 @@
 												<div class="col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Wet Weight/Ton
+															Wet Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
 																formControlName="wetWeightValue">
 														</div>
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Dry Weight/Ton
+															Dry Weight/Kg
 														</div>
-														<div class="col-md-9">
+														<div class="col-md-5">
 															<input type="number" name="" id="" class="form-control"
 																formControlName="dryWeightValue">
 														</div>
@@ -375,7 +381,7 @@
 									
 								</div>
 							</div>
-							<div class="tab-pane fade show bg-secondary border border-white border-top-0"
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
 								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
@@ -403,7 +409,7 @@
 										Completed Trips <i class="fa fa-truck b-red" aria-hidden="true"></i>
 									</div>
 									<div class="card-body">
-										<div
+										<!-- <div
 											class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
 											<div class="ms-3 w-25">
 												<input type="text" name="" id="" class="form-control"
@@ -418,7 +424,7 @@
 													Search
 												</button>
 											</div>
-										</div>
+										</div> -->
 										<ag-grid-angular
 										class="ag-theme-alpine"
 										[rowData]="rowDataComp"

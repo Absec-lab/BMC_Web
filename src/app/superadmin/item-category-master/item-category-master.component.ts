@@ -26,17 +26,16 @@ export class ItemCategoryMasterComponent implements OnInit {
                                 this.categoryList = data
                         }
                 );
+                this.getItemCategory();
         }
 
         form = new FormGroup({
-                itemId:new FormControl,
                 itemCategoryId:new FormControl,
                 categoryName: new FormControl,
                 description: new FormControl
         });
 
         editFormData = new FormGroup({
-                itemId: new FormControl,
                 itemCategoryId: new FormControl,
                 categoryName: new FormControl,
                 description: new FormControl
@@ -69,6 +68,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                                                 this.categoryList = data
                                         }
                                 );
+                                this.getItemCategory();
                         },
                         error => {
                                 window.alert("Something went wrong")
@@ -105,10 +105,9 @@ export class ItemCategoryMasterComponent implements OnInit {
                 console.log(item)
 
                 this.form = this.formBuilder.group({
-                        itemId:item.itemId,
-                        itemCategoryId: item.categoryId,
+                        itemCategoryId: item.itemCategoryId,
                         categoryName: item.categoryName,
-                        description: item.categoryDesc
+                        description: item.description
                 })
                
         }
@@ -119,16 +118,17 @@ export class ItemCategoryMasterComponent implements OnInit {
 
         updateCategory(){
                 console.log(this.form.value)
-                this.service.updateZone(this.form.value).subscribe(
+                this.service.updateItemCategory(this.form.value).subscribe(
                         data=>{
                                 window.alert("Category data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
-                                this.service.getZoneAllData().subscribe(
+                                this.service.getAllItemCategory().subscribe(
                                         data => {
                                                 this.categoryList = data
                                         }
                                 );
+                                this.getItemCategory();
                         },
                         error=>{
                                 window.alert("something went wrong")
