@@ -69,7 +69,7 @@ export class CommonService {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
         deactivateCategory(id: any) {
-                return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
+                return this.http.get(environment.URL + '/itemCategory/deactivate?id='+ id)
         }
         addZone(data: any) {
                 return this.http.post(environment.URL + '/zone/addZone', data);

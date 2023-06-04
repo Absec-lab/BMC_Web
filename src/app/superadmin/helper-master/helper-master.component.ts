@@ -27,17 +27,17 @@ export class HelperMasterComponent {
                 phoneNo: new FormControl,
                 address: new FormControl,
                 helperDesc: new FormControl,
-                isActive: new  FormControl,
+                isActive: new  FormControl
               });
         editForm =new FormGroup({
                 helperId:new FormControl,
-                helperName: new FormControl(''),
-                helperIdProof: new FormControl(''),
-                helperPhoto: new FormControl(''),
-                phoneNo: new FormControl(''),
-                address: new FormControl(''),
-                helperDesc: new FormControl(''),
-                isActive: new FormControl(''),
+                helperName: new FormControl,
+                helperIdProof: new FormControl,
+                helperPhoto: new FormControl,
+                phoneNo: new FormControl,
+                address: new FormControl,
+                helperDesc: new FormControl,
+                isActive: new FormControl
               });
         list: any = []
         wcList: any = []
