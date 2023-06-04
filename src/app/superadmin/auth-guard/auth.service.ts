@@ -15,8 +15,8 @@ export class AuthService {
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
     //  console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
-    console.log("  Auth guard  role  *******    ", localStorage.getItem('role'));
-    console.log("  Auth guard  token  *******    ", token);
+    //console.log("  Auth guard  role  *******    ", localStorage.getItem('role'));
+    //console.log("  Auth guard  token  *******    ", token);
     if (token != undefined) {
       return true;
     } else {
@@ -38,7 +38,7 @@ export class AuthService {
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
     //  console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
-    console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
+    //console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
     if (localStorage.getItem('role') === 'mccadmin') {
       return true;
     } else {
@@ -54,7 +54,7 @@ export class AuthService {
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
     // console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
-    console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
+    //console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
     if (localStorage.getItem('role') === 'wcuser') {
       return true;
     } else {
@@ -70,8 +70,8 @@ export class AuthService {
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
     // console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
-    console.log("   Token expiry :::::::   ", this.isTokenAuthenticated());
-    console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
+    //console.log("   Token expiry :::::::   ", this.isTokenAuthenticated());
+    //console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
     if (localStorage.getItem('role')?.includes('mccuser')) {
       return true;
     } else {

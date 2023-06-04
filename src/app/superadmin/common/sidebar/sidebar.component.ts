@@ -114,17 +114,14 @@ export class SidebarComponent {
 
 
   constructor(public router : Router,public pitService : PitService){
-    console.log("  Menu Item 1111 ::  ",this.menuItem_);
+    console.log("  Menu Item ::  ",this.menuItem_);
   }
 
  
 
   ngOnInit(): void {
     this.lolginDetails =  JSON.parse(localStorage.getItem('logindetails')??"");
-    this.menuItem_ = this.lolginDetails.menuitem;
-    console.log("  LoginDet Item ::  ",this.lolginDetails);
-    console.log("  Menu Item ::  ",this.menuItem_);
-    
+    this.menuItem_ = this.lolginDetails.menuitem;    
   }
 
   onClickOnMenu(mccItem : any){

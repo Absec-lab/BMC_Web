@@ -118,7 +118,6 @@ public menuItem_ : any[]=[]
 
 constructor(private toastr: ToastrService , private route:Router, private pitService: PitService,) {
   this.menuItem_ = route.getCurrentNavigation()?.extras?.state?.['usermenu'];
-  console.log("  User details :::   {} ",this.menuItem_);
 }
 
 

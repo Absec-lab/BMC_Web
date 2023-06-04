@@ -129,7 +129,8 @@ export class CommonService {
         }
         login(data:any){
               //  return this.http.post('http://15.207.62.200:8064/bmcwastemanagement/auth/users/login' , data)
-                return this.http.post('http://localhost:8064/bmcwastemanagement/auth/users/login' , data)
+                return this.http.post(environment.LOGIN_SERVICE_URL , data)
+             
         }
         getZoneById(id:any){
                 return this.http.get(environment.URL+'/zone/getZoneById/'+id)
