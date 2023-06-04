@@ -10,11 +10,11 @@ export class DeactivationDto {
 const environment = {
 
 
-        //      URL: `http://15.207.62.200:9091`,  //prod url
+              URL: `http://15.207.62.200:9091`,  //prod url
               //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
-           //  LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
-             LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
-             URL: `http://43.204.240.44:9091`  //Absec ip 
+             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
+          //   LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
+         //    URL: `http://43.204.240.44:9091`  //Absec ip 
         // URL: `http://192.168.29.128:9091`
 }
 
@@ -128,7 +128,9 @@ export class CommonService {
                 return this.http.get(environment.URL+'/get/all/mcc/by/wcId?wcId='+id)
         }
         login(data:any){
-                return this.http.post('http://15.207.62.200:8064/bmcwastemanagement/auth/users/login' , data)
+              //  return this.http.post('http://15.207.62.200:8064/bmcwastemanagement/auth/users/login' , data)
+                return this.http.post(environment.LOGIN_SERVICE_URL , data)
+             
         }
         getZoneById(id:any){
                 return this.http.get(environment.URL+'/zone/getZoneById/'+id)

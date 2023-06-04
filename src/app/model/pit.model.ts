@@ -171,3 +171,12 @@ export interface PitCounterInit {
   pitId: number
   counter: number
 }
+
+export interface pitPayload{
+  payload : pitByMccId
+}
+
+export interface pitByMccId {
+  mccId: number
+  wcId: number
+}

@@ -1,9 +1,10 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable,Subscription, interval  } from 'rxjs';
-import { CodeValue, PitCounterInit, PitHistory, PitHistoryReq, PitInitModalReq, PitModel, PitProcess, PitProcessMain, PitStageBody, PitStageReq, PitStageRoot } from 'src/app/model/pit.model';
+import { CodeValue, PitCounterInit, PitHistory, PitHistoryReq, PitInitModalReq, PitModel, PitProcess, PitProcessMain, PitStageBody, PitStageReq, PitStageRoot, pitByMccId, pitPayload } from 'src/app/model/pit.model';
 import { Header, PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from 'src/app/model/pitInit.model';
 import { ModalService } from 'src/app/service/modal.service';
 import { PitService } from 'src/app/service/pit.service';
@@ -35,6 +36,7 @@ export class PitViewComponent {
   public pitClicked : any='';
   public pitMixStatus : Boolean=false;
   public pitHistoryStatus : Boolean=false;
+  public mccId : number = 0;
 
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
@@ -134,9 +136,12 @@ export class PitViewComponent {
   
   constructor(private pitService: PitService,
     protected modalService: ModalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route:Router
    ) {
-   
+  
+    console.log( '  MCC ID  ::::: {} ', this.mccId);
+    this.pitPayload.payload.mccId = this.mccId;
   }
 
   form = new FormGroup({
@@ -182,26 +187,51 @@ export class PitViewComponent {
     batchIdForm: new FormControl
   });
 
-  ngOnInit(): void {
-    this.onRefresh();
-    this.getPitStageDetails();
-    this.updateSubscription = interval(30000).subscribe(
-      (val) => { this.onRefresh()});
-    
+  pitByMcc : pitByMccId = {
+    mccId: 0,
+    wcId: 0
   }
 
-  // onResetModal(){
+  pitPayload : pitPayload = {
+    payload: this.pitByMcc
+  }
+  subscriptions:Subscription[] = [];
+  ngOnInit(): void {
+    console.log('   NG ON INIT  ::   {} ',this.pitPayload);
+      this.pitService.selectMccId.subscribe( (val) => {
+        this.mccId = val;
+        this.pitPayload.payload.mccId = this.mccId;
+        this.getPitStageDetails();
+      });
 
-  // }
+    this.updateSubscription = interval(10000).subscribe(
+      (val) => { this.onRefresh()});
+   
+  }
+
+  ngOnDestroy(){
+    this.mccId = 0;
+ //   this.updateSubscription?.unsubscribe();
+ //   this.pitService.selectMccId?.unsubscribe();
+
+  }
+  greaterThan(pit : any){
+    if(pit.daysCounter >= 0){
+       return true;
+    }
+    return false;
+  }
 
   onRefresh(){
-    this.pitService
-      .getAllPitsByMcc()
-      .subscribe((response) => (this.allPitbyMcc = response));
+      this.pitPayload.payload.mccId = this.mccId;
+        this.pitService
+          .getAllPitsByMcc(this.pitPayload)
+          .subscribe((response) => (this.allPitbyMcc = response));
+
   }
 
   getPitStageDetails(){
-    console.log('  PIT stages  ', this.pitAllStages);
+   // console.log('  PIT stages  ', this.pitAllStages);
     this.pitService
       .getAllPitStagesStatus(this.pitAllStages)
       .subscribe((response) => (this.allPitStages = response));
@@ -211,7 +241,6 @@ export class PitViewComponent {
   closePitActivityModalstatus(){
     this.pitmodalstatus =false;
     this.yellowPitarr=[];
-   // this.clickedPit.pitId=0;
    this.isEventNeeded = false;
     this.form.reset();
   }
@@ -230,7 +259,7 @@ export class PitViewComponent {
   }
   pitName : string = '';
   showPitHistoryModal(pit : any){
-    console.log('  Show Pit Histiry for PIt :: {} ', pit);
+   // console.log('  Show Pit Histiry for PIt :: {} ', pit);
     this.pitName = pit.pitName;
     this.pitHistoryStatus=true;
   }
@@ -288,13 +317,13 @@ export class PitViewComponent {
     expectedTrSecondTurn:Boolean=false;
 
   onFetchPitHistoryDetails(pit :any){
-    console.log(" PIT ::::    ",pit);
-    console.log('  Show Pit Histiry for PIt :: {} ', pit);
+   // console.log(" PIT ::::    ",pit);
+   // console.log('  Show Pit Histiry for PIt :: {} ', pit);
     this.pitName = pit.pitName;
     this.pitHistoryReq.pitId = pit.pitId;
     this.pitHistoryReq.batchId = pit.batch;
-    console.log("  PIT History :: {} ", this.pitHistoryReq);
-    console.log("  PIT  :: {} ",pit.pitStatus.pitConfigCode);
+   // console.log("  PIT History :: {} ", this.pitHistoryReq);
+   // console.log("  PIT  :: {} ",pit.pitStatus.pitConfigCode);
     console.log( pitNoActionStatusEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString()+" *****  PIT ******** :: {} ",pit.pitStatus.pitConfigCode.toString() );
     if( pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_EMPTY_GARBAGE_COL_NOT_STARTED.toString() || 
         pit.pitStatus.pitConfigCode.toString() == pitNoActionStatusEnum.PIT_EMPTY_AFTER_MIXED_UP.toString() ||
@@ -307,7 +336,7 @@ export class PitViewComponent {
     this.pitService
         .onFetchPitHistoryDetails(this.pitHistoryReq)
         .subscribe((response) => {
-          console.log('Main pit process {} ',response);
+        //  console.log('Main pit process {} ',response);
           this.pitProcessMain = response;
         //  this.formhistory.controls.expectedDateOfCompostForm.setValue('hiiiiiiiiiiiii');
           this.formhistory.controls.fillingDtId.setValue(this.pitProcessMain.pitProcess.filledUpDate);
@@ -331,7 +360,7 @@ export class PitViewComponent {
           this.formhistory.controls.secondTurnDtId.setValue(this.pitProcessMain.pitProcess.secondTurnDate.toString());
          }
           
-         console.log('  Final Compost Date {} : ', this.pitProcessMain.pitProcess.compostingDate);
+        // console.log('  Final Compost Date {} : ', this.pitProcessMain.pitProcess.compostingDate);
          if(this.pitProcessMain.pitProcess.compostingDate.toString().includes('E.D:')){
           this.formhistory.controls.expectedDateOfCompostForm.setValue(this.pitProcessMain.pitProcess.compostingDate.toString().replace('E.D:',''));
          }else{
@@ -432,9 +461,9 @@ export class PitViewComponent {
       this.pitInitModal.stageCode = pitNoActionStatusEnum.PIT_STATUS_FILL_UP_1_2D.toString();
       this.pitInitModal.stageCode = statusCode;
    }
-   console.log('onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
-   console.log( this.form.controls.transfertoPITCrt.value+'    onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
-   console.log('onSubmitRequestForInit ###########   {} ',this.pitInitModal);
+  // console.log('onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
+  // console.log( this.form.controls.transfertoPITCrt.value+'    onSubmitRequestForInit ###########   {} ',this.form.controls.pitIdVal.value);
+  // console.log('onSubmitRequestForInit ###########   {} ',this.pitInitModal);
  
    if(!status){
     this.pitInitModal.noWorkflow = true;
@@ -447,7 +476,7 @@ export class PitViewComponent {
          this.toastr.error('Error!','   Please fill garbage wt.... ' , {positionClass:'toast-center-center'});
          return;
     }
-      console.log('   FILED MATERIAL {}  ',this.pitInitModal);
+  //    console.log('   FILED MATERIAL {}  ',this.pitInitModal);
       this.pitService
         .savePitInitForCompost(this.pitInitModal)
         .subscribe((response) => {
@@ -464,7 +493,7 @@ export class PitViewComponent {
               this.form.reset();
             };
           });
-        console.log('Successs Saved Enzyme process.  {} ', this.responsePitenzyme);
+   //     console.log('Successs Saved Enzyme process.  {} ', this.responsePitenzyme);
      
   }
 
@@ -472,13 +501,13 @@ export class PitViewComponent {
 
   // Submit of  init workflow...............
   onSubmitToWorkflow(){
-    console.log('Request Send before Submit to Workflow process.{} ',this.submitToWorkflowPayload);
-    console.log('Clicked pit ID  ', this.clickedPitId);
+ //   console.log('Request Send before Submit to Workflow process.{} ',this.submitToWorkflowPayload);
+ //   console.log('Clicked pit ID  ', this.clickedPitId);
     this.submitToWorkflowPayload.payload.pitId= this.clickedPitId;
     this.pitService
       .submitRequestForBatchBeforeCompost(this.submitToWorkflowPayload)
       .subscribe((response) => (this.responseforWorkflowstart = response));
-      console.log('Now Workflow process started');
+ //     console.log('Now Workflow process started');
       //this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});
       this.onRefresh();
   }

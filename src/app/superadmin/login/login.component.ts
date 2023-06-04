@@ -1,7 +1,10 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { windowWhen } from 'rxjs';
+import { LoginRes, Userdetail } from 'src/app/model/login.model';
 import { LoginReq } from 'src/app/model/pit.model';
 import { LoginModel, UserInfo } from 'src/app/model/user.model';
 import { CommonService } from 'src/app/service/common.service';
@@ -12,7 +15,9 @@ import { CommonService } from 'src/app/service/common.service';
 })
 export class LoginComponent {
   checkagreeterms: any;
-  constructor(private service: CommonService,private route:Router) {
+    
+    constructor(private toastr: ToastrService,
+      private service: CommonService,private route:Router) {
   }
   loginResponse:any
   form = new FormGroup({
@@ -20,8 +25,7 @@ export class LoginComponent {
     password: new FormControl
   });
 
-
-  
+  public logindata:any;
 
   public loginPayload: LoginReq = {
     email: '',
@@ -29,64 +33,42 @@ export class LoginComponent {
     hasTermsChecked: true
   };
 
-
+  ngOnInit(): void {
+    localStorage.clear();
+  }
   
- /**
-   * Function used to call Bakend OLD Login service *****************
-   */
-  // login(){
-  //   console.log(this.form.value)
-  //   const payload={
-  //     "payload":this.form.value
-  //   }
-  //   this.service.login(payload).subscribe(
-  //     data=>{
-  //       this.loginResponse=data as LoginModel
-  //       localStorage.setItem('userInfo',JSON.stringify(this.loginResponse.responseBody));
-  //       localStorage.setItem('token',this.loginResponse.bearerToken)
-  //      // window.alert("Login Success")
-  //       //this.route.navigate(['/map/view'])
-  //       this.route.navigate(['/superadmin/home'])
-  //     },
-  //     error=>{
-  //       window.alert("Invalid Credentials")
-  //     }
-  //   );
-   
-  // }
-
-
-  public logindata: any;
  /**
    * Function used to call Bakend Login service
    */
  public doLogin(): void {
 
-//   if (this.loginPayload.email == null || this.loginPayload.email === '' ||
-//     this.loginPayload.password == null || this.loginPayload.password === '') {
-//  //   this.toastr.warning(' Field can not be left empty ', 'Alert!');
-//     return;
-//   }
-  this.loginPayload.email = 'testbmcadmin@gmail.com';
-  this.loginPayload.password = 'Absec@123';
-  this.loginPayload.hasTermsChecked = true;
+  if (this.form.controls.emailId.value == null || this.form.controls.emailId.value  === '' ||
+     this.form.controls.password.value == null || this.form.controls.password.value === '') {
+      this.toastr.error('Error!','   Field can not be left empty   ' , {positionClass:'toast-center-center'});
+    return;
+  }
+   this.loginPayload.email = this.form.controls.emailId.value;
+   this.loginPayload.password = this.form.controls.password.value;
+   this.loginPayload.hasTermsChecked = true;
   
   console.log("Login REQ : ",this.loginPayload);
   this.service.login(this.loginPayload).subscribe(data => {
-    this.logindata = data;
-    console.log("Login RES : ",this.logindata);
-   // localStorage.setItem('access_token', data.token);
-   // localStorage.setItem('role', data.role);
-    this.route.navigate(['/superadmin/home'])
-    // if (data.email) {
-    //   localStorage.setItem('logintype', "password_login");
-    //   this.route.navigate(['/superadmin/home'])
-    //   this.doGetUserDetails(null , data.email , "email_login");
-    // } else {
-    //   this.route.navigate(['login']);
-    // }
-    // call get userdetails by userid to get user details.....
+       this.logindata = data;
+       console.log("Login RES : ",this.logindata);
+       console.log("Login RES : ",this.logindata.userdetails[0].attributes.role);
+
+       localStorage.setItem('access_token', this.logindata.access_token);
+       localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
+       localStorage.setItem('logindetails', JSON.stringify(this.logindata));
+       localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
+       localStorage.setItem('email', this.logindata.userdetails[0].email);
+     //  this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
+       this.route.navigate(['/superadmin/home'])
+   
   }, error => {
+    if(JSON.parse(JSON.stringify(error)).status === HttpStatusCode.BadRequest){
+      this.toastr.error('Error!', JSON.parse(JSON.stringify(error)).error , {positionClass:'toast-center-center'});
+    }
     console.log(error);
   });
 }

@@ -43,6 +43,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
+import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-ren
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
     InventoryComponent,
+    MccMenuComponent,
     ImageCellRendererComponent
   ],
   imports: [
@@ -89,7 +91,8 @@ import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-ren
     ReactiveFormsModule,
     AgGridModule,
     SharedModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule // ToastrModule added
   ]
 })
 export class SuperadminModule { }
