@@ -16,7 +16,7 @@ export class HelperMasterComponent {
         isActive: boolean = false
         constructor(private service: CommonService, private formBuilder: FormBuilder) {
                 this.getList()
-                this.getWCList()
+                //this.getWCList()
         }
 
         form = new FormGroup({
@@ -27,29 +27,29 @@ export class HelperMasterComponent {
                 phoneNo: new FormControl,
                 address: new FormControl,
                 helperDesc: new FormControl,
-                isActive: new  FormControl,
+                isActive: new  FormControl
               });
         editForm =new FormGroup({
                 helperId:new FormControl,
-                helperName: new FormControl(''),
-                helperIdProof: new FormControl(''),
-                helperPhoto: new FormControl(''),
-                phoneNo: new FormControl(''),
-                address: new FormControl(''),
-                helperDesc: new FormControl(''),
-                isActive: new FormControl(''),
+                helperName: new FormControl,
+                helperIdProof: new FormControl,
+                helperPhoto: new FormControl,
+                phoneNo: new FormControl,
+                address: new FormControl,
+                helperDesc: new FormControl,
+                isActive: new FormControl
               });
         list: any = []
-        wcList: any = []
+        //wcList: any = []
 
-        async getWCList() {
-                try {
-                        this.wcList = await this.service.get(`/zone/getAllWc`)
-                        this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
+        // async getWCList() {
+        //         try {
+        //                 this.wcList = await this.service.get(`/zone/getAllWc`)
+        //                 this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
+        //         } catch (e) {
+        //                 console.error(e)
+        //         }
+        // }
         async getList() {
                 try {
                         this.list = await this.service.get(`/zone/getAllHelper`)
