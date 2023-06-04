@@ -42,7 +42,7 @@ import { ItemNameMasterComponent } from './item-name-master/item-name-master.com
 import { InventoryComponent } from './inventory/inventory.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +80,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DryCompostWeighmentComponent,
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
-    InventoryComponent
+    InventoryComponent,
+    ImageCellRendererComponent
   ],
   imports: [
     CommonModule,

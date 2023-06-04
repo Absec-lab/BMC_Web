@@ -44,6 +44,7 @@ export class MrfComponent implements OnInit{
               sub_goods_name: item.subGood.subgoodsName,
               goods: item.goods.goodsPerKg,
               inert_material: item.interMaterial,
+              quntaum: item.quntaum,
               description: item.mrfDesc,     
               created_date : item.createdDate
             };
@@ -148,7 +149,9 @@ export class MrfComponent implements OnInit{
             sub_goods_name: item.subGood.goodssubId,
             goods: item.goods,
             inert_material: item.interMaterial,
-            description: item.mrfDesc,             
+            description: item.mrfDesc,
+            quntaum:item.quntaum
+
           };
         });
        console.log("MrfList",this.mrfGridList)
@@ -229,7 +232,8 @@ updateMrf() {
                 sub_goods_name: item.subGood.goodssubId,
                 goods: item.goods,
                 inert_material: item.interMaterial,
-                description: item.mrfDesc,     
+                description: item.mrfDesc, 
+                quntaum: item.quntaum    
                 
               };
             });
@@ -256,12 +260,12 @@ updateMrf() {
  */
 
 columnDefs: ColDef[] = [
-  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true},
-  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true},
-  { field: 'goods', headerName: 'Goods (Kg)', unSortIcon: true},
-  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true},
-  { field: 'description', headerName: 'Description', unSortIcon: true},
-  { field: 'created_date', headerName: 'Created Date', unSortIcon: true},
+  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
+  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
+  { field: 'quntaum', headerName: 'Goods (Kg)', unSortIcon: true,resizable: true},
+  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true,resizable: true},
+  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true},
+  { field: 'created_date', headerName: 'Created Date', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `
