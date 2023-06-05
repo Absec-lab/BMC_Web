@@ -16,6 +16,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         categoryResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
+                this.getItemCategory();
         }
         categoryList: any = []
         ngOnInit() {
@@ -26,7 +27,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                                 this.categoryList = data
                         }
                 );
-                this.getItemCategory();
+                
         }
 
         form = new FormGroup({
@@ -42,7 +43,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         })
         async getItemCategory() {
                 try {
-                        this.categoryList = await this.service.get(`/zone/getAllItemCategory`)
+                        this.categoryList = await this.service.get(`/inventory/getAllItemCategory`)
                         this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)

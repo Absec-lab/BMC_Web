@@ -49,7 +49,7 @@ export class ItemNameMasterComponent implements OnInit{
 
         async getCategories() {
                 try {
-                        this.categoryList = await this.service.get(`/zone/getAllItemCategory`)
+                        this.categoryList = await this.service.get(`/inventory/getAllItemCategory`)
                         this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
@@ -57,7 +57,7 @@ export class ItemNameMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllItemName`)
+                        this.list = await this.service.get(`/inventory/getAllItemName`)
                         this.list = this.list.sort((a: any, b: any) => a.itemName - b.itemName)
                 } catch (e) {
                         console.error(e)
@@ -72,7 +72,7 @@ export class ItemNameMasterComponent implements OnInit{
                                 "description": this.form.value.description,
                                 "itemcatrgory": category
                         }
-                        await this.service.post(`/zone/addItemName`, data)
+                        await this.service.post(`/inventory/addItemName`, data)
                         this.form.reset()
                         this.getList()
                 } catch (e) {

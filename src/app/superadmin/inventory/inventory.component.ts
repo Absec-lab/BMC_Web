@@ -10,7 +10,9 @@ import { ColDef } from 'ag-grid-community';
 export class InventoryComponent implements OnInit {
 
   constructor(private service: CommonService, private formBuilder: FormBuilder) {
-    this.getRouteList()
+    this.getItemName()
+    this.getItemcategory()
+    this.getList()
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -18,8 +20,8 @@ export class InventoryComponent implements OnInit {
    searchText: any;
   activeTripResponse: any
   activeTripList: any = []
-  inActiveTripList: any = []
-  inActiveTripResponse: any
+  itemPurchaseList: any = []
+  itemPurchaseResponse: any
   vehcileDataResponse: any
   tripStartButton: boolean = false
   tripEndButton: boolean = false
@@ -28,69 +30,61 @@ export class InventoryComponent implements OnInit {
   wetWeightCapturedButton: boolean = false
   tripResponse: any
   errorResponse:any
+  inventorylist: any = []
   form = new FormGroup({
-    vehicleNumber: new FormControl,
-    driverDlNo: new FormControl,
-    driverName: new FormControl,
-    routeName: new FormControl,
-    tripStartReading: new FormControl,
-    tripEndReading: new FormControl,
-    grossWeightValue: new FormControl,
-    dryWeightValue: new FormControl,
-    wetWeightValue: new FormControl,
-    tareWeightValue: new FormControl,
-    routeId: new FormControl,
-  });
+    itemPurchaseId: new FormControl,
+    itemCategoryId: new FormControl,
+    itemId: new FormControl,
+    itemName: new FormControl,
+    itemQuantity: new FormControl,
+    itemCost: new FormControl,
+    category: new FormControl,
+    item : new FormControl,
+    description: new FormControl,
+    unit: new FormControl,
+    uploadBill: new FormControl,
+    itemPurchaseDate: new FormControl
+});
+editForm = new FormGroup({
+    itemCategoryId: new FormControl,
+    itemId: new FormControl,
+    itemName: new FormControl,
+    itemQuantity: new FormControl,
+    itemCost: new FormControl,
+    category: new FormControl,
+    item : new FormControl,
+    description: new FormControl
+  })
+ 
   ngOnInit() {
-    this.setVehicleNumber()
-    this.service.getActiveTrip().subscribe(
+   
+    this.service.getAllItemPurchase().subscribe(
       data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
+        this.itemPurchaseResponse = data
+        this.itemPurchaseList = this.itemPurchaseResponse
+        const rowDataPurchase =   this.itemPurchaseList.map((item: { itemCategory: any; itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost:any;uploadBill:any;description:any; createdDate: any; updateDate:any; }) => {
          
           return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            tripStartReading: item.tripStartReading,
-            vehicle_starttime: item.createdDate
+            itemCategoryName: item.itemCategory.categoryName,
+            itemName: item.itemName.itemname,
+            unit: 0,
+            itemQuantity: item.itemQuantity,
+            itemCost: item.itemCost,
+            uploadBill:item.uploadBill,
+            createDate: item.createdDate,
+            description:item.description
           };
         });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
-       this.rowData=rowData;
-      }
-    );
-    this.service.getCompletedTrips().subscribe(
-      data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
-        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
-         
-          return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            tripStartReading: item.tripStartReading,
-            tripEndReading:item.tripEndReading,
-            vehicle_starttime: item.createdDate,
-            vehicle_endtime:item.updateDate
-          };
-        });
-       console.log("InActiveList",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
-       this.rowDataComp=rowDataComp;
+       console.log("InActiveList",this.itemPurchaseList)
+       console.log("rowData",rowDataPurchase)
+       this.rowDataPurchase=rowDataPurchase;
         
       }
     );
-    // this.setVehicleNumber();
-    
-    
+    // this.setVehicleNumber();    
   }
-  routeList: any = []
+  itemCategoryList: any = []
+  itemNameList: any= []
  
 
   getActiveTrip() {
@@ -105,424 +99,87 @@ export class InventoryComponent implements OnInit {
   getCompletedTrip() {
     this.service.getCompletedTrips().subscribe(
       data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
+        this.itemPurchaseResponse = data
+        this.itemPurchaseList = this.itemPurchaseResponse.data
       }
     );
   }
-
- async setVehicleNumber() {
-    console.log(this.form.value.vehicleNumber)
-    this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-      data => {
-        this.vehcileDataResponse = data
-        console.log("vehcileDataResponse",this.vehcileDataResponse)
-        this.form.patchValue({
-          vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-          driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
-          routeName: this.vehcileDataResponse.data.route.routeName,
-          tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-          tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-          grossWeightValue:this.vehcileDataResponse.data.grossWt,
-          dryWeightValue:this.vehcileDataResponse.data.dryWt,
-          wetWeightValue:this.vehcileDataResponse.data.wetWt,
-          tareWeightValue:this.vehcileDataResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
-        })
-      },
-      error => {
-      }
-    );
-    this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-      data => {
-        this.tripResponse = data
-        console.log(this.tripResponse)
-        this.form.patchValue({
-          vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-          driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
-          routeName: this.vehcileDataResponse.data.route.routeName,
-          tripStartReading: this.tripResponse.data.tripStartReading,
-          tripEndReading: this.tripResponse.data.tripEndReading,
-          grossWeightValue: this.tripResponse.data.grossWt,
-          dryWeightValue:this.tripResponse.data.dryWt,
-          wetWeightValue:this.tripResponse.data.wetWt,
-          tareWeightValue:this.tripResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
-        })
-        if (this.tripResponse.data.tripStatusEntity.id == 1) {
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = true
-          
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 2){
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = true
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 3){
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = true
-          this.grossWeightCapturedButton = false
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 4){
-          this.tripStartButton = false
-          this.tripEndButton = true
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-        }
-      },
-      error=>{
-        this.tripStartButton = true
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-      }
-    );
-    
-   
-  }
-
-  createTrip(){
-    const data={
-      "driver":this.vehcileDataResponse.data.driver,
-      "route": this.vehcileDataResponse.data.route,
-      "tripStartReading": this.form.value.tripStartReading,
-      "tripStartReadingImg": null,
-      "vehicleNo": this.vehcileDataResponse.data.vehicleNo
-    }
-    console.log(data)
-    this.service.createTrip(data).subscribe(
-      data=>{
-        window.alert("Trip Created Successfully")
-        // this.setVehicleNumber();
-        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-          },
-          error => {
-          }
-        );
-        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
-              
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-          },
-          error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-          }
-        );
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-        
-      },
-      error=>{
-        console.log(error)
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-  }
-
-  setGrossWtValue(){
-    const data={
-      "grossWt": this.form.value.grossWeightValue,
-      "statusEntity": {
-        "id": 2
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Gross Weight captured successfully")
-        this.setVehicleNumber();
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-
-  setDryWtValue(){
-    const data={
-      "dryWt": this.form.value.dryWeightValue,
-      "statusEntity": {
-        "id": 3
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Dry Weight captured successfully")
-        // setTimeout(()=>{this.setVehicleNumber()},1000);
-        this.setVehicleNumber()
-       
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-  setWetWtValue(){
-    const data={
-      "wetWt": this.form.value.wetWeightValue,
-      "statusEntity": {
-        "id": 4
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Wet Weight captured successfully")
-        // this.setVehicleNumber();
-        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-          },
-          error => {
-          }
-        );
-        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
-              
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-          },
-          error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-          }
-        );
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-  endTrip(){
-    const data={
-      "tripEndReading": this.form.value.tripEndReading,
-      "statusEntity": {
-        "id": 5
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Trip completed")
-        this.setVehicleNumber();
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-  }
-
-  async getRouteList() {
+  async getList() {
     try {
-            this.routeList = await this.service.get(`/zone/getAllRoute`)
-            this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
+            this.inventorylist = await this.service.get(`/inventory/getAllItemPurchase`)
+            this.inventorylist = this.inventorylist.sort((a: any, b: any) => a.itemCategoryName - b.itemCategoryName)
     } catch (e) {
             console.error(e)
     }
+}
+  async addItemPurchase() {
+   try {
+     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]
+     const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+      const data = {
+                        //"itemCategoryId":this.form.value.itemCategoryId,
+                        //"itemId":this.form.value.itemId,
+                       // "itemname": this.form.value.itemName,
+                        "itemQuantity":this.form.value.itemQuantity,
+                        "description": this.form.value.description,
+                        "itemCategory": category,
+                        "itemName": item,
+                         "unit": "",
+                         "itemCost": this.form.value.itemCost,
+                         "purchaseDate": this.form.value.itemPurchaseDate,
+                         "uploadBill": this.form.value.uploadBill
+             
+                      }
+                      console.log(data)
+                      await this.service.post(`/inventory/addItemPurchase`, data)
+                      this.form.reset()
+                      this.getList()
+                    } catch (e) {
+                      console.error(e)
+                    }
+
+    }
+    cancel() {
+      this.isAdd = true
+      this.isUpdate = false
+      this.form.reset()
+}
+
+    updateWcc() {
+      console.log(this.form.value)
+      // this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
+      //         data => {
+      //                 window.alert("SubGood data updated successfully!!")
+      //                 this.isAdd = true
+      //                 this.isUpdate = false
+      //                 this.getList()
+      //                 this.form.reset()
+      //         },
+      //         error => { 
+      //                 window.alert("something went wrong")
+      //         }
+      // );
+
+}
+
+ 
+
+
+  async getItemcategory() {
+    try {
+            this.itemCategoryList = await this.service.get(`/inventory/getAllItemCategory`)
+            this.itemCategoryList = this.itemCategoryList.sort((a: any, b: any) => a.routeName - b.routeName)
+    } catch (e) {
+            console.error(e)
+    }
+}
+async getItemName() {
+  try {
+          this.itemNameList = await this.service.get(`/inventory/getAllItemName`)
+          this.itemNameList = this.itemNameList.sort((a: any, b: any) => a.itemName - b.itemName)
+  } catch (e) {
+          console.error(e)
+  }
 }
 
 updateData(item: any) {
@@ -533,6 +190,28 @@ updateData(item: any) {
 
   
 }
+columnDefsPurchase: ColDef[] = [
+  { field: 'itemCategoryName', headerName: 'Item category', unSortIcon: true,resizable: true,},
+  { field: 'itemName', headerName: 'Item Name', unSortIcon: true,resizable: true,},
+  { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true,resizable: true, },
+  { field: 'itemCost', headerName: 'Item Cost', unSortIcon: true,resizable: true, },
+  { field: 'uploadBill', headerName: 'Bill', unSortIcon: true,resizable: true, },
+  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true,},
+  { field: 'createdDate', headerName: 'Created Date', unSortIcon: true,resizable: true,},
+  { headerName: 'Edit', width: 125, sortable: false, filter: false,
+    cellRenderer: (data: any) => {
+     return `
+      <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+      <button class="btn btn-danger btn-sm">
+      <i class="fa-solid fa-trash-alt"></i>
+    </button>
+     `; 
+    }
+  }
+]; 
+
 
 columnDefs: ColDef[] = [
   { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
@@ -583,6 +262,7 @@ columnDefsComp: ColDef[] = [
   
 ];
 
+
 defaultColDefComp: ColDef = {
   sortable: true,
   filter: true,
@@ -594,10 +274,10 @@ gridOptionsComp = {
     ...this.defaultColDefComp 
   },
   pagination: true,
-  paginationPageSize: 10,
+  paginationPageSize: 20,
   rowStyle: { background: '#e2e8f0' }
 }
-rowDataComp = [
+rowDataPurchase = [
   { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
 ];
 
