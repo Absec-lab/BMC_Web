@@ -12,7 +12,7 @@ export class InventoryComponent implements OnInit {
   constructor(private service: CommonService, private formBuilder: FormBuilder) {
     this.getItemName()
     this.getItemcategory()
-    this.getList()
+   //this.getList()
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -30,7 +30,11 @@ export class InventoryComponent implements OnInit {
   wetWeightCapturedButton: boolean = false
   tripResponse: any
   errorResponse:any
-  inventorylist: any = []
+  responseData:any
+  categoryName:any
+  inventoryList: any = []
+  itemIssueList: any = []
+  itemIssueResponse: any
   form = new FormGroup({
     itemPurchaseId: new FormControl,
     itemCategoryId: new FormControl,
@@ -81,40 +85,51 @@ editForm = new FormGroup({
         
       }
     );
-    // this.setVehicleNumber();    
+    this.service.getAllItemIssue().subscribe(
+      data => {
+        this.itemIssueResponse = data
+        this.itemIssueList = this.itemIssueResponse
+        const rowDataIssue =   this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate:any; }) => {
+         
+          return {
+            itemName: item.itemName.itemname,
+            unit: 0,
+            itemQuantity: item.issueQuantity,
+            createDate: item.createdDate
+            
+          };
+        });
+       console.log("InActiveList",this.itemIssueList)
+       console.log("rowData",rowDataIssue)
+       //this.rowDataIssue=rowDataIssue;
+        
+      }
+    );   
   }
   itemCategoryList: any = []
   itemNameList: any= []
  
 
-  getActiveTrip() {
-    this.service.getActiveTrip().subscribe(
-      data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-         console.log("ActiveList",this.activeTripList)
-      }
-    );
-  }
-  getCompletedTrip() {
-    this.service.getCompletedTrips().subscribe(
-      data => {
-        this.itemPurchaseResponse = data
-        this.itemPurchaseList = this.itemPurchaseResponse.data
-      }
-    );
-  }
-  async getList() {
+ 
+  async getItemPurchaseList() {
     try {
-            this.inventorylist = await this.service.get(`/inventory/getAllItemPurchase`)
-            this.inventorylist = this.inventorylist.sort((a: any, b: any) => a.itemCategoryName - b.itemCategoryName)
+            this.inventoryList = await this.service.get(`/inventory/getAllItemPurchase`)
+            this.inventoryList = this.inventoryList.sort((a: any, b: any) => a.itemCategoryName - b.itemCategoryName)
     } catch (e) {
             console.error(e)
     }
 }
+async getItemIssueList() {
+  try {
+          this.itemIssueList = await this.service.get(`/inventory/getAllItemIssuse`)
+          this.itemIssueList = this.itemIssueList.sort((a: any, b: any) => a.itemname - b.itemname)
+  } catch (e) {
+          console.error(e)
+  }
+}
   async addItemPurchase() {
    try {
-     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]
+     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == 3)]  //this.form.value.itemCategoryId
      const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
       const data = {
                         //"itemCategoryId":this.form.value.itemCategoryId,
@@ -126,19 +141,47 @@ editForm = new FormGroup({
                         "itemName": item,
                          "unit": "",
                          "itemCost": this.form.value.itemCost,
-                         "purchaseDate": this.form.value.itemPurchaseDate,
+                         "purchaseDate": "2021-12-11 18:30:00",           //this.form.value.itemPurchaseDate,
                          "uploadBill": this.form.value.uploadBill
              
                       }
                       console.log(data)
                       await this.service.post(`/inventory/addItemPurchase`, data)
                       this.form.reset()
-                      this.getList()
+                      this.getItemPurchaseList()
                     } catch (e) {
                       console.error(e)
                     }
 
     }
+
+    async addItemIssue() {
+      try {
+        //const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == 3)]  //this.form.value.itemCategoryId
+        const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+         const data = {
+                           //"itemCategoryId":this.form.value.itemCategoryId,
+                           //"itemId":this.form.value.itemId,
+                          // "itemname": this.form.value.itemName,
+                           "itemQuantity":this.form.value.itemQuantity,
+                           //"description": this.form.value.description,
+                           //"itemCategory": category,
+                           "itemName": item,
+                            "unit": "",
+                           // "itemCost": this.form.value.itemCost,
+                            "issueDate": "2021-12-11 18:30:00",           //this.form.value.itemPurchaseDate,
+                            //"uploadBill": this.form.value.uploadBill
+                
+                         }
+                         console.log(data)
+                         await this.service.post(`/inventory/addItemIssuse`, data)
+                         this.form.reset()
+                         this.getItemIssueList()
+                       } catch (e) {
+                         console.error(e)
+                       }
+   
+       }
     cancel() {
       this.isAdd = true
       this.isUpdate = false
@@ -162,7 +205,17 @@ editForm = new FormGroup({
 
 }
 
- 
+getItemCategoryById(){
+  console.log(this.form.value.itemId)
+  this.service.getWcById(this.form.value.itemId).subscribe(
+          data=>{
+                  this.responseData=data
+                  this.form.value.itemCategoryId=this.responseData.itemCategory.itemCategoryId
+                  this.categoryName=this.responseData.itemCategory.categoryName
+                  console.log(this.categoryName)
+          }
+  );
+}
 
 
   async getItemcategory() {
@@ -213,21 +266,23 @@ columnDefsPurchase: ColDef[] = [
 ]; 
 
 
-columnDefs: ColDef[] = [
+columnDefsIssue: ColDef[] = [
   { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
-  { field: 'vehicle_vehicleNo', headerName: 'Item Name', unSortIcon: true},
-  { field: 'driver_driverName', headerName: 'Item Quantity', unSortIcon: true},
-  { field: 'vehicle_starttime', headerName: 'Created Date', unSortIcon: true},
+  { field: 'itemName', headerName: 'Item Name', unSortIcon: true},
+  { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true},
+  { field: 'createdDate', headerName: 'Created Date', unSortIcon: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-    
-     `; 
-    }
+  cellRenderer: (data: any) => {
+   return `
+    <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+      <i class="fa-solid fa-edit"></i>
+    </button>
+    <button class="btn btn-danger btn-sm">
+    <i class="fa-solid fa-trash-alt"></i>
+  </button>
+   `; 
   }
+}
 ];
 
 defaultColDef: ColDef = {
@@ -280,6 +335,6 @@ gridOptionsComp = {
 rowDataPurchase = [
   { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
 ];
-
+rowDataIssue = [ ];
 
 }

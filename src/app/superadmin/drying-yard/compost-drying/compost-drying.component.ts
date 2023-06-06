@@ -18,6 +18,7 @@ export class CompostDryingComponent implements OnInit{
   vehicleList:any=[]
   driverResponse:any
   driverList:any=[]
+  vehicleNo:any
   list: any = []
   //goodsList: any = []
   wcName: any
@@ -31,8 +32,8 @@ export class CompostDryingComponent implements OnInit{
     this.getList()
     this.getAllWC()
     this.getAllDryingYard()
-    this.getAllVehicle()
-    this.getAllDriver()
+    
+    //this.getAllDriver()
   }
   ngOnInit() {
     this.service.getAllDryingYard().subscribe(
@@ -89,25 +90,45 @@ export class CompostDryingComponent implements OnInit{
       }
     );
   }
-  getAllVehicle(){
-    this.service.getAllActiveVehicle().subscribe(
+  // getAllVehicle(){
+  //   this.service.getAllActiveVehicle().subscribe(
+  //     data=>{
+  //       this.vehicleResponse=data
+        
+  //       this.vehicleList=this.vehicleResponse
+  //       console.log(this.vehicleList)
+  //     }
+  //   );
+  // }
+  getAllVehicleWcId(){
+    this.service.getAllWcVehicle(this.form.value.wcId).subscribe(
       data=>{
         this.vehicleResponse=data
-        
+        //console.log(this.subGoodResponse)
         this.vehicleList=this.vehicleResponse
-        console.log(this.vehicleList)
       }
     );
-  }
-  getAllDriver(){
-    this.service.getAllDriverList().subscribe(
+   }
+   getAllDriverByvehicleId(){
+    this.service.getAllDriverByVehicleId(this.form.value.vehicleId).subscribe(
       data=>{
         this.driverResponse=data
         //console.log(this.subGoodResponse)
         this.driverList=this.driverResponse
       }
     );
-  }
+
+
+   }
+  // getAllDriver(){
+  //   this.service.getAllDriverList().subscribe(
+  //     data=>{
+  //       this.driverResponse=data
+  //       //console.log(this.subGoodResponse)
+  //       this.driverList=this.driverResponse
+  //     }
+  //   );
+  // }
   getAllDryingYardByWcId(){
     console.log(this.form.value.wcId)
     this.service.getAllDryingYardByWcId(this.form.value.wcId).subscribe(
@@ -133,7 +154,7 @@ export class CompostDryingComponent implements OnInit{
   saveMrf(){
     const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
     const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryingyardId == this.form.value.dryingyardId)]
-    const vehicle = this.vehicleList[this.vehicleList.findIndex((e: any) => e.vehicleId == this.form.value.vehicleId)]
+    const vehicle = this.vehicleList[this.vehicleList.findIndex((e: any) => e.vehicleId == "85")] //this.form.value.vehicleId
     const driver = this.driverList[this.driverList.findIndex((e: any) => e.driverId == this.form.value.driverId)]
     const data = {
       "compostId": this.form.value.dryingyardId,
