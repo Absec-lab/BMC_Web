@@ -10,6 +10,12 @@ import { CommonService } from 'src/app/service/common.service';
 export class DryCompostWeighmentComponent implements OnInit{
   isAdd: boolean = true
   isUpdate: boolean = false
+  wcList:any=[]
+  wcResponse:any
+  dryingyardResponse:any
+  dryingyardList:any=[]
+  vehicleResponse:any
+  vehicleList:any=[]
   goodList:any=[]
   goodResponse:any
   subGoodResponse:any
@@ -24,9 +30,9 @@ export class DryCompostWeighmentComponent implements OnInit{
   responseData:any
   isActive:any
   constructor(private service:CommonService, private formBuilder:FormBuilder){
-    this.getList()
-    this.getAllGoods()
-     this.getAllSubGoods() 
+    //this.getList()
+    this.getAllWC()
+    this.getAllDryingYard()
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
@@ -40,6 +46,7 @@ export class DryCompostWeighmentComponent implements OnInit{
   }
   form = new FormGroup({
     mrfTrnsId: new FormControl,
+    wcId: new FormControl,
     goodsId: new FormControl,
     goodssubId: new FormControl,
     interMaterial: new FormControl,
@@ -68,30 +75,58 @@ export class DryCompostWeighmentComponent implements OnInit{
      );
   }
   getAllSubGoods(){
-    this.service.getAllSubGood().subscribe(
-      data=>{
-        this.subGoodResponse=data
-        //console.log(this.subGoodResponse)
-        this.subgoodList=this.subGoodResponse
-      }
-    );
+    // this.service.getAllSubGood().subscribe(
+    //   data=>{
+    //     this.subGoodResponse=data
+    //     //console.log(this.subGoodResponse)
+    //     this.subgoodList=this.subGoodResponse
+    //   }
+    // );
   }
   getAllSubGoodByGoodId(){
-    console.log(this.form.value.goodsId)
-    this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
-            data=>{
-                    this.responseData=data
-                    this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-                    //this.form.value.goodId=this.responseData.goods.goodId
-                    //this.goodsName=this.responseData.goods.goodsName
-                    console.log(this.subGoodsId)
-            }
-    );
+    // console.log(this.form.value.goodsId)
+    // this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
+    //         data=>{
+    //                 this.responseData=data
+    //                 this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
+    //                 //this.form.value.goodId=this.responseData.goods.goodId
+    //                 //this.goodsName=this.responseData.goods.goodsName
+    //                 console.log(this.subGoodsId)
+    //         }
+    // );
 }
+
+getAllWC(){
+  this.service.getAllWcData().subscribe(
+   data=>{
+    this.wcResponse=data
+    this.wcList=this.wcResponse
+    //console.log(this.goodList)
+   }
+  );
+}
+getAllDryingYard(){
+ this.service.getAllDryingYard().subscribe(
+   data=>{
+     this.dryingyardResponse=data
+     //console.log(this.subGoodResponse)
+     this.dryingyardList=this.dryingyardResponse
+   }
+ );
+}
+getAllVehicle(){
+  this.service.getAllWcVehicle(this.form.value.wcId).subscribe(
+    data=>{
+      this.vehicleResponse=data
+      //console.log(this.subGoodResponse)
+      this.vehicleList=this.vehicleResponse
+    }
+  );
+ }
   async getList() {
     try {
             this.list = await this.service.get(`/zone/getAllMrf`)
-           // this.goodsList = await this.service.get(`/zone/getAllGoods`)
+            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
     } catch (e) {

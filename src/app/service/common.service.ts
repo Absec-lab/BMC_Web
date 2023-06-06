@@ -68,6 +68,9 @@ export class CommonService {
         getAllItemCategory() {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
+        getItemCategoryById() {
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
+        }
         deactivateCategory(id: any) {
                 return this.http.get(environment.URL + '/itemCategory/deactivate?id=' + id)
         }
@@ -193,6 +196,9 @@ export class CommonService {
         getAllItemPurchase(){
                 return this.http.get(environment.URL+'/inventory/getAllItemPurchase')
         }
+        getAllItemIssue(){
+                return this.http.get(environment.URL+'/inventory/getAllItemIssuse')
+        }
         getVehicleByVehicleNumber(vehicleNo:any){
                 return this.http.get(environment.URL+'/get/vehicle/by/vehicle/number?vehicleNumber='+vehicleNo)
         }
@@ -209,7 +215,7 @@ export class CommonService {
                 return this.http.get(environment.URL+'/zone/getAllGoodssub')
         }
         getAllDryingYard(){
-                return this.http.get(environment.URL+'/zone/getAllDryingyard')
+                return this.http.get(environment.URL+'/inventory/getAllDryingyard')
         }
         saveCompostDrying(data:any){
                 return this.http.post(environment.URL+'/zone/addDryingCompost',data)
@@ -232,8 +238,14 @@ export class CommonService {
         getAllDriverList(){
                return  this.http.get(environment.URL+'/zone/getAllDriver')
         }
+        getAllDriverByVehicleId(id:any){
+                return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
+         }
+        getAllWcVehicle(id:any){
+                return this.http.get(environment.URL+'/get/vehicle/by/wc/Id/{wcId}?wcId='+id)
+        }
         getAllSubGoodByGoodId(id:any){
-                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
+                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id/goodId?goodId='+id)
         }
         getAllDryingYardByWcId(id:any){
                 return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
