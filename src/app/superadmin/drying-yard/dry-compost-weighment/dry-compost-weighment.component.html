@@ -138,7 +138,7 @@
 													Dry Compost Wt
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+													<input type="text" name="" id="" class="form-control" formControlName="dryCompostWt">
 												</div>
 											</div>
 											
@@ -149,7 +149,7 @@
 													NPK Ratio
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+													<input type="text" name="" id="" class="form-control" formControlName="npkRatio">
 												</div>
 											</div>
 											
@@ -170,7 +170,7 @@
 													Descriptipn
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+													<input type="text" name="" id="" class="form-control" formControlName="description">
 												</div>
 											</div>
 										</div>
@@ -203,11 +203,11 @@
 							 <tbody class="text-center">
                                 <tr *ngFor="let x of list; index as i;">
                                         <td>{{ i + 1}}</td>
-                                        <td>{{ x.goods?.goodsName || '--' }}</td>
-                                        <td>{{ x.subGood?.subgoodsName || '--' }}</td>
-                                        <td>{{ x.quntaum || '--' }}</td>
-					<td>{{ x.interMaterial || '--' }}</td>
-                                        <td>{{ x.mrfDesc || '--' }}</td>
+                                        <td>{{ x.wc?.wcName || '--' }}</td>
+                                        <td>{{ x.dryingyard?.centerName || '--' }}</td>
+                                        <td>{{ x.dryCompostWt || '--' }}</td>
+					<td>{{ x.npkRatio || '--' }}</td>
+                                        <td>{{ x.description || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
                                         <td

@@ -208,7 +208,7 @@
 															Item Name
 														</div>
 														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemId" (ngModelChange)="getItemCategoryById()">
+															<select name="" id="" class="form-control form-select" formControlName="itemId">
 																<option value="" disabled selected>Select Item Name</option>
 																<option [value]="x.itemId" *ngFor="let x of itemNameList;">{{ x.itemname }}</option>
 															</select>															
@@ -462,7 +462,7 @@
 										<ag-grid-angular
 										class="ag-theme-alpine"
 										[rowData]="rowDataIssue"
-										[columnDefs]="columnDefsIssue"
+										[columnDefs]="columnDefsIssue"																				
 										[gridOptions]="gridOptions"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
@@ -482,8 +482,9 @@
 										
 										<ag-grid-angular
 										class="ag-theme-alpine"
-										[rowData]=""
-										[columnDefs]="columnDefsComp"></ag-grid-angular>
+										[rowData]="rowDataStock"
+										[columnDefs]="columnDefsStock">
+									        </ag-grid-angular>
 										<!-- [gridOptions]="gridOptionsComp"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
