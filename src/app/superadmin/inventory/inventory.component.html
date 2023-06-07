@@ -136,7 +136,7 @@
 															Item Category Name
 														</div>
 														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemCategoryId" [(ngModel)]="categoryName">
+															<select name="" id="" class="form-control form-select" formControlName="itemCategoryId" [(ngModel)]="categoryName" (ngModelChange)="getAllItemNameyByCategoryId()">
 																<option [value]="x.itemCategoryId" *ngFor="let x of itemCategoryList;">{{ x.categoryName }}</option>
 																<!-- <option value="" disabled selected>Select Item Name</option>
 																<option [value]="x.itemCategoryId" *ngFor="let x of itemCategoryList;">{{ x.categoryName }}</option> -->
@@ -208,7 +208,7 @@
 															Item Name
 														</div>
 														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemId" (ngModelChange)="getItemCategoryById()">
+															<select name="" id="" class="form-control form-select" formControlName="itemId">
 																<option value="" disabled selected>Select Item Name</option>
 																<option [value]="x.itemId" *ngFor="let x of itemNameList;">{{ x.itemname }}</option>
 															</select>															
@@ -416,10 +416,10 @@
 													</div>
 													<div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Date
+															Issue Date
 														</div>
 														<div class="col-md-9">
-															<input formControlName="createdDate" type="date"
+															<input formControlName="issueDate" type="date"
 																name="" id="" class="form-control">
 														</div>
 													</div>
