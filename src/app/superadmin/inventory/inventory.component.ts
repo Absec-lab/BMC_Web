@@ -35,6 +35,8 @@ export class InventoryComponent implements OnInit {
   inventoryList: any = []
   itemIssueList: any = []
   itemIssueResponse: any
+  itemStockList: any = []
+  itemStockResponse: any
   form = new FormGroup({
     itemPurchaseId: new FormControl,
     itemCategoryId: new FormControl,
@@ -79,8 +81,8 @@ editForm = new FormGroup({
             description:item.description
           };
         });
-       console.log("InActiveList",this.itemPurchaseList)
-       console.log("rowData",rowDataPurchase)
+       console.log("itemPurchaseList",this.itemPurchaseList)
+       console.log("rowDataPurchase",rowDataPurchase)
        this.rowDataPurchase=rowDataPurchase;
         
       }
@@ -93,16 +95,35 @@ editForm = new FormGroup({
          
           return {
             itemName: item.itemName.itemname,
-            unit: 0,
+            //unit: 0,
             itemQuantity: item.issueQuantity,
-            createDate: item.createdDate
+            createdDate: item.createdDate
             
           };
         });
-       console.log("InActiveList",this.itemIssueList)
+       console.log("itemIssueList",this.itemIssueList)
        console.log("rowData",rowDataIssue)
-       //this.rowDataIssue=rowDataIssue;
+       this.rowDataIssue=rowDataIssue;
         
+      }
+    );   
+    this.service.getAllItemIssue().subscribe(
+      data => {
+        this.itemStockResponse = data
+        this.itemStockList = this.itemIssueResponse
+        const rowDataStock =   this.itemStockList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate:any; }) => {
+         
+          return {
+            itemName: item.itemName.itemname,
+            //unit: 0,
+            itemQuantity: item.issueQuantity          
+            
+          };
+        });
+       console.log("itemStockList",this.itemStockList)
+       console.log("rowDataStock",rowDataStock)
+       this.rowDataStock=rowDataStock;
+     
       }
     );   
   }
@@ -129,7 +150,7 @@ async getItemIssueList() {
 }
   async addItemPurchase() {
    try {
-     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == 3)]  //this.form.value.itemCategoryId
+     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => "3" == "3")]  //this.form.value.itemCategoryId
      const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
       const data = {
                         //"itemCategoryId":this.form.value.itemCategoryId,
@@ -163,7 +184,7 @@ async getItemIssueList() {
                            //"itemCategoryId":this.form.value.itemCategoryId,
                            //"itemId":this.form.value.itemId,
                           // "itemname": this.form.value.itemName,
-                           "itemQuantity":this.form.value.itemQuantity,
+                           "issueQuantity":this.form.value.itemQuantity,
                            //"description": this.form.value.description,
                            //"itemCategory": category,
                            "itemName": item,
@@ -205,7 +226,7 @@ async getItemIssueList() {
 
 }
 
-getItemCategoryById(){
+getItemNameyByCategoryId(){
   console.log(this.form.value.itemId)
   this.service.getWcById(this.form.value.itemId).subscribe(
           data=>{
@@ -267,7 +288,7 @@ columnDefsPurchase: ColDef[] = [
 
 
 columnDefsIssue: ColDef[] = [
-  { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
+ // { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
   { field: 'itemName', headerName: 'Item Name', unSortIcon: true},
   { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true},
   { field: 'createdDate', headerName: 'Created Date', unSortIcon: true},
@@ -307,13 +328,12 @@ rowData = [
 
 
 
-columnDefsComp: ColDef[] = [
-  { field: 'vehicle_vehicleNo', headerName: 'Stock List', unSortIcon: true,resizable: true,},
+columnDefsStock: ColDef[] = [
+  { field: 'itemName', headerName: 'Stock List', unSortIcon: true,resizable: true,},
   { },
   { },
   { },
-  { },
-  { field: 'tripEndReading', headerName: 'Quantity', unSortIcon: true,resizable: true,},
+  { field: 'itemQuantity', headerName: 'Quantity', unSortIcon: true,resizable: true,},
   
 ];
 
@@ -335,6 +355,7 @@ gridOptionsComp = {
 rowDataPurchase = [
   { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
 ];
-rowDataIssue = [ ];
+rowDataIssue = [];
+rowDataStock = [];
 
 }

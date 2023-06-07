@@ -16,85 +16,54 @@ export class DryCompostWeighmentComponent implements OnInit{
   dryingyardList:any=[]
   vehicleResponse:any
   vehicleList:any=[]
-  goodList:any=[]
-  goodResponse:any
-  subGoodResponse:any
-  subgoodList:any=[]
   list: any = []
-  goodsList: any = []
-  goodsName: any
-  subGoodsId:any
   mrfTrnsId:any
-  mrfResponse:any
-  mrfList:any
+  dryWtResponse:any
+  dryWtList:any
   responseData:any
   isActive:any
   constructor(private service:CommonService, private formBuilder:FormBuilder){
-    //this.getList()
+    this.getList()
+
     this.getAllWC()
     this.getAllDryingYard()
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
       data => {
-        this.mrfResponse = data
-        this.mrfList = this.mrfResponse
-        console.log(this.mrfList)
+
+        this.dryWtResponse = data
+        this.dryWtList = this.dryWtResponse
+        console.log(this.dryWtList)
       }
     );
-    this.getAllGoods()
+    
   }
   form = new FormGroup({
-    mrfTrnsId: new FormControl,
+    dryingWtTrnsId: new FormControl,
+    dryingyardId: new FormControl,
     wcId: new FormControl,
-    goodsId: new FormControl,
-    goodssubId: new FormControl,
-    interMaterial: new FormControl,
-    mrfDesc: new FormControl,
-    quntaum: new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl,
+    dryCompostWt: new FormControl,
+    npkRatio: new FormControl,
+    date: new FormControl,
+    description: new FormControl,
+    wc: new FormControl,
+    dryingyard: new FormControl,
     isActive: new FormControl
   });
   editForm = new FormGroup({
-    goodsId: new FormControl,
-    subGoodId: new FormControl,
-    interMaterial:new FormControl,
-    mrfDescription: new FormControl,
-    quntaum:new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl
+    dryingWtTrnsId: new FormControl,
+    wcId: new FormControl,
+    dryingyardId: new FormControl,
+    dryCompostWt: new FormControl,
+    npkRatio: new FormControl,
+    date: new FormControl,
+    description: new FormControl,
+    wc: new FormControl,
+    dryingyard: new FormControl,
+    isActive: new FormControl
 })
-  getAllGoods(){
-     this.service.getAllGoods().subscribe(
-      data=>{
-       this.goodResponse=data
-       this.goodList=this.goodResponse
-       //console.log(this.goodList)
-      }
-     );
-  }
-  getAllSubGoods(){
-    // this.service.getAllSubGood().subscribe(
-    //   data=>{
-    //     this.subGoodResponse=data
-    //     //console.log(this.subGoodResponse)
-    //     this.subgoodList=this.subGoodResponse
-    //   }
-    // );
-  }
-  getAllSubGoodByGoodId(){
-    // console.log(this.form.value.goodsId)
-    // this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
-    //         data=>{
-    //                 this.responseData=data
-    //                 this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-    //                 //this.form.value.goodId=this.responseData.goods.goodId
-    //                 //this.goodsName=this.responseData.goods.goodsName
-    //                 console.log(this.subGoodsId)
-    //         }
-    // );
-}
+
 
 getAllWC(){
   this.service.getAllWcData().subscribe(
@@ -114,18 +83,10 @@ getAllDryingYard(){
    }
  );
 }
-getAllVehicle(){
-  this.service.getAllWcVehicle(this.form.value.wcId).subscribe(
-    data=>{
-      this.vehicleResponse=data
-      //console.log(this.subGoodResponse)
-      this.vehicleList=this.vehicleResponse
-    }
-  );
- }
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllMrf`)
+            this.list = await this.service.get(`/inventory/getAllCompostWtmt`)
+
             // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -134,23 +95,25 @@ getAllVehicle(){
     }
 }
   saveMrf(){
-    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
-    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
+    const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryingyardId == this.form.value.dryingyardId)]
     const data = {
-      "goods": goods,
-      "interMaterial": this.form.value.interMaterial,
-      "mrfDesc": this.form.value.mrfDesc,
-      "quntaum": this.form.value.quntaum,
-      "subGood": subgoods
+      "dryCompostId": this.form.value.dryingWtTrnsId,
+      "wc": wc,
+      "dryCompostWt": this.form.value.dryCompostWt,
+      "description": this.form.value.description,
+      "npkRatio": this.form.value.npkRatio,
+      "dryingyard": dryingyard,
+      "date": this.form.value.date
    }
    console.log(data)
-   this.service.saveMrfData(data).subscribe(
+   this.service.saveCompostDrying(data).subscribe(
     data=>{
-      window.alert("Mrf data saved successfully")
+      window.alert("Dry Compost Weightment data saved successfully")
     }
-   );   
-   this.getList()
-   this.form.reset()
+   ); 
+   this.form.reset()  
+   this.getList()   
   }
   getGoodId() {
     console.log(this.form.value)
@@ -168,25 +131,11 @@ updateData(item: any) {
   this.isAdd = false
   console.log(item)
   console.log(item.goodssubId)
-  this.goodsName = item.goods.goodsName
   this.form.patchValue({
-          goodsId: item.goods.goodsId,
-          goodssubId: item.subGood.goodssubId,
-          mrfTrnsId:item.mrfTrnsId,
-          interMaterial: item.interMaterial,
-          mrfDesc: item.mrfDesc,
-          quntaum: item.quntaum,
-          //goods: item.goods,
-          //subGood:item.subGood,
+       
           isActive: true
   })
-  this.subGoodsId=item.goodssubId
-  // this.service.getZoneAllData().subscribe(
-  //         async data => {
-  //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
-  //         }
-  // );
-
+  ;
 }
 cancel() {
   this.isAdd = true

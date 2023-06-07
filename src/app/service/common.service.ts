@@ -71,6 +71,11 @@ export class CommonService {
         getItemCategoryById() {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
+
+        getItemNameyByCategoryId(){
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
+        }
+
         deactivateCategory(id: any) {
                 return this.http.get(environment.URL + '/itemCategory/deactivate?id=' + id)
         }
@@ -218,7 +223,7 @@ export class CommonService {
                 return this.http.get(environment.URL+'/inventory/getAllDryingyard')
         }
         saveCompostDrying(data:any){
-                return this.http.post(environment.URL+'/zone/addDryingCompost',data)
+                return this.http.post(environment.URL+'/inventory/addDryingCompost',data)
         }
         saveMrfData(data:any){
                 return this.http.post(environment.URL+'/zone/addMrf',data)
@@ -239,7 +244,8 @@ export class CommonService {
                return  this.http.get(environment.URL+'/zone/getAllDriver')
         }
         getAllDriverByVehicleId(id:any){
-                return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
+                return  this.http.get(environment.URL+'/get/Driver/by/{vehicleId}?vehicleId='+id)
+               // return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
          }
         getAllWcVehicle(id:any){
                 return this.http.get(environment.URL+'/get/vehicle/by/wc/Id/{wcId}?wcId='+id)

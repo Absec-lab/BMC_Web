@@ -114,8 +114,8 @@
 												</div>
 												<div class="col-md-8">
   
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
-														<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="wcId" >
+														<option [value]="item.wcId" *ngFor="let item of wcList">{{item.wcName}}</option>
 													</select>
 												</div>
 											</div>
@@ -126,8 +126,8 @@
 													Drying Area
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodssubId">
-														<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryyardId">
+														<option [value]="item.dryyardId" *ngFor="let item of dryingyardList" selected>{{item.centerName}}</option>
 													</select>
 												</div>
 											</div>
@@ -138,8 +138,8 @@
 													Packaging Wt Type
 												</div>
 												<div class="col-md-8">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodsId" >
-														<option [value]="" *ngFor="let item of goodList"></option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="pkgWtType" >
+														<option [value]="" *ngFor="let item of list"></option>
 													</select>
 												</div>
 											</div>
@@ -151,7 +151,7 @@
 													NPK Ratio
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+													<input type="text" name="" id="" class="form-control" formControlName="npkRatio">
 												</div>
 											</div>
 											
@@ -162,7 +162,7 @@
 													No. Of Packets Issue
 												</div>
 												<div class="col-md-8">
-													<input type="test" name="" id="" class="form-control" formControlName="mrfDesc">
+													<input type="test" name="" id="" class="form-control" formControlName="noOfPackets">
 												</div>
 											</div>
 										</div>
@@ -172,7 +172,7 @@
 													Descriptipn
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+													<input type="text" name="" id="" class="form-control" formControlName="decription">
 												</div>
 											</div>
 										</div>
@@ -205,11 +205,11 @@
 							 <tbody class="text-center">
                                 <tr *ngFor="let x of list; index as i;">
                                         <td>{{ i + 1}}</td>
-                                        <td>{{ x.goods?.goodsName || '--' }}</td>
-                                        <td>{{ x.subGood?.subgoodsName || '--' }}</td>
-                                        <td>{{ x.quntaum || '--' }}</td>
-					<td>{{ x.interMaterial || '--' }}</td>
-                                        <td>{{ x.mrfDesc || '--' }}</td>
+                                        <td>{{ x.wc?.wcName || '--' }}</td>
+                                        <td>{{ x.dryingyard?.centerName || '--' }}</td>
+                                        <td>{{ x.watCompostWt || '--' }}</td>
+					<td>{{ x.npkRatio || '--' }}</td>
+					<td>{{ x.description || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
                                         <td

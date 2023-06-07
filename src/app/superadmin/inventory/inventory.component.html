@@ -462,7 +462,7 @@
 										<ag-grid-angular
 										class="ag-theme-alpine"
 										[rowData]="rowDataIssue"
-										[columnDefs]="columnDefsIssue"
+										[columnDefs]="columnDefsIssue"																				
 										[gridOptions]="gridOptions"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
@@ -482,8 +482,9 @@
 										
 										<ag-grid-angular
 										class="ag-theme-alpine"
-										[rowData]=""
-										[columnDefs]="columnDefsComp"></ag-grid-angular>
+										[rowData]="rowDataStock"
+										[columnDefs]="columnDefsStock">
+									        </ag-grid-angular>
 										<!-- [gridOptions]="gridOptionsComp"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
