@@ -144,7 +144,8 @@ export class GarbageComponent implements OnInit {
           dryWeightValue:this.vehcileDataResponse.data.dryWt,
           wetWeightValue:this.vehcileDataResponse.data.wetWt,
           tareWeightValue:this.vehcileDataResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
+          routeId: this.vehcileDataResponse.data.route.routeId,
+          unloadwetWeightValue: (this.vehcileDataResponse.data.grossWt && this.vehcileDataResponse.data.wetWt) ? this.vehcileDataResponse.data.grossWt - this.vehcileDataResponse.data.wetWt : ""
         })
       },
       error => {
@@ -166,7 +167,8 @@ export class GarbageComponent implements OnInit {
           wetWeightValue:this.tripResponse.data.wetWt,
           tareWeightValue:this.tripResponse.data.tareWt,
           routeId: this.vehcileDataResponse.data.route.routeId,
-          helperId:this.tripResponse.data.helper.helperId
+          helperId:this.tripResponse.data.helper.helperId,
+          unloadwetWeightValue: (this.tripResponse.data.grossWt && this.tripResponse.data.wetWt) ? this.tripResponse.data.grossWt - this.tripResponse.data.wetWt : ""
         })
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
@@ -432,80 +434,98 @@ export class GarbageComponent implements OnInit {
         // );
         this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.vehcileDataResponse = data;
+            }
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+            //   tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+            //   grossWeightValue:this.vehcileDataResponse.data.grossWt,
+            //   dryWeightValue:this.vehcileDataResponse.data.dryWt,
+            //   wetWeightValue:this.vehcileDataResponse.data.wetWt,
+            //   tareWeightValue:this.vehcileDataResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
           },
           error => {
           }
         );
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
         this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.tripResponse = data;
+            }
+
+            /**
+             * Enable the wet weight capturing button only.
+             */
+            this.wetWeightCapturedButton = true;
+
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.tripResponse.data.tripStartReading,
+            //   tripEndReading: this.tripResponse.data.tripEndReading,
+            //   grossWeightValue: this.tripResponse.data.grossWt,
+            //   dryWeightValue:this.tripResponse.data.dryWt,
+            //   wetWeightValue:this.tripResponse.data.wetWt,
+            //   tareWeightValue:this.tripResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
+            // if (this.tripResponse.data.tripStatusEntity.id == 1) {
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = true
               
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 2){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = true
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 3){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 4){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = true
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
           },
           error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+            // this.tripStartButton = true
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
           }
         );
         this.service.getActiveTrip().subscribe(
@@ -543,7 +563,22 @@ export class GarbageComponent implements OnInit {
     
     this.service.updateTrip(data).subscribe(
       data=>{
-        window.alert("Dry Weight captured successfully")
+        window.alert("Dry Weight captured successfully");
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
+        /**
+         * Enable the trip end capture button only.
+         */
+        this.tripEndButton = true;
+
         // setTimeout(()=>{this.setVehicleNumber()},1000);
         this.setVehicleNumber()
        
@@ -569,6 +604,7 @@ export class GarbageComponent implements OnInit {
     
     
   }
+
   setWetWtValue(){
     const data={
       "wetWt": this.form.value.wetWeightValue,
@@ -584,80 +620,102 @@ export class GarbageComponent implements OnInit {
         // this.setVehicleNumber();
         this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
+
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.vehcileDataResponse = data
+            }
+            
+            // console.log("vehcileDataResponse",this.vehcileDataResponse)
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+            //   tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+            //   grossWeightValue:this.vehcileDataResponse.data.grossWt,
+            //   dryWeightValue:this.vehcileDataResponse.data.dryWt,
+            //   wetWeightValue:this.vehcileDataResponse.data.wetWt,
+            //   tareWeightValue:this.vehcileDataResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
           },
           error => {
           }
         );
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
         this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.tripResponse = data;
+            }
+          
+            /**
+             * Enable the dry weight capture button only.
+             */
+            this.dryButton = true;
+
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.tripResponse.data.tripStartReading,
+            //   tripEndReading: this.tripResponse.data.tripEndReading,
+            //   grossWeightValue: this.tripResponse.data.grossWt,
+            //   dryWeightValue:this.tripResponse.data.dryWt,
+            //   wetWeightValue:this.tripResponse.data.wetWt,
+            //   tareWeightValue:this.tripResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
+            // if (this.tripResponse.data.tripStatusEntity.id == 1) {
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
               
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 2){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = true
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 3){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 4){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = true
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
           },
           error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+            // this.tripStartButton = true
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
           }
         );
         this.service.getActiveTrip().subscribe(
