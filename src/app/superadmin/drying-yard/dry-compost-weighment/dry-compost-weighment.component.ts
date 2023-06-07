@@ -24,12 +24,14 @@ export class DryCompostWeighmentComponent implements OnInit{
   isActive:any
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
+
     this.getAllWC()
     this.getAllDryingYard()
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
       data => {
+
         this.dryWtResponse = data
         this.dryWtList = this.dryWtResponse
         console.log(this.dryWtList)
@@ -62,6 +64,7 @@ export class DryCompostWeighmentComponent implements OnInit{
     isActive: new FormControl
 })
 
+
 getAllWC(){
   this.service.getAllWcData().subscribe(
    data=>{
@@ -80,10 +83,10 @@ getAllDryingYard(){
    }
  );
 }
-
   async getList() {
     try {
             this.list = await this.service.get(`/inventory/getAllCompostWtmt`)
+
             // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -133,7 +136,6 @@ updateData(item: any) {
           isActive: true
   })
   ;
-
 }
 cancel() {
   this.isAdd = true

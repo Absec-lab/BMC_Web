@@ -123,7 +123,7 @@ editForm = new FormGroup({
        console.log("itemStockList",this.itemStockList)
        console.log("rowDataStock",rowDataStock)
        this.rowDataStock=rowDataStock;
-        
+     
       }
     );   
   }
@@ -357,6 +357,5 @@ rowDataPurchase = [
 ];
 rowDataIssue = [];
 rowDataStock = [];
-
 
 }
