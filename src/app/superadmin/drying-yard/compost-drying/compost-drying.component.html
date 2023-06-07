@@ -97,13 +97,13 @@
 					<div class="breadcrumb">
 						<a routerLink=""><i class="fa-solid fa-home"></i></a>
 						<span class="mx-2">/</span>
-						<a routerLink="">Compost Drying</a>
-					</div>
+          <a routerLink="">Compost Drying</a>
+        </div>
 					<div class="mt-4">
 						<div class="card rounded-0">
 							<div class="card-header rounded-0">
 								Compost Drying
-							</div>
+      			</div>
 							<div class="card-body">
 								<form [formGroup]="form">
 									<div class="row">
@@ -195,12 +195,12 @@
 							</div>
 						</div>
 						<div class="text-end mt-3" *ngIf="isAdd">
-							<button class="btn btn-primary px-5 py-2" (click)="saveCompostDrying()">Add</button>
+            <button class="btn btn-primary px-5 py-2" (click)="saveCompostDrying()">Add</button>
 						</div>
 						<div class="text-end mt-3" *ngIf="isUpdate">
 							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
 							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateCompostDrying()">Update</button>
-						</div>
+          	</div>
 					</div>
 					<div class="mt-4">
 						<table class="table table-bordered table-striped">
@@ -220,12 +220,14 @@
 							 <tbody class="text-center">
                                 <tr *ngFor="let x of list; index as i;">
                                         <td>{{ i + 1}}</td>
+
                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                         <td>{{ x.dryingyard?.centerName || '--' }}</td>
                                         <td>{{ x.watCompostWt || '--' }}</td>
 					<td>{{ x.vehicle?.vehicleNo || '--' }}</td>
 					<td>{{ x.driver?.driverName || '--' }}</td>
 					<td>{{ x.description || '--' }}</td>
+
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
                                         <td
