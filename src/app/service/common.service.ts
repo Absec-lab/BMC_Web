@@ -76,6 +76,10 @@ export class CommonService {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
 
+        getAllItemNameyByCategoryId(id: any){
+                return this.http.get(environment.URL + '/inventory/get/ItemName/by/ItemCategory/Id/{itemcategoryId}?itemcategoryId='+ id)
+        }
+
         deactivateCategory(id: any) {
                 return this.http.get(environment.URL + '/itemCategory/deactivate?id=' + id)
         }

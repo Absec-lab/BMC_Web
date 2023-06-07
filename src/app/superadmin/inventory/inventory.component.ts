@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['../../common.css', './inventory.component.css']
+  styleUrls: ['../../common.css', './inventory.component.css'],
+  providers: [DatePipe]
 })
 export class InventoryComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe) {
     this.getItemName()
     this.getItemcategory()
    //this.getList()
@@ -49,6 +51,7 @@ export class InventoryComponent implements OnInit {
     description: new FormControl,
     unit: new FormControl,
     uploadBill: new FormControl,
+    issueDate: new FormControl,
     itemPurchaseDate: new FormControl
 });
 editForm = new FormGroup({
@@ -77,11 +80,11 @@ editForm = new FormGroup({
             itemQuantity: item.itemQuantity,
             itemCost: item.itemCost,
             uploadBill:item.uploadBill,
-            createDate: item.createdDate,
+            createdDate:  this.datePipe.transform(item.createdDate, 'yyyy-MM-dd HH:MM'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
             description:item.description
           };
         });
-       console.log("itemPurchaseList",this.itemPurchaseList)
+       console.log("itemPurchaseList",this.itemPurchaseList) 
        console.log("rowDataPurchase",rowDataPurchase)
        this.rowDataPurchase=rowDataPurchase;
         
@@ -162,7 +165,7 @@ async getItemIssueList() {
                         "itemName": item,
                          "unit": "",
                          "itemCost": this.form.value.itemCost,
-                         "purchaseDate": "2021-12-11 18:30:00",           //this.form.value.itemPurchaseDate,
+                         "purchaseDate": this.datePipe.transform(this.form.value.itemPurchaseDate, 'yyyy-MM-dd HH:MM'),          //this.form.value.itemPurchaseDate,
                          "uploadBill": this.form.value.uploadBill
              
                       }
@@ -190,7 +193,7 @@ async getItemIssueList() {
                            "itemName": item,
                             "unit": "",
                            // "itemCost": this.form.value.itemCost,
-                            "issueDate": "2021-12-11 18:30:00",           //this.form.value.itemPurchaseDate,
+                            "issueDate": this.datePipe.transform(this.form.value.issueDate, 'yyyy-MM-dd HH:MM'), //this.form.value.issueDate,
                             //"uploadBill": this.form.value.uploadBill
                 
                          }
@@ -235,6 +238,16 @@ getItemNameyByCategoryId(){
                   this.categoryName=this.responseData.itemCategory.categoryName
                   console.log(this.categoryName)
           }
+  );
+}
+
+getAllItemNameyByCategoryId(){
+  console.log(this.form.value.itemCategoryId)
+  this.service.getAllItemNameyByCategoryId(this.form.value.itemCategoryId).subscribe(
+    data=>{
+      this.responseData=data
+      this.itemNameList=this.responseData
+    }
   );
 }
 
