@@ -142,9 +142,7 @@ export class PitViewComponent {
   
     console.log( '  MCC ID  ::::: {} ', this.mccId);
     this.pitPayload.payload.mccId = this.mccId;
-    if(this.mccId != undefined && this.mccId != 0){
-      this.onRefresh();
-    }
+   
   }
 
   form = new FormGroup({
@@ -204,10 +202,11 @@ export class PitViewComponent {
       this.pitService.selectMccId.subscribe( (val) => {
         this.mccId = val;
         this.pitPayload.payload.mccId = this.mccId;
+        this.onRefresh();
         this.getPitStageDetails();
       });
 
-    this.updateSubscription = interval(10000).subscribe(
+    this.updateSubscription = interval(6000).subscribe(
       (val) => { this.onRefresh()});
    
   }
