@@ -784,3 +784,7 @@ thead th {
 .bg-lightblue {
   background-color: #0566DF !important;
 }
+
+.page-content.toggled {
+    margin-left: 76px;
+}
