@@ -142,6 +142,9 @@ export class PitViewComponent {
   
     console.log( '  MCC ID  ::::: {} ', this.mccId);
     this.pitPayload.payload.mccId = this.mccId;
+    if(this.mccId != undefined && this.mccId != 0){
+      this.onRefresh();
+    }
   }
 
   form = new FormGroup({
