@@ -10,11 +10,11 @@ export class DeactivationDto {
 const environment = {
 
 
-              URL: `http://15.207.62.200:9091`,  //prod url
+             // URL: `http://15.207.62.200:9091`,  //prod url
               //LOGIN_SERVICE_URL: 'http://15.207.62.200:8062',
-             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
+             LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
           //   LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
-         //    URL: `http://43.204.240.44:9091`  //Absec ip 
+            URL: `http://43.204.240.44:9091`  //Absec ip 
         // URL: `http://192.168.29.128:9091`
 }
 
@@ -68,17 +68,36 @@ export class CommonService {
         getAllItemCategory() {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
         }
+        getItemCategoryById() {
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
+        }
+
+        getItemNameyByCategoryId(){
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
+        }
+
+        getAllItemNameyByCategoryId(id: any){
+                return this.http.get(environment.URL + '/inventory/get/ItemName/by/ItemCategory/Id/{itemcategoryId}?itemcategoryId='+ id)
+        }
+
         deactivateCategory(id: any) {
-                return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
+                return this.http.get(environment.URL + '/itemCategory/deactivate?id=' + id)
         }
         addZone(data: any) {
                 return this.http.post(environment.URL + '/zone/addZone', data);
         }
-
+        addDryingYard(data: any) {
+                return this.http.post(environment.URL + '/inventory/addDryingyard', data); 
+        }
         getZoneAllData() {
                 return this.http.get(environment.URL + '/zone/getAllZone')
         }
-
+        getDryingYardAllData() {
+                return this.http.get(environment.URL + '/inventory/getAllDryingyard')
+        }
+        deactivateDryingYard(id: any) {
+                return this.http.get(environment.URL + '/dryingyard/deactivate?id=' + id)
+        }
         deactivateZone(id: any) {
                 return this.http.get(environment.URL + '/zone/deactivate?id=' + id)
         }
@@ -138,6 +157,9 @@ export class CommonService {
         updateZone(item:any){
                 return this.http.put(environment.URL+'/zone/updateZone',item)
         }
+        updateDryingYard(item:any){
+                return this.http.put(environment.URL+'/inventory/updateDryingyard',item)
+        }
         updateWc(item:any){
                 return this.http.put(environment.URL+'/zone/updateWc',item)
         }
@@ -180,6 +202,12 @@ export class CommonService {
         getCompletedTrips(){
                 return this.http.get(environment.URL+'/get/inActive/trip')
         }
+        getAllItemPurchase(){
+                return this.http.get(environment.URL+'/inventory/getAllItemPurchase')
+        }
+        getAllItemIssue(){
+                return this.http.get(environment.URL+'/inventory/getAllItemIssuse')
+        }
         getVehicleByVehicleNumber(vehicleNo:any){
                 return this.http.get(environment.URL+'/get/vehicle/by/vehicle/number?vehicleNumber='+vehicleNo)
         }
@@ -196,10 +224,10 @@ export class CommonService {
                 return this.http.get(environment.URL+'/zone/getAllGoodssub')
         }
         getAllDryingYard(){
-                return this.http.get(environment.URL+'/zone/getAllDryingyard')
+                return this.http.get(environment.URL+'/inventory/getAllDryingyard')
         }
         saveCompostDrying(data:any){
-                return this.http.post(environment.URL+'/zone/addDryingCompost',data)
+                return this.http.post(environment.URL+'/inventory/addDryingCompost',data)
         }
         saveMrfData(data:any){
                 return this.http.post(environment.URL+'/zone/addMrf',data)
@@ -219,8 +247,15 @@ export class CommonService {
         getAllDriverList(){
                return  this.http.get(environment.URL+'/zone/getAllDriver')
         }
+        getAllDriverByVehicleId(id:any){
+                return  this.http.get(environment.URL+'/get/Driver/by/{vehicleId}?vehicleId='+id)
+               // return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
+         }
+        getAllWcVehicle(id:any){
+                return this.http.get(environment.URL+'/get/vehicle/by/wc/Id/{wcId}?wcId='+id)
+        }
         getAllSubGoodByGoodId(id:any){
-                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)
+                return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id/goodId?goodId='+id)
         }
         getAllDryingYardByWcId(id:any){
                 return this.http.get(environment.URL+'/zone/get/subgood/by/good/Id?goodId='+id)

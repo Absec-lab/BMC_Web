@@ -31,7 +31,7 @@ export class VehicleMasterComponent implements OnInit{
                               console.log(this.driverList)
                         }
                       );
-                this.service.getAllDriverList().subscribe( // need to add helper list
+                this.service.getAllHelper().subscribe( // need to add helper list
                 data=>{
                         this.helperList=data
                         console.log(this.helperList)
@@ -218,7 +218,7 @@ export class VehicleMasterComponent implements OnInit{
                 );
         }
         getAllHelpers(){
-                this.service.getAllDriverList().subscribe( // need to add helper list
+                this.service.getAllHelper().subscribe( 
                   data=>{
                         this.helperList=data
                   }

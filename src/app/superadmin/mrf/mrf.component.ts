@@ -109,10 +109,10 @@ export class MrfComponent implements OnInit{
     this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
             data=>{
                     this.responseData=data
-                    this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-                    //this.form.value.goodId=this.responseData.goods.goodId
+                    this.subgoodList = this.responseData   //this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
+                    //this.form.value.goodsId=this.responseData.goods.goodId
                     //this.goodsName=this.responseData.goods.goodsName
-                    console.log(this.subGoodsId)
+                    console.log(this.subgoodList)
             }
     );
 }

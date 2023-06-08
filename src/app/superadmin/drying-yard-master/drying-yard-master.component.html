@@ -115,7 +115,7 @@
 													Center Name
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="zoneName" type="text" name="" id="" class="form-control">
+													<input formControlName="centerName" type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -125,7 +125,7 @@
 													Description
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="zoneDesc" type="text" name="" id="" class="form-control">
+													<input formControlName="description" type="text" name="" id="" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -134,11 +134,11 @@
 							</div>
 						</div>
 						<div class="text-end mt-3" *ngIf="isAdd">
-							<button class="btn btn-primary px-5 py-2" (click)="addNewZone()">Add</button>
+							<button class="btn btn-primary px-5 py-2" (click)="addDryingYard()">Add</button>
 						</div>
 						<div class="text-end mt-3" *ngIf="isUpdate">
 							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
-							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateZone()">Update</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateDryingYard()">Update</button>
 						</div>
 					</div>
 					<div class="mt-4">
@@ -167,17 +167,17 @@
 								</tr>
 							</thead>
 							<tbody class="text-center">
-                                                                <tr *ngFor="let zone of zoneList; index as i;">
+                                                                <tr *ngFor="let drying of dryingYardList; index as i;">
                                                                         <td>{{ i + 1 }}</td>
-									<td>{{ zone.zoneName || '--' }}</td>
-									<td>{{ zone.zoneDesc || '--' }}</td>
-									<td>{{ zone.createdDate | date:'dd/MM/yyyy' }}</td>
+									<td>{{ drying.centerName || '--' }}</td>
+									<td>{{ drying.description || '--' }}</td>
+									<td>{{ drying.createdDate | date:'dd/MM/yyyy' }}</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center">
-										<button class="btn btn-primary btn-sm" (click)="updateData(zone)">
+										<button class="btn btn-primary btn-sm" (click)="updateData(drying)">
 											<i class="fa-solid fa-edit"></i>
 										</button>
 										<!-- <button  (click)="removeZone(zone.zoneId)"class="btn btn-danger btn-sm"> -->
-											<button  class="btn btn-danger btn-sm" (click)="deactivateZone(zone.zoneId)">
+											<button  class="btn btn-danger btn-sm" (click)="deactivateDryingYard(drying.dryyardId)">
 											<i class="fa-solid fa-trash-alt"></i>
 										</button>
 									</td>
