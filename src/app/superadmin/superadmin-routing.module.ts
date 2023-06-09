@@ -25,6 +25,7 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { TripDetailsComponent } from './drying-yard/trip-details/trip-details.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
 import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
@@ -59,6 +60,7 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-two',component: DashboardTwoComponent},
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
+  {path: 'superadmin/drying-yard/trip-details',component: TripDetailsComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
   {path: 'superadmin/drying-yard/dry-compost-weighment',component: DryCompostWeighmentComponent}, 
   {path: 'superadmin/drying-yard/compost-material-packaging',component: CompostMaterialPackagingComponent},   
