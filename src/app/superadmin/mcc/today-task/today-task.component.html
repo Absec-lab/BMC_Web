@@ -134,12 +134,15 @@
                 </div>
             </div>
             <div style="width: 17%">
-                <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect($event, task)" [disabled]="task.pitstatus == 1">
-                    <option [value]="status.id" *ngFor="let status of pitStatusArr" [selected]="task.pitstatus">{{status.statusName}}</option>
+                <select id="pitstatus" class="form-control form-select select-red" (change)="onStatusSelect($event, task)" [disabled]="task.pitDailyOperationstatus == 1">
+                    [selected]="status.id === task.pitDailyOperationstatus"
+					<option  *ngFor="let status of pitStatusArr" [value]="status.id" [selected]="status.id === task.pitDailyOperationstatus" >
+						{{status.statusName}}
+					</option>
                 </select>
             </div>
             <div style="width: 40%">
-                <input type="text" name="" id="" class="form-control bg-white text-dark"  [disabled]="task.pitstatus === 1">
+                <input type="text" name="remarks" id="remarksId" class="form-control bg-white text-dark"  [disabled]="task.pitDailyOperationstatus === 1" [(ngModel)]="task.checkerRemarks"  value="{{task.checkerRemarks}}"> 
             </div>
         </div>
     </div>  

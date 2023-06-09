@@ -189,8 +189,7 @@ export class PitViewComponent {
   });
 
   pitByMcc : pitByMccId = {
-    mccId: 0,
-    wcId: 0
+    mccId: 0
   }
 
   pitPayload : pitPayload = {
@@ -206,7 +205,7 @@ export class PitViewComponent {
         this.getPitStageDetails();
       });
 
-    this.updateSubscription = interval(6000).subscribe(
+    this.updateSubscription = interval(10000).subscribe(
       (val) => { this.onRefresh()});
    
   }

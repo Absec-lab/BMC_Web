@@ -50,13 +50,10 @@ export class LoginComponent {
    this.loginPayload.email = this.form.controls.emailId.value;
    this.loginPayload.password = this.form.controls.password.value;
    this.loginPayload.hasTermsChecked = true;
-  
-  console.log("Login REQ : ",this.loginPayload);
+
   this.service.login(this.loginPayload).subscribe(data => {
        this.logindata = data;
-       console.log("Login RES : ",this.logindata);
-       console.log("Login RES : ",this.logindata.userdetails[0].attributes.role);
-
+       localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity);
        localStorage.setItem('access_token', this.logindata.access_token);
        localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
        localStorage.setItem('logindetails', JSON.stringify(this.logindata));
