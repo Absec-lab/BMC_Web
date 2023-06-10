@@ -45,6 +45,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
+import { ManpowerComponent } from './manpower/manpower.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
 @NgModule({
   declarations: [
@@ -85,8 +87,10 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     ItemNameMasterComponent,
     InventoryComponent,
     MccMenuComponent,
-    ImageCellRendererComponent
-  ],
+    ImageCellRendererComponent,
+    ManpowerComponent,
+    VehicleManagementComponent 
+   ],
   imports: [
     CommonModule,
     SuperadminRoutingModule,
