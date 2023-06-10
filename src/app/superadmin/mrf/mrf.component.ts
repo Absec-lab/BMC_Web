@@ -30,7 +30,7 @@ export class MrfComponent implements OnInit{
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllGoods()
-     this.getAllSubGoods() 
+     //this.getAllSubGoods() 
   }
   ngOnInit() {
     this.service.getAllMrf().subscribe(
