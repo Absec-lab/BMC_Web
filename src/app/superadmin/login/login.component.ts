@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { windowWhen } from 'rxjs';
-import { LoginRes, Userdetail } from 'src/app/model/login.model';
 import { LoginReq } from 'src/app/model/pit.model';
 import { LoginModel, UserInfo } from 'src/app/model/user.model';
 import { CommonService } from 'src/app/service/common.service';
@@ -18,6 +16,7 @@ export class LoginComponent {
     
     constructor(private toastr: ToastrService,
       private service: CommonService,private route:Router) {
+        
   }
   loginResponse:any
   form = new FormGroup({
@@ -34,6 +33,9 @@ export class LoginComponent {
   };
 
   ngOnInit(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('logindetails');
     localStorage.clear();
   }
   

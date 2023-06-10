@@ -13,6 +13,7 @@ import { DryingYardMasterComponent } from './superadmin/drying-yard-master/dryin
 import { MrfComponent } from './superadmin/mrf/mrf.component';
 import { MccUserAuthGuardService } from './superadmin/auth-guard/mccuser-auth-guard.service';
 import { WcUserAuthGuardService } from './superadmin/auth-guard/wcuser-auth-guard.service';
+import { InventoryComponent } from './superadmin/inventory/inventory.component';
 
 
 const routes: Routes = [
@@ -64,6 +65,11 @@ const routes: Routes = [
   {
     component:DryingYardMasterComponent,
     path:'superadmin/drying-yard-master',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:InventoryComponent,
+    path:'superadmin/inventory',
     canActivate:[LoginGuard]
   }
 ];
