@@ -21,12 +21,12 @@ export class AppComponent {
           if (miniSidebarElement.classList.contains('toggled')) {
             setTimeout(() => {
               const pageContentElement = document.querySelector('.page-content') as HTMLDivElement;
-              pageContentElement.classList.toggle('toggled');
+              pageContentElement && pageContentElement.classList.toggle('toggled');
               const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
-              sidebarParentElement.classList.toggle('d-none');
+              sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
               const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
-              appContentElement.classList.toggle('col-lg-9');
-              appContentElement.classList.toggle('col-12');
+              appContentElement && appContentElement.classList.toggle('col-lg-9');
+              appContentElement && appContentElement.classList.toggle('col-12');
             }, 10);
           }
         }

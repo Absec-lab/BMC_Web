@@ -10,6 +10,7 @@
     margin-left: -86px;
     height: 89.5dvh;
     overflow-y: auto;
+    transition: all .3s;
 }
 
 #mini-sidebar.toggled {

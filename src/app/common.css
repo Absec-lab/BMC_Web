@@ -785,6 +785,10 @@ thead th {
   background-color: #0566DF !important;
 }
 
+.page-content {
+  transition: all .3s;
+}
+
 .page-content.toggled {
-    margin-left: 76px;
+  margin-left: 76px;
 }

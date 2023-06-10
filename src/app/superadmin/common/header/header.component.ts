@@ -9,14 +9,14 @@ export class HeaderComponent {
 
   togggleSidebar() {
     const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
-    sidebarParentElement.classList.toggle('d-none');
+    sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
     const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
-    appContentElement.classList.toggle('col-lg-9');
-    appContentElement.classList.toggle('col-12');
+    appContentElement && appContentElement.classList.toggle('col-lg-9');
+    appContentElement && appContentElement.classList.toggle('col-12');
     const miniSidebarElement = document.querySelector('#mini-sidebar') as HTMLDivElement;
-    miniSidebarElement.classList.toggle('toggled');
+    miniSidebarElement && miniSidebarElement.classList.toggle('toggled');
     const pageContentElement = document.querySelector('.page-content') as HTMLDivElement;
-    pageContentElement.classList.toggle('toggled');
+    pageContentElement && pageContentElement.classList.toggle('toggled');
   }
 
 }
