@@ -6,7 +6,7 @@ export interface TodayTaskModel {
   
   export interface Task {
     tempPitStatus: any
-    pitstatus: any
+    pitDailyOperationstatus: any
     pitId: number
     pitName: string
     noOfDaysInTodaysTask: number

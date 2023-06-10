@@ -142,6 +142,7 @@ export class PitViewComponent {
   
     console.log( '  MCC ID  ::::: {} ', this.mccId);
     this.pitPayload.payload.mccId = this.mccId;
+   
   }
 
   form = new FormGroup({
@@ -188,8 +189,7 @@ export class PitViewComponent {
   });
 
   pitByMcc : pitByMccId = {
-    mccId: 0,
-    wcId: 0
+    mccId: 0
   }
 
   pitPayload : pitPayload = {
@@ -201,6 +201,7 @@ export class PitViewComponent {
       this.pitService.selectMccId.subscribe( (val) => {
         this.mccId = val;
         this.pitPayload.payload.mccId = this.mccId;
+        this.onRefresh();
         this.getPitStageDetails();
       });
 

@@ -80,7 +80,7 @@ editForm = new FormGroup({
             itemQuantity: item.itemQuantity,
             itemCost: item.itemCost,
             uploadBill:item.uploadBill,
-            createdDate:  this.datePipe.transform(item.createdDate, 'yyyy-MM-dd HH:MM'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
+            purchaseDate:  this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
             description:item.description
           };
         });
@@ -284,7 +284,7 @@ columnDefsPurchase: ColDef[] = [
   { field: 'itemCost', headerName: 'Item Cost', unSortIcon: true,resizable: true, },
   { field: 'uploadBill', headerName: 'Bill', unSortIcon: true,resizable: true, },
   { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true,},
-  { field: 'createdDate', headerName: 'Created Date', unSortIcon: true,resizable: true,},
+  { field: 'purchaseDate', headerName: 'Purchase Date', unSortIcon: true,resizable: true,},
   { headerName: 'Edit', width: 125, sortable: false, filter: false,
     cellRenderer: (data: any) => {
      return `

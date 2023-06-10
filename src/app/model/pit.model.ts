@@ -178,5 +178,4 @@ export interface pitPayload{
 
 export interface pitByMccId {
   mccId: number
-  wcId: number
 }

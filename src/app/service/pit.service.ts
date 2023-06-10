@@ -11,13 +11,15 @@ const environment = {
 
  // URL: `http://localhost:9091`,  //prod url
  // PIT_SERVICE_URL: 'http://localhost:8062/',
+ // AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+
+ // AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+ // URL: `http://15.207.62.200:9091`,  //prod url
+ // PIT_SERVICE_URL: 'http://localhost:8062/',
+
   URL: `http://43.204.240.44:9091`,  //prod url
   PIT_SERVICE_URL: 'http://43.204.240.44:8062/',
-  //AUTH_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-  //URL: `http://15.207.62.200:9091`,  //prod url
-
- // PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
-  AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+  AUTH_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
   getAllPit: 'pit/v1/getAllPitListByMccId',
   savePitInit: 'pit/v1/savePitProcessDetails',
   getPitHistory: 'pit/v1/getPitProcessDetails',
@@ -63,8 +65,7 @@ export class PitService {
   }
 
   getTodayTaskList(payload: {
-    mccId: Number,
-    wcId: Number
+    mccId: Number
   }) {
     return this.http.post<TodayTaskModel>(`${environment.PIT_SERVICE_URL}pit/v1/getTodaysTaskView`, payload);
   }
@@ -75,13 +76,12 @@ export class PitService {
 
   getAllPitStagesStatus(payload:any){
      return this.http.post<PitStageRoot>(`${environment.PIT_SERVICE_URL}pit/v1/getPitAllStageDetails`,payload)
-     //return this.http.post<PitStageRoot>(`http://localhost:8062/pit/v1/getPitAllStageDetails`,payload)
   }
 
   updatePitStatus(payload: {
     "pitId": Number,
     "operationStatus": Number,
-    "remark":string
+    "remarks":string
   }) {
     return this.http.post<{code: Number; message:string;}>(`${environment.PIT_SERVICE_URL}pit/v1/updatePitOperationStatus`, payload);
   }

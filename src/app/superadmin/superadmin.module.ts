@@ -18,7 +18,7 @@ import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.com
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { HelperMasterComponent } from './helper-master/helper-master.component'; 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
@@ -34,6 +34,7 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { TripDetailsComponent } from './drying-yard/trip-details/trip-details.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
 import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
@@ -77,6 +78,7 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     DashboardTwoComponent,
     DashboardThreeComponent,
     DashboardFourComponent,
+    TripDetailsComponent,
     CompostDryingComponent,
     CompostMaterialPackagingComponent,
     DryCompostWeighmentComponent,
@@ -94,7 +96,8 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     AgGridModule,
     SharedModule, // required animations module
     ToastrModule.forRoot(),
-    BrowserAnimationsModule // ToastrModule added
+    BrowserAnimationsModule,
+    FormsModule // ToastrModule added
   ]
 })
 export class SuperadminModule { }
