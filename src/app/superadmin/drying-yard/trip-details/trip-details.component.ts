@@ -3,17 +3,16 @@ import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
-import { ImageCellRendererComponent } from '../image-cell-renderer/image-cell-renderer.component';
-import { ActiveTripActionRendererComponent } from './active-trip-action-renderer/active-trip-action-renderer.component';
-
+import { ImageCellRendererComponent } from '../../image-cell-renderer/image-cell-renderer.component';
+import { ModalService } from 'src/app/service/modal.service';
 @Component({
-  selector: 'app-garbage',
-  templateUrl: './garbage.component.html',
-  styleUrls: ['../../common.css', './garbage.component.css']
+  selector: 'app-trip-details',
+  templateUrl: './trip-details.component.html',
+  styleUrls: ['../../../common.css', './trip-details.component.css']
 })
-export class GarbageComponent implements OnInit {
+export class TripDetailsComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalSrvice: ModalService) {
     this.getRouteList()
    }
    isAdd: boolean = true
@@ -66,13 +65,14 @@ export class GarbageComponent implements OnInit {
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
             route_routeName: item.route.routeName,
-            tripStartReading: item.tripStartReading,
+            tripStartReading: item.tripStartReading,            
             vehicle_starttime: item.createdDate,
+            wetWt: item.wetWt,
             trip_start_reading_image: item.tripStartReadingImg
           };
         });
-      //  console.log("ActiveList",this.activeTripList)
-      //  console.log("rowData",rowData)
+       console.log("ActiveList",this.activeTripList)
+       console.log("rowData",rowData)
        this.rowData=rowData;
       }
     );
@@ -98,8 +98,8 @@ export class GarbageComponent implements OnInit {
             trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
           };
         });
-      //  console.log("InActiveList",this.inActiveTripList)
-      //  console.log("rowData",rowDataComp)
+       console.log("InActiveList",this.inActiveTripList)
+       console.log("rowData",rowDataComp)
        this.rowDataComp=rowDataComp;
         
       }
@@ -116,7 +116,7 @@ export class GarbageComponent implements OnInit {
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-        //  console.log("ActiveList",this.activeTripList)
+         console.log("ActiveList",this.activeTripList)
       }
     );
   }
@@ -299,8 +299,8 @@ export class GarbageComponent implements OnInit {
                           trip_start_reading_image: item.tripStartReadingImg
                         };
                       });
-                    //  console.log("ActiveList",this.activeTripList)
-                    //  console.log("rowData",rowData)
+                     console.log("ActiveList",this.activeTripList)
+                     console.log("rowData",rowData)
                      this.rowData=rowData;
                     }
                   );
@@ -323,8 +323,8 @@ export class GarbageComponent implements OnInit {
                           trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                         };
                       });
-                    //  console.log("InActiveList",this.inActiveTripList)
-                    //  console.log("rowData",rowDataComp)
+                     console.log("InActiveList",this.inActiveTripList)
+                     console.log("rowData",rowDataComp)
                      this.rowDataComp=rowDataComp;
                       
                     }
@@ -799,11 +799,12 @@ export class GarbageComponent implements OnInit {
                       route_routeName: item.route.routeName,
                       tripStartReading: item.tripStartReading,
                       vehicle_starttime: item.createdDate,
+                      WetWt: item.wetWt,
                       trip_start_reading_image: item.tripStartReadingImg
                     };
                   });
-                //  console.log("ActiveList",this.activeTripList)
-                //  console.log("rowData",rowData)
+                 console.log("ActiveList",this.activeTripList)
+                 console.log("rowData",rowData)
                  this.rowData=rowData;
                 }
               );
@@ -826,8 +827,8 @@ export class GarbageComponent implements OnInit {
                       trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                     };
                   });
-                //  console.log("InActiveList",this.inActiveTripList)
-                //  console.log("rowData",rowDataComp)
+                 console.log("InActiveList",this.inActiveTripList)
+                 console.log("rowData",rowDataComp)
                  this.rowDataComp=rowDataComp;
                   
                 }
@@ -861,21 +862,23 @@ updateData(item: any) {
 }
 
 columnDefs: ColDef[] = [
+  { field: 'vehicle_vehicleNo', headerName: 'WC Name.', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
-  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true},
-  { field: 'route_routeName', headerName: 'Route', unSortIcon: true,resizable: true},
-  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true},
-  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
- { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
-    cellRenderer: 'activeTripActionRenderer'
+  { field: 'wetWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
+  { field: '--------Ton', headerName: 'Wet Compost Wt In Drying Yard', unSortIcon: true,resizable: true},
+  { field: 'vehicle_starttime', headerName: 'Date', unSortIcon: true,resizable: true},
+  { headerName: 'Edit', width: 125, sortable: false, filter: false,
+    cellRenderer: (data: any) => {
+     return `
+      <button class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+    
+     `; 
+    }
   }
 ];
-
-editActiveTripData(itemData: any) {
-  console.log(itemData);
-}
 
 defaultColDef: ColDef = {
   sortable: true,
@@ -893,8 +896,7 @@ gridOptions = {
   copyHeadersToClipboard:true,
   enableRangeSelection:true,
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent,
-    activeTripActionRenderer: ActiveTripActionRendererComponent
+    imageCellRenderer: ImageCellRendererComponent
   }
 }
 rowData = [
@@ -904,18 +906,13 @@ rowData = [
 
 
 columnDefsComp: ColDef[] = [
-  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true,},
-  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true,},
-  { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true,},
-  { field: 'route_routeName', headerName: 'Route', unSortIcon: true,resizable: true,},
-  { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true,},
-  { field: 'tripEndReading', headerName: 'Final Reading', unSortIcon: true,resizable: true,},
-  { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
-  { field: 'updatedDate', headerName: 'Vehicle End Time', unSortIcon: true,resizable: true},
-  { field: 'grossWt', headerName: 'Gross Wight', unSortIcon: true,resizable: true},
-  { field: 'wetWt', headerName: 'Wet Weight', unSortIcon: true,resizable: true,},
-  { field: 'dryWt', headerName: 'Dry Weight', unSortIcon: true,resizable: true},
-  // { headerName: 'Edit', width: 125, sortable: false, filter: false,
+  { field: 'vehicle_vehicleNo', headerName: 'WC Name.', unSortIcon: true,resizable: true},
+  { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
+  { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
+  { field: 'wetWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
+  { field: 'wetWt', headerName: 'Wet Compost Wt In Drying Yard', unSortIcon: true,resizable: true},
+  { field: 'updatedDate', headerName: 'Date', unSortIcon: true,resizable: true},
+ // { headerName: 'Edit', width: 125, sortable: false, filter: false,
   //   cellRenderer: (data: any) => {
   //    return `
   //     <button class="btn btn-primary btn-sm" (click)="updateData(x)">
@@ -927,8 +924,6 @@ columnDefsComp: ColDef[] = [
   //    `; 
   //   }
   // }
-  { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
-  { field: 'trip_end_reading_image', headerName: 'Trip End Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
 ];
 
 defaultColDefComp: ColDef = {
@@ -957,4 +952,4 @@ wetWeightCal(){
   this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
   }
 
-}
+ }

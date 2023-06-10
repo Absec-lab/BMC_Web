@@ -16,10 +16,12 @@ import { DryingYardMasterComponent } from './superadmin/drying-yard-master/dryin
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginGuard } from './superadmin/auth-guard/LoginGuard';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { MiniSidebarComponent } from './superadmin/common/mini-sidebar/mini-sidebar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MiniSidebarComponent
   ],
   imports: [
     BrowserModule,

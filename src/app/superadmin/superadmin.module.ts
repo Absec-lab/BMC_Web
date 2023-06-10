@@ -34,6 +34,7 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { TripDetailsComponent } from './drying-yard/trip-details/trip-details.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
 import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
@@ -44,6 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
+import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     DashboardTwoComponent,
     DashboardThreeComponent,
     DashboardFourComponent,
+    TripDetailsComponent,
     CompostDryingComponent,
     CompostMaterialPackagingComponent,
     DryCompostWeighmentComponent,
@@ -83,7 +86,8 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     ItemNameMasterComponent,
     InventoryComponent,
     MccMenuComponent,
-    ImageCellRendererComponent
+    ImageCellRendererComponent,
+    ActiveTripActionRendererComponent
   ],
   imports: [
     CommonModule,

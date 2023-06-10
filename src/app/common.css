@@ -784,3 +784,11 @@ thead th {
 .bg-lightblue {
   background-color: #0566DF !important;
 }
+
+.page-content {
+  transition: all .3s;
+}
+
+.page-content.toggled {
+  margin-left: 76px;
+}

@@ -271,4 +271,17 @@ export class CommonService {
                 return this.http.get(environment.URL+'/zone/getAllHelper')
         }
 
+        toggleDetailedSidebar() {
+                const miniSidebarElement = document.querySelector('#mini-sidebar') as HTMLDivElement;
+                if (miniSidebarElement.classList.contains('toggled')) {
+                        const pageContentElement = document.querySelector('.page-content') as HTMLDivElement;
+                        pageContentElement && pageContentElement.classList.toggle('toggled');
+                        const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
+                        sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
+                        const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
+                        appContentElement && appContentElement.classList.toggle('col-lg-9');
+                        appContentElement && appContentElement.classList.toggle('col-12');
+                }
+        }
+
 }
