@@ -14,7 +14,7 @@ export class AuthService {
     // Check whether the token is expired and return
     // true or false
     //return !this.jwtHelper.isTokenExpired(token);
-    //  console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
+    //console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
     //console.log("  Auth guard  role  *******    ", localStorage.getItem('role'));
     //console.log("  Auth guard  token  *******    ", token);
     if (token != undefined) {
