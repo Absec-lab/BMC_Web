@@ -4,6 +4,8 @@ import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
 import { ImageCellRendererComponent } from '../image-cell-renderer/image-cell-renderer.component';
+import { ActiveTripActionRendererComponent } from './active-trip-action-renderer/active-trip-action-renderer.component';
+
 @Component({
   selector: 'app-garbage',
   templateUrl: './garbage.component.html',
@@ -69,8 +71,8 @@ export class GarbageComponent implements OnInit {
             trip_start_reading_image: item.tripStartReadingImg
           };
         });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
+      //  console.log("ActiveList",this.activeTripList)
+      //  console.log("rowData",rowData)
        this.rowData=rowData;
       }
     );
@@ -96,8 +98,8 @@ export class GarbageComponent implements OnInit {
             trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
           };
         });
-       console.log("InActiveList",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
+      //  console.log("InActiveList",this.inActiveTripList)
+      //  console.log("rowData",rowDataComp)
        this.rowDataComp=rowDataComp;
         
       }
@@ -114,7 +116,7 @@ export class GarbageComponent implements OnInit {
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-         console.log("ActiveList",this.activeTripList)
+        //  console.log("ActiveList",this.activeTripList)
       }
     );
   }
@@ -297,8 +299,8 @@ export class GarbageComponent implements OnInit {
                           trip_start_reading_image: item.tripStartReadingImg
                         };
                       });
-                     console.log("ActiveList",this.activeTripList)
-                     console.log("rowData",rowData)
+                    //  console.log("ActiveList",this.activeTripList)
+                    //  console.log("rowData",rowData)
                      this.rowData=rowData;
                     }
                   );
@@ -321,8 +323,8 @@ export class GarbageComponent implements OnInit {
                           trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                         };
                       });
-                     console.log("InActiveList",this.inActiveTripList)
-                     console.log("rowData",rowDataComp)
+                    //  console.log("InActiveList",this.inActiveTripList)
+                    //  console.log("rowData",rowDataComp)
                      this.rowDataComp=rowDataComp;
                       
                     }
@@ -800,8 +802,8 @@ export class GarbageComponent implements OnInit {
                       trip_start_reading_image: item.tripStartReadingImg
                     };
                   });
-                 console.log("ActiveList",this.activeTripList)
-                 console.log("rowData",rowData)
+                //  console.log("ActiveList",this.activeTripList)
+                //  console.log("rowData",rowData)
                  this.rowData=rowData;
                 }
               );
@@ -824,8 +826,8 @@ export class GarbageComponent implements OnInit {
                       trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                     };
                   });
-                 console.log("InActiveList",this.inActiveTripList)
-                 console.log("rowData",rowDataComp)
+                //  console.log("InActiveList",this.inActiveTripList)
+                //  console.log("rowData",rowDataComp)
                  this.rowDataComp=rowDataComp;
                   
                 }
@@ -866,17 +868,14 @@ columnDefs: ColDef[] = [
   { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
  { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-    
-     `; 
-    }
+  { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
+    cellRenderer: 'activeTripActionRenderer'
   }
 ];
+
+editActiveTripData(itemData: any) {
+  console.log(itemData);
+}
 
 defaultColDef: ColDef = {
   sortable: true,
@@ -894,7 +893,8 @@ gridOptions = {
   copyHeadersToClipboard:true,
   enableRangeSelection:true,
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent
+    imageCellRenderer: ImageCellRendererComponent,
+    activeTripActionRenderer: ActiveTripActionRendererComponent
   }
 }
 rowData = [

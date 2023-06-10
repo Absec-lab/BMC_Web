@@ -14,12 +14,12 @@ const environment = {
     //    LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
        
        
-        LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        URL: `http://43.204.240.44:9091`  //Absec ip 
+         LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+         URL: `http://43.204.240.44:9091`  //Absec ip 
 
 
-        // LOGIN_SERVICE_URL: 'http://44.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        // URL: `http://192.168.29.128:9091`
+        // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        // URL: `http://localhost:9091`
 }
 
 @Injectable({
@@ -269,6 +269,19 @@ export class CommonService {
         }
         getAllHelper(){
                 return this.http.get(environment.URL+'/zone/getAllHelper')
+        }
+
+        toggleDetailedSidebar() {
+                const miniSidebarElement = document.querySelector('#mini-sidebar') as HTMLDivElement;
+                if (miniSidebarElement.classList.contains('toggled')) {
+                        const pageContentElement = document.querySelector('.page-content') as HTMLDivElement;
+                        pageContentElement && pageContentElement.classList.toggle('toggled');
+                        const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
+                        sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
+                        const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
+                        appContentElement && appContentElement.classList.toggle('col-lg-9');
+                        appContentElement && appContentElement.classList.toggle('col-12');
+                }
         }
 
 }

@@ -47,6 +47,8 @@ import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-ren
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 import { ManpowerComponent } from './manpower/manpower.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
+
 
 @NgModule({
   declarations: [
@@ -89,8 +91,10 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
     MccMenuComponent,
     ImageCellRendererComponent,
     ManpowerComponent,
-    VehicleManagementComponent 
-   ],
+    VehicleManagementComponent,
+    ActiveTripActionRendererComponent
+  ],
+
   imports: [
     CommonModule,
     SuperadminRoutingModule,
