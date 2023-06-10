@@ -1,0 +1,17 @@
+.mini-sidebar-link {
+    display: block;
+    color: #fff;
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    cursor: pointer;
+}
+
+.mini-sidebar-link:hover {
+    background: #000033;
+    cursor: pointer;
+}
+
+.mini-sidebar-link:last-child {
+    margin-top: 2rem;
+}

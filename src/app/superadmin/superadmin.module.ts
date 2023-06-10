@@ -45,6 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
+import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
     ItemNameMasterComponent,
     InventoryComponent,
     MccMenuComponent,
-    ImageCellRendererComponent
+    ImageCellRendererComponent,
+    ActiveTripActionRendererComponent
   ],
   imports: [
     CommonModule,
