@@ -32,6 +32,8 @@ import { CompostMaterialPackagingComponent } from './drying-yard/compost-materia
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ManpowerComponent } from './manpower/manpower.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
 
 const routes: Routes = [
@@ -67,6 +69,8 @@ const routes: Routes = [
   {path: 'superadmin/item-category-master',component: ItemCategoryMasterComponent},
   {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
   {path: 'superadmin/inventory',component: InventoryComponent}, 
+  {path: 'superadmin/manpower',component: ManpowerComponent}, 
+  {path: 'superadmin/vehicle-management',component: VehicleManagementComponent}
 ];
 
 @NgModule({
