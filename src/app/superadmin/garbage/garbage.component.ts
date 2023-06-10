@@ -5,6 +5,7 @@ import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
 import { ImageCellRendererComponent } from '../image-cell-renderer/image-cell-renderer.component';
 import { ActiveTripActionRendererComponent } from './active-trip-action-renderer/active-trip-action-renderer.component';
+
 @Component({
   selector: 'app-garbage',
   templateUrl: './garbage.component.html',
