@@ -127,8 +127,7 @@ export class PitViewComponent {
     tranferToPit: false,
     visuaInspection: false,
     totalgarbagewt: '',
-    noWorkflow: false,
-    header: this.header
+    noWorkflow: false
   }
  
  public responsePitenzyme : any;
@@ -477,9 +476,14 @@ export class PitViewComponent {
          this.toastr.error('Error!','   Please fill garbage wt.... ' , {positionClass:'toast-center-center'});
          return;
     }
-  //    console.log('   FILED MATERIAL {}  ',this.pitInitModal);
+
+    const headerDict = {
+      'appName': 'BMC-APP',
+      'wfToken': localStorage.getItem('access_token')
+    }
+
       this.pitService
-        .savePitInitForCompost(this.pitInitModal)
+        .savePitInitForCompost(this.pitInitModal , headerDict)
         .subscribe((response) => {
           this.responsePitenzyme = response;
           this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});

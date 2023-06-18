@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PitHistoryReq, PitModel, PitProcessMain, PitStageRoot, pitPayload } from '../model/pit.model';
@@ -45,9 +45,12 @@ export class PitService {
     return this.http.post<PitModel>(urlString, param);
   }
 
-  savePitInitForCompost(inParam: PitInitModel): Observable<PitInitModel> {
+  savePitInitForCompost(inParam: PitInitModel , headerDict : any): Observable<PitInitModel> {
+    const requestHeaders = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
     let urlString = environment.PIT_SERVICE_URL + environment.savePitInit;
-    return this.http.post<PitInitModel>(urlString, inParam);
+    return this.http.post<PitInitModel>(urlString, inParam , requestHeaders);
   }
 
   onFetchPitHistoryDetails(inParam: PitHistoryReq): Observable<PitProcessMain> {
