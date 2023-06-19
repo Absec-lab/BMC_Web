@@ -110,11 +110,12 @@
 										<div class="col-md-6">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Goods Name
+													Goods Name<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
   
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+													<select name="" id="" class="form-control form-select bg-transparent text-white" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+														<option value="">Select</option>
 														<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
 													</select>
 												</div>
@@ -123,10 +124,11 @@
 										<div class="col-md-6">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Sub Goods Name
+													Sub-Goods Name<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="goodssubId">
+													<select name="" id="" class="form-control form-select bg-transparent text-white" formControlName="goodssubId">
+														<option value="">Select</option>
 														<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
 													</select>
 												</div>
@@ -135,21 +137,21 @@
                                         <div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Goods (Kg)
+													Goods (Kg)<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="quntaum">
+													<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
 												</div>
 											</div>
 										</div>
 										<div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Inert Material
+													Inert Material<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
 													<div class="input-group">
-                                                        <input type="text" name="" id="" class="form-control" formControlName="interMaterial">
+                                                        <input type="number" min="0" name="" id="" class="form-control" formControlName="interMaterial">
                                                         <div class="input-group-text text-white bg-danger">
                                                             Quantum
                                                         </div>
@@ -160,7 +162,7 @@
                                         <div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Description
+													Description<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
 													<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">

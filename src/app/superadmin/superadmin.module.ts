@@ -95,7 +95,9 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     ReactiveFormsModule,
     AgGridModule,
     SharedModule, // required animations module
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
     BrowserAnimationsModule,
     FormsModule // ToastrModule added
   ]
