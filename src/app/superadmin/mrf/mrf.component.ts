@@ -72,7 +72,7 @@ export class MrfComponent implements OnInit{
     goodsId: new FormControl('', [Validators.required]),
     goodssubId: new FormControl('', [Validators.required]),
     interMaterial: new FormControl('', [Validators.required]),
-    mrfDesc: new FormControl('', [Validators.required]),
+    mrfDesc: new FormControl(''),
     quntaum: new FormControl('', [Validators.required]),
     goods: new FormControl,
     subGood: new FormControl,
@@ -156,11 +156,6 @@ export class MrfComponent implements OnInit{
       }
       if (+inertMaterial < 0) {
         this.toastService.showWarning('Inert material must be a valid number.');
-        return;
-      }
-      const description = this.form.value.mrfDesc?.trim();
-      if (!description || description === '') {
-        this.toastService.showWarning('Description is required.');
         return;
       }
       return;
