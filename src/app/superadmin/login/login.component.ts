@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { windowWhen } from 'rxjs';
@@ -8,6 +8,7 @@ import { LoginRes, Userdetail } from 'src/app/model/login.model';
 import { LoginReq } from 'src/app/model/pit.model';
 import { LoginModel, UserInfo } from 'src/app/model/user.model';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,12 +18,12 @@ export class LoginComponent {
   checkagreeterms: any;
     
     constructor(private toastr: ToastrService,
-      private service: CommonService,private route:Router) {
+      private service: CommonService,private route:Router, private toastService: ToastService) {
   }
   loginResponse:any
   form = new FormGroup({
-    emailId: new FormControl,
-    password: new FormControl
+    emailId: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   });
 
   public logindata:any;
@@ -36,19 +37,38 @@ export class LoginComponent {
   ngOnInit(): void {
     localStorage.clear();
   }
+
+  validateEmail(email: string) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
   
  /**
    * Function used to call Bakend Login service
    */
  public doLogin(): void {
 
-  if (this.form.controls.emailId.value == null || this.form.controls.emailId.value  === '' ||
-     this.form.controls.password.value == null || this.form.controls.password.value === '') {
-      this.toastr.error('Error!','   Field can not be left empty   ' , {positionClass:'toast-center-center'});
+  const email: any = this.form.value.emailId?.trim();
+  const password: any = this.form.value.password?.trim();
+
+  if (this.form.status === 'INVALID') {
+    if (!email) {
+      this.toastService.showWarning('Email is required.');
+      return;
+    }
+    if (!this.validateEmail(email)) {
+      this.toastService.showWarning('Email is not valid.');
+      return;
+    }
+    if (!password) {
+      this.toastService.showWarning('Password is required.');
+      return;
+    }
     return;
   }
-   this.loginPayload.email = this.form.controls.emailId.value;
-   this.loginPayload.password = this.form.controls.password.value;
+
+   this.loginPayload.email = email;
+   this.loginPayload.password = password;
    this.loginPayload.hasTermsChecked = true;
 
   this.service.login(this.loginPayload).subscribe(data => {
@@ -62,11 +82,8 @@ export class LoginComponent {
      //  this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
        this.route.navigate(['/superadmin/home'])
    
-  }, error => {
-    if(JSON.parse(JSON.stringify(error)).status === HttpStatusCode.BadRequest){
-      this.toastr.error('Error!', JSON.parse(JSON.stringify(error)).error , {positionClass:'toast-center-center'});
-    }
-    console.log(error);
+  }, err => {
+    this.toastService.showError(err.error.error);
   });
 }
 
