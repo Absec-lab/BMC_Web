@@ -447,9 +447,11 @@ export class PitViewComponent {
    this.pitInitModal.mixedEnzymeWt = this.form.controls.mixedEnzymeWtCrt.value;
    this.pitInitModal.batchId = this.form.controls.batchIdVal.value;
    this.pitInitModal.pitId = this.form.controls.pitIdVal.value;
+   if (!this.pitInitModal.header) {
+    this.pitInitModal.header = {appName: '', wfLoginToken: ''};
+   }
    this.pitInitModal.header.appName='BMC-APP';
    this.pitInitModal.header.wfLoginToken = '';
-
    this.pitInitModal.isFilledUp = this.form.controls.filledGarbageWtCrt.value;
    this.pitInitModal.segregation = this.form.controls.segregationCrt.value;
    this.pitInitModal.shreading = this.form.controls.shreadingCrt.value;
