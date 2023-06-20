@@ -167,13 +167,13 @@
 			</a>
 			
 		<!-- org: aria-expanded: false -->
-			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks1">
+			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks1" *ngIf="role === 'wcuser'">
 				<i class="fa-solid fa-database"></i>
 				<span>Master Entry</span>
 			</a>
 			
 		<!-- org: class: sidebar-sub-menu collapse -->
-			<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks4">
+			<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser'">
 				<a routerLink="/superadmin/zone-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Zone Master</span>
@@ -249,3 +249,5 @@
 		</div>
 	</div>
 </div>
+
+

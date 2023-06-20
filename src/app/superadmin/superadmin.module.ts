@@ -45,7 +45,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
+import { ManpowerComponent } from './manpower/manpower.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
+
 
 @NgModule({
   declarations: [
@@ -87,8 +90,11 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     InventoryComponent,
     MccMenuComponent,
     ImageCellRendererComponent,
+    ManpowerComponent,
+    VehicleManagementComponent,
     ActiveTripActionRendererComponent
   ],
+
   imports: [
     CommonModule,
     SuperadminRoutingModule,
