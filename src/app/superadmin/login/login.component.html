@@ -21,15 +21,15 @@
                                 <div class="devider"></div>
                                 <div class="wrap-login">
                                     <div class="login-form ">
-                                        <form [formGroup]="form">
+                                        <form [formGroup]="form" autocomplete="off">
                                         <span class="login-form-title"> Welcome to the Bhubaneswar Municipal Corporation </span>
                                         <span class="login-form-subtitle m-b-16"> You are now entering a securer enviroment, where you can view overal activity of your system</span>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="text" placeholder="Username" value="" class="form-control" formControlName="emailId"/> <span class="focus-input"></span>
+                                            <input class="input" type="email" placeholder="Email" value="" class="form-control" formControlName="emailId" autocomplete="new-email"  /> <span class="focus-input"></span>
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-user"></span> </span> -->
                                         </div>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="password" placeholder="Password" value="" class="form-control" formControlName="password"/> <span class="focus-input"></span>
+                                            <input class="input" type="password" placeholder="Password" value="" class="form-control" formControlName="password" autocomplete="new-password" /> <span class="focus-input"></span>
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-lock"></span> </span> -->
                                         </div>
                                         <div class="flex-sb-m w-full p-b-25 m-t-16">
