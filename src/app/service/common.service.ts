@@ -10,7 +10,7 @@ export class DeactivationDto {
 const environment = {
 
 
-        URL: `http://192.168.29.128:9091`,  //prod url
+        URL: `http://15.207.62.200:9091`,  //prod url
         LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
