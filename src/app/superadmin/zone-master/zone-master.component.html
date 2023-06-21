@@ -112,7 +112,7 @@
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
 												<div>
-													Zone name
+													Zone name<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
 													<input formControlName="zoneName" type="text" name="" id="" class="form-control">
@@ -145,13 +145,13 @@
 						<div class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
 							<div>Zone Name</div>
 							<div class="ms-3 w-25">
-								<select name="" id="" class="form-control form-select">
+								<select name="" id="searchZoneSelect" class="form-control form-select">
 									<option value="" disabled selected>Select Zone</option>
 									<option [value]="x.zoneId" *ngFor="let x of zoneList;">{{ x.zoneName }}</option>
 								</select>
 							</div>
 							<div class="ms-3">
-								<button class="btn btn-primary px-3">
+								<button class="btn btn-primary px-3" (click)="searchZone()">
 									Search
 								</button>
 							</div>

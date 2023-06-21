@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-item-name-master',
@@ -17,7 +18,7 @@ export class ItemNameMasterComponent implements OnInit{
         itemId:any
         category:any
         responseData:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getCategories()
         }
@@ -27,10 +28,10 @@ export class ItemNameMasterComponent implements OnInit{
         }
 
         form = new FormGroup({
-                itemCategoryId: new FormControl,
+                itemCategoryId: new FormControl('', [Validators.required]),
                 categoryName: new FormControl,
                 itemId: new FormControl,
-                itemName: new FormControl,
+                itemName: new FormControl('', [Validators.required]),
                 itemcategory: new FormControl,
                 description: new FormControl
         });
@@ -64,6 +65,19 @@ export class ItemNameMasterComponent implements OnInit{
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const category = this.form.value.itemCategoryId?.trim();
+                        if (!category) {
+                                this.toastService.showWarning('Category is required.');
+                                return;
+                        }
+                        const itemName = this.form.value.itemName?.trim();
+                        if (!itemName) {
+                                this.toastService.showWarning('Item name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const category = this.categoryList[this.categoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]
                         const data = {
@@ -107,25 +121,21 @@ export class ItemNameMasterComponent implements OnInit{
         updateData(item: any) {
                 this.isUpdate = true
                 this.isAdd = false
-                console.log(item)
-                //.wcId=item.wcId
-                //this.zoneName=item.zone.zoneName
-                console.log(item.zone.zoneName)
 
-                this.form = this.formBuilder.group({
-                        itemCategoryId: item.categoryId,
+                this.form.patchValue({
+                        itemCategoryId: item.itemcatrgory.itemCategoryId,
                         itemId: item.itemId,
-                        itemName: item.itemDesc,
+                        itemName: item.itemname,
                         categoryName: item.categoryName,
                         itemcategory: item.category,
                         description: item.description
-                        
-                })
-                this.service.getZoneAllData().subscribe(
-                        data=>{
-                                this.categoryList=data
-                        }
-                );
+                });
+
+                // this.service.getZoneAllData().subscribe(
+                //         data=>{
+                //                 this.categoryList=data
+                //         }
+                // );
 
         }
         cancel() {
@@ -135,10 +145,22 @@ export class ItemNameMasterComponent implements OnInit{
         }
 
         updateWcc() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const category = this.form.value.itemCategoryId?.trim();
+                        if (!category) {
+                                this.toastService.showWarning('Category is required.');
+                                return;
+                        }
+                        const itemName = this.form.value.itemName?.trim();
+                        if (!itemName) {
+                                this.toastService.showWarning('Item name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateWc(this.form.value).subscribe(
                         data => {
-                                window.alert("Item updated successfully!!")
+                                this.toastService.showSuccess("Item updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(
@@ -148,7 +170,7 @@ export class ItemNameMasterComponent implements OnInit{
                                 );
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

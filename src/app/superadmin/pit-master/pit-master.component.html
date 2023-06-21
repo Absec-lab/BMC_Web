@@ -112,11 +112,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Wealth Center
+                                                    Wealth Center<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="wcId" class="form-select" (ngModelChange)="getMccDataByWcId()">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                                <option value="">Select</option>
                                                                 <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
                                                         </select>
                                                 </div>
@@ -125,11 +125,12 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Select Zone
+                                                    Select Zone<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="zoneId" class="form-select" [(ngModel)]="zoneName">
-                                                                <option value={{zoneName}}  selected>{{zoneName}}</option>
+                                                                <option value="">Select</option>
+                                                                <option value={{zoneName}}>{{zoneName}}</option>
                                                                 <!-- <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option> -->
                                                         </select>
                                                 </div>
@@ -140,11 +141,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    MCC Name
+                                                    MCC Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="mccId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                                <option value="">Select</option>
                                                                 <option [value]="x.mccId" *ngFor="let x of mccList;">{{x.mccName }}</option>
                                                         </select>
                                                 </div>
@@ -165,7 +166,7 @@
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
 												<div>
-													PIT Name
+													PIT Name<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
 													<input formControlName="pitName" type="text" name="" id="" class="form-control">
