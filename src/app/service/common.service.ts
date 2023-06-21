@@ -10,7 +10,7 @@ export class DeactivationDto {
 const environment = {
 
 
-        URL: `http://15.207.62.200:9091`,  //prod url
+        URL: `http://192.168.29.128:9091`,  //prod url
         LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
@@ -292,10 +292,16 @@ export class CommonService {
         getAllUnit() {
                 return this.http.get(environment.URL + '/inventory/getAllUnit')
         }
-        saveCompostPacking(data:any){
-                return this.http.post(environment.URL+'/inventory/addCompostPackaging',data)
+        saveCompostPacking(data: any) {
+                return this.http.post(environment.URL + '/inventory/addCompostPackaging', data)
         }
-        getAllCompostPacking(){
-                return this.http.get(environment.URL+'/inventory/getAllCompostPackaging')
+        getAllCompostPacking() {
+                return this.http.get(environment.URL + '/inventory/getAllCompostPackaging')
+        }
+        addItemPurchase(data: any) {
+                return this.http.post(environment.URL + '/inventory/addItemPurchase', data)
+        }
+        addItemIssue(data:any){
+                return this.http.post(environment.URL+'/inventory/addItemIssuse',data)
         }
 }

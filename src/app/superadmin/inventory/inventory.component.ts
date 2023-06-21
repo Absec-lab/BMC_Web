@@ -49,7 +49,7 @@ export class InventoryComponent implements OnInit {
     category: new FormControl,
     item : new FormControl,
     description: new FormControl,
-    unit: new FormControl,
+    unitId: new FormControl,
     uploadBill: new FormControl,
     issueDate: new FormControl,
     itemPurchaseDate: new FormControl
@@ -64,7 +64,7 @@ editForm = new FormGroup({
     item : new FormControl,
     description: new FormControl
   })
- 
+ unitList:any=[]
   ngOnInit() {
    
     this.service.getAllItemPurchase().subscribe(
@@ -77,7 +77,7 @@ editForm = new FormGroup({
             itemCategoryName: item.itemCategory.categoryName,
             itemName: item.itemName.itemname,
             unit: 0,
-            itemQuantity: item.itemQuantity,
+            itemQuantity: item.itemQuantity+" "+item.unit.unit,
             itemCost: item.itemCost,
             uploadBill:item.uploadBill,
             purchaseDate:  this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
@@ -99,7 +99,7 @@ editForm = new FormGroup({
           return {
             itemName: item.itemName.itemname,
             //unit: 0,
-            itemQuantity: item.issueQuantity,
+            itemQuantity: item.issueQuantity+" "+item.unit.unit,
             createdDate: item.createdDate
             
           };
@@ -119,7 +119,7 @@ editForm = new FormGroup({
           return {
             itemName: item.itemName.itemname,
             //unit: 0,
-            itemQuantity: item.issueQuantity          
+            itemQuantity: item.issueQuantity+" "+item.unit.unit       
             
           };
         });
@@ -129,7 +129,12 @@ editForm = new FormGroup({
      
       }
     );   
-  }
+    this.service.getAllUnit().subscribe(
+      data=>{
+        this.unitList=data
+      }
+    );
+    }
   itemCategoryList: any = []
   itemNameList: any= []
  
@@ -153,8 +158,11 @@ async getItemIssueList() {
 }
   async addItemPurchase() {
    try {
-     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => "3" == "3")]  //this.form.value.itemCategoryId
+     const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]  //this.form.value.itemCategoryId
      const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+     const unit= this.unitList[this.unitList.findIndex((e:any)=>e.unitId==this.form.value.unitId)]
+     console.log(this.form.value.itemId)
+     console.log(this.form.value.unitId)
       const data = {
                         //"itemCategoryId":this.form.value.itemCategoryId,
                         //"itemId":this.form.value.itemId,
@@ -163,14 +171,44 @@ async getItemIssueList() {
                         "description": this.form.value.description,
                         "itemCategory": category,
                         "itemName": item,
-                         "unit": "",
+                         "unit": unit,
                          "itemCost": this.form.value.itemCost,
                          "purchaseDate": this.datePipe.transform(this.form.value.itemPurchaseDate, 'yyyy-MM-dd HH:MM'),          //this.form.value.itemPurchaseDate,
                          "uploadBill": this.form.value.uploadBill
              
                       }
+                      
+                      
                       console.log(data)
-                      await this.service.post(`/inventory/addItemPurchase`, data)
+                      // await this.service.post(`/inventory/addItemPurchase`, data)
+                      this.service.addItemPurchase(data).subscribe(
+                        data=>{
+                          window.alert("Item purchase data saved successfully!!")
+                          this.service.getAllItemPurchase().subscribe(
+                            data => {
+                              this.itemPurchaseResponse = data
+                              this.itemPurchaseList = this.itemPurchaseResponse
+                              const rowDataPurchase =   this.itemPurchaseList.map((item: { itemCategory: any; itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost:any;uploadBill:any;description:any; createdDate: any; updateDate:any; }) => {
+                               
+                                return {
+                                  itemCategoryName: item.itemCategory.categoryName,
+                                  itemName: item.itemName.itemname,
+                                  unit: 0,
+                                  itemQuantity: item.itemQuantity+" "+item.unit.unit,
+                                  itemCost: item.itemCost,
+                                  uploadBill:item.uploadBill,
+                                  purchaseDate:  this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
+                                  description:item.description
+                                };
+                              });
+                             console.log("itemPurchaseList",this.itemPurchaseList) 
+                             console.log("rowDataPurchase",rowDataPurchase)
+                             this.rowDataPurchase=rowDataPurchase;
+                              
+                            }
+                          );
+                        }
+                      );
                       this.form.reset()
                       this.getItemPurchaseList()
                     } catch (e) {
@@ -183,6 +221,7 @@ async getItemIssueList() {
       try {
         //const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == 3)]  //this.form.value.itemCategoryId
         const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+        const unit= this.unitList[this.unitList.findIndex((e:any)=>e.unitId==this.form.value.unitId)]
          const data = {
                            //"itemCategoryId":this.form.value.itemCategoryId,
                            //"itemId":this.form.value.itemId,
@@ -191,14 +230,40 @@ async getItemIssueList() {
                            //"description": this.form.value.description,
                            //"itemCategory": category,
                            "itemName": item,
-                            "unit": "",
+                            "unit": unit,
                            // "itemCost": this.form.value.itemCost,
                             "issueDate": this.datePipe.transform(this.form.value.issueDate, 'yyyy-MM-dd HH:MM'), //this.form.value.issueDate,
                             //"uploadBill": this.form.value.uploadBill
                 
                          }
                          console.log(data)
-                         await this.service.post(`/inventory/addItemIssuse`, data)
+                        //  await this.service.post(`/inventory/addItemIssuse`, data)
+                        this.service.addItemIssue(data).subscribe(
+                          data=>{
+                            window.alert("Item issued successfully!!")
+                            this.service.getAllItemIssue().subscribe(
+                              data => {
+                                this.itemIssueResponse = data
+                                this.itemIssueList = this.itemIssueResponse
+                                const rowDataIssue =   this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate:any; }) => {
+                                 
+                                  return {
+                                    itemName: item.itemName.itemname,
+                                    //unit: 0,
+                                    itemQuantity: item.issueQuantity+" "+item.unit.unit,
+                                    createdDate: item.createdDate
+                                    
+                                  };
+                                });
+                               console.log("itemIssueList",this.itemIssueList)
+                               console.log("rowData",rowDataIssue)
+                               this.rowDataIssue=rowDataIssue;
+                                
+                              }
+                            );
+                          }
+                        );
+                         
                          this.form.reset()
                          this.getItemIssueList()
                        } catch (e) {
