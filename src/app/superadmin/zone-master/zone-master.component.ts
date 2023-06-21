@@ -148,4 +148,12 @@ export class ZoneMasterComponent implements OnInit {
                 );
 
         }
+
+        searchZone() {
+                const zoneSearchElement = document.querySelector('#searchZoneSelect') as HTMLSelectElement;
+                if (zoneSearchElement.value.trim() === '') {
+                        this.toastService.showWarning('Please select a zone.');
+                        return;
+                }
+        }
 }
