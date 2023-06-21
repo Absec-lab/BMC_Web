@@ -107,9 +107,10 @@ getAllDryingYard(){
       "date": this.form.value.date
    }
    console.log(data)
-   this.service.saveCompostDrying(data).subscribe(
+   this.service.saveComposeWeightmnent(data).subscribe(
     data=>{
       window.alert("Dry Compost Weightment data saved successfully")
+      this.getList()
     }
    ); 
    this.form.reset()  

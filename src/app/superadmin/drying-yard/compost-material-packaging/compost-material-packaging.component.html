@@ -126,7 +126,7 @@
 													Drying Area
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryyardId">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryingyardId">
 														<option [value]="item.dryyardId" *ngFor="let item of dryingyardList" selected>{{item.centerName}}</option>
 													</select>
 												</div>
@@ -138,8 +138,8 @@
 													Packaging Wt Type
 												</div>
 												<div class="col-md-8">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="pkgWtType" >
-														<option [value]="" *ngFor="let item of list"></option>
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="unitId" >
+															<option [value]="item.unitId" *ngFor="let item of wetTypeList" selected>{{item.unit}}</option>
 													</select>
 												</div>
 											</div>
@@ -162,7 +162,7 @@
 													No. Of Packets Issue
 												</div>
 												<div class="col-md-8">
-													<input type="test" name="" id="" class="form-control" formControlName="noOfPackets">
+													<input type="test" name="" id="" class="form-control" formControlName="noOfPacketsIssue">
 												</div>
 											</div>
 										</div>
@@ -172,7 +172,7 @@
 													Descriptipn
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="decription">
+													<input type="text" name="" id="" class="form-control" formControlName="description">
 												</div>
 											</div>
 										</div>
@@ -195,23 +195,29 @@
 									<th>Sl. No.</th>
 									<th>WC Name</th>
 									<th>Drying Yard</th>
-									<th>Dry Compost Wt</th>
+									<th>Select Package Wt Type</th>
+									<!-- <th>Dry Compost Wt</th> -->
 									<th>NPK Ratio</th>
+									<th>No. Of Packets Issued</th>
 									<th>Description</th>
 									<th>Created Date</th>
+									<th>Generate QR Code</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							 <tbody class="text-center">
-                                <tr *ngFor="let x of list; index as i;">
+                                <tr *ngFor="let x of composePackingList; index as i;">
                                         <td>{{ i + 1}}</td>
                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                         <td>{{ x.dryingyard?.centerName || '--' }}</td>
-                                        <td>{{ x.watCompostWt || '--' }}</td>
+										<td>{{x.unit.unit}}</td>
+                                        <!-- <td>{{ x.watCompostWt || '--' }}</td> -->
 					<td>{{ x.npkRatio || '--' }}</td>
-					<td>{{ x.description || '--' }}</td>
+					<td>{{ x.noOfPacketsIssue || '--' }}</td>
+					<td>{{x.description || '--'}}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
+										<td>--</td>
                                         <td
                                                 class="d-flex align-items-center gap-1 justify-content-center">
                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
