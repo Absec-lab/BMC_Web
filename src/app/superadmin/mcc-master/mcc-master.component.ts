@@ -183,14 +183,14 @@ export class MccMasterComponent {
                 }
                 this.service.updateMcc(this.form.value).subscribe(
                         data => {
-                                window.alert("SubGood data updated successfully!!")
+                                this.toastService.showSuccess("SubGood data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
