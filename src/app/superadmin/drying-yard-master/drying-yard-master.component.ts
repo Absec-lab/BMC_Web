@@ -1,8 +1,9 @@
 import { withNoXsrfProtection } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService, DeactivationDto } from 'src/app/service/common.service'; 
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-drying-yard-master',
@@ -15,7 +16,7 @@ export class DryingYardMasterComponent implements OnInit {
         isUpdate: boolean = false
         dryingYardResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
         }
         dryingYardList: any = []
         ngOnInit() {
@@ -30,7 +31,7 @@ export class DryingYardMasterComponent implements OnInit {
 
         form = new FormGroup({
                 dryyardId:new FormControl,
-                centerName: new FormControl,
+                centerName: new FormControl('', [Validators.required]),
                 description: new FormControl
         });
 
@@ -48,6 +49,15 @@ export class DryingYardMasterComponent implements OnInit {
                 }
         }
         addDryingYard() {
+
+                if (this.form.status === 'INVALID') {
+                        const centerName = this.form.value.centerName?.trim();
+                        if (!centerName) {
+                                this.toastService.showWarning('Center name is required.');
+                                return;
+                        }
+                        return;
+                }
                 
                 /* Manoj Remove Date 08-05-2023 */
                 // try {
@@ -62,7 +72,7 @@ export class DryingYardMasterComponent implements OnInit {
                 this.service.addDryingYard(this.form.value).subscribe(
                         data => {
                                 
-                                window.alert("Drying Yard data saved sucessfully")
+                                this.toastService.showSuccess("Drying Yard data saved sucessfully")
                                 this.form.reset()
                                 this.service.getDryingYardAllData().subscribe(
                                         data => {
@@ -71,7 +81,7 @@ export class DryingYardMasterComponent implements OnInit {
                                 );
                         },
                         error => {
-                                window.alert("Something went wrong")
+                                this.toastService.showError("Something went wrong")
                         }
                 );
         }
@@ -105,7 +115,7 @@ export class DryingYardMasterComponent implements OnInit {
                 this.isAdd = false
                 console.log(item)
 
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         dryyardId: item.dryyardId,
                         centerName: item.centerName,
                         description: item.description
@@ -118,10 +128,17 @@ export class DryingYardMasterComponent implements OnInit {
         }
 
         updateDryingYard(){
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const centerName = this.form.value.centerName?.trim();
+                        if (!centerName) {
+                                this.toastService.showWarning('Center name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateDryingYard(this.form.value).subscribe(
                         data=>{
-                                window.alert("Drying Yard data updated successfully!!")
+                                this.toastService.showSuccess("Drying Yard data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
                                 this.service.getDryingYardAllData().subscribe(
@@ -132,7 +149,7 @@ export class DryingYardMasterComponent implements OnInit {
                                 this.form.reset()
                         },
                         error=>{
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

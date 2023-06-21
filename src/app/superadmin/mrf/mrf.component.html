@@ -114,7 +114,7 @@
 												</div>
 												<div class="col-md-9">
   
-													<select name="" id="" class="form-control form-select bg-transparent text-white" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+													<select name="" id="" class="form-control form-select" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
 														<option value="">Select</option>
 														<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
 													</select>
@@ -127,7 +127,7 @@
 													Sub-Goods Name<span class="text-danger">*</span>
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-transparent text-white" formControlName="goodssubId">
+													<select name="" id="" class="form-control form-select" formControlName="goodssubId">
 														<option value="">Select</option>
 														<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
 													</select>

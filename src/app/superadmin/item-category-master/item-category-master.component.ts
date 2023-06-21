@@ -1,8 +1,9 @@
 import { withNoXsrfProtection } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService, DeactivationDto } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-item-category-master',
@@ -15,7 +16,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         isUpdate: boolean = false
         categoryResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getItemCategory();
         }
         categoryList: any = []
@@ -32,7 +33,7 @@ export class ItemCategoryMasterComponent implements OnInit {
 
         form = new FormGroup({
                 itemCategoryId:new FormControl,
-                categoryName: new FormControl,
+                categoryName: new FormControl('', [Validators.required]),
                 description: new FormControl
         });
 
@@ -50,6 +51,14 @@ export class ItemCategoryMasterComponent implements OnInit {
                 }
         }
         addCategory() {
+                if (this.form.status === 'INVALID') {
+                        const categoryName = this.form.value.categoryName?.trim();
+                        if (!categoryName) {
+                                this.toastService.showWarning('Category name is required.');
+                                return;
+                        }
+                        return;
+                }
                 /* Manoj Remove Date 08-05-2023 */
                 // try {
                 //         console.log(this.form.value)
@@ -62,7 +71,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                 /* Manoj added Date 08-05-2023*/
                 this.service.addItemCategory(this.form.value).subscribe(
                         data => {
-                                window.alert("Category data saved sucessfully")
+                                this.toastService.showSuccess("Category data saved sucessfully")
                                 this.form.reset()
                                 this.service.getAllItemCategory().subscribe(
                                         data => {
@@ -72,7 +81,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                                 this.getItemCategory();
                         },
                         error => {
-                                window.alert("Something went wrong")
+                                this.toastService.showError("Something went wrong")
                         }
                 );
         }
@@ -105,7 +114,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                 this.isAdd = false
                 console.log(item)
 
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         itemCategoryId: item.itemCategoryId,
                         categoryName: item.categoryName,
                         description: item.description
@@ -118,10 +127,19 @@ export class ItemCategoryMasterComponent implements OnInit {
         }
 
         updateCategory(){
-                console.log(this.form.value)
+
+                if (this.form.status === 'INVALID') {
+                        const categoryName = this.form.value.categoryName?.trim();
+                        if (!categoryName) {
+                                this.toastService.showWarning('Category name is required.');
+                                return;
+                        }
+                        return;
+                }
+
                 this.service.updateItemCategory(this.form.value).subscribe(
                         data=>{
-                                window.alert("Category data updated successfully!!")
+                                this.toastService.showSuccess("Category data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
                                 this.service.getAllItemCategory().subscribe(
@@ -132,7 +150,7 @@ export class ItemCategoryMasterComponent implements OnInit {
                                 this.getItemCategory();
                         },
                         error=>{
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
