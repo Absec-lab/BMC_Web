@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
-import { FormControl,FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-goods-master',
@@ -10,7 +11,7 @@ import { CommonService } from 'src/app/service/common.service';
 export class GoodsMasterComponent implements OnInit{
         isAdd: boolean = false
         isUpdate: boolean = false
-        constructor(private service: CommonService, private formBuilder:FormBuilder) {
+        constructor(private service: CommonService, private formBuilder:FormBuilder, private toastService: ToastService) {
                 this.getList()
         }
         ngOnInit() {
@@ -24,8 +25,8 @@ export class GoodsMasterComponent implements OnInit{
         }
         form = new FormGroup({
                 goodsId: new FormControl,
-                goodsName: new FormControl,
-                goodsPerKg: new FormControl,
+                goodsName: new FormControl('', [Validators.required]),
+                goodsPerKg: new FormControl('', [Validators.required]),
                 goodsDesc: new FormControl
               });
 
@@ -45,6 +46,19 @@ export class GoodsMasterComponent implements OnInit{
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const goodsName = this.form.value.goodsName?.trim();
+                        if (!goodsName) {
+                                this.toastService.showWarning('Goods name is required.');
+                                return;
+                        }
+                        const goodsPerKg = this.form.value.goodsPerKg?.trim();
+                        if (!goodsPerKg) {
+                                this.toastService.showWarning('Goods per kg is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         await this.service.post(`/zone/addGoods`, this.form.value)
                         this.form.reset()
@@ -67,7 +81,7 @@ export class GoodsMasterComponent implements OnInit{
                 this.isAdd = false
                 console.log(item)
 
-        this.form = this.formBuilder.group({
+        this.form.patchValue({
                 goodsId: item.goodsId,
                 goodsName: item.goodsName,
                 goodsPerKg: item.goodsPerKg,
@@ -81,10 +95,22 @@ export class GoodsMasterComponent implements OnInit{
         }
 
         updateGoods(){
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const goodsName = this.form.value.goodsName?.trim();
+                        if (!goodsName) {
+                                this.toastService.showWarning('Goods name is required.');
+                                return;
+                        }
+                        const goodsPerKg = this.form.value.goodsPerKg?.trim();
+                        if (!goodsPerKg) {
+                                this.toastService.showWarning('Goods per kg is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateGoods(this.form.value).subscribe(
                         data=>{
-                                window.alert("Goods data updated successfully!!")
+                                this.toastService.showSuccess("Goods data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
                                 this.service.getAllGoods().subscribe(
@@ -92,9 +118,10 @@ export class GoodsMasterComponent implements OnInit{
                                                 this.list = data
                                         }
                                 );
+                                this.form.reset();
                         },
                         error=>{
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
