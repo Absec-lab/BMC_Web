@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-helper-master',
@@ -14,18 +15,18 @@ export class HelperMasterComponent {
         helperIdProof:any
         wcId: any
         isActive: boolean = false
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 //this.getWCList()
         }
 
         form = new FormGroup({
                 helperId:new FormControl,
-                helperName: new FormControl,
-                helperIdProof: new FormControl,
-                helperPhoto: new FormControl,
-                phoneNo: new FormControl,
-                address: new FormControl,
+                helperName: new FormControl('', [Validators.required]),
+                helperIdProof: new FormControl('', [Validators.required]),
+                helperPhoto: new FormControl('', [Validators.required]),
+                phoneNo: new FormControl('', [Validators.required]),
+                address: new FormControl('', [Validators.required]),
                 helperDesc: new FormControl,
                 isActive: new  FormControl
               });
@@ -58,7 +59,42 @@ export class HelperMasterComponent {
                         console.error(e)
                 }
         }
+
+        helperPhoto: any = null;
+
+        handleFileSelectHelperPhoto(event: any) {
+                const selectedFiles: any = event.target.files[0];
+                this.helperPhoto = selectedFiles;
+        }
+
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const helperName = this.form.value.helperName?.trim();
+                        if (!helperName) {
+                                this.toastService.showWarning('Helper name is required.');
+                                return;
+                        }
+                        const helperIDProof = this.form.value.helperIdProof?.trim();
+                        if (!helperIDProof) {
+                                this.toastService.showWarning('Helper ID Proof is required.');
+                                return;
+                        }
+                        if (!this.helperPhoto) {
+                                this.toastService.showWarning('Helper photo is required.');
+                                return;
+                        }
+                        const phoneNo = this.form.value.phoneNo?.toString().trim();
+                        if (!phoneNo) {
+                                this.toastService.showWarning('Phone number is required.');
+                                return;
+                        }
+                        const address = this.form.value.address?.trim();
+                        if (!address) {
+                                this.toastService.showWarning('Address is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const data = {
                                 ...this.form.value,
@@ -87,11 +123,11 @@ export class HelperMasterComponent {
                 this.isAdd = false
                 console.log(item)
                 this.helperId = item.helperId
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         helperId:item.helperId,
                         helperName: item.helperName,
                         helperIdProof: item.helperIdProof,
-                        helperPhoto: item.helperPhoto,
+                        // helperPhoto: item.helperPhoto,
                         phoneNo: item.phoneNo,
                         address: item.address,
                         helperDesc: item.helperDesc,
@@ -107,17 +143,43 @@ export class HelperMasterComponent {
         }
 
         updateHelper() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const helperName = this.form.value.helperName?.trim();
+                        if (!helperName) {
+                                this.toastService.showWarning('Helper name is required.');
+                                return;
+                        }
+                        const helperIDProof = this.form.value.helperIdProof?.trim();
+                        if (!helperIDProof) {
+                                this.toastService.showWarning('Helper ID Proof is required.');
+                                return;
+                        }
+                        if (!this.helperPhoto) {
+                                this.toastService.showWarning('Helper photo is required.');
+                                return;
+                        }
+                        const phoneNo = this.form.value.phoneNo?.toString().trim();
+                        if (!phoneNo) {
+                                this.toastService.showWarning('Phone number is required.');
+                                return;
+                        }
+                        const address = this.form.value.address?.trim();
+                        if (!address) {
+                                this.toastService.showWarning('Address is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateHelper(this.form.value).subscribe(
                         data => {
-                                window.alert("Helper data updated successfully!!")
+                                this.toastService.showSuccess("Helper data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

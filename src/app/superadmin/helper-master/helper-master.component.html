@@ -112,7 +112,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Helper Name
+                                                    Helper Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="helperName" type="text" name="" id="" class="form-control">
@@ -122,7 +122,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Helper ID Proof
+                                                    Helper ID Proof<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="helperIdProof" type="text" name="" id="" class="form-control">
@@ -134,20 +134,20 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Helper Photo
+                                                    Helper Photo<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="helperPhoto" type="file" name="" id="" class="form-control">
+                                                    <input formControlName="helperPhoto" type="file" name="" id="" class="form-control" accept="image/*" (change)="handleFileSelectHelperPhoto($event)">
                                                 </div>
                                             </div>                            
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Phone Number
+                                                    Phone Number<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="phoneNo" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="phoneNo" type="number" min="0" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -156,7 +156,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Address
+                                                    Address<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="address" type="text" name="" id="" class="form-control">
