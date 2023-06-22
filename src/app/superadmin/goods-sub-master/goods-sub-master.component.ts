@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-goods-sub-master',
@@ -14,16 +15,16 @@ export class GoodsSubMasterComponent {
         subGoodsId:any
         goodsId:any
         goods: any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getGoodsList()
         }
 
         form = new FormGroup({
                 goodssubId: new FormControl,
-                goodsId: new FormControl,
-                subgoodsName: new FormControl,
-                subGoodsPerKg: new FormControl,
+                goodsId: new FormControl('', [Validators.required]),
+                subgoodsName: new FormControl('', [Validators.required]),
+                subGoodsPerKg: new FormControl('', [Validators.required]),
                 subGoodsDesc: new FormControl,
                 goods: new FormControl
         });
@@ -55,6 +56,24 @@ export class GoodsSubMasterComponent {
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const goods = this.form.value.goodsId?.trim();
+                        if (!goods) {
+                                this.toastService.showWarning('Goods is required.');
+                                return;
+                        }
+                        const subGoodsName = this.form.value.subgoodsName?.trim();
+                        if (!subGoodsName) {
+                                this.toastService.showWarning('Sub-goods name is required.');
+                                return;
+                        }
+                        const subGoodsPerKg = this.form.value.subGoodsPerKg?.trim();
+                        if (!subGoodsPerKg) {
+                                this.toastService.showWarning('Sub-goods per kg is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const goods = this.goodsList[this.goodsList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
                         const data = {
@@ -85,7 +104,7 @@ export class GoodsSubMasterComponent {
                 console.log(item)
                 console.log(item.goodssubId)
                 this.goodsName = item.goods.goodsName
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         goodsId: item.goods.goodsId,
                         goodssubId: item.goodssubId,
                         subgoodsName: item.subgoodsName,
@@ -108,17 +127,34 @@ export class GoodsSubMasterComponent {
         }
 
         updateWcc() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const goods = this.form.value.goodsId;
+                        if (!goods) {
+                                this.toastService.showWarning('Goods is required.');
+                                return;
+                        }
+                        const subGoodsName = this.form.value.subgoodsName?.trim();
+                        if (!subGoodsName) {
+                                this.toastService.showWarning('Sub-goods name is required.');
+                                return;
+                        }
+                        const subGoodsPerKg = this.form.value.subGoodsPerKg?.trim();
+                        if (!subGoodsPerKg) {
+                                this.toastService.showWarning('Sub-goods per kg is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
                         data => {
-                                window.alert("SubGood data updated successfully!!")
+                                this.toastService.showSuccess("Sub-goods data updated successfully")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
