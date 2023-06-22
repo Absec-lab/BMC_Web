@@ -112,11 +112,12 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Goods Name
+                                                    Goods Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsId">
-                                                                <option value={{goodsName}}  selected>{{goodsName}}</option>
+                                                            <option value="">Select</option>
+                                                                <option *ngIf="goodsName && goodsName.length > 0" value={{goodsName}}>{{goodsName}}</option>
                                                                 <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName}}</option>
                                                         </select>
                                                 </div>
@@ -125,7 +126,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Sub Goods Name
+                                                    Sub Goods Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="subgoodsName" type="text" name="" id="" class="form-control">
@@ -137,10 +138,10 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Goods (Kg)
+                                                    Goods (Kg)<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="subGoodsPerKg" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="subGoodsPerKg" type="number" min="0" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
