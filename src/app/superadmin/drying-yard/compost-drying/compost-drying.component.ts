@@ -163,7 +163,7 @@ export class CompostDryingComponent implements OnInit{
     const data = {
       "dryCompostId": this.form.value.compostdryingTrnsId,
       "wc": wc,
-      "watCompostWt": this.form.value.wetCompostWt,
+      "wetCompostWt": this.form.value.wetCompostWt,
       "description": this.form.value.description,
       //"npkRatio": this.form.value.npkRatio,
 

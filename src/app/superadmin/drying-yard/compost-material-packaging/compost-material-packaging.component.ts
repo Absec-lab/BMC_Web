@@ -29,6 +29,7 @@ export class CompostMaterialPackagingComponent implements OnInit{
   responseData:any
   isActive:any
   composePackingList:any=[]
+  packagingType:any=[5,10,15,20]
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllWC()
@@ -112,7 +113,7 @@ getAllDryingYard(){
   saveMrf(){
     const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
     const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryyardId == this.form.value.dryingyardId)]
-    const unit= this.wetTypeList[this.wetTypeList.findIndex((e:any)=>e.unitId == this.form.value.unitId)]
+    // const unit= this.wetTypeList[this.wetTypeList.findIndex((e:any)=>e.unitId == this.form.value.unitId)]
     const data = {
       "dryCompostId": this.form.value.dryingPackgingId,
       "wc": wc,
@@ -121,7 +122,7 @@ getAllDryingYard(){
       "npkRatio": this.form.value.npkRatio,
       "dryingyard": dryingyard,
       "date": this.form.value.date,
-      "unit": unit,
+      "packageWtType": this.form.value.unitId,
       "noOfPacketsIssue": this.form.value.noOfPacketsIssue
    }
    console.log(data)
