@@ -78,7 +78,7 @@ editForm = new FormGroup({
             itemName: item.itemName.itemname,
             unit: 0,
             itemQuantity: item.itemQuantity+" "+item.unit.unit,
-            itemCost: item.itemCost,
+            itemCost: '₹ '+item.itemCost,
             uploadBill:item.uploadBill,
             purchaseDate:  this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
             description:item.description
