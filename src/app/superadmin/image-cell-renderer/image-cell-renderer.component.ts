@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
 export class ImageCellRendererComponent {
 
   imageUrl: any = null;
-  imageBasePath: string = "http://43.204.240.44:9091/download/";
+  imageBasePath: string ="";
 
   agInit(params: any): void {
     this.imageUrl = (params.value && params.value !== 'null') ? params.value : "";

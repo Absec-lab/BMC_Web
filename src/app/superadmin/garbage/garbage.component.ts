@@ -242,7 +242,7 @@ export class GarbageComponent implements OnInit {
     formData.set("file", this.tripStartReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -259,7 +259,7 @@ export class GarbageComponent implements OnInit {
             "driver":this.vehcileDataResponse.data.driver,
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
-            "tripStartReadingImg": fileName,
+            "tripStartReadingImg": fileUrl,
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
@@ -766,7 +766,7 @@ export class GarbageComponent implements OnInit {
     formData.append("file", this.tripEndReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -785,7 +785,7 @@ export class GarbageComponent implements OnInit {
               "id": 5
             },
             "vehicleNo":this.form.value.vehicleNumber,
-            "tripEndReadingImg": fileName
+            "tripEndReadingImg": fileUrl
           }
           this.service.updateTrip(data).subscribe(
             data=>{
