@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup,FormsModule, Validators} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
