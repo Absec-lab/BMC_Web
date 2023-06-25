@@ -94,7 +94,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ManpowerComponent,
     VehicleManagementComponent,
     ActiveTripActionRendererComponent,
-    EditActiveTripModalComponent
+    EditActiveTripModalComponent,
   ],
 
   entryComponents: [

@@ -86,7 +86,16 @@ export class ItemNameMasterComponent implements OnInit{
                                 "description": this.form.value.description,
                                 "itemcatrgory": category
                         }
-                        await this.service.post(`/inventory/addItemName`, data)
+                        this.service.addItemName(data).subscribe(
+                                data=>{
+                                        this.responseData=data
+                                        this.toastService.showSuccess(this.responseData.message)
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
+                                }
+                        );
                         this.form.reset()
                         this.getList()
                 } catch (e) {

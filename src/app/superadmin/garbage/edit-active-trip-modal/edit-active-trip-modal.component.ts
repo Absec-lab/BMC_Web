@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-edit-modal',
@@ -24,7 +25,7 @@ export class EditActiveTripModalComponent implements OnInit {
     trip_end_reading_date: new FormControl('', [Validators.required]),
   });
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal,private service:CommonService) {}
 
   ngOnInit() {
     this.activeTripsEditForm.patchValue({
@@ -36,5 +37,19 @@ export class EditActiveTripModalComponent implements OnInit {
       trip_start_reading: this.data.tripStartReading,
       trip_end_reading: "",
     });
+  }
+  updateTripData(){
+    const data={
+      
+        "dryWt": this.activeTripsEditForm.value.dry_weight,
+        "grossWt": this.activeTripsEditForm.value.gross_weight,
+        "tareWt": this.activeTripsEditForm.value.tare_weight,
+        "tripStartReading": this.activeTripsEditForm.value.trip_start_reading,
+        "tripTransactionId": 0,
+        "vehicleNo": "string",
+        "wetWt": 0
+      
+    }
+    this.service.updateTripForceFully(data);
   }
 }

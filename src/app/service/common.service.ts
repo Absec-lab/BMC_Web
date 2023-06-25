@@ -14,11 +14,11 @@ const environment = {
 //        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
-         LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-         URL: `http://43.204.240.44:9091`  //Absec ip 
+        //  LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+        //  URL: `http://43.204.240.44:9091`  //Absec ip 
 
-//         URL: `http://192.168.29.215:9091`,  //prod url
-//        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        URL: `http://192.168.29.215:9091`,  //prod url
+       LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
@@ -314,5 +314,15 @@ export class CommonService {
 
         getAllActiveTripInGraveYard(){
                 return this.http.get(environment.URL+'/inventory/get/all/dryingyard/active/trip')
+        }
+
+        addItemName(data:any){
+                return this.http.post(environment.URL+'/inventory/addItemName',data)
+        }
+        getAllItemStockList(){
+                return this.http.get(environment.URL+'/inventory/getAllItemStock')
+        }
+        updateTripForceFully(data:any){
+                return this.http.put(environment.URL+'/update/trip/forcefully',data)
         }
 }

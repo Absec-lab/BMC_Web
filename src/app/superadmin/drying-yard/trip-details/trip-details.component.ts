@@ -5,6 +5,7 @@ import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
 import { ImageCellRendererComponent } from '../../image-cell-renderer/image-cell-renderer.component';
 import { ModalService } from 'src/app/service/modal.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-trip-details',
   templateUrl: './trip-details.component.html',
@@ -12,7 +13,7 @@ import { ModalService } from 'src/app/service/modal.service';
 })
 export class TripDetailsComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalSrvice: ModalService) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalService: NgbModal) {
   
    }
    isAdd: boolean = true
@@ -211,6 +212,6 @@ wetWeightCal(){
   this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
   }
 
-
+ 
  
  }
