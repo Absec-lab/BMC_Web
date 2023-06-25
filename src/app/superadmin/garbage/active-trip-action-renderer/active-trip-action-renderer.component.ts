@@ -24,6 +24,7 @@ export class ActiveTripActionRendererComponent implements ICellRendererAngularCo
   constructor(private modalService: NgbModal) {}
 
   openModal() {
-    this.modalService.open(EditActiveTripModalComponent);
+    const modalRef = this.modalService.open(EditActiveTripModalComponent);
+    modalRef.componentInstance.data = this.params.data;
   }
 }

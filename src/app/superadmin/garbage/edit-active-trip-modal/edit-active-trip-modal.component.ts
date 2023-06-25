@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -7,7 +7,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './edit-active-trip-modal.component.html',
   styleUrls: ['../../../common.css']
 })
-export class EditActiveTripModalComponent {
+export class EditActiveTripModalComponent implements OnInit {
+
+  @Input() data: any;
 
   activeTripsEditForm = new FormGroup({
     vehicle_no: new FormControl('', [Validators.required]),
@@ -23,4 +25,16 @@ export class EditActiveTripModalComponent {
   });
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  ngOnInit() {
+    this.activeTripsEditForm.patchValue({
+      vehicle_no: this.data.vehicle_vehicleNo,
+      dry_weight: this.data.dry_weight,
+      wet_weight: this.data.wet_weight,
+      gross_weight: this.data.gross_weight,
+      tare_weight: this.data.tare_weight,
+      trip_start_reading: this.data.tripStartReading,
+      trip_end_reading: "",
+    });
+  }
 }

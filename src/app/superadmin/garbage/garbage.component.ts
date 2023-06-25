@@ -68,7 +68,12 @@ export class GarbageComponent implements OnInit {
             route_routeName: item.route.routeName,
             tripStartReading: item.tripStartReading,
             vehicle_starttime: item.createdDate,
-            trip_start_reading_image: item.tripStartReadingImg
+            trip_start_reading_image: item.tripStartReadingImg,
+            driver: item.driver,
+            dry_weight: item.dryWt,
+            gross_weight: item.grossWt,
+            tare_weight: item.tareWt,
+            wet_weight: item.wetWt
           };
         });
       //  console.log("ActiveList",this.activeTripList)
