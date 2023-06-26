@@ -1,4 +1,3 @@
-
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,12 +9,12 @@ export class DeactivationDto {
 var environment = {
        
 
-       URL: `http://15.207.62.200:9091`,  //prod url
-       LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+       // URL: `http://15.207.62.200:9091`,  //prod url
+       // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
 
 
-        //  LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        //  URL: `http://43.204.240.44:9091`,  //Absec ip 
+          LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+          URL: `http://43.204.240.44:9091`  //Absec ip 
 
 
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
@@ -239,8 +238,8 @@ export class CommonService {
         updateMrf(data: any) {
                 return this.http.post(environment.URL + '/zone/updateMrf', data)
         }
-        getAllMrf() {
-                return this.http.get(environment.URL + '/zone/getAllMrf')
+        getAllMrf(wcId: any) {
+                return this.http.get(environment.URL + '/zone/getAllMrf/'+wcId)
         }
         deactivateVehicle(id: any) {
                 return this.http.get(environment.URL + '/vehicle/deactivate?id=' + id)
@@ -334,4 +333,5 @@ export class CommonService {
         getHelperByWcId(){
                 return this.http.get(environment.URL+'/zone/get/Helper/by/'+localStorage.getItem("wcId"))
         }
+
 }

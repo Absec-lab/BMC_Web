@@ -36,7 +36,7 @@ export class MrfComponent implements OnInit{
      //this.getAllSubGoods() 
   }
   ngOnInit() {
-    this.service.getAllMrf().subscribe(
+    this.service.getAllMrf(parseInt(this.wcId)).subscribe(
      data => {
           this.mrfGridResponse = data
           this.mrfGridList = this.mrfGridResponse
@@ -90,7 +90,6 @@ export class MrfComponent implements OnInit{
     subGood: new FormControl
 })
   getAllGoods(){
-    console.log('  MRFFFFFFFFFFFFFFFFF   ',this.wcId);
      this.service.getAllGoods(parseInt(this.wcId)).subscribe(
       data=>{
        this.goodResponse=data
@@ -100,7 +99,6 @@ export class MrfComponent implements OnInit{
      );
   }
   getAllSubGoods(){
-    console.log('  MRFFFFFFFFFFFFFFFFF  222222222 ',this.wcId);
     this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
       data=>{
         this.subGoodResponse=data
@@ -123,7 +121,7 @@ export class MrfComponent implements OnInit{
 }
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllMrf`)
+            this.list = await this.service.get(`/zone/getAllMrf`+this.wcId)
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -134,6 +132,10 @@ export class MrfComponent implements OnInit{
   saveMrf(){
 
     if (this.form.status === 'INVALID') {
+      if (!this.wcId) {
+        this.toastService.showWarning('Wealth center is required. Please login again. ');
+        return;
+      }
       const goodsName = this.form.value.goodsId?.trim();
       if (!goodsName || goodsName === '') {
         this.toastService.showWarning('Goods name is required.');
@@ -172,7 +174,8 @@ export class MrfComponent implements OnInit{
       "interMaterial": this.form.value.interMaterial,
       "mrfDesc": this.form.value.mrfDesc,
       "quntaum": this.form.value.quntaum,
-      "subGood": subgoods
+      "subGood": subgoods,
+      "wcId":parseInt(this.wcId)
    }
    console.log(data)
    this.service.saveMrfData(data).subscribe(
