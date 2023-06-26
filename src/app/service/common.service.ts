@@ -17,7 +17,7 @@ const environment = {
          LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
          URL: `http://43.204.240.44:9091`  //Absec ip 
 
-//         URL: `http://192.168.29.215:9091`,  //prod url
+//        URL: `http://192.168.29.215:9091`,  //prod url
 //        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
@@ -242,8 +242,8 @@ export class CommonService {
         updateMrf(data: any) {
                 return this.http.post(environment.URL + '/zone/updateMrf', data)
         }
-        getAllMrf() {
-                return this.http.get(environment.URL + '/zone/getAllMrf')
+        getAllMrf(wcId: any) {
+                return this.http.get(environment.URL + '/zone/getAllMrf'+wcId)
         }
         deactivateVehicle(id: any) {
                 return this.http.get(environment.URL + '/vehicle/deactivate?id=' + id)
