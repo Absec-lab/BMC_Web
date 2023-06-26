@@ -131,15 +131,15 @@
 											<div
 												class="d-flex align-items-center w-100">
 												<div>
-													Wealth Center
+													Wealth Center<span class="text-danger">*</span>
 												</div>
 												<div
 													class="ms-3 d-flex-1">
 													<select formControlName="wcId"
 														class="form-select"
 														(ngModelChange)="getWcById()">
-														<option value={{wealthCentreName}}
-															selected>
+														<option value="">Select</option>
+														<option *ngIf="wealthCentreName && wealthCentreName.length > 0" value={{wealthCentreName}}>
 															{{wealthCentreName}}
 														</option>
 														<option [value]="x.wcId"
@@ -155,15 +155,15 @@
 											<div
 												class="d-flex align-items-center w-100">
 												<div>
-													Select Zone
+													Select Zone<span class="text-danger">*</span>
 												</div>
 												<div
 													class="ms-3 d-flex-1">
 													<select formControlName="zoneId"
 														class="form-select"
 														[(ngModel)]="zoneName">
-														<option value={{zoneName}}
-															selected>
+														<option value="">Select</option>
+														<option *ngIf="zoneName && zoneName.length > 0" value={{zoneName}}>
 															{{zoneName}}
 														</option>
 														<!-- <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option> -->
@@ -177,7 +177,7 @@
 											<div
 												class="d-flex align-items-center w-100">
 												<div>
-													Route Name
+													Route Name<span class="text-danger">*</span>
 												</div>
 												<div
 													class="ms-3 d-flex-1">

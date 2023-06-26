@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditActiveTripModalComponent } from '../edit-active-trip-modal/edit-active-trip-modal.component';
 
 @Component({
   selector: 'app-action-renderer',
   template: `
-    <button (click)="onEditClick()" class="btn btn-primary btn-sm">
-      <i class="fa-solid fa-edit"></i>
-    </button>
+    <button (click)="openModal()" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
   `
 })
 export class ActiveTripActionRendererComponent implements ICellRendererAngularComp {
+
   private params: any;
 
   agInit(params: any): void {
@@ -20,14 +21,12 @@ export class ActiveTripActionRendererComponent implements ICellRendererAngularCo
     return false;
   }
 
-  onEditClick(): void {
-    const rowData = this.params.node.data;
-    const vehicleNo = rowData.vehicle_vehicleNo;
-    const tripTabElement = document.querySelector('#trip-tab') as HTMLDivElement;
-    tripTabElement.click();
-    const vehicleInput = document.querySelector('input[formControlName="vehicleNumber"]') as HTMLInputElement;
-    vehicleInput.value = vehicleNo;
-    const event = new Event('input', { bubbles: true });
-    vehicleInput.dispatchEvent(event);
+  constructor(private modalService: NgbModal) {}
+
+  openModal() {
+    const modalRef = this.modalService.open(EditActiveTripModalComponent);
+    modalRef.componentInstance.data = this.params.data;
+    console.log(this.params.data)
+    // localStorage.setItem("tripTrnsId",)
   }
 }

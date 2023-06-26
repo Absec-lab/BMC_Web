@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
+export class WetType{
+  type:any
+}
+
 @Component({
   selector: 'app-compost-material-packaging',
   templateUrl: './compost-material-packaging.component.html',
@@ -14,7 +18,8 @@ export class CompostMaterialPackagingComponent implements OnInit{
   wcResponse:any
   dryingyardResponse:any
   dryingyardList:any=[]
-  list: any = []
+  wetTypeList:any=[]
+  list: any =[]
   goodsList: any = []
   goodsName: any
   subGoodsId:any
@@ -23,6 +28,8 @@ export class CompostMaterialPackagingComponent implements OnInit{
   mrfList:any
   responseData:any
   isActive:any
+  composePackingList:any=[]
+  packagingType:any=[5,10,15,20]
   constructor(private service:CommonService, private formBuilder:FormBuilder){
     this.getList()
     this.getAllWC()
@@ -36,7 +43,17 @@ export class CompostMaterialPackagingComponent implements OnInit{
         console.log(this.mrfList)
       }
     );
-   
+    this.service.getAllUnit().subscribe(
+      data=>{
+        this.wetTypeList=data
+      }
+    );
+    this.service.getAllCompostPacking().subscribe(
+      data=>{
+        this.composePackingList=data
+      }
+    );
+   console.log(this.list)
   }
   form = new FormGroup({
     dryingPackgingId: new FormControl,
@@ -48,7 +65,9 @@ export class CompostMaterialPackagingComponent implements OnInit{
     description: new FormControl,
     wc: new FormControl,
     dryingyard: new FormControl,
-    isActive: new FormControl
+    isActive: new FormControl,
+    unitId: new FormControl,
+    noOfPacketsIssue:new FormControl
   });
   editForm = new FormGroup({
     dryingPackgingId: new FormControl,
@@ -93,7 +112,8 @@ getAllDryingYard(){
 }
   saveMrf(){
     const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
-    const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryingyardId == this.form.value.dryingyardId)]
+    const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryyardId == this.form.value.dryingyardId)]
+    // const unit= this.wetTypeList[this.wetTypeList.findIndex((e:any)=>e.unitId == this.form.value.unitId)]
     const data = {
       "dryCompostId": this.form.value.dryingPackgingId,
       "wc": wc,
@@ -101,12 +121,19 @@ getAllDryingYard(){
       "description": this.form.value.description,
       "npkRatio": this.form.value.npkRatio,
       "dryingyard": dryingyard,
-      "date": this.form.value.date
+      "date": this.form.value.date,
+      "packageWtType": this.form.value.unitId,
+      "noOfPacketsIssue": this.form.value.noOfPacketsIssue
    }
    console.log(data)
-   this.service.saveCompostDrying(data).subscribe(
+   this.service.saveCompostPacking(data).subscribe(
     data=>{
-      window.alert("Dry Compost Weightment data saved successfully")
+      window.alert("Compose packing data saved successfully")
+      this.service.getAllCompostPacking().subscribe(
+        data=>{
+          this.composePackingList=data
+        }
+      );
     }
    ); 
    this.form.reset()  

@@ -131,10 +131,11 @@
                                                                                         <div
                                                                                                 class="d-flex align-items-center w-100">
                                                                                                 <div>
-                                                                                                        Item Category Name
+                                                                                                        Item Category Name<span class="text-danger">*</span>
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
                                                                                                         <select formControlName="itemCategoryId" class="form-control form-select" [(ngModel)]="itemCategoryId">
+                                                                                                                <option value="">Select</option>
                                                                                                                 <option value={{categoryName}} disabled selected>{{categoryName}}</option>
                                                                                                                 <option [value]="x.itemCategoryId" *ngFor="let x of categoryList;">{{x.categoryName}}</option>
                                                                                                         </select>
@@ -145,7 +146,7 @@
                                                                                         <div
                                                                                                 class="d-flex align-items-center w-100">
                                                                                                 <div>
-                                                                                                        Item Name
+                                                                                                        Item Name<span class="text-danger">*</span>
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">

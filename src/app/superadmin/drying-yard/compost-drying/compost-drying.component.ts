@@ -58,7 +58,8 @@ export class CompostDryingComponent implements OnInit{
     vehicle : new FormControl,
     driver : new FormControl,
     isActive: new FormControl,
-    date: new FormControl
+    date: new FormControl,
+    dryCompostId: new FormControl
   });
   editForm = new FormGroup({
     wcId: new FormControl,
@@ -158,22 +159,24 @@ export class CompostDryingComponent implements OnInit{
     const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryingyardId == this.form.value.dryingyardId)]
     const vehicle = this.vehicleList[this.vehicleList.findIndex((e: any) => e.vehicleId == this.form.value.vehicleId)] //this.form.value.vehicleId
     const driver = this.driverList[this.driverList.findIndex((e: any) => e.driver.driverId == this.form.value.driverId)]
+    console.log(driver.driver)
     const data = {
       "dryCompostId": this.form.value.compostdryingTrnsId,
       "wc": wc,
-      "watCompostWt": this.form.value.wetCompostWt,
+      "wetCompostWt": this.form.value.wetCompostWt,
       "description": this.form.value.description,
       //"npkRatio": this.form.value.npkRatio,
 
       "dryingyard": dryingyard,
       "vehicle": vehicle,
-      "driver": driver,
+      "driver": driver.driver,
       "date": this.form.value.date
    }
    console.log(data)
    this.service.saveCompostDrying(data).subscribe(
     data=>{
       window.alert("Compost Drying data saved successfully")
+      this.getList()
     }
    ); 
    this.form.reset()  
@@ -204,7 +207,7 @@ updateData(item: any) {
           description: item.description,
 
           wetCompostWt: item.wetCompostWt,
-
+          dryCompostId:item.dryCompostId,
           wc : item.wc,
           dryingyard: item.dryingyard,
           vehicle: item.vehicle,
@@ -229,7 +232,7 @@ cancel() {
 updateCompostDrying() {
 
   console.log("Form Value"+this.form.value)
-  this.service.updateMrf(this.form.value).subscribe(
+  this.service.updateDryingCompost(this.form.value).subscribe(
           data => {
                   window.alert("Compost Drying data updated successfully!!")
                   this.isAdd = true

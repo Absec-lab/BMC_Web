@@ -127,8 +127,7 @@ export class PitViewComponent {
     tranferToPit: false,
     visuaInspection: false,
     totalgarbagewt: '',
-    noWorkflow: false,
-    header: this.header
+    noWorkflow: false
   }
  
  public responsePitenzyme : any;
@@ -448,9 +447,11 @@ export class PitViewComponent {
    this.pitInitModal.mixedEnzymeWt = this.form.controls.mixedEnzymeWtCrt.value;
    this.pitInitModal.batchId = this.form.controls.batchIdVal.value;
    this.pitInitModal.pitId = this.form.controls.pitIdVal.value;
+   if (!this.pitInitModal.header) {
+    this.pitInitModal.header = {appName: '', wfLoginToken: ''};
+   }
    this.pitInitModal.header.appName='BMC-APP';
    this.pitInitModal.header.wfLoginToken = '';
-
    this.pitInitModal.isFilledUp = this.form.controls.filledGarbageWtCrt.value;
    this.pitInitModal.segregation = this.form.controls.segregationCrt.value;
    this.pitInitModal.shreading = this.form.controls.shreadingCrt.value;
@@ -477,9 +478,14 @@ export class PitViewComponent {
          this.toastr.error('Error!','   Please fill garbage wt.... ' , {positionClass:'toast-center-center'});
          return;
     }
-  //    console.log('   FILED MATERIAL {}  ',this.pitInitModal);
+
+    const headerDict = {
+      'appName': 'BMC-APP',
+      'wfToken': localStorage.getItem('access_token')
+    }
+
       this.pitService
-        .savePitInitForCompost(this.pitInitModal)
+        .savePitInitForCompost(this.pitInitModal , headerDict)
         .subscribe((response) => {
           this.responsePitenzyme = response;
           this.toastr.success('Success!','Successsfully Saved.. Now Composting process started' , {positionClass:'toast-center-center'});

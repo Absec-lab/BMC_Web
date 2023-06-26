@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-mrf',
@@ -27,7 +28,9 @@ export class MrfComponent implements OnInit{
   responseData:any
   isActive:any
   selectionMode = "multiple";
-  constructor(private service:CommonService, private formBuilder:FormBuilder){
+  wcId : any = 0;
+  constructor(private service:CommonService, private formBuilder:FormBuilder, private toastService: ToastService){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
     this.getAllGoods()
      //this.getAllSubGoods() 
@@ -68,11 +71,11 @@ export class MrfComponent implements OnInit{
   }
   form = new FormGroup({
     mrfTrnsId: new FormControl,
-    goodsId: new FormControl,
-    goodssubId: new FormControl,
-    interMaterial: new FormControl,
-    mrfDesc: new FormControl,
-    quntaum: new FormControl,
+    goodsId: new FormControl('', [Validators.required]),
+    goodssubId: new FormControl('', [Validators.required]),
+    interMaterial: new FormControl('', [Validators.required]),
+    mrfDesc: new FormControl(''),
+    quntaum: new FormControl('', [Validators.required]),
     goods: new FormControl,
     subGood: new FormControl,
     isActive: new FormControl
@@ -87,7 +90,8 @@ export class MrfComponent implements OnInit{
     subGood: new FormControl
 })
   getAllGoods(){
-     this.service.getAllGoods().subscribe(
+    console.log('  MRFFFFFFFFFFFFFFFFF   ',this.wcId);
+     this.service.getAllGoods(parseInt(this.wcId)).subscribe(
       data=>{
        this.goodResponse=data
        this.goodList=this.goodResponse
@@ -96,7 +100,8 @@ export class MrfComponent implements OnInit{
      );
   }
   getAllSubGoods(){
-    this.service.getAllSubGood().subscribe(
+    console.log('  MRFFFFFFFFFFFFFFFFF  222222222 ',this.wcId);
+    this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
       data=>{
         this.subGoodResponse=data
         //console.log(this.subGoodResponse)
@@ -127,6 +132,39 @@ export class MrfComponent implements OnInit{
     }
 }
   saveMrf(){
+
+    if (this.form.status === 'INVALID') {
+      const goodsName = this.form.value.goodsId?.trim();
+      if (!goodsName || goodsName === '') {
+        this.toastService.showWarning('Goods name is required.');
+        return;
+      }
+      const subGoodsName = this.form.value.goodssubId?.trim();
+      if (!subGoodsName || subGoodsName === '') {
+        this.toastService.showWarning('Sub-Goods name is required.');
+        return;
+      }
+      const goodsWeight: any = this.form.value.quntaum;
+      if ((goodsWeight != 0 && !goodsWeight) || goodsWeight === '') {
+        this.toastService.showWarning('Goods weight is required.');
+        return;
+      }
+      if (+goodsWeight < 0) {
+        this.toastService.showWarning('Goods weight must be a valid number.');
+        return;
+      }
+      const inertMaterial: any = this.form.value.interMaterial;
+      if ((inertMaterial != 0 && !inertMaterial) || inertMaterial === '') {
+        this.toastService.showWarning('Inert material is required.');
+        return;
+      }
+      if (+inertMaterial < 0) {
+        this.toastService.showWarning('Inert material must be a valid number.');
+        return;
+      }
+      return;
+    }
+
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
     const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
     const data = {

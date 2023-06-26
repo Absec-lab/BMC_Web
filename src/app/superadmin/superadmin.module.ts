@@ -48,7 +48,8 @@ import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 import { ManpowerComponent } from './manpower/manpower.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
-
+import { EditActiveTripModalComponent } from './garbage/edit-active-trip-modal/edit-active-trip-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,12 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     ImageCellRendererComponent,
     ManpowerComponent,
     VehicleManagementComponent,
-    ActiveTripActionRendererComponent
+    ActiveTripActionRendererComponent,
+    EditActiveTripModalComponent,
+  ],
+
+  entryComponents: [
+    EditActiveTripModalComponent
   ],
 
   imports: [
@@ -101,9 +107,12 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
     ReactiveFormsModule,
     AgGridModule,
     SharedModule, // required animations module
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
     BrowserAnimationsModule,
-    FormsModule // ToastrModule added
+    FormsModule,
+    NgbModule
   ]
 })
 export class SuperadminModule { }

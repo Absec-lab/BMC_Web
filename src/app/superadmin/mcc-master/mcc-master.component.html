@@ -112,12 +112,13 @@
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
 												<div>
-													Wealth Center
+													Wealth Center<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
 													<select formControlName="wcId"
 														class="form-select"
 														(ngModelChange)="getWcById()">
+														<option value="">Select</option>
 														<option value={{wealthCentreName}}
 															selected>
 															{{wealthCentreName}}
@@ -134,12 +135,13 @@
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
 												<div>
-													Select Zone
+													Select Zone<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
 													<select formControlName="zoneId"
 														class="form-select"
 														[(ngModel)]="zoneName">
+														<option value="">Select</option>
 														<option value={{zoneName}}
 															selected>
 															{{zoneName}}
@@ -154,7 +156,7 @@
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
 												<div>
-													MCC Name
+													MCC Name<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
 													<input formControlName="mccName" type="text" name="" id=""

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-route-master',
@@ -15,16 +16,16 @@ export class RouteMasterComponent {
         wealthCentreName:any
         zoneName:any
         wcId:any
-        constructor(private service: CommonService, private formBuilder:FormBuilder) {
+        constructor(private service: CommonService, private formBuilder:FormBuilder, private toastService: ToastService) {
                 this.getList()
                 // this.getZones()
                 this.getWCList()
         }
 
         form = new FormGroup({
-                zoneId: new FormControl,
-                wcId: new FormControl,
-                routeName: new FormControl,
+                zoneId: new FormControl('', [Validators.required]),
+                wcId: new FormControl('', [Validators.required]),
+                routeName: new FormControl('', [Validators.required]),
                 routeDesc: new FormControl,
                 zone:new FormControl,
                 wc:new FormControl,
@@ -65,6 +66,24 @@ export class RouteMasterComponent {
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const wealthCenter = this.form.value.wcId?.trim();
+                        if (!wealthCenter) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const routeName = this.form.value.routeName?.trim();
+                        if (!routeName) {
+                                this.toastService.showWarning('Route name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const zone = this.responseData.zone
                         const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
@@ -123,7 +142,7 @@ export class RouteMasterComponent {
                 this.zoneName=item.zone.zoneName
                 this.wealthCentreName=item.wc.wcName
                 // this.zoneId = item.zoneId
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         routeName: item.routeName,
@@ -148,17 +167,34 @@ export class RouteMasterComponent {
         }
 
         updateRoute() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const wealthCenter = this.form.value.wcId;
+                        if (!wealthCenter) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }       
+                        const zone = this.form.value.zoneId;
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const routeName = this.form.value.routeName?.trim();
+                        if (!routeName) {
+                                this.toastService.showWarning('Route name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateRoute(this.form.value).subscribe(
                         data => {
-                                window.alert("Route data updated successfully!!")
+                                this.toastService.showSuccess("Route data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("Route data updated successfully!!")
+                                this.toastService.showError("Route data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()

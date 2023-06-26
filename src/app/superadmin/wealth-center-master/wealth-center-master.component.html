@@ -131,10 +131,11 @@
                                                                                         <div
                                                                                                 class="d-flex align-items-center w-100">
                                                                                                 <div>
-                                                                                                        Select Zone
+                                                                                                        Select Zone<span class="text-danger">*</span>
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
                                                                                                         <select formControlName="zoneId" class="form-control form-select" [(ngModel)]="zoneId">
+                                                                                                                <option value="">Select</option>
                                                                                                                 <option value={{zoneName}} disabled selected>{{zoneName}}</option>
                                                                                                                 <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName}}</option>
                                                                                                         </select>
@@ -145,7 +146,7 @@
                                                                                         <div
                                                                                                 class="d-flex align-items-center w-100">
                                                                                                 <div>
-                                                                                                        WC Name
+                                                                                                        WC Name<span class="text-danger">*</span>
                                                                                                 </div>
                                                                                                 <div
                                                                                                         class="ms-3 d-flex-1">
