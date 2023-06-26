@@ -1,21 +1,33 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
-  selector: 'app-driver-master',
-  templateUrl: './driver-master.component.html',
-  styleUrls: ['../../common.css','./driver-master.component.css']
+        selector: 'app-driver-master',
+        templateUrl: './driver-master.component.html',
+        styleUrls: ['../../common.css', './driver-master.component.css']
 })
-export class DriverMasterComponent {
+export class DriverMasterComponent implements OnInit {
         isAdd: boolean = true
         isUpdate: boolean = false
-        driverId:any
+        driverId: any
         wcId: any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getWCList()
+        }
+        ngOnInit() {
+                this.service.getAllWcData().subscribe(
+                        data => {
+                                this.wcList = data
+                        }
+                );
+                this.service.getAllDriverList().subscribe(
+                        data => {
+                                this.list = data
+                        }
+                );
         }
 
         form = new FormGroup({
@@ -28,8 +40,8 @@ export class DriverMasterComponent {
                 dlPhoto: new FormControl('', [Validators.required]),
                 address: new FormControl('', [Validators.required]),
                 dlDesc: new FormControl
-              });
-        editForm =new FormGroup({
+        });
+        editForm = new FormGroup({
                 driverId: new FormControl(''),
                 driverName: new FormControl(''),
                 driverPhoto: new FormControl(''),
@@ -39,7 +51,7 @@ export class DriverMasterComponent {
                 dlPhoto: new FormControl(''),
                 address: new FormControl(''),
                 dlDesc: new FormControl('')
-              });
+        });
         list: any = []
         wcList: any = []
 
@@ -112,13 +124,28 @@ export class DriverMasterComponent {
                 }
                 try {
                         const data = {
-                                ...this.form.value,
-                                "status": true
+                                "driverId": this.form.value.driverId,
+                                "driverName": this.form.value.driverName,
+                                "driverPhoto":this.form.value.driverPhoto,
+                                "phoneNo": this.form.value.phoneNo,
+                                "dlNo": this.form.value.dlNo,
+                                "dlExpiry":this.form.value.dlExpiry,
+                                "dlPhoto": this.form.value.dlPhoto,
+                                "address": this.form.value.address,
+                                "dlDesc": this.form.value.dlDesc,
+                                "status": true,
+                                "wc":{
+                                        "wcId":localStorage.getItem("wcId")
+                                }
                         }
                         console.log(data)
                         await this.service.post(`/zone/addDriver`, data)
                         this.form.reset()
-                        this.getList()
+                        this.service.getAllDriverList().subscribe(
+                                data => {
+                                        this.list = data
+                                }
+                        );
                 } catch (e) {
                         console.error(e)
                 }
@@ -147,7 +174,7 @@ export class DriverMasterComponent {
                         address: item.address,
                         dlDesc: item.dlDesc
                 })
-                this.wcId=this.wcList.wcId
+                this.wcId = this.wcList.wcId
                 // this.service.getZoneAllData().subscribe(
                 //         async data => {
                 //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
