@@ -28,7 +28,9 @@ export class MrfComponent implements OnInit{
   responseData:any
   isActive:any
   selectionMode = "multiple";
+  wcId : any = 0;
   constructor(private service:CommonService, private formBuilder:FormBuilder, private toastService: ToastService){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
     this.getAllGoods()
      //this.getAllSubGoods() 
@@ -88,7 +90,8 @@ export class MrfComponent implements OnInit{
     subGood: new FormControl
 })
   getAllGoods(){
-     this.service.getAllGoods().subscribe(
+    console.log('  MRFFFFFFFFFFFFFFFFF   ',this.wcId);
+     this.service.getAllGoods(parseInt(this.wcId)).subscribe(
       data=>{
        this.goodResponse=data
        this.goodList=this.goodResponse
@@ -97,7 +100,8 @@ export class MrfComponent implements OnInit{
      );
   }
   getAllSubGoods(){
-    this.service.getAllSubGood().subscribe(
+    console.log('  MRFFFFFFFFFFFFFFFFF  222222222 ',this.wcId);
+    this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
       data=>{
         this.subGoodResponse=data
         //console.log(this.subGoodResponse)
