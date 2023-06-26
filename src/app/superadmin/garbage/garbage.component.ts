@@ -62,6 +62,7 @@ export class GarbageComponent implements OnInit {
         const rowData =   this.activeTripList.map((item: any) => {
          
           return {
+            tripId:item.tripTrnsId,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -241,8 +242,7 @@ export class GarbageComponent implements OnInit {
     const formData = new FormData();
     formData.set("file", this.tripStartReadingImgFile);
 
-    this.httpClient
-      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
+    this.service.uploadFile(formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -765,8 +765,7 @@ export class GarbageComponent implements OnInit {
     const formData = new FormData();
     formData.append("file", this.tripEndReadingImgFile);
 
-    this.httpClient
-      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
+    this.service.uploadFile(formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;

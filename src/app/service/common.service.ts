@@ -7,18 +7,18 @@ export class DeactivationDto {
         activationStatus: Boolean = false
 }
 
-const environment = {
+var environment = {
 
 
-       URL: `http://15.207.62.200:9091`,  //prod url
-       LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+//        URL: `http://15.207.62.200:9091`,  //prod url
+//        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
         //  LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
         //  URL: `http://43.204.240.44:9091`  //Absec ip 
 
-//         URL: `http://192.168.29.215:9091`,  //prod url
-//        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        URL: `http://192.168.29.215:9091`,  //prod url
+       LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
@@ -324,5 +324,8 @@ export class CommonService {
         }
         updateTripForceFully(data:any){
                 return this.http.put(environment.URL+'/update/trip/forcefully',data)
+        }
+        uploadFile(data:any){
+                return this.http.post(environment.URL+'/v1/uploadFile',data)
         }
 }

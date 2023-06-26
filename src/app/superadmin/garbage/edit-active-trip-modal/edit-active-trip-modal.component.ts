@@ -23,6 +23,7 @@ export class EditActiveTripModalComponent implements OnInit {
     trip_end_reading: new FormControl('', [Validators.required]),
     trip_end_reading_image: new FormControl(''),
     trip_end_reading_date: new FormControl('', [Validators.required]),
+    tripId: new FormControl()
   });
 
   constructor(public activeModal: NgbActiveModal,private service:CommonService) {}
@@ -36,6 +37,7 @@ export class EditActiveTripModalComponent implements OnInit {
       tare_weight: this.data.tare_weight,
       trip_start_reading: this.data.tripStartReading,
       trip_end_reading: "",
+      tripId:this.data.tripId
     });
   }
   updateTripData(){
@@ -45,11 +47,18 @@ export class EditActiveTripModalComponent implements OnInit {
         "grossWt": this.activeTripsEditForm.value.gross_weight,
         "tareWt": this.activeTripsEditForm.value.tare_weight,
         "tripStartReading": this.activeTripsEditForm.value.trip_start_reading,
-        "tripTransactionId": 0,
+        "tripTransactionId": this.activeTripsEditForm.value.tripId,
         "vehicleNo": "string",
-        "wetWt": 0
+        "wetWt": this.activeTripsEditForm.value.wet_weight
       
     }
-    this.service.updateTripForceFully(data);
+    // console.log(data)
+    this.service.updateTripForceFully(data).subscribe(
+      data=>{
+        window.alert("Trip data updated successfully!!")
+        this.activeModal.close()
+        
+      }
+    );
   }
 }
