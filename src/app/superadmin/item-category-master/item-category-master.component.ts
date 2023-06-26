@@ -69,7 +69,14 @@ export class ItemCategoryMasterComponent implements OnInit {
                 //         console.error(e)
                 // }
                 /* Manoj added Date 08-05-2023*/
-                this.service.addItemCategory(this.form.value).subscribe(
+                const data={
+                       "categoryName":this.form.value.categoryName,
+                       "description": this.form.value.description,
+                       "wcEntity":{
+                        "wcId":localStorage.getItem("wcId")
+                       } 
+                }
+                this.service.addItemCategory(data).subscribe(
                         data => {
                                 this.toastService.showSuccess("Category data saved sucessfully")
                                 this.form.reset()
