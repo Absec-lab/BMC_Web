@@ -3,7 +3,6 @@ import { DatePipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
-import { ToastService } from 'src/app/service/toast.service';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -12,7 +11,7 @@ import { ToastService } from 'src/app/service/toast.service';
 })
 export class InventoryComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe,private toastService: ToastService) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe) {
     this.getItemName()
     this.getItemcategory()
    //this.getList()
@@ -79,7 +78,7 @@ editForm = new FormGroup({
             itemName: item.itemName.itemname,
             unit: 0,
             itemQuantity: item.itemQuantity+" "+item.unit.unit,
-            itemCost: '₹ '+item.itemCost,
+            itemCost: item.itemCost,
             uploadBill:item.uploadBill,
             purchaseDate:  this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
             description:item.description
@@ -115,12 +114,14 @@ editForm = new FormGroup({
       data => {
         this.itemStockResponse = data
         this.itemStockList = this.itemStockResponse
-        const rowDataStock =   this.itemStockList.map((item: { itemName: any;  stockQuantity: any;  }) => {
+        const rowDataStock =   this.itemStockList.map((item: {
+          stockQuantity: any; itemName: any;  
+}) => {
          
           return {
             itemName: item.itemName.itemname,
             //unit: 0,
-            stockQuantity: item.stockQuantity       
+            stockQuantity: item.stockQuantity     
             
           };
         });
@@ -135,6 +136,16 @@ editForm = new FormGroup({
         this.unitList=data
       }
     );
+    this.service.getAllItemCategory().subscribe(
+      data=>[
+        this.itemCategoryList=data
+      ]
+    );
+    this.service.getAllItemName().subscribe(
+      data=>{
+              this.itemNameList=data
+      }
+     );
     }
   itemCategoryList: any = []
   itemNameList: any= []
@@ -175,8 +186,10 @@ async getItemIssueList() {
                          "unit": unit,
                          "itemCost": this.form.value.itemCost,
                          "purchaseDate": this.datePipe.transform(this.form.value.itemPurchaseDate, 'yyyy-MM-dd HH:MM'),          //this.form.value.itemPurchaseDate,
-                         "uploadBill": this.form.value.uploadBill
-             
+                         "uploadBill": this.form.value.uploadBill,
+                         "wcEntity":{
+                          "wcId":localStorage.getItem("wcId")
+                         }
                       }
                       
                       
@@ -208,31 +221,7 @@ async getItemIssueList() {
                               
                             }
                           );
-                          this.service.getAllItemStockList().subscribe(
-                            data => {
-                              this.itemStockResponse = data
-                              this.itemStockList = this.itemStockResponse
-                              const rowDataStock =   this.itemStockList.map((item: { itemName: any;  stockQuantity: any;  }) => {
-                               
-                                return {
-                                  itemName: item.itemName.itemname,
-                                  //unit: 0,
-                                  stockQuantity: item.stockQuantity       
-                                  
-                                };
-                              });
-                             console.log("itemStockList",this.itemStockList)
-                             console.log("rowDataStock",rowDataStock)
-                             this.rowDataStock=rowDataStock;
-                           
-                            }
-                          );
-                        },
-                        error=>{
-                          this.responseData=error
-                          this.toastService.showError(this.responseData.error.message)
                         }
-                        
                       );
                       this.form.reset()
                       this.getItemPurchaseList()
@@ -259,6 +248,9 @@ async getItemIssueList() {
                            // "itemCost": this.form.value.itemCost,
                             "issueDate": this.datePipe.transform(this.form.value.issueDate, 'yyyy-MM-dd HH:MM'), //this.form.value.issueDate,
                             //"uploadBill": this.form.value.uploadBill
+                            "wcEntity":{
+                              "wcId":localStorage.getItem("wcId")
+                            }
                 
                          }
                          console.log(data)
@@ -286,29 +278,6 @@ async getItemIssueList() {
                                 
                               }
                             );
-                            this.service.getAllItemStockList().subscribe(
-                              data => {
-                                this.itemStockResponse = data
-                                this.itemStockList = this.itemStockResponse
-                                const rowDataStock =   this.itemStockList.map((item: { itemName: any;  stockQuantity: any;  }) => {
-                                 
-                                  return {
-                                    itemName: item.itemName.itemname,
-                                    //unit: 0,
-                                    stockQuantity: item.stockQuantity       
-                                    
-                                  };
-                                });
-                               console.log("itemStockList",this.itemStockList)
-                               console.log("rowDataStock",rowDataStock)
-                               this.rowDataStock=rowDataStock;
-                             
-                              }
-                            );   
-                          },
-                          error=>{
-                            this.responseData=error
-                            this.toastService.showError(this.responseData.error.message)
                           }
                         );
                          
@@ -367,7 +336,7 @@ getAllItemNameyByCategoryId(){
 
   async getItemcategory() {
     try {
-            this.itemCategoryList = await this.service.get(`/inventory/getAllItemCategory`)
+            this.itemCategoryList = await this.service.getAllItemCategory()
             this.itemCategoryList = this.itemCategoryList.sort((a: any, b: any) => a.routeName - b.routeName)
     } catch (e) {
             console.error(e)

@@ -50,11 +50,11 @@ export class TripDetailsComponent implements OnInit {
   });
   ngOnInit() {
    
-    this.service.getAllHelper().subscribe(
-      data=>{
-         this.helperList=data
-      }
-    );
+    // this.service.getAllHelper().subscribe(
+    //   data=>{
+    //      this.helperList=data
+    //   }
+    // );
     this.service.getAllActiveTripInGraveYard().subscribe(
       data => {
         this.activeTripResponse = data
