@@ -14,8 +14,8 @@ var environment = {
 //        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
 
-        //  LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        //  URL: `http://43.204.240.44:9091`  //Absec ip 
+         LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+         URL: `http://43.204.240.44:9091`  //Absec ip 
 
         URL: `http://192.168.29.215:9091`,  //prod url
        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
@@ -197,8 +197,8 @@ export class CommonService {
         updateItemCategory(item: any) {
                 return this.http.put(environment.URL + '/inventory/updateItemCategory', item)
         }
-        getAllGoods() {
-                return this.http.get(environment.URL + '/zone/getAllGoods')
+        getAllGoods(wcId : any) {
+                return this.http.get(environment.URL + '/zone/getAllGoods/'+wcId)
         }
         getWardsCount() {
                 return this.http.get(environment.URL + '/get/all/wards/count')
@@ -227,8 +227,8 @@ export class CommonService {
         updateTrip(data: any) {
                 return this.http.put(environment.URL + '/update/trip', data)
         }
-        getAllSubGood() {
-                return this.http.get(environment.URL + '/zone/getAllGoodssub')
+        getAllSubGood(wcId : number) {
+                return this.http.get(environment.URL + '/zone/getAllGoodssub/'+wcId)
         }
         getAllDryingYard() {
                 return this.http.get(environment.URL + '/inventory/getAllDryingyard')

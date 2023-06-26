@@ -11,13 +11,16 @@ import { ToastService } from 'src/app/service/toast.service';
 export class GoodsMasterComponent implements OnInit{
         isAdd: boolean = false
         isUpdate: boolean = false
+        wcId : any = 0;
         constructor(private service: CommonService, private formBuilder:FormBuilder, private toastService: ToastService) {
+                this.getWCList();
+                this.wcId = localStorage.getItem('wcId');
                 this.getList()
         }
         ngOnInit() {
                 this.isAdd = true
                 this.isUpdate = false
-                this.service.getAllGoods().subscribe(
+                this.service.getAllGoods(this.wcId).subscribe(
                         data => {
                                 this.list = data
                         }
@@ -25,6 +28,7 @@ export class GoodsMasterComponent implements OnInit{
         }
         form = new FormGroup({
                 goodsId: new FormControl,
+                wcId: new FormControl(0, [Validators.required]),
                 goodsName: new FormControl('', [Validators.required]),
                 goodsPerKg: new FormControl('', [Validators.required]),
                 goodsDesc: new FormControl
@@ -32,14 +36,24 @@ export class GoodsMasterComponent implements OnInit{
 
         editFormData = new FormGroup({
                 goodsId: new FormControl,
+                wcId: new FormControl,
                 goodsName: new FormControl,
                 goodsPerKg: new FormControl,
                 goodsDesc: new FormControl
         })
         list: any = []
+        wcList: any = []
+        async getWCList() {
+                try {
+                        this.wcList = await this.service.get(`/zone/getAllWc`)
+                        this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
+                } catch (e) {
+                        console.error(e)
+                }
+        }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllGoods`)
+                        this.list = await this.service.get(`/zone/getAllGoods/`+this.wcId)
                         this.list = this.list.sort((a: any, b: any) => a.goodsName - b.goodsName)
                 } catch (e) {
                         console.error(e)
@@ -47,18 +61,22 @@ export class GoodsMasterComponent implements OnInit{
         }
         async addNew() {
                 if (this.form.status === 'INVALID') {
+                        if (!this.wcId) {
+                                this.toastService.showWarning('Wealth center is required. Please login again. ');
+                                return;
+                        }
                         const goodsName = this.form.value.goodsName?.trim();
                         if (!goodsName) {
                                 this.toastService.showWarning('Goods name is required.');
                                 return;
                         }
-                        const goodsPerKg = this.form.value.goodsPerKg?.trim();
+                        const goodsPerKg = this.form.value.goodsPerKg;
                         if (!goodsPerKg) {
                                 this.toastService.showWarning('Goods per kg is required.');
                                 return;
                         }
-                        return;
                 }
+                this.form.value.wcId = parseInt(this.wcId);
                 try {
                         await this.service.post(`/zone/addGoods`, this.form.value)
                         this.form.reset()
@@ -96,24 +114,29 @@ export class GoodsMasterComponent implements OnInit{
 
         updateGoods(){
                 if (this.form.status === 'INVALID') {
+                        if (!this.wcId) {
+                                this.toastService.showWarning('Wealth center is required. Please login again. ');
+                                return;
+                        }
                         const goodsName = this.form.value.goodsName?.trim();
                         if (!goodsName) {
                                 this.toastService.showWarning('Goods name is required.');
                                 return;
                         }
-                        const goodsPerKg = this.form.value.goodsPerKg?.trim();
+                        const goodsPerKg = this.form.value.goodsPerKg;
                         if (!goodsPerKg) {
                                 this.toastService.showWarning('Goods per kg is required.');
                                 return;
                         }
                         return;
                 }
+                this.form.value.wcId = parseInt(this.wcId);
                 this.service.updateGoods(this.form.value).subscribe(
                         data=>{
                                 this.toastService.showSuccess("Goods data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
-                                this.service.getAllGoods().subscribe(
+                                this.service.getAllGoods(this.wcId).subscribe(
                                         data => {
                                                 this.list = data
                                         }
