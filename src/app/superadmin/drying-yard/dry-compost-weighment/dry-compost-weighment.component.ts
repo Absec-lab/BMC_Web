@@ -22,14 +22,16 @@ export class DryCompostWeighmentComponent implements OnInit{
   dryWtList:any
   responseData:any
   isActive:any
+  wcId : any = 0;
   constructor(private service:CommonService, private formBuilder:FormBuilder){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
 
     this.getAllWC()
     this.getAllDryingYard()
   }
   ngOnInit() {
-    this.service.getAllMrf().subscribe(
+    this.service.getAllMrf(parseInt(this.wcId)).subscribe(
       data => {
 
         this.dryWtResponse = data

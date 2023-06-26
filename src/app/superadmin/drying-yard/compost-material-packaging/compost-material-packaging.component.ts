@@ -30,13 +30,15 @@ export class CompostMaterialPackagingComponent implements OnInit{
   isActive:any
   composePackingList:any=[]
   packagingType:any=[5,10,15,20]
+  wcId : any = 0;
   constructor(private service:CommonService, private formBuilder:FormBuilder){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
     this.getAllWC()
      this.getAllDryingYard() 
   }
   ngOnInit() {
-    this.service.getAllMrf().subscribe(
+    this.service.getAllMrf(parseInt(this.wcId)).subscribe(
       data => {
         this.mrfResponse = data
         this.mrfList = this.mrfResponse
