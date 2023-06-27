@@ -16,12 +16,17 @@ export class WealthCenterMasterComponent implements OnInit{
         zoneId:any
         responseData:any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
-                this.getList()
+                // this.getList()
                 this.getZones()
         }
         ngOnInit(){
                this.isAdd=true
                this.isUpdate=false
+               this.service.getAllWcData().subscribe(
+                data=>{
+                        this.list=data
+                }
+               );
         }
 
         form = new FormGroup({

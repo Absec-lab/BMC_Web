@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ToastService } from 'src/app/service/toast.service';
@@ -8,7 +8,7 @@ import { ToastService } from 'src/app/service/toast.service';
   templateUrl: './mcc-master.component.html',
   styleUrls: ['../../common.css','./mcc-master.component.css']
 })
-export class MccMasterComponent {
+export class MccMasterComponent implements OnInit{
         isAdd: boolean = true
         isUpdate: boolean = false
         responseData:any
@@ -19,7 +19,14 @@ export class MccMasterComponent {
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 // this.getZones()
-                this.getWCList()
+                // this.getWCList()
+        }
+        ngOnInit() {
+              this.service.getAllWcData().subscribe(
+                data=>{
+                        this.wcList=data
+                }
+              );
         }
 
         form = new FormGroup({
