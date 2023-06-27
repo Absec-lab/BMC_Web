@@ -221,6 +221,27 @@ async getItemIssueList() {
                               
                             }
                           );
+                          this.service.getAllItemStockList().subscribe(
+                            data => {
+                              this.itemStockResponse = data
+                              this.itemStockList = this.itemStockResponse
+                              const rowDataStock =   this.itemStockList.map((item: {
+                                stockQuantity: any; itemName: any;  
+                      }) => {
+                               
+                                return {
+                                  itemName: item.itemName.itemname,
+                                  //unit: 0,
+                                  stockQuantity: item.stockQuantity     
+                                  
+                                };
+                              });
+                             console.log("itemStockList",this.itemStockList)
+                             console.log("rowDataStock",rowDataStock)
+                             this.rowDataStock=rowDataStock;
+                           
+                            }
+                          ); 
                         }
                       );
                       this.form.reset()
@@ -278,6 +299,27 @@ async getItemIssueList() {
                                 
                               }
                             );
+                            this.service.getAllItemStockList().subscribe(
+                              data => {
+                                this.itemStockResponse = data
+                                this.itemStockList = this.itemStockResponse
+                                const rowDataStock =   this.itemStockList.map((item: {
+                                  stockQuantity: any; itemName: any;  
+                        }) => {
+                                 
+                                  return {
+                                    itemName: item.itemName.itemname,
+                                    //unit: 0,
+                                    stockQuantity: item.stockQuantity     
+                                    
+                                  };
+                                });
+                               console.log("itemStockList",this.itemStockList)
+                               console.log("rowDataStock",rowDataStock)
+                               this.rowDataStock=rowDataStock;
+                             
+                              }
+                            ); 
                           }
                         );
                          
