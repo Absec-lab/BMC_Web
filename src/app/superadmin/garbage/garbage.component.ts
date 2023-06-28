@@ -13,6 +13,8 @@ import { ActiveTripActionRendererComponent } from './active-trip-action-renderer
 })
 export class GarbageComponent implements OnInit {
 
+  wcId : any = 0;
+
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient) {
     this.getRouteList()
    }
@@ -254,7 +256,7 @@ export class GarbageComponent implements OnInit {
 
           const fileUrlItems: any = fileUrl.split("/");
           const fileName = fileUrlItems[fileUrlItems.length - 1];
-
+          this.wcId = localStorage.getItem('wcId');
           const data={
             "driver":this.vehcileDataResponse.data.driver,
             "route": this.vehcileDataResponse.data.route,
@@ -263,6 +265,9 @@ export class GarbageComponent implements OnInit {
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
+            },
+            "wc":{
+              "wcId":parseInt(this.wcId)
             }
           }
           console.log(data)

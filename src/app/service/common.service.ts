@@ -200,10 +200,10 @@ export class CommonService {
                 return this.http.get(environment.URL + '/get/all/wards/count')
         }
         getActiveTrip() {
-                return this.http.get(environment.URL + '/get/active/trip')
+                return this.http.get(environment.URL + '/get/active/trip/'+localStorage.getItem("wcId"))
         }
         getCompletedTrips() {
-                return this.http.get(environment.URL + '/get/inActive/trip')
+                return this.http.get(environment.URL + '/get/inActive/trip/'+localStorage.getItem("wcId"))
         }
         getAllItemPurchase() {
                 return this.http.get(environment.URL + '/inventory/getAllItemPurchase/'+localStorage.getItem("wcId"))
