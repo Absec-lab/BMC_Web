@@ -106,7 +106,7 @@ export class HelperMasterComponent implements OnInit{
                         const data = {
                                 ...this.form.value,
                                 "wc":{"wcId":localStorage.getItem("wcId")},
-                                "isActive": false
+                                "isActive": true
                         }
                         console.log(data)
                         await this.service.post(`/zone/addHelper`, data)

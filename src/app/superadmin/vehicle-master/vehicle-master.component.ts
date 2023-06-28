@@ -216,8 +216,7 @@ export class VehicleMasterComponent implements OnInit{
                                 },
                                 helper: {
                                         helperId: this.form.value.helperId
-                                },
-                                "status":true
+                                }
                         }
                         console.log(data)
                         await this.service.post(`/vehicle/add`, data)
