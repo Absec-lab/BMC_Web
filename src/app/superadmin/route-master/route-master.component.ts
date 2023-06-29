@@ -106,8 +106,19 @@ export class RouteMasterComponent implements OnInit {
                                 "wc": wc
                         }
                         await this.service.post(`/zone/addRoute`, data)
+                        this.service.addRoute(data).subscribe(
+                                data=>{
+                                        this.toastService.showSuccess("Route added successfully!!")
+                                        this.service.getAllRouteData().subscribe(
+                                                data => {
+                                                        this.list = data
+                                                }
+                                        );
+                                }
+                        );
+                       
                         this.form.reset()
-                        this.getList()
+                       
                 } catch (e) {
                         console.error(e)
                 }

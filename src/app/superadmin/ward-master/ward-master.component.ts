@@ -20,11 +20,17 @@ export class WardMasterComponent implements OnInit{
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getZones()
-                this.getWCList()
+                // this.getWCList()
         }
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
+                this.service.getAllWcData().subscribe(
+                        data=>{
+                                this.wcList=data
+                        }
+                );
+
          }
         form = new FormGroup({
                 zoneId: new FormControl('', [Validators.required]),

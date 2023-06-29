@@ -102,7 +102,13 @@ export class ItemNameMasterComponent implements OnInit{
                         this.service.addItemName(data).subscribe(
                                 data=>{
                                         this.responseData=data
+                                        this.service.getAllItemName().subscribe(
+                                                data=>{
+                                                        this.list=data
+                                                }
+                                               );
                                         this.toastService.showSuccess(this.responseData.message)
+                                        
                                 },
                                 error=>{
                                         this.responseData=error

@@ -35,6 +35,13 @@ export class GarbageComponent implements OnInit {
   tripResponse: any
   errorResponse:any
   helperList:any=[]
+  responseData:any
+  noOfActivetrips:any
+  noOfCompletedTrips:any
+  inProcessPit:any
+  emptyPit:any
+  totalWetWeight:any
+  totalDryWeight:any
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
@@ -51,6 +58,18 @@ export class GarbageComponent implements OnInit {
     helperId:new FormControl
   });
   ngOnInit() {
+    this.service.getDashboardDetails().subscribe(
+      data=>{
+        this.responseData=data
+        this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+        this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+        this.inProcessPit=this.responseData.data.noOfActivePit
+        this.emptyPit=this.responseData.data.noOfCompletedPit
+        this.totalDryWeight=this.responseData.data.totalDryWeightValue
+        this.totalWetWeight=this.responseData.data.totalWetWeightValue
+        console.log(this.responseData)
+      }
+    );
     this.setVehicleNumber()
     this.service.getAllHelper().subscribe(
       data=>{
@@ -113,11 +132,15 @@ export class GarbageComponent implements OnInit {
       }
     );
     // this.setVehicleNumber();
-    
+    this.service.getAllRouteData().subscribe(
+      data=>{
+        this.routeList=data
+      }
+    );
     
   }
   routeList: any = []
- 
+  
 
   getActiveTrip() {
     this.service.getActiveTrip().subscribe(
@@ -275,6 +298,7 @@ export class GarbageComponent implements OnInit {
             data=>{
               window.alert("Trip Created Successfully")
               // this.setVehicleNumber();
+              this.getDashboardDetails()
               this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
                 data => {
                   this.vehcileDataResponse = data
@@ -423,7 +447,20 @@ export class GarbageComponent implements OnInit {
 
         });
   }
-
+async getDashboardDetails(){
+  this.service.getDashboardDetails().subscribe(
+    data=>{
+      this.responseData=data
+      this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+      this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+      this.inProcessPit=this.responseData.data.noOfActivePit
+      this.emptyPit=this.responseData.data.noOfCompletedPit
+      this.totalDryWeight=this.responseData.data.totalDryWeightValue
+      this.totalWetWeight=this.responseData.data.totalWetWeightValue
+      console.log(this.responseData)
+    }
+  );
+}
   setGrossWtValue(){
     const data={
       "grossWt": this.form.value.grossWeightValue,
@@ -436,7 +473,18 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Gross Weight captured successfully")
-        
+        this.service.getDashboardDetails().subscribe(
+          data=>{
+            this.responseData=data
+            this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+            this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+            this.inProcessPit=this.responseData.data.noOfActivePit
+            this.emptyPit=this.responseData.data.noOfCompletedPit
+            this.totalDryWeight=this.responseData.data.totalDryWeightValue
+            this.totalWetWeight=this.responseData.data.totalWetWeightValue
+            console.log(this.responseData)
+          }
+        );
         // this.setVehicleNumber();
         // this.service.getCompletedTrips().subscribe(
         //   data => {
@@ -576,7 +624,18 @@ export class GarbageComponent implements OnInit {
     this.service.updateTrip(data).subscribe(
       data=>{
         window.alert("Dry Weight captured successfully");
-
+        this.service.getDashboardDetails().subscribe(
+          data=>{
+            this.responseData=data
+            this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+            this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+            this.inProcessPit=this.responseData.data.noOfActivePit
+            this.emptyPit=this.responseData.data.noOfCompletedPit
+            this.totalDryWeight=this.responseData.data.totalDryWeightValue
+            this.totalWetWeight=this.responseData.data.totalWetWeightValue
+            console.log(this.responseData)
+          }
+        );
         /**
          * Disable all buttons by default.
          */
@@ -630,6 +689,18 @@ export class GarbageComponent implements OnInit {
       data=>{
         window.alert("Wet Weight captured successfully")
         // this.setVehicleNumber();
+        this.service.getDashboardDetails().subscribe(
+          data=>{
+            this.responseData=data
+            this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+            this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+            this.inProcessPit=this.responseData.data.noOfActivePit
+            this.emptyPit=this.responseData.data.noOfCompletedPit
+            this.totalDryWeight=this.responseData.data.totalDryWeightValue
+            this.totalWetWeight=this.responseData.data.totalWetWeightValue
+            console.log(this.responseData)
+          }
+        );
         this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
 
@@ -794,6 +865,18 @@ export class GarbageComponent implements OnInit {
           this.service.updateTrip(data).subscribe(
             data=>{
               window.alert("Trip completed")
+              this.service.getDashboardDetails().subscribe(
+                data=>{
+                  this.responseData=data
+                  this.noOfActivetrips=this.responseData.data.numberOfActiveTrips
+                  this.noOfCompletedTrips=this.responseData.data.numberOfCompletedTrips
+                  this.inProcessPit=this.responseData.data.noOfActivePit
+                  this.emptyPit=this.responseData.data.noOfCompletedPit
+                  this.totalDryWeight=this.responseData.data.totalDryWeightValue
+                  this.totalWetWeight=this.responseData.data.totalWetWeightValue
+                  console.log(this.responseData)
+                }
+              );
               this.setVehicleNumber();
               this.service.getActiveTrip().subscribe(
                 data => {
