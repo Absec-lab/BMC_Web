@@ -228,7 +228,7 @@ export class CommonService {
                 return this.http.get(environment.URL + '/zone/getAllGoodssub/' + wcId)
         }
         getAllDryingYard() {
-                return this.http.get(environment.URL + '/inventory/getAllDryingyard')
+                return this.http.get(environment.URL + '/inventory/getAllDryingyard/'+ localStorage.getItem("wcId"))
         }
         saveCompostDrying(data: any) {
                 return this.http.post(environment.URL + '/inventory/addDryingCompost', data)
@@ -252,11 +252,11 @@ export class CommonService {
                 return this.http.get(environment.URL + '/zone/getAllDriver/' + localStorage.getItem("wcId"))
         }
         getAllDriverByVehicleId(id: any) {
-                return this.http.get(environment.URL + '/get/Driver/by/{vehicleId}?vehicleId=' + id)
+                return this.http.get(environment.URL + '/get/Driver/by/' + id)
                 // return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
         }
         getAllWcVehicle(id: any) {
-                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/{wcId}?wcId=' + id)
+                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/' + id)
         }
         getAllSubGoodByGoodId(id: any) {
                 return this.http.get(environment.URL + '/zone/get/subgood/by/good/Id/goodId?goodId=' + id)

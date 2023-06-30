@@ -101,7 +101,7 @@ export class CompostDryingComponent implements OnInit{
   //   );
   // }
   getAllVehicleWcId(){
-    this.service.getAllWcVehicle(this.form.value.wcId).subscribe(
+    this.service.getAllWcVehicle(localStorage.getItem('wcId')).subscribe(
       data=>{
         this.vehicleResponse=data
         //console.log(this.subGoodResponse)
@@ -145,7 +145,7 @@ export class CompostDryingComponent implements OnInit{
 }
   async getList() {
     try {
-            this.list = await this.service.get(`/inventory/getAllDryingCompost`)
+            this.list = await this.service.get(`/inventory/getAllDryingCompost/`+localStorage.getItem('wcId'))
 
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)

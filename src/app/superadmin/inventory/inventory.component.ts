@@ -72,9 +72,10 @@ export class InventoryComponent implements OnInit {
       data => {
         this.itemPurchaseResponse = data
         this.itemPurchaseList = this.itemPurchaseResponse
-        const rowDataPurchase = this.itemPurchaseList.map((item: { itemCategory: any; itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost: any; uploadBill: any; description: any; createdDate: any; updateDate: any; }) => {
+        const rowDataPurchase = this.itemPurchaseList.map((item: { itemCategory: any;  itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost: any; uploadBill: any; description: any; createdDate: any; updateDate: any; }) => {
 
           return {
+            wcName : item.itemName?.wcEntity?.wcName,
             itemCategoryName: item.itemCategory.categoryName,
             itemName: item.itemName.itemname,
             unit: 0,
@@ -98,6 +99,7 @@ export class InventoryComponent implements OnInit {
         const rowDataIssue = this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate: any; }) => {
 
           return {
+            wcName : item.itemName?.wcEntity?.wcName,
             itemName: item.itemName.itemname,
             //unit: 0,
             itemQuantity: item.issueQuantity + " " + item.unit.unit,
@@ -120,6 +122,7 @@ export class InventoryComponent implements OnInit {
         }) => {
 
           return {
+            wcName : item.itemName?.wcEntity?.wcName,
             itemName: item.itemName.itemname,
             //unit: 0,
             stockQuantity: item.stockQuantity
@@ -407,6 +410,7 @@ export class InventoryComponent implements OnInit {
 
   }
   columnDefsPurchase: ColDef[] = [
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
     { field: 'itemCategoryName', headerName: 'Item category', unSortIcon: true, resizable: true, },
     { field: 'itemName', headerName: 'Item Name', unSortIcon: true, resizable: true, },
     { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true, resizable: true, },
@@ -432,6 +436,7 @@ export class InventoryComponent implements OnInit {
 
   columnDefsIssue: ColDef[] = [
     // { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
     { field: 'itemName', headerName: 'Item Name', unSortIcon: true },
     { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true },
     { field: 'createdDate', headerName: 'Created Date', unSortIcon: true },
@@ -473,6 +478,7 @@ export class InventoryComponent implements OnInit {
 
 
   columnDefsStock: ColDef[] = [
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
     { field: 'itemName', headerName: 'Stock List', unSortIcon: true, resizable: true, },
     {},
     {},

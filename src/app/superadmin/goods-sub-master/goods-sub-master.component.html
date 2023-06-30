@@ -112,6 +112,7 @@
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>Sl. No.</th>
+                                    <th>Wc Name</th>
                                     <th>Goods Name</th>
                                     <th>Sub Goods Name</th>
                                     <th>Goods (Kg)</th>
@@ -123,6 +124,7 @@
                             <tbody class="text-center">
                                 <tr *ngFor="let x of list; index as i;">
                                         <td>{{ i + 1}}</td>
+                                        <td>{{ x.wcId?.wcName || '--' }}</td>
                                         <td>{{ x.goods?.goodsName || '--' }}</td>
                                         <td>{{ x.subgoodsName || '--' }}</td>
                                         <td>{{ x.subGoodsPerKg || '--' }}</td>
