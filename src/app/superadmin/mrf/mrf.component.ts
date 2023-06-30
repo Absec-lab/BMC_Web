@@ -40,9 +40,10 @@ export class MrfComponent implements OnInit{
      data => {
           this.mrfGridResponse = data
           this.mrfGridList = this.mrfGridResponse
-          const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+          const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
            
             return {
+              wcName : item.wcId?.wcName,
               goods_name: item.goods.goodsName,
               sub_goods_name: item.subGood.subgoodsName,
               goods: item.goods.goodsPerKg,
@@ -50,6 +51,7 @@ export class MrfComponent implements OnInit{
               quntaum: item.quntaum,
               description: item.mrfDesc,     
               created_date : item.createdDate
+             
             };
           });
          console.log("MrfGridList",this.mrfGridList)
@@ -92,6 +94,7 @@ export class MrfComponent implements OnInit{
   getAllGoods(){
      this.service.getAllGoods(parseInt(this.wcId)).subscribe(
       data=>{
+        console.log('  goods res ::  ',data)
        this.goodResponse=data
        this.goodList=this.goodResponse
        //console.log(this.goodList)
@@ -121,7 +124,8 @@ export class MrfComponent implements OnInit{
 }
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllMrf`+this.wcId)
+            let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+            this.list = await this.service.get(`/zone/getAllMrf/`+ wcId)
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -183,7 +187,7 @@ export class MrfComponent implements OnInit{
       window.alert("Mrf data saved successfully")
         this.mrfGridResponse = data
         this.mrfGridList = this.mrfGridResponse.data
-        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
          
           return {
             goods_name: item.goods.goodsId,
@@ -191,7 +195,8 @@ export class MrfComponent implements OnInit{
             goods: item.goods,
             inert_material: item.interMaterial,
             description: item.mrfDesc,
-            quntaum:item.quntaum
+            quntaum:item.quntaum,
+            wcName : item.wcId?.wcName
 
           };
         });
@@ -229,7 +234,7 @@ onRowClicked(item:any){
   alert('Grid row selected'+this.rowDataMrf);
 }
 updateData(item: any) {
-  alert('hi');
+ // alert('hi');
   this.isUpdate = true
   this.isAdd = false
   console.log(item)
@@ -301,6 +306,7 @@ updateMrf() {
  */
 
 columnDefs: ColDef[] = [
+  { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
   { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
   { field: 'quntaum', headerName: 'Goods (Kg)', unSortIcon: true,resizable: true},

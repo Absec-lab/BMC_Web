@@ -16,7 +16,10 @@ export class MccMasterComponent implements OnInit{
         zoneName:any
         wealthCentreName:any
         wcId:any
+        role:any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
+                this.wcId =  localStorage.getItem('wcId');
                 this.getList()
                 // this.getZones()
                 // this.getWCList()
@@ -67,7 +70,8 @@ export class MccMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllMcc`)
+                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/zone/getAllMcc/`+wcId)
                         this.list = this.list.sort((a: any, b: any) => a.mccName - b.mccName)
                 } catch (e) {
                         console.error(e)
