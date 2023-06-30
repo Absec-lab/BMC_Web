@@ -25,7 +25,7 @@
 								Ward Master
 							</div>
 							<div class="card-body">
-								<form [formGroup]="form">
+								<form [formGroup]="form" *ngIf="role=='bmcadmin'">
 									<div class="row">
 										
 										<div class="col-md-6">
@@ -106,11 +106,11 @@
 							</div>
 						</div>
 						<div class="text-end mt-3" *ngIf="isAdd">
-							<button class="btn btn-primary px-5 py-2" (click)="addNew()">Add</button>
+							<button class="btn btn-primary px-5 py-2" (click)="addNew()"  *ngIf="role=='bmcadmin'">Add</button>
 						</div>
 						<div class="text-end mt-3" *ngIf="isUpdate">
-							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
-							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWard()">Update</button>
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()"  *ngIf="role=='bmcadmin'">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWard()"  *ngIf="role=='bmcadmin'">Update</button>
 						</div>
 					</div>
 					<div class="mt-4">
@@ -152,7 +152,7 @@
 									<th>Ward Name</th>
 									<th>Description</th>
 									<th>Created Date</th>
-									<th>Action</th>
+									<th  *ngIf="role=='bmcadmin'">Action</th>
 								</tr>
 							</thead>
 							<tbody class="text-center">
@@ -164,7 +164,7 @@
 									<td>{{ x.wardDesc || '--' }}</td>
 									<td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
 									</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
+									<td class="d-flex align-items-center gap-1 justify-content-center"  *ngIf="role=='bmcadmin'">
 										<button class="btn btn-primary btn-sm" (click)="updateData(x)">
 											<i class="fa-solid fa-edit"></i>
 										</button>

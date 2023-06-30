@@ -72,13 +72,13 @@ export class LoginComponent {
 
   this.service.login(this.loginPayload).subscribe(data => {
        this.logindata = data;
-       localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity);
+       this.logindata.userentity[0] != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
        localStorage.setItem('access_token', this.logindata.access_token);
-       localStorage.setItem('role', this.logindata.userdetails[0].attributes.role);
+       this.logindata.userdetails[0] != undefined ? localStorage.setItem('role', this.logindata.userdetails[0].attributes.role) : localStorage.setItem('role', '');
        localStorage.setItem('logindetails', JSON.stringify(this.logindata));
        localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
        localStorage.setItem('email', this.logindata.userdetails[0].email);
-       localStorage.setItem('wcId', this.logindata.userentity[0].wcEntity.wcId != undefined ? this.logindata.userentity[0].wcEntity.wcId : 0);
+       localStorage.setItem('wcId', this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity.wcId : 0);
      //  this.route.navigate(['/superadmin/dashboard'] , {state:{"userdetails": this.logindata.userdetails[0] , "usermenu" : this.logindata.menuitem}});
        this.route.navigate(['/superadmin/home'])
    

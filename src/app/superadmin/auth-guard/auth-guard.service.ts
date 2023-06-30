@@ -18,7 +18,7 @@ export class AuthGuardService {
   | boolean
   | UrlTree {
     console.log('  Authenticated ::  ',this.auth.isAuthenticatedbyMccUser);
-  if (!this.auth.isAuthenticatedbyMccUser) {
+  if (!this.auth.isAuthenticatedbyMccUser || !this.auth.isAuthenticatedByWcuser || !this.auth.isAuthenticatedbyBmcAdminUser) {
     this.router.navigate(['login']);
     return false;
   }

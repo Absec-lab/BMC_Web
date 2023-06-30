@@ -25,7 +25,7 @@
 								Zone Master
 							</div>
 							<div class="card-body">
-								<form [formGroup]="form" >
+								<form [formGroup]="form" *ngIf="userRole=='bmcadmin'">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="d-flex align-items-center w-100">
@@ -52,11 +52,11 @@
 							</div>
 						</div>
 						<div class="text-end mt-3" *ngIf="isAdd">
-							<button class="btn btn-primary px-5 py-2" (click)="addNewZone()">Add</button>
+							<button class="btn btn-primary px-5 py-2" (click)="addNewZone()" *ngIf="userRole=='bmcadmin'">Add</button>
 						</div>
 						<div class="text-end mt-3" *ngIf="isUpdate">
-							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
-							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateZone()">Update</button>
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()" *ngIf="userRole=='bmcadmin'" >Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateZone()" *ngIf="userRole=='bmcadmin'">Update</button>
 						</div>
 					</div>
 					<div class="mt-4">
@@ -81,7 +81,7 @@
 									<th>Zone Name</th>
 									<th>Description</th>
 									<th>Created Date</th>
-									<th>Action</th>
+									<th *ngIf="userRole=='bmcadmin'">Action</th>
 								</tr>
 							</thead>
 							<tbody class="text-center">
@@ -90,7 +90,7 @@
 									<td>{{ zone.zoneName || '--' }}</td>
 									<td>{{ zone.zoneDesc || '--' }}</td>
 									<td>{{ zone.createdDate | date:'dd/MM/yyyy' }}</td>
-									<td class="d-flex align-items-center gap-1 justify-content-center">
+									<td class="d-flex align-items-center gap-1 justify-content-center" *ngIf="userRole=='bmcadmin'">
 										<button class="btn btn-primary btn-sm" (click)="updateData(zone)">
 											<i class="fa-solid fa-edit"></i>
 										</button>

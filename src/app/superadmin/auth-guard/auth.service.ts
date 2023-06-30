@@ -79,6 +79,22 @@ export class AuthService {
     }
   }
 
+  public isAuthenticatedbyBmcAdminUser(): boolean {
+    let token: any;
+    // token = localStorage.getItem('access_token');
+    // Check whether the token is expired and return
+    // true or false
+    //return !this.jwtHelper.isTokenExpired(token);
+    // console.log("  Auth guard  token *******    ",localStorage.getItem('access_token'));
+    //console.log("   Token expiry :::::::   ", this.isTokenAuthenticated());
+    //console.log("  Auth guard  role *******    ", localStorage.getItem('role'));
+    if (localStorage.getItem('role')?.includes('bmcadmin')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 
 }

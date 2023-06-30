@@ -15,7 +15,9 @@ export class WealthCenterMasterComponent implements OnInit{
         wcId:any
         zoneId:any
         responseData:any
+        role:any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
                 // this.getList()
                 this.getZones()
         }
