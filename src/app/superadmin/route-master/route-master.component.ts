@@ -105,7 +105,7 @@ export class RouteMasterComponent implements OnInit {
                                 "zone": zone,
                                 "wc": wc
                         }
-                        await this.service.post(`/zone/addRoute`, data)
+                        // await this.service.post(`/zone/addRoute`, data)
                         this.service.addRoute(data).subscribe(
                                 data=>{
                                         this.toastService.showSuccess("Route added successfully!!")
