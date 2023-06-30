@@ -179,3 +179,12 @@ export interface pitPayload{
 export interface pitByMccId {
   mccId: number
 }
+
+export interface InventoryReportGenerate {
+  reportType: string
+  type: string
+  fromDate?: string
+  toDate?: string
+  wcId: number
+  reportName: string
+}

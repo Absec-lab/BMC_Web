@@ -53,6 +53,7 @@ export class GarbageComponent implements OnInit {
   });
   wcId: any = 0;
   ngOnInit() {
+    this.getAllWcVehicle()
     this.setVehicleNumber()
     this.service.getAllHelperByWc().subscribe(
       data=>{
@@ -1312,5 +1313,39 @@ wetWeightCal(){
   const temp1= this.form.value.unloadwetWeightValue
   this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
   }
+
+  allVehicleNos : any = []
+  allVehicleResponse : any = []
+  lastkeydown1: number = 0;
+  getAllWcVehicle(){
+    this.allVehicleNos = []
+    this.allVehicleResponse = []
+    let wcId:any = 0;
+    if(localStorage.getItem('role') == 'wcuser'){
+        wcId = localStorage.getItem('wcId')
+    }
+    this.service.getAllWcVehicle(wcId).subscribe( response => {
+         this.allVehicleResponse = response     
+    })
+  }
+
+
+  getVehicleNumberAuto($event:any){
+     let vehicleShortNo = (<HTMLInputElement>document.getElementById('vehicleNumber')).value;
+     if (vehicleShortNo.length > 2) {
+      if ($event.timeStamp - this.lastkeydown1 > 200) {
+        this.allVehicleNos = this.searchFromArray(this.allVehicleResponse, vehicleShortNo);
+      }
+    }
+  }
+  searchFromArray(arr:any[], regex:string) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    return matches;
+  };
 
 }

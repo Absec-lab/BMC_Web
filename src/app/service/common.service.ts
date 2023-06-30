@@ -13,12 +13,12 @@ var environment = {
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
 
 
-           LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-           URL: `http://43.204.240.44:9091`  //Absec ip 
+        //    LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+        //    URL: `http://43.204.240.44:9091`  //Absec ip 
 
 
-        // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-        // URL: `http://192.168.12.41:9091`
+        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        URL: `http://localhost:9091`
 }
 
 @Injectable({
@@ -113,6 +113,7 @@ export class CommonService {
         getAllWcData() {
                 return this.http.get(environment.URL + '/zone/getAllWc/' + localStorage.getItem("wcId"))
         }
+        
         getAllItemNameData() {
                 return this.http.get(environment.URL + '/inventory/getAllItemName')
         }
@@ -256,7 +257,7 @@ export class CommonService {
                 // return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
         }
         getAllWcVehicle(id: any) {
-                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/' + id)
+                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/{wcId}?wcId=' + id)
         }
         getAllSubGoodByGoodId(id: any) {
                 return this.http.get(environment.URL + '/zone/get/subgood/by/good/Id/goodId?goodId=' + id)
@@ -352,4 +353,5 @@ export class CommonService {
         getAllHelperByWc() {
                 return this.http.get(environment.URL + '/zone/get/Helper/by/' + localStorage.getItem("wcId"))
         }
+        
 }
