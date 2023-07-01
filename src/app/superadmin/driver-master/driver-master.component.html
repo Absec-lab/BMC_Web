@@ -154,6 +154,7 @@
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>Sl. No.</th>
+                                    <th>Wc Name</th>
                                     <th>Driver Name</th>
                                     <th>DL Number</th>
                                     <th>Phone Number</th>
@@ -168,6 +169,7 @@
                             <tbody class="text-center">
 								<tr *ngFor="let x of list; index as i;">
                                                                         <td>{{ i + 1}}</td>
+                                                                        <td>{{ x.wc?.wcName || '--' }}</td>
                                                                         <td>{{ x.driverName || '--' }}</td>
                                                                         <td>{{ x.dlNo || '--' }}</td>
                                                                         <td>{{ x.phoneNo || '--' }}</td>

@@ -31,6 +31,7 @@ export class DriverMasterComponent implements OnInit {
         }
 
         form = new FormGroup({
+                wcName: new FormControl,
                 driverId: new FormControl,
                 driverName: new FormControl('', [Validators.required]),
                 driverPhoto: new FormControl('', [Validators.required]),
@@ -42,6 +43,7 @@ export class DriverMasterComponent implements OnInit {
                 dlDesc: new FormControl
         });
         editForm = new FormGroup({
+                wcName: new FormControl(''),
                 driverId: new FormControl(''),
                 driverName: new FormControl(''),
                 driverPhoto: new FormControl(''),
@@ -65,7 +67,7 @@ export class DriverMasterComponent implements OnInit {
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllDriver`)
+                        this.list = await this.service.get(`/zone/getAllDriver/`+ localStorage.getItem('wcId'))
                         this.list = this.list.sort((a: any, b: any) => a.driverName - b.driverName)
                 } catch (e) {
                         console.error(e)

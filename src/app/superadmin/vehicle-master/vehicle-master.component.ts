@@ -110,7 +110,7 @@ export class VehicleMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/getAll/vehicle`)
+                        this.list = await this.service.get(`/getAll/vehicle/`+localStorage.getItem('wcId'))
                         this.list = this.list.data
                         this.list = this.list.sort((a: any, b: any) => a.vehicleNo - b.vehicleNo)
                 } catch (e) {
