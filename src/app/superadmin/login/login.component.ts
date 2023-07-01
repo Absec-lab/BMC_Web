@@ -13,6 +13,7 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  public showPassword: Boolean= false;
   checkagreeterms: any;
     
     constructor(private toastr: ToastrService, private service: CommonService,private route:Router, private toastService: ToastService) {}
@@ -29,6 +30,7 @@ export class LoginComponent {
     password: '',
     hasTermsChecked: true
   };
+  
 
   ngOnInit(): void {
     localStorage.removeItem('access_token');
