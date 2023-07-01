@@ -85,7 +85,7 @@ export class GoodsSubMasterComponent {
                                 "subGoodsPerKg": this.form.value.subGoodsPerKg,
                                 "subgoodsName": this.form.value.subgoodsName,
                                 "goods": goods,
-                                "wcId":parseInt(this.wcId)
+                                "wc":{"wcId":localStorage.getItem("wcId")},
                         }
                         console.log(data)
                         await this.service.post(`/zone/addGoodssub`, data)
