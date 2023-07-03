@@ -179,7 +179,9 @@ export class MrfComponent implements OnInit{
       "mrfDesc": this.form.value.mrfDesc,
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods,
-      "wcId":parseInt(this.wcId)
+      "wcId":{
+        "wcId":localStorage.getItem("wcId")
+      }
    }
    console.log(data)
    this.service.saveMrfData(data).subscribe(
