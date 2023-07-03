@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-dashboard-four',
@@ -8,19 +9,27 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
   styleUrls: ['../../../common.css', './dashboard-four.component.css']
 })
 export class DashboardFourComponent {
-
+ constructor( private service:CommonService){}
   chart1: any;
   chart2: any;
   chart3: any;
   chart4: any;
   chart5: any;
-
+  mrfReportList:any=[]
+  loginResponse:any
   ngOnInit() {
     this.createChart1();
     this.createChart2();
     this.createChart3();
     this.createChart4();
     this.createChart5();
+
+    this.service.getAllMrfReports().subscribe(
+      data=>{
+        this.loginResponse=data
+        this.mrfReportList=this.loginResponse.data
+      }
+    );
   }
 
   randomScalingFactor() {
