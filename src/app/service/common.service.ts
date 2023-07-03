@@ -18,7 +18,7 @@ var environment = {
 
 
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-        // URL: `http://localhost:9091`
+        // URL: `http://192.168.29.128:9091`
 }
 
 @Injectable({
@@ -342,5 +342,8 @@ export class CommonService {
         }
         addRoute(data: any) {
                return this.http.post(environment.URL + '/zone/addRoute', data)
+        }
+        getAllMrfReports(){
+                return this.http.get(environment.URL+'/get/mrf/transaction/value/'+localStorage.getItem("wcId"))
         }
 }

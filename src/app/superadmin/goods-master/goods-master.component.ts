@@ -77,8 +77,16 @@ export class GoodsMasterComponent implements OnInit{
                         }
                 }
                 this.form.value.wcId = parseInt(this.wcId);
+                const data={
+                        "goodsName":this.form.value.goodsName,
+                        "goodsPerKg":this.form.value.goodsPerKg,
+                        "goodsDesc":this.form.value.goodsDesc,
+                        "wcId":{
+                                "wcId":this.form.value.wcId
+                        }
+                }
                 try {
-                        await this.service.post(`/zone/addGoods`, this.form.value)
+                        await this.service.post(`/zone/addGoods`, data)
                         this.form.reset()
                         this.getList()
                 } catch (e) {
