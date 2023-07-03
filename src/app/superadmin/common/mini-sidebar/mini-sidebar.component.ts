@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class MiniSidebarComponent {
 
+  wcMenus: any = [];
+
+  ngOnInit() {
+    this.getWcMenuItems();
+  }
+
+  getWcMenuItems() {
+    const data = JSON.parse(localStorage.getItem('logindetails') || '{}');
+    this.wcMenus = data.menuitem || [];
+    console.log('mini-sidebar', this.wcMenus)
+  }
+
 }
