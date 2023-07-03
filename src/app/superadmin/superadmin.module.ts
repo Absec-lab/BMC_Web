@@ -51,6 +51,8 @@ import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-
 import { EditActiveTripModalComponent } from './garbage/edit-active-trip-modal/edit-active-trip-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeadeDashboardComponentComponent } from './common/heade-dashboard-component/heade-dashboard-component.component';
+import { TermComponent } from './term/term.component';
+import { PolicyComponent } from './policy/policy.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,8 @@ import { HeadeDashboardComponentComponent } from './common/heade-dashboard-compo
     ActiveTripActionRendererComponent,
     EditActiveTripModalComponent,
     HeadeDashboardComponentComponent,
+    TermComponent,
+    PolicyComponent
   ],
 
   entryComponents: [
