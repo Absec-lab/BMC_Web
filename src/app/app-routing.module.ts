@@ -14,6 +14,8 @@ import { MrfComponent } from './superadmin/mrf/mrf.component';
 import { MccUserAuthGuardService } from './superadmin/auth-guard/mccuser-auth-guard.service';
 import { WcUserAuthGuardService } from './superadmin/auth-guard/wcuser-auth-guard.service';
 import { InventoryComponent } from './superadmin/inventory/inventory.component';
+import { TermComponent } from './superadmin/term/term.component';
+import { PolicyComponent } from './superadmin/policy/policy.component';
 
 
 const routes: Routes = [
@@ -71,6 +73,14 @@ const routes: Routes = [
     component:InventoryComponent,
     path:'superadmin/inventory',
     canActivate:[LoginGuard]
+  },
+  {
+    component:TermComponent,
+    path:'superadmin/term'
+  },
+  {
+    component:PolicyComponent,
+    path:'superadmin/policy'
   }
 ];
 
