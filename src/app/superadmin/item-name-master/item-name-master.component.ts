@@ -25,6 +25,16 @@ export class ItemNameMasterComponent implements OnInit{
         ngOnInit(){
                this.isAdd=true
                this.isUpdate=false
+               this.service.getAllItemCategory().subscribe(
+                data=>{
+                        this.categoryList=data
+                }
+               );
+               this.service.getAllItemName().subscribe(
+                data=>{
+                        this.list=data
+                }
+               );
         }
 
         form = new FormGroup({
@@ -50,7 +60,7 @@ export class ItemNameMasterComponent implements OnInit{
 
         async getCategories() {
                 try {
-                        this.categoryList = await this.service.get(`/inventory/getAllItemCategory`)
+                        this.categoryList = await this.service.getAllItemCategory()
                         this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
@@ -84,11 +94,33 @@ export class ItemNameMasterComponent implements OnInit{
                                 "itemId":this.form.value.itemId,
                                 "itemname": this.form.value.itemName,
                                 "description": this.form.value.description,
-                                "itemcatrgory": category
+                                "itemcatrgory": category,
+                                "wcEntity":{
+                                        "wcId":localStorage.getItem("wcId")
+                                }
                         }
-                        await this.service.post(`/inventory/addItemName`, data)
+                        this.service.addItemName(data).subscribe(
+                                data=>{
+                                        this.responseData=data
+                                        this.service.getAllItemName().subscribe(
+                                                data=>{
+                                                        this.list=data
+                                                }
+                                               );
+                                        this.toastService.showSuccess(this.responseData.message)
+                                        
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
+                                }
+                        );
                         this.form.reset()
-                        this.getList()
+                        this.service.getAllItemName().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                 } catch (e) {
                         console.error(e)
                 }

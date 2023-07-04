@@ -16,7 +16,10 @@ export class ZoneMasterComponent implements OnInit {
         isUpdate: boolean = false
         zoneResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {}
+        userRole : any =""
+        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.userRole=localStorage.getItem("role");
+        }
         zoneList: any = []
         ngOnInit() {
                 this.isAdd = true

@@ -1,25 +1,37 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
-  selector: 'app-route-master',
-  templateUrl: './route-master.component.html',
-  styleUrls: ['../../common.css','./route-master.component.css']
+        selector: 'app-route-master',
+        templateUrl: './route-master.component.html',
+        styleUrls: ['../../common.css', './route-master.component.css']
 })
-export class RouteMasterComponent {
+export class RouteMasterComponent implements OnInit {
         isAdd: boolean = true
         isUpdate: boolean = false
-        responseData:any
-        zoneId:any
-        wealthCentreName:any
-        zoneName:any
-        wcId:any
-        constructor(private service: CommonService, private formBuilder:FormBuilder, private toastService: ToastService) {
-                this.getList()
+        responseData: any
+        zoneId: any
+        wealthCentreName: any
+        zoneName: any
+        wcId: any
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                // this.getList()
                 // this.getZones()
-                this.getWCList()
+                // this.getWCList()
+        }
+        ngOnInit() {
+                this.service.getAllWcData().subscribe(
+                        data => {
+                                this.wcList = data
+                        }
+                );
+                this.service.getAllRouteData().subscribe(
+                        data => {
+                                this.list = data
+                        }
+                );
         }
 
         form = new FormGroup({
@@ -27,16 +39,16 @@ export class RouteMasterComponent {
                 wcId: new FormControl('', [Validators.required]),
                 routeName: new FormControl('', [Validators.required]),
                 routeDesc: new FormControl,
-                zone:new FormControl,
-                wc:new FormControl,
-                routeId:new FormControl
-              });
+                zone: new FormControl,
+                wc: new FormControl,
+                routeId: new FormControl
+        });
         editForm = new FormGroup({
                 zone: new FormControl(''),
                 wc: new FormControl(''),
                 routeName: new FormControl(''),
                 routeDesc: new FormControl('')
-              });
+        });
         list: any = []
         zoneList: any = []
         wcList: any = []
@@ -51,7 +63,7 @@ export class RouteMasterComponent {
         // }
         async getWCList() {
                 try {
-                        this.wcList = await this.service.get(`/zone/getAllWc`)
+                        this.wcList = await this.service.getAllWcData()
                         this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
                 } catch (e) {
                         console.error(e)
@@ -93,9 +105,20 @@ export class RouteMasterComponent {
                                 "zone": zone,
                                 "wc": wc
                         }
-                        await this.service.post(`/zone/addRoute`, data)
+                        // await this.service.post(`/zone/addRoute`, data)
+                        this.service.addRoute(data).subscribe(
+                                data=>{
+                                        this.toastService.showSuccess("Route added successfully!!")
+                                        this.service.getAllRouteData().subscribe(
+                                                data => {
+                                                        this.list = data
+                                                }
+                                        );
+                                }
+                        );
+                       
                         this.form.reset()
-                        this.getList()
+                       
                 } catch (e) {
                         console.error(e)
                 }
@@ -109,28 +132,28 @@ export class RouteMasterComponent {
                 }
         }
 
-        deactivateRoute(id:any){
+        deactivateRoute(id: any) {
                 this.service.deactivateRoute(id).subscribe(
-                        data=>{
+                        data => {
                                 window.alert("Route deleted successfully")
                                 this.service.getAllRouteData().subscribe(
-                                        data=>{
-                                                this.list=data
+                                        data => {
+                                                this.list = data
                                         }
                                 );
                         },
-                        error=>{
+                        error => {
                                 window.alert("Something went wrong!!")
                         }
                 );
         }
-        getWcById(){
+        getWcById() {
                 console.log(this.form.value.wcId)
                 this.service.getWcById(this.form.value.wcId).subscribe(
-                        data=>{
-                                this.responseData=data
-                                this.form.value.zoneId=this.responseData.zone.zoneId
-                                this.zoneName=this.responseData.zone.zoneName
+                        data => {
+                                this.responseData = data
+                                this.form.value.zoneId = this.responseData.zone.zoneId
+                                this.zoneName = this.responseData.zone.zoneName
                                 console.log(this.zoneName)
                         }
                 );
@@ -139,20 +162,20 @@ export class RouteMasterComponent {
                 this.isUpdate = true
                 this.isAdd = false
                 console.log(item)
-                this.zoneName=item.zone.zoneName
-                this.wealthCentreName=item.wc.wcName
+                this.zoneName = item.zone.zoneName
+                this.wealthCentreName = item.wc.wcName
                 // this.zoneId = item.zoneId
                 this.form.patchValue({
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         routeName: item.routeName,
                         routeDesc: item.routeDesc,
-                        zone:item.zone,
-                        wc:item.wc,
-                        routeId:item.routeId                               
+                        zone: item.zone,
+                        wc: item.wc,
+                        routeId: item.routeId
                 })
-                
-                this.wcId=item.wcId
+
+                this.wcId = item.wcId
                 // this.service.getZoneAllData().subscribe(
                 //         async data => {
                 //                 this.goodsList = await this.service.get(`/zone/getAllGoods`)
@@ -172,7 +195,7 @@ export class RouteMasterComponent {
                         if (!wealthCenter) {
                                 this.toastService.showWarning('Wealth center is required.');
                                 return;
-                        }       
+                        }
                         const zone = this.form.value.zoneId;
                         if (!zone) {
                                 this.toastService.showWarning('Zone is required.');

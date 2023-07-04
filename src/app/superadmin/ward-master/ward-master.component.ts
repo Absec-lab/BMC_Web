@@ -17,14 +17,23 @@ export class WardMasterComponent implements OnInit{
         responseData:any
         wealthCentreName:any
         wcName:any
+        role:any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
+                this.wcId =  localStorage.getItem('wcId');
                 this.getList()
                 this.getZones()
-                this.getWCList()
+                // this.getWCList()
         }
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
+                this.service.getAllWcData().subscribe(
+                        data=>{
+                                this.wcList=data
+                        }
+                );
+
          }
         form = new FormGroup({
                 zoneId: new FormControl('', [Validators.required]),
@@ -64,7 +73,8 @@ export class WardMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllWard`)
+                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/zone/getAllWard/`+wcId)
                         this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
                 } catch (e) {
                         console.error(e)

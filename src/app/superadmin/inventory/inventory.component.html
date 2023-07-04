@@ -3,94 +3,12 @@
 	<div class="page-content p-3">
 		<div class="row">
 			<div class="col-lg-3 sidebar-parent">
-				<app-sidebar></app-sidebar> 
+				<app-sidebar></app-sidebar>
 			</div>
 			<div class="col-lg-9 app-content">
 				<div class="card">
 					<div class="card-body">
-						<div class="row">
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-1 stat-card">
-										<div>
-											<div>PIT Quantum</div>
-											<h4 class="mt-2">1 TON</h4>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-file-lines"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-2 stat-card">
-										<div>
-											<div>Empty PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">13</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-receipt"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-3 stat-card">
-										<div>
-											<div>PIT</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">1</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-regular fa-circle-check"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card">
-									<div class="card-body d-flex w-100 align-items-center card-4 stat-card">
-										<div>
-											<div>Assigned To Me</div>
-											<div class="d-flex align-items-end gap-2">
-												<h4 class="mt-2">3</h4>
-												<span class="stat-card-sub-title">Quality</span>
-											</div>
-										</div>
-										<div class="ms-auto">
-											<div class="stat-card-icon">
-												<i class="fa-solid fa-user-plus"></i>
-											</div>
-											<div class="mt-2 text-center">
-												<i class="fa-solid fa-arrow-right"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<app-heade-dashboard-component></app-heade-dashboard-component>
 					</div>
 				</div>
 				<div class="mt-4">
@@ -128,54 +46,67 @@
 											Item Purchase
 										</div>
 										<div class="card-body">
-
-											<div class="row">
-												<div class="col-md-6">
-													<div class="row">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Item Category Name
-														</div>
-														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemCategoryId" [(ngModel)]="categoryName" (ngModelChange)="getAllItemNameyByCategoryId()">
-																<option [value]="x.itemCategoryId" *ngFor="let x of itemCategoryList;">{{ x.categoryName }}</option>
-																<!-- <option value="" disabled selected>Select Item Name</option>
+											<form [formGroup]="form">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Item Category Name
+															</div>
+															<div class="col-md-9">
+																<select name="" id="" class="form-control form-select"
+																	formControlName="itemCategoryId"
+																	[(ngModel)]="categoryName"
+																	(ngModelChange)="getAllItemNameyByCategoryId()">
+																	<option [value]="x.itemCategoryId"
+																		*ngFor="let x of itemCategoryList;">{{
+																		x.categoryName }}</option>
+																	<!-- <option value="" disabled selected>Select Item Name</option>
 																<option [value]="x.itemCategoryId" *ngFor="let x of itemCategoryList;">{{ x.categoryName }}</option> -->
-															</select>															
-														</div><div class="row mt-3"></div>
-													</div>
-													<div class="row">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Item Quantity
+																</select>
+															</div>
+															<div class="row mt-3"></div>
 														</div>
-														<div class="col-md-6">
-															<input type="text" name="" id="" class="form-control" formControlName="itemQuantity">
+														<div class="row">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Item Quantity
+															</div>
+															<div class="col-md-6">
+																<input type="text" name="" id="" class="form-control"
+																	formControlName="itemQuantity">
+															</div>
+															<div class="col-md-3">
+																<select name="" id="units"
+																	class="form-control form-select"
+																	formControlName="unitId">
+																	<option [value]="item.unitId"
+																		*ngFor="let item of unitList" selected>
+																		{{item.unit}}</option>
+																	<!-- <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}}</option> -->
+																	<!-- <input formControlName="driverDlNo" type="text" name=""
+																id="" class="form-control"> -->
+																</select>
+															</div>
 														</div>
-														<div class="col-md-3">
-															<select  name="" id="units" class="form-control form-select">
-																<option value="" selected>--Select Units--</option>
-																<!-- <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}}</option> -->
-															<!-- <input formControlName="driverDlNo" type="text" name=""
-																id="" class="form-control"> --></select>
+														<div class="row mt-3">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Item Cost
+															</div>
+															<div class="col-md-9">
+																<input type="text" name="" id="itemCost"
+																	class="form-control" formControlName="itemCost">
+															</div>
 														</div>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Item Cost
+														<div class="row mt-3">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Description
+															</div>
+															<div class="col-md-9">
+																<input type="text" name="" id="" class="form-control"
+																	formControlName="description">
+															</div>
 														</div>
-														<div class="col-md-9">
-															<input type="text" name="" id="itemCost" class="form-control" formControlName="itemCost">
-														</div>
-													</div>
-													<div class="row mt-3">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Description
-														</div>
-														<div class="col-md-9">
-															<input type="text" name="" id="" class="form-control"
-																formControlName="description">
-														</div>
-													</div>
-													<!-- <div class="row mt-3">
+														<!-- <div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Trip End Reading Picture
 														</div>
@@ -184,7 +115,7 @@
 																accept="image/*">
 														</div>
 													</div> -->
-													<!-- <div class="row mt-3">
+														<!-- <div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Vehicle Start Time
 														</div>
@@ -201,38 +132,42 @@
 																accept="image/*">
 														</div>
 													</div> -->
-												</div>
-												<div class="col-md-6">
-													<div class="row">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Item Name
-														</div>
-														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemId">
-																<option value="" disabled selected>Select Item Name</option>
-																<option [value]="x.itemId" *ngFor="let x of itemNameList;">{{ x.itemname }}</option>
-															</select>															
-														</div>
-													</div>													
-													<div class="row mt-3">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Date
-														</div>
-														<div class="col-md-9"> 
-															<input type="date" name="" id="" class="form-control"
-																formControlName="itemPurchaseDate">
-														</div>
 													</div>
-													<div class="row mt-3">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Upload Bill
+													<div class="col-md-6">
+														<div class="row">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Item Name
+															</div>
+															<div class="col-md-9">
+																<select name="" id="" class="form-control form-select"
+																	formControlName="itemId">
+																	<option value="" disabled selected>Select Item Name
+																	</option>
+																	<option [value]="x.itemId"
+																		*ngFor="let x of itemNameList;">{{ x.itemname }}
+																	</option>
+																</select>
+															</div>
 														</div>
-														<div class="col-md-9">
-															<input type="file" name="" id="" class="form-control"
-																formControlName="uploadBill">
+														<div class="row mt-3">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Date
+															</div>
+															<div class="col-md-9">
+																<input type="date" name="" id="" class="form-control"
+																	formControlName="itemPurchaseDate">
+															</div>
 														</div>
-													</div>
-													<!-- <div class="row mt-3">
+														<div class="row mt-3">
+															<div class="col-md-3 d-flex align-items-center pe-0">
+																Upload Bill
+															</div>
+															<div class="col-md-9">
+																<input type="file" name="" id="" class="form-control"
+																	formControlName="uploadBill">
+															</div>
+														</div>
+														<!-- <div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Route
 														</div>
@@ -250,8 +185,8 @@
 															</select> 
 														</div>
 													</div> -->
-													<div style="display: flex; flex-direction: row;float: right;">
-														<!-- <div class="trip-button text-end mt-5 pt-2"
+														<div style="display: flex; flex-direction: row;float: right;">
+															<!-- <div class="trip-button text-end mt-5 pt-2"
 															*ngIf="tripStartButton; else tripStratButtonNot">
 															<button class="btn btn-trip btn-warning"
 																(click)="createTrip()">
@@ -265,37 +200,37 @@
 																</button>
 															</div>
 														</ng-template> -->
-														<!-- <div class="trip-button text-end mt-5 pt-2"
+															<!-- <div class="trip-button text-end mt-5 pt-2"
 															*ngIf="tripEndButton; else tripEndButtonNot">
 															<button class="btn btn-trip btn-primary ml-10"
 																(click)="endTrip()">
 																Trip End
 															</button>
 														</div> -->
-														<div class="text-end mt-3" *ngIf="isAdd">
-															<button class="btn btn-primary px-5 py-2" (click)="addItemPurchase()">Add</button>
-														</div>
-														<div class="text-end mt-3" *ngIf="isUpdate">
-															<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
-															<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWcc()">Update</button>
+															<div class="text-end mt-3" *ngIf="isAdd">
+																<button class="btn btn-primary px-5 py-2"
+																	(click)="addItemPurchase()">Add</button>
+															</div>
+															<div class="text-end mt-3" *ngIf="isUpdate">
+																<button class="btn btn-primary px-5 py-2"
+																	(click)="cancel()">Cancel</button>
+																<button class="btn btn-primary px-5 py-2"
+																	style="margin-left: 20px;"
+																	(click)="updateWcc()">Update</button>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-
+											</form>
 										</div>
 										<div class="card-body">
-										
-											<ag-grid-angular
-											class="ag-theme-alpine"
-											[rowData]="rowDataPurchase"
-											[columnDefs]="columnDefsPurchase"
-											[gridOptions]="gridOptions"
-											[animateRows]="true"
-											[suppressMenuHide]="true">
-										
+
+											<ag-grid-angular class="ag-theme-alpine" [rowData]="rowDataPurchase"
+												[columnDefs]="columnDefsPurchase" [gridOptions]="gridOptions"
+												[animateRows]="true" [suppressMenuHide]="true">
+
 											</ag-grid-angular>
-											
+
 										</div>
 									</div>
 								</div>
@@ -397,78 +332,82 @@
 								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0">
-											Item Issue
-										</div>
-										<div class="card-body">
+										Item Issue
+									</div>
+									<div class="card-body">
 
-											<div class="row">
-												<div class="col-md-6">
-													<div class="row">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Item Name
-														</div>
-														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="itemId">
-																<option value="" disabled selected>Select Item Name</option>
-																<option [value]="x.itemId" *ngFor="let x of itemNameList;">{{ x.itemname }}</option>
-															</select>
-														</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="row">
+													<div class="col-md-3 d-flex align-items-center pe-0">
+														Item Name
 													</div>
-													<div class="row mt-3">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Issue Date
-														</div>
-														<div class="col-md-9">
-															<input formControlName="issueDate" type="date"
-																name="" id="" class="form-control">
-														</div>
+													<div class="col-md-9">
+														<select name="" id="" class="form-control form-select"
+															formControlName="itemId">
+															<option value="" disabled selected>Select Item Name</option>
+															<option [value]="x.itemId" *ngFor="let x of itemNameList;">
+																{{ x.itemname }}</option>
+														</select>
 													</div>
 												</div>
-												<div class="col-md-6">
-													<div class="row">
-														<div class="col-md-3 d-flex align-items-center pe-0">
-															Select Quantity
-														</div>
-														<div class="col-md-3">
-															<input type="text" name="" id="" class="form-control" formControlName="itemQuantity">
-														</div>
-														<div class="col-md-6">
-															<select  class="form-select">
-																<option value="" disabled selected>--Select Units--</option>
-																<!-- <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}}</option> -->
-															<!-- <input formControlName="driverDlNo" type="text" name=""
-																id="" class="form-control"> --></select>
-														</div>
+												<div class="row mt-3">
+													<div class="col-md-3 d-flex align-items-center pe-0">
+														Issue Date
 													</div>
-													
-													<div style="display: flex; flex-direction: row;float: right;">
-														
-														<div class="text-end mt-3" *ngIf="isAdd">
-															<button class="btn btn-primary px-5 py-2" (click)="addItemIssue()">Add</button>
-														</div>
-														<div class="text-end mt-3" *ngIf="isUpdate">
-															<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
-															<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWcc()">Update</button>
-														</div>
+													<div class="col-md-9">
+														<input formControlName="issueDate" type="date" name="" id=""
+															class="form-control">
 													</div>
 												</div>
 											</div>
+											<div class="col-md-6">
+												<div class="row">
+													<div class="col-md-3 d-flex align-items-center pe-0">
+														Select Quantity
+													</div>
+													<div class="col-md-3">
+														<input type="text" name="" id="" class="form-control"
+															formControlName="itemQuantity">
+													</div>
+													<div class="col-md-6">
+														<select class="form-select" formControlName="unitId">
+															<option [value]="item.unitId" *ngFor="let item of unitList" selected>{{item.unit}}</option>
+															<!-- <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}}</option> -->
+															<!-- <input formControlName="driverDlNo" type="text" name=""
+																id="" class="form-control"> -->
+														</select>
+													</div>
+												</div>
 
+												<div style="display: flex; flex-direction: row;float: right;">
+
+													<div class="text-end mt-3" *ngIf="isAdd">
+														<button class="btn btn-primary px-5 py-2"
+															(click)="addItemIssue()">Add</button>
+													</div>
+													<div class="text-end mt-3" *ngIf="isUpdate">
+														<button class="btn btn-primary px-5 py-2"
+															(click)="cancel()">Cancel</button>
+														<button class="btn btn-primary px-5 py-2"
+															style="margin-left: 20px;"
+															(click)="updateWcc()">Update</button>
+													</div>
+												</div>
+											</div>
 										</div>
+
+									</div>
 
 
 									<div class="card-body">
-										
-										<ag-grid-angular
-										class="ag-theme-alpine"
-										[rowData]="rowDataIssue"
-										[columnDefs]="columnDefsIssue"																				
-										[gridOptions]="gridOptions"
-										[animateRows]="true"
-										[suppressMenuHide]="true">
-									
+
+										<ag-grid-angular class="ag-theme-alpine" [rowData]="rowDataIssue"
+											[columnDefs]="columnDefsIssue" [gridOptions]="gridOptions"
+											[animateRows]="true" [suppressMenuHide]="true">
+
 										</ag-grid-angular>
-										
+
 									</div>
 								</div>
 							</div>
@@ -476,21 +415,19 @@
 								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
-										Item Stock 
+										Item Stock
 									</div>
 									<div class="card-body">
-										
-										<ag-grid-angular
-										class="ag-theme-alpine"
-										[rowData]="rowDataStock"
-										[columnDefs]="columnDefsStock">
-									        </ag-grid-angular>
+
+										<ag-grid-angular class="ag-theme-alpine" [rowData]="rowDataStock"
+											[columnDefs]="columnDefsStock">
+										</ag-grid-angular>
 										<!-- [gridOptions]="gridOptionsComp"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
 									
 										</ag-grid-angular> -->
-										
+
 									</div>
 								</div>
 							</div>

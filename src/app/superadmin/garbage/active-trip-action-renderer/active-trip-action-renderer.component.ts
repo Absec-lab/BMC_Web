@@ -26,5 +26,7 @@ export class ActiveTripActionRendererComponent implements ICellRendererAngularCo
   openModal() {
     const modalRef = this.modalService.open(EditActiveTripModalComponent);
     modalRef.componentInstance.data = this.params.data;
+    console.log(this.params.data)
+    // localStorage.setItem("tripTrnsId",)
   }
 }

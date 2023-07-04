@@ -28,19 +28,22 @@ export class MrfComponent implements OnInit{
   responseData:any
   isActive:any
   selectionMode = "multiple";
+  wcId : any = 0;
   constructor(private service:CommonService, private formBuilder:FormBuilder, private toastService: ToastService){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
     this.getAllGoods()
      //this.getAllSubGoods() 
   }
   ngOnInit() {
-    this.service.getAllMrf().subscribe(
+    this.service.getAllMrf(parseInt(this.wcId)).subscribe(
      data => {
           this.mrfGridResponse = data
           this.mrfGridList = this.mrfGridResponse
-          const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+          const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
            
             return {
+              wcName : item.wcId?.wcName,
               goods_name: item.goods.goodsName,
               sub_goods_name: item.subGood.subgoodsName,
               goods: item.goods.goodsPerKg,
@@ -48,6 +51,7 @@ export class MrfComponent implements OnInit{
               quntaum: item.quntaum,
               description: item.mrfDesc,     
               created_date : item.createdDate
+             
             };
           });
          console.log("MrfGridList",this.mrfGridList)
@@ -88,8 +92,9 @@ export class MrfComponent implements OnInit{
     subGood: new FormControl
 })
   getAllGoods(){
-     this.service.getAllGoods().subscribe(
+     this.service.getAllGoods(parseInt(this.wcId)).subscribe(
       data=>{
+        console.log('  goods res ::  ',data)
        this.goodResponse=data
        this.goodList=this.goodResponse
        //console.log(this.goodList)
@@ -97,7 +102,7 @@ export class MrfComponent implements OnInit{
      );
   }
   getAllSubGoods(){
-    this.service.getAllSubGood().subscribe(
+    this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
       data=>{
         this.subGoodResponse=data
         //console.log(this.subGoodResponse)
@@ -119,7 +124,8 @@ export class MrfComponent implements OnInit{
 }
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllMrf`)
+            let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+            this.list = await this.service.get(`/zone/getAllMrf/`+ wcId)
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -130,6 +136,10 @@ export class MrfComponent implements OnInit{
   saveMrf(){
 
     if (this.form.status === 'INVALID') {
+      if (!this.wcId) {
+        this.toastService.showWarning('Wealth center is required. Please login again. ');
+        return;
+      }
       const goodsName = this.form.value.goodsId?.trim();
       if (!goodsName || goodsName === '') {
         this.toastService.showWarning('Goods name is required.');
@@ -168,7 +178,10 @@ export class MrfComponent implements OnInit{
       "interMaterial": this.form.value.interMaterial,
       "mrfDesc": this.form.value.mrfDesc,
       "quntaum": this.form.value.quntaum,
-      "subGood": subgoods
+      "subGood": subgoods,
+      "wcId":{
+        "wcId":localStorage.getItem("wcId")
+      }
    }
    console.log(data)
    this.service.saveMrfData(data).subscribe(
@@ -176,7 +189,7 @@ export class MrfComponent implements OnInit{
       window.alert("Mrf data saved successfully")
         this.mrfGridResponse = data
         this.mrfGridList = this.mrfGridResponse.data
-        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
+        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
          
           return {
             goods_name: item.goods.goodsId,
@@ -184,7 +197,8 @@ export class MrfComponent implements OnInit{
             goods: item.goods,
             inert_material: item.interMaterial,
             description: item.mrfDesc,
-            quntaum:item.quntaum
+            quntaum:item.quntaum,
+            wcName : item.wcId?.wcName
 
           };
         });
@@ -222,7 +236,7 @@ onRowClicked(item:any){
   alert('Grid row selected'+this.rowDataMrf);
 }
 updateData(item: any) {
-  alert('hi');
+ // alert('hi');
   this.isUpdate = true
   this.isAdd = false
   console.log(item)
@@ -294,6 +308,7 @@ updateMrf() {
  */
 
 columnDefs: ColDef[] = [
+  { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
   { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
   { field: 'quntaum', headerName: 'Goods (Kg)', unSortIcon: true,resizable: true},

@@ -29,8 +29,29 @@
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-user"></span> </span> -->
                                         </div>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="password" placeholder="Password" value="" class="form-control" formControlName="password" autocomplete="new-password" /> <span class="focus-input"></span>
+                                            <div class="form-group inner-addon right-addon">
+                                                <div class="input-group col-6 mx-auto">
+                                                  <input name="password"
+                                                      [type]="showPassword ? 'text' : 'password'"
+                                                      class="form-control pwd-control" formControlName="password" autocomplete="new-password"
+                                                      id="password-field" placeholder="Password"/>
+                                                  <div>
+                                                    <i alt="show" class="far fa-eye eye-show" 
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="showPassword"></i>
+                                                    <i alt="hide" class="far fa-eye-slash eye-hide" 
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="!showPassword"></i>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            <!-- <input class="input" [type]="showPassword ? 'text' : 'password'" placeholder="Password" value="" class="form-control" formControlName="password" autocomplete="new-password" id="password-field"/>  -->
+                                               
+                                           
                                             <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-lock"></span> </span> -->
+                                            
+                                            
+                                             
                                         </div>
                                         <div class="flex-sb-m w-full p-b-25 m-t-16">
                                             <div class="col-md-6 padding-none">

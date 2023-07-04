@@ -20,10 +20,10 @@ export class VehicleMasterComponent implements OnInit{
         driverList:any=[]
         helperList:any=[]
         constructor(private service: CommonService, private formBuilder :FormBuilder, private toastService: ToastService) {
-                this.getList()
+                // this.getList()
                 this.getZones()
-                this.getWCList()
-                this.getRouteList()
+                // this.getWCList()
+                // this.getRouteList()
         }
         ngOnInit(){
                 this.service.getAllDriverList().subscribe(
@@ -32,11 +32,34 @@ export class VehicleMasterComponent implements OnInit{
                               console.log(this.driverList)
                         }
                       );
-                this.service.getAllHelper().subscribe( // need to add helper list
+                this.service.getAllHelperByWcId().subscribe( // need to add helper list
                 data=>{
-                        this.helperList=data
+                        this.responseData=data
+                        this.helperList=this.responseData.data
                         console.log(this.helperList)
                 }
+                );
+                this.service.getAllWcData().subscribe(
+                        data=>{
+                                this.wcList=data
+                        }
+                );
+                this.service.getAllRouteData().subscribe(
+                        data=>{
+                                this.routeList=data
+                        }
+                );
+                this.service.getAllDriverList().subscribe(
+                        data=>{
+                                this.driverList=data
+                        }
+                );
+                this.service.getVehicleListByWcId().subscribe(
+                        data=>{
+                                this.responseData=data
+                                this.list=this.responseData.data
+                               
+                        }
                 );
         }
 
@@ -87,7 +110,7 @@ export class VehicleMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/getAll/vehicle`)
+                        this.list = await this.service.get(`/getAll/vehicle/`+localStorage.getItem('wcId'))
                         this.list = this.list.data
                         this.list = this.list.sort((a: any, b: any) => a.vehicleNo - b.vehicleNo)
                 } catch (e) {
@@ -194,8 +217,7 @@ export class VehicleMasterComponent implements OnInit{
                                 },
                                 helper: {
                                         helperId: this.form.value.helperId
-                                },
-                                "status":true
+                                }
                         }
                         console.log(data)
                         await this.service.post(`/vehicle/add`, data)

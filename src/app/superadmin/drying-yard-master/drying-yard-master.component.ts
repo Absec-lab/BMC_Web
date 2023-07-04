@@ -69,7 +69,14 @@ export class DryingYardMasterComponent implements OnInit {
                 //         console.error(e)
                 // }
                 /* Manoj added Date 08-05-2023*/
-                this.service.addDryingYard(this.form.value).subscribe(
+                const data={
+                        "centerName":this.form.value.centerName,
+                           "description":this.form.value.description,
+                           "wcEntity":{
+                                "wcId":localStorage.getItem("wcId")
+                           }
+                }
+                this.service.addDryingYard(data).subscribe(
                         data => {
                                 
                                 this.toastService.showSuccess("Drying Yard data saved sucessfully")

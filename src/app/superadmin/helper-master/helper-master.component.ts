@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ToastService } from 'src/app/service/toast.service';
@@ -8,7 +8,7 @@ import { ToastService } from 'src/app/service/toast.service';
   templateUrl: './helper-master.component.html',
   styleUrls: ['../../common.css','./helper-master.component.css']
 })
-export class HelperMasterComponent {
+export class HelperMasterComponent implements OnInit{
         isAdd: boolean = true
         isUpdate: boolean = false
         helperId:any
@@ -16,8 +16,15 @@ export class HelperMasterComponent {
         wcId: any
         isActive: boolean = false
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
-                this.getList()
+                // this.getList()
                 //this.getWCList()
+        }
+        ngOnInit(){
+               this.service.getHelperByWcId().subscribe(
+                data=>{
+                        this.list=data
+                }
+               );
         }
 
         form = new FormGroup({
@@ -51,14 +58,14 @@ export class HelperMasterComponent {
         //                 console.error(e)
         //         }
         // }
-        async getList() {
-                try {
-                        this.list = await this.service.get(`/zone/getAllHelper`)
-                        this.list = this.list.sort((a: any, b: any) => a.helperName - b.helperName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
+        // async getList() {
+        //         try {
+        //                 this.list = await this.service.get(`/zone/getAllHelper`)
+        //                 this.list = this.list.sort((a: any, b: any) => a.helperName - b.helperName)
+        //         } catch (e) {
+        //                 console.error(e)
+        //         }
+        // }
 
         helperPhoto: any = null;
 
@@ -98,13 +105,18 @@ export class HelperMasterComponent {
                 try {
                         const data = {
                                 ...this.form.value,
-                                "wc":{"wcId":1},
-                                "isActive": false
+                                "wc":{"wcId":localStorage.getItem("wcId")},
+                                "isActive": true
                         }
                         console.log(data)
                         await this.service.post(`/zone/addHelper`, data)
                         this.form.reset()
-                        this.getList()
+                        // this.getList()
+                        this.service.getHelperByWcId().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                 } catch (e) {
                         console.error(e)
                 }
@@ -113,7 +125,12 @@ export class HelperMasterComponent {
                 try {
                         const res = await this.service.delete(`/zone/deleteHelper/${id}`)
                         //this.form.reset()
-                        this.getList()
+                        // this.getList()
+                        this.service.getHelperByWcId().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                 } catch (e) {
                         console.error(e)
                 }
@@ -175,7 +192,12 @@ export class HelperMasterComponent {
                                 this.toastService.showSuccess("Helper data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
-                                this.getList()
+                                // this.getList()
+                                this.service.getHelperByWcId().subscribe(
+                                        data=>{
+                                                this.list=data
+                                        }
+                                       );
                                 this.form.reset()
                         },
                         error => {

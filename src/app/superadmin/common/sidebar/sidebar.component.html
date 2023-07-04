@@ -130,7 +130,7 @@
 				
 	
 			</div>
-			<a routerLink="" class="sidebar-link">
+			<a routerLink="/superadmin/vehicle-management" class="sidebar-link">
 				<i class="fa-solid fa-truck"></i>
 				<span>Vehicle Management</span>
 			</a>
@@ -139,7 +139,7 @@
 				<span>Drying Yard</span>
 			</a>
 			<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks3">
-				<a routerLink="#" class="sidebar-link">
+				<a routerLink="/superadmin/drying-yard/trip-details" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Trip Details</span>
 				</a>
@@ -157,7 +157,7 @@
 				</a>	
 	
 			</div>
-			<a routerLink="" class="sidebar-link">
+			<a routerLink="/superadmin/vehicle-management" class="sidebar-link">
 				<i class="fa-solid fa-users"></i>
 				<span>Manpower</span>
 			</a>
@@ -167,13 +167,13 @@
 			</a>
 			
 		<!-- org: aria-expanded: false -->
-			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks1" *ngIf="role === 'wcuser'">
+			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks1" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
 				<i class="fa-solid fa-database"></i>
 				<span>Master Entry</span>
 			</a>
 			
 		<!-- org: class: sidebar-sub-menu collapse -->
-			<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser'">
+			<div class="sidebar-sub-menu collapse show" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
 				<a routerLink="/superadmin/zone-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Zone Master</span>
@@ -231,7 +231,7 @@
 					<span>Helper Master</span>
 				</a>
 			</div>
-			<a routerLink="" class="sidebar-link">
+			<a routerLink="/superadmin/vehicle-management" class="sidebar-link">
 				<i class="fa-solid fa-gear"></i>
 				<span>Settings</span>
 			</a>

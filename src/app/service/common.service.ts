@@ -1,5 +1,4 @@
-
-import { Injectable } from '@angular/core';
+import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 export class DeactivationDto {
@@ -7,19 +6,19 @@ export class DeactivationDto {
         activationStatus: Boolean = false
 }
 
-const environment = {
+var environment = {
 
 
-        URL: `http://15.207.62.200:9091`,  //prod url
-        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        // URL: `http://15.207.62.200:9091`,  //prod url
+        // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
 
 
-        //  LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        //  URL: `http://43.204.240.44:9091`  //Absec ip 
+        LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+        URL: `http://43.204.240.44:9091`  //Absec ip 
 
 
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-        // URL: `http://localhost:9091`
+        // URL: `http://192.168.29.128:9091`
 }
 
 @Injectable({
@@ -70,7 +69,7 @@ export class CommonService {
                 return this.http.post(environment.URL + '/inventory/addItemCategory', data);
         }
         getAllItemCategory() {
-                return this.http.get(environment.URL + '/inventory/getAllItemCategory')
+                return this.http.get(environment.URL + '/inventory/getAllItemCategory/' + localStorage.getItem("wcId"))
         }
         getItemCategoryById() {
                 return this.http.get(environment.URL + '/inventory/getAllItemCategory')
@@ -97,7 +96,7 @@ export class CommonService {
                 return this.http.get(environment.URL + '/zone/getAllZone')
         }
         getDryingYardAllData() {
-                return this.http.get(environment.URL + '/inventory/getAllDryingyard')
+                return this.http.get(environment.URL + '/inventory/getAllDryingyard/' + localStorage.getItem("wcId"))
         }
         deactivateDryingYard(id: any) {
                 return this.http.get(environment.URL + '/dryingyard/deactivate?id=' + id)
@@ -112,7 +111,7 @@ export class CommonService {
                 return this.http.get(environment.URL + '/itemName/deactivate?id=' + id)
         }
         getAllWcData() {
-                return this.http.get(environment.URL + '/zone/getAllWc')
+                return this.http.get(environment.URL + '/zone/getAllWc/' + localStorage.getItem("wcId"))
         }
         getAllItemNameData() {
                 return this.http.get(environment.URL + '/inventory/getAllItemName')
@@ -139,7 +138,7 @@ export class CommonService {
                 return this.http.get(environment.URL + '/route/deactivate?id=' + id)
         }
         getAllRouteData() {
-                return this.http.get(environment.URL + '/zone/getAllRoute')
+                return this.http.get(environment.URL + '/zone/getAllRoute/' + localStorage.getItem("wcId"))
         }
         getWcListByZoneId(id: any) {
                 return this.http.get(environment.URL + '/get/all/wcData/by/zoneId?zoneId=' + id)
@@ -194,23 +193,24 @@ export class CommonService {
         updateItemCategory(item: any) {
                 return this.http.put(environment.URL + '/inventory/updateItemCategory', item)
         }
-        getAllGoods() {
-                return this.http.get(environment.URL + '/zone/getAllGoods')
+        getAllGoods(wcId: any) {
+                let wcId_ = localStorage.getItem('role') != 'bmcadmin' ? wcId : 0 
+                return this.http.get(environment.URL + '/zone/getAllGoods/' + wcId_)
         }
         getWardsCount() {
                 return this.http.get(environment.URL + '/get/all/wards/count')
         }
         getActiveTrip() {
-                return this.http.get(environment.URL + '/get/active/trip')
+                return this.http.get(environment.URL + '/get/active/trip/' + localStorage.getItem("wcId"))
         }
         getCompletedTrips() {
-                return this.http.get(environment.URL + '/get/inActive/trip')
+                return this.http.get(environment.URL + '/get/inActive/trip/' + localStorage.getItem("wcId"))
         }
         getAllItemPurchase() {
-                return this.http.get(environment.URL + '/inventory/getAllItemPurchase')
+                return this.http.get(environment.URL + '/inventory/getAllItemPurchase/' + localStorage.getItem("wcId"))
         }
         getAllItemIssue() {
-                return this.http.get(environment.URL + '/inventory/getAllItemIssuse')
+                return this.http.get(environment.URL + '/inventory/getAllItemIssuse/' + localStorage.getItem("wcId"))
         }
         getVehicleByVehicleNumber(vehicleNo: any) {
                 return this.http.get(environment.URL + '/get/vehicle/by/vehicle/number?vehicleNumber=' + vehicleNo)
@@ -224,11 +224,11 @@ export class CommonService {
         updateTrip(data: any) {
                 return this.http.put(environment.URL + '/update/trip', data)
         }
-        getAllSubGood() {
-                return this.http.get(environment.URL + '/zone/getAllGoodssub')
+        getAllSubGood(wcId: number) {
+                return this.http.get(environment.URL + '/zone/getAllGoodssub/' + wcId)
         }
         getAllDryingYard() {
-                return this.http.get(environment.URL + '/inventory/getAllDryingyard')
+                return this.http.get(environment.URL + '/inventory/getAllDryingyard/'+ localStorage.getItem("wcId"))
         }
         saveCompostDrying(data: any) {
                 return this.http.post(environment.URL + '/inventory/addDryingCompost', data)
@@ -239,24 +239,24 @@ export class CommonService {
         updateMrf(data: any) {
                 return this.http.post(environment.URL + '/zone/updateMrf', data)
         }
-        getAllMrf() {
-                return this.http.get(environment.URL + '/zone/getAllMrf')
+        getAllMrf(wcId: any) {
+                return this.http.get(environment.URL + '/zone/getAllMrf/' + wcId)
         }
         deactivateVehicle(id: any) {
                 return this.http.get(environment.URL + '/vehicle/deactivate?id=' + id)
         }
         getAllActiveVehicle() {
-                return this.http.get(environment.URL + '/getAll/vehicle')
+                return this.http.get(environment.URL + '/getAll/vehicle/')
         }
         getAllDriverList() {
-                return this.http.get(environment.URL + '/zone/getAllDriver')
+                return this.http.get(environment.URL + '/zone/getAllDriver/' + localStorage.getItem("wcId"))
         }
         getAllDriverByVehicleId(id: any) {
-                return this.http.get(environment.URL + '/get/Driver/by/{vehicleId}?vehicleId=' + id)
+                return this.http.get(environment.URL + '/get/Driver/by/' + id)
                 // return  this.http.get(environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
         }
         getAllWcVehicle(id: any) {
-                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/{wcId}?wcId=' + id)
+                return this.http.get(environment.URL + '/get/vehicle/by/wc/Id/' + id)
         }
         getAllSubGoodByGoodId(id: any) {
                 return this.http.get(environment.URL + '/zone/get/subgood/by/good/Id/goodId?goodId=' + id)
@@ -292,10 +292,58 @@ export class CommonService {
         getAllUnit() {
                 return this.http.get(environment.URL + '/inventory/getAllUnit')
         }
-        saveCompostPacking(data:any){
-                return this.http.post(environment.URL+'/inventory/addCompostPackaging',data)
+        saveCompostPacking(data: any) {
+                return this.http.post(environment.URL + '/inventory/addCompostPackaging', data)
         }
-        getAllCompostPacking(){
-                return this.http.get(environment.URL+'/inventory/getAllCompostPackaging')
+        getAllCompostPacking() {
+                return this.http.get(environment.URL + '/inventory/getAllCompostPackaging')
+        }
+        addItemPurchase(data: any) {
+                return this.http.post(environment.URL + '/inventory/addItemPurchase', data)
+        }
+        addItemIssue(data: any) {
+                return this.http.post(environment.URL + '/inventory/addItemIssuse', data)
+        }
+
+        getAllCompletedTripInGraveYard() {
+                return this.http.get(environment.URL + '/inventory/get/all/dryingyard/completed/trip/' + localStorage.getItem('wcId'))
+        }
+
+        getAllActiveTripInGraveYard() {
+                return this.http.get(environment.URL + '/inventory/get/all/dryingyard/active/trip/' + localStorage.getItem('wcId'))
+        }
+
+        addItemName(data: any) {
+                return this.http.post(environment.URL + '/inventory/addItemName', data)
+        }
+        getAllItemStockList() {
+                return this.http.get(environment.URL + '/inventory/getAllItemStock/' + localStorage.getItem("wcId"))
+        }
+        updateTripForceFully(data: any) {
+                return this.http.put(environment.URL + '/update/trip/forcefully', data)
+        }
+        uploadFile(data: any) {
+                return this.http.post(environment.URL + '/v1/uploadFile', data)
+        }
+        getAllItemName() {
+                return this.http.get(environment.URL + '/inventory/getAllItemName/' + localStorage.getItem("wcId"))
+        }
+        getVehicleListByWcId() {
+                return this.http.get(environment.URL + '/getAll/vehicle/' + localStorage.getItem("wcId"))
+        }
+        getHelperByWcId() {
+                return this.http.get(environment.URL + '/zone/get/Helper/by/' + localStorage.getItem("wcId"))
+        }
+        getDashboardDetails() {
+                return this.http.get(environment.URL + '/get/dashboard/details/' + localStorage.getItem("wcId"))
+        }
+        getAllHelperByWcId() {
+                return this.http.get(environment.URL + '/zone/get/all/helper/by/wcId/' + localStorage.getItem("wcId"))
+        }
+        addRoute(data: any) {
+               return this.http.post(environment.URL + '/zone/addRoute', data)
+        }
+        getAllMrfReports(){
+                return this.http.get(environment.URL+'/get/mrf/transaction/value/'+localStorage.getItem("wcId"))
         }
 }
