@@ -42,6 +42,7 @@ export class GarbageComponent implements OnInit {
   emptyPit:any
   totalWetWeight:any
   totalDryWeight:any
+  loginResponse:any
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
@@ -71,9 +72,10 @@ export class GarbageComponent implements OnInit {
       }
     );
     this.setVehicleNumber()
-    this.service.getAllHelper().subscribe(
+    this.service.getAllHelperByWcId().subscribe(
       data=>{
-         this.helperList=data
+         this.loginResponse=data
+         this.helperList=this.loginResponse.data
       }
     );
     this.service.getActiveTrip().subscribe(
