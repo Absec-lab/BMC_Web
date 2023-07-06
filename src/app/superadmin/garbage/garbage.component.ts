@@ -15,8 +15,9 @@ import { ToastService } from 'src/app/service/toast.service';
 export class GarbageComponent implements OnInit {
 
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
-    this.getRouteList()
+    
     this.wcId = localStorage.getItem("wcId");
+    this.getRouteList()
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -53,7 +54,7 @@ export class GarbageComponent implements OnInit {
   wcId: any = 0;
   ngOnInit() {
     this.setVehicleNumber()
-    this.service.getAllHelper().subscribe(
+    this.service.getAllHelperByWc().subscribe(
       data=>{
          this.helperList=data
       }
@@ -337,9 +338,9 @@ export class GarbageComponent implements OnInit {
             "helper": {
               "helperId":this.form.value.helperId
             },
-            "wc":{
-              "wcId":localStorage.getItem("wcId")
-            }
+            "wc": {
+              "wcId":localStorage.getItem('wcId')
+             }
           }
           console.log(data)
           this.service.createTrip(data).subscribe(

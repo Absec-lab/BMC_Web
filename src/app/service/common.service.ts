@@ -270,7 +270,9 @@ export class CommonService {
         getAllHelper() {
                 return this.http.get(environment.URL + '/zone/getAllHelper')
         }
+        
 
+        
         toggleDetailedSidebar() {
                 const miniSidebarElement = document.querySelector('#mini-sidebar') as HTMLDivElement;
                 if (miniSidebarElement.classList.contains('toggled')) {
@@ -345,5 +347,9 @@ export class CommonService {
         }
         getAllMrfReports(){
                 return this.http.get(environment.URL+'/get/mrf/transaction/value/'+localStorage.getItem("wcId"))
+        }
+        //Duplicate added only for Garbage Helper dropdown.....
+        getAllHelperByWc() {
+                return this.http.get(environment.URL + '/zone/get/Helper/by/' + localStorage.getItem("wcId"))
         }
 }
