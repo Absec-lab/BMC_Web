@@ -93,8 +93,15 @@ export class LoginComponent {
       localStorage.setItem('logindetails', JSON.stringify(this.logindata));
       localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
       localStorage.setItem('email', this.logindata.userdetails[0].email);
-      this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
-      localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
+      if(roleSuperadminPermission == true){
+        localStorage.setItem('userInfo', '');
+        localStorage.setItem('wcId',  '0');
+      }else{
+        this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
+        localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
+      }
+      //this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
+      //localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
       this.route.navigate(['/superadmin/home'])
     }
 

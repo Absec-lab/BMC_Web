@@ -16,6 +16,7 @@ export class GarbageComponent implements OnInit {
 
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
     this.getRouteList()
+    this.wcId = localStorage.getItem("wcId");
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -49,6 +50,7 @@ export class GarbageComponent implements OnInit {
     routeId: new FormControl,
     helperId:new FormControl
   });
+  wcId: any = 0;
   ngOnInit() {
     this.setVehicleNumber()
     this.service.getAllHelper().subscribe(
@@ -63,6 +65,7 @@ export class GarbageComponent implements OnInit {
         const rowData =   this.activeTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc?.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -89,6 +92,7 @@ export class GarbageComponent implements OnInit {
         const rowDataComp =   this.inActiveTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -1190,7 +1194,7 @@ export class GarbageComponent implements OnInit {
 
   async getRouteList() {
     try {
-            this.routeList = await this.service.get(`/zone/getAllRoute`)
+            this.routeList = await this.service.get(`/zone/getAllRoute/`+this.wcId)
             this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
     } catch (e) {
             console.error(e)
@@ -1207,6 +1211,7 @@ updateData(item: any) {
 }
 
 columnDefs: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true},
@@ -1250,6 +1255,7 @@ rowData = [
 
 
 columnDefsComp: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true,},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true,},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true,},
