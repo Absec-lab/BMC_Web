@@ -336,6 +336,9 @@ export class GarbageComponent implements OnInit {
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
+            },
+            "wc": {
+              "wcId":localStorage.getItem('wcId')
             }
           }
           console.log(data)
