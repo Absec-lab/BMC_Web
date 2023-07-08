@@ -18,7 +18,7 @@ var environment = {
 
 
         // LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        // URL: `http://localhost:9091`
+        // URL: `http://192.168.29.128:9091`
 }
 
 @Injectable({
@@ -27,7 +27,7 @@ var environment = {
 export class CommonService {
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private http: HttpClient) { }
-
+        public dashboardDetailsV2:any
         get(path: string): any {
                 return new Promise(async (resolve, reject) => {
                         try {
@@ -355,5 +355,9 @@ export class CommonService {
 
         getDashboardDetailsForAdmin(){
                 return this.http.get(environment.URL+'/get/mrf/transaction/for/admin')
+        }
+        getDashboardDetailsV2(wcId:any){
+
+                return this.http.get(environment.URL + '/get/dashboard/details/' + wcId)
         }
 }

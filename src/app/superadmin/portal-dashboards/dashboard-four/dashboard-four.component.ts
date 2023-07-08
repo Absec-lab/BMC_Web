@@ -10,7 +10,9 @@ import { CommonService } from 'src/app/service/common.service';
   styleUrls: ['../../../common.css', './dashboard-four.component.css']
 })
 export class DashboardFourComponent implements OnInit {
-  constructor(private service: CommonService) { }
+  constructor(private service: CommonService) { 
+   
+    }
   chart1: any;
   chart2: any;
   chart3: any;
@@ -22,6 +24,7 @@ export class DashboardFourComponent implements OnInit {
   wcList: any = []
   zoneName:any
   wcName:any
+  dashboardResponseV2:any
   form = new FormGroup({
     zoneId: new FormControl,
     wcId: new FormControl
@@ -37,6 +40,7 @@ export class DashboardFourComponent implements OnInit {
       this.service.getZoneAllData().subscribe(
         data => {
           this.zoneList = data
+          this.form.patchValue({zoneId:this.zoneList[0].zoneId})
         }
       );
       this.service.getMrfReportForAdmin().subscribe(
@@ -45,6 +49,7 @@ export class DashboardFourComponent implements OnInit {
           this.mrfReportList=this.loginResponse.data
         }
       );
+      
     }
     else {
       // console.log("hii")
@@ -57,6 +62,13 @@ export class DashboardFourComponent implements OnInit {
       this.service.getWcById(localStorage.getItem("wcId")).subscribe(
         data=>{
           this.loginResponse=data
+          this.wcList=[{wcId:this.loginResponse.wcId,wcName:this.loginResponse.wcName}]
+          this.zoneList=[{zoneId:this.loginResponse.zone.zoneId,zoneName:this.loginResponse.zone.zoneName}]
+          setTimeout(()=>{
+            this.form.patchValue({wcId:this.wcList[0].wcId,zoneId:this.zoneList[0].zoneId}) 
+          },1000)
+
+          
           this.wcName=this.loginResponse.wcName
           this.zoneName=this.loginResponse.zone.zoneName
           console.log(this.zoneName)
@@ -311,7 +323,7 @@ export class DashboardFourComponent implements OnInit {
       data => {
         this.loginResponse=data
         this.wcList = this.loginResponse.data
-
+        this.form.patchValue({wcId:this.wcList[0].wcId})
         // console.log(this.wcList)
       }
     );
@@ -321,6 +333,14 @@ export class DashboardFourComponent implements OnInit {
       data=>{
         this.loginResponse=data
         this.mrfReportList=this.loginResponse.data
+      }
+    );
+    this.service.getDashboardDetailsV2(this.form.value.wcId).subscribe(
+      data=>{
+        this.loginResponse=data
+        this.dashboardResponseV2=this.loginResponse.data
+        this.service.dashboardDetailsV2=this.dashboardResponseV2
+        console.log(data)
       }
     );
   }

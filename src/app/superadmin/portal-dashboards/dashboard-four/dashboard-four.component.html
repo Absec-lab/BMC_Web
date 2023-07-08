@@ -6,13 +6,13 @@
                 <form [formGroup]="form">
                 <div>
                     <select name="" id="" class="form-control form-select dashboard-select-box" formControlName="zoneId" (ngModelChange)="getAllWcByZoneId()" [(ngModel)]='zoneName'>
-                        <option value="" selected>{{zoneName}}</option>
+                        
                         <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName}}</option>
                     </select>
                 </div>
                 <div class="mt-4">
                     <select name="" id="" class="form-control form-select dashboard-select-box" formControlName="wcId" (ngModelChange)="getMrfReportByWc()">
-                        <option value="" selected>{{wcName}}</option>
+                       
                         <option [value]="x.wcId" *ngFor="let x of wcList">{{x.wcName}}</option>
                     </select>
                 </div>
