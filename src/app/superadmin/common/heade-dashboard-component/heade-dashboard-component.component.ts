@@ -18,19 +18,35 @@ export class HeadeDashboardComponentComponent implements OnInit {
 
   constructor(private service: CommonService) { }
   ngOnInit() {
-
-    this.service.getDashboardDetails().subscribe(
-      data => {
-        this.responseData = data
-        this.noOfActivetrips = this.responseData.data.numberOfActiveTrips
-        this.noOfCompletedTrips = this.responseData.data.numberOfCompletedTrips
-        this.inProcessPit = this.responseData.data.noOfActivePit
-        this.emptyPit = this.responseData.data.noOfCompletedPit
-        this.totalDryWeight = this.responseData.data.totalDryWeightValue
-        this.totalWetWeight = this.responseData.data.totalWetWeightValue
-        console.log(this.responseData)
-      }
-    );
+    if(localStorage.getItem("role") == "bmcadmin"){
+      this.service.getDashboardDetailsForAdmin().subscribe(
+        data => {
+          this.responseData = data
+          this.noOfActivetrips = this.responseData.data.numberOfActiveTrips
+          this.noOfCompletedTrips = this.responseData.data.numberOfCompletedTrips
+          this.inProcessPit = this.responseData.data.noOfActivePit
+          this.emptyPit = this.responseData.data.noOfCompletedPit
+          this.totalDryWeight = this.responseData.data.totalDryWeightValue
+          this.totalWetWeight = this.responseData.data.totalWetWeightValue
+          console.log(this.responseData)
+        }
+      );
+    }
+    else{
+      this.service.getDashboardDetails().subscribe(
+        data => {
+          this.responseData = data
+          this.noOfActivetrips = this.responseData.data.numberOfActiveTrips
+          this.noOfCompletedTrips = this.responseData.data.numberOfCompletedTrips
+          this.inProcessPit = this.responseData.data.noOfActivePit
+          this.emptyPit = this.responseData.data.noOfCompletedPit
+          this.totalDryWeight = this.responseData.data.totalDryWeightValue
+          this.totalWetWeight = this.responseData.data.totalWetWeightValue
+          console.log(this.responseData)
+        }
+      );
+    }
+    
   }
 
 }

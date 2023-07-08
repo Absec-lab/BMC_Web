@@ -54,7 +54,7 @@ export class GarbageComponent implements OnInit {
   wcId: any = 0;
   ngOnInit() {
     this.setVehicleNumber()
-    this.service.getAllHelperByWc().subscribe(
+    this.service.getAllHelperByWcId().subscribe(
       data=>{
          this.helperList=data
       }
