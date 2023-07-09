@@ -37,10 +37,12 @@ export class GarbageComponent implements OnInit {
   errorResponse:any
   helperList:any=[]
   loginResponse:any
+  driverList:any=[]
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
     driverName: new FormControl,
+    driverId: new FormControl,
     routeName: new FormControl,
     tripStartReading: new FormControl,
     tripEndReading: new FormControl,
@@ -59,6 +61,11 @@ export class GarbageComponent implements OnInit {
       data=>{
         this.loginResponse=data
          this.helperList=this.loginResponse.data
+      }
+    );
+    this.service.getAllDriverList().subscribe(
+      data=>{
+        this.driverList=data
       }
     );
     this.service.getActiveTrip().subscribe(
@@ -151,7 +158,7 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.vehcileDataResponse.data.tripStartReading,
           tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
@@ -173,7 +180,8 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          driverName: this.tripResponse.data.driver.driverName,
+          driverId:this.tripResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.tripResponse.data.tripStartReading,
           tripEndReading: this.tripResponse.data.tripEndReading,
@@ -185,6 +193,7 @@ export class GarbageComponent implements OnInit {
           helperId:this.tripResponse.data.helper.helperId,
           unloadwetWeightValue: (this.tripResponse.data.grossWt && this.tripResponse.data.wetWt) ? this.tripResponse.data.grossWt - this.tripResponse.data.wetWt : ""
         })
+        
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
           this.tripEndButton = false
@@ -291,13 +300,20 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
+    // const driverName = driverNameElement.value.trim();
+    // if (driverName === '') {
+    //   this.toastService.showWarning('Driver name is required.');
+    //   return;
+    // }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
-    
+
     const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
     const helperId = helperIdElement.value.trim();
     if (helperId === '') {
@@ -332,7 +348,9 @@ export class GarbageComponent implements OnInit {
           console.log(this.vehcileDataResponse);
 
           const data={
-            "driver":this.vehcileDataResponse.data.driver,
+            "driver":{
+              "driverId":this.form.value.driverId
+            },
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
             "tripStartReadingImg": fileUrl,
