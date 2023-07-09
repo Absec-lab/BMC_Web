@@ -137,7 +137,7 @@ export class GarbageComponent implements OnInit {
 
  async setVehicleNumber() {
 
-    const vehicleNumber: any = this.form.value.vehicleNumber;
+    const vehicleNumber: any = this.form.value.vehicleNumber?.trim();
     if (!vehicleNumber) {
       this.toastService.showWarning(`Please enter a vehicle number.`);
       return;
@@ -303,10 +303,13 @@ export class GarbageComponent implements OnInit {
       return;
     }
 
+    const tripStartFileInputElement = document.getElementById('tripStartReadingPictureInput') as HTMLInputElement;
+
     const allowedTypes = ['.jpg', '.jpeg', '.png'];
     const fileType = this.tripStartReadingImgFile.name.substring(this.tripStartReadingImgFile.name.lastIndexOf('.')).toLowerCase();
     if (!allowedTypes.includes(fileType)) {
       this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+      tripStartFileInputElement.value = '';
       return;
     }
 
@@ -321,6 +324,7 @@ export class GarbageComponent implements OnInit {
       const mimeType = this.getMimeType(header);
       if (!allowedMimeTypes.includes(mimeType)) {
         this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+        tripStartFileInputElement.value = '';
         return;
       }
     };
@@ -328,6 +332,7 @@ export class GarbageComponent implements OnInit {
 
     if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
       this.toastService.showWarning('Max file size allowed is: 15 MB');
+      tripStartFileInputElement.value = '';
       return;
     }
     
