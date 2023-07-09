@@ -15,6 +15,7 @@ import { ToastService } from 'src/app/service/toast.service';
 export class GarbageComponent implements OnInit {
 
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
+    this.wcId = localStorage.getItem("wcId");
     this.getRouteList()
    }
    isAdd: boolean = true
@@ -34,10 +35,13 @@ export class GarbageComponent implements OnInit {
   tripResponse: any
   errorResponse:any
   helperList:any=[]
+  loginResponse:any
+  driverList:any=[]
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
     driverName: new FormControl,
+    driverId: new FormControl,
     routeName: new FormControl,
     tripStartReading: new FormControl,
     tripEndReading: new FormControl,
@@ -49,13 +53,17 @@ export class GarbageComponent implements OnInit {
     routeId: new FormControl,
     helperId:new FormControl
   });
+  wcId: any = 0;
   ngOnInit() {
     // this.setVehicleNumber()
-    this.service.getAllHelper().subscribe(
-      data=>{
-         this.helperList=data
-      }
-    );
+    this.service.getAllHelperByWcId().subscribe((data) => {
+      this.loginResponse = data;
+      this.helperList = this.loginResponse.data;
+    });
+    this.service.getAllDriverList().subscribe((data) => {
+      this.helperList = data;
+      this.driverList = data;
+    });
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
@@ -63,6 +71,7 @@ export class GarbageComponent implements OnInit {
         const rowData =   this.activeTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc?.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -89,6 +98,7 @@ export class GarbageComponent implements OnInit {
         const rowDataComp =   this.inActiveTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -156,7 +166,7 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          driverId:this.vehcileDataResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.vehcileDataResponse.data.tripStartReading,
           tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
@@ -179,7 +189,8 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          driverName: this.tripResponse.data.driver.driverName,
+          driverId:this.tripResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.tripResponse.data.tripStartReading,
           tripEndReading: this.tripResponse.data.tripEndReading,
@@ -343,9 +354,9 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -384,14 +395,19 @@ export class GarbageComponent implements OnInit {
           console.log(this.vehcileDataResponse);
 
           const data={
-            "driver":this.vehcileDataResponse.data.driver,
+            "driver": {
+              "driverId":this.form.value.driverId
+            },
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
             "tripStartReadingImg": fileName,
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
-            }
+            },
+            "wc": {
+              "wcId":localStorage.getItem('wcId')
+             }
           }
           console.log(data)
           this.service.createTrip(data).subscribe(
@@ -541,12 +557,13 @@ export class GarbageComponent implements OnInit {
               
             },
             error=>{
-              console.log(error)
               this.errorResponse=error
-              this.toastService.showError(this.errorResponse.error.message)
+              this.toastService.showError(this.errorResponse?.error?.message)
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
@@ -573,9 +590,9 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -761,9 +778,9 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -894,9 +911,9 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -1101,9 +1118,9 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -1218,7 +1235,7 @@ export class GarbageComponent implements OnInit {
               "id": 5
             },
             "vehicleNo":this.form.value.vehicleNumber,
-            "tripEndReadingImg": fileName
+            "tripEndReadingImg": fileUrl
           }
           this.service.updateTrip(data).subscribe(
             data=>{
@@ -1277,12 +1294,14 @@ export class GarbageComponent implements OnInit {
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
   async getRouteList() {
     try {
-            this.routeList = await this.service.get(`/zone/getAllRoute`)
+            this.routeList = await this.service.get(`/zone/getAllRoute/`+this.wcId)
             this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
     } catch (e) {
             console.error(e)
@@ -1299,6 +1318,7 @@ updateData(item: any) {
 }
 
 columnDefs: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true},
@@ -1342,6 +1362,7 @@ rowData = [
 
 
 columnDefsComp: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true,},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true,},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true,},
