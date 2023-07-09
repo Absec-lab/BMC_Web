@@ -158,7 +158,7 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          
+          driverId:this.vehcileDataResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.vehcileDataResponse.data.tripStartReading,
           tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
@@ -273,33 +273,33 @@ export class GarbageComponent implements OnInit {
   }
 
   createTrip(){
-
+    this,this.toastService.showError("alert-1");
     const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
     const vehicleNumber = vehicleNumberElement.value.trim();
     if (vehicleNumber === '') {
       this.toastService.showWarning('Vehicle number is required.');
       return;
     }
-
+    this,this.toastService.showError("alert-2");
     const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
     const tripStartReading = tripStartReadingElement.value.trim();
     if (tripStartReading === '') {
       this.toastService.showWarning('Trip start reading is required.');
       return;
     }
-
+    this,this.toastService.showError("alert-3");
     if (!this.tripStartReadingImgFile) {
       this.toastService.showWarning("Please select an image for trip start reading.");
       return;
     }
-
-    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
-    const driverDlNo = driverDlNoElement.value.trim();
-    if (driverDlNo === '') {
-      this.toastService.showWarning('DL number is required.');
-      return;
-    }
-    
+    this,this.toastService.showError("alert-4");
+    // const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    // const driverDlNo = driverDlNoElement.value.trim();
+    // if (driverDlNo === '') {
+    //   this.toastService.showWarning('DL number is required.');
+    //   return;
+    // }
+    this,this.toastService.showError("alert-5");
     // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
     // const driverName = driverNameElement.value.trim();
     // if (driverName === '') {
@@ -313,7 +313,7 @@ export class GarbageComponent implements OnInit {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
-
+    this,this.toastService.showError("alert-6");
     const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
     const helperId = helperIdElement.value.trim();
     if (helperId === '') {
@@ -330,7 +330,7 @@ export class GarbageComponent implements OnInit {
 
     const formData = new FormData();
     formData.set("file", this.tripStartReadingImgFile);
-
+    this,this.toastService.showError("alert-7");
     this.httpClient
       .post("http://43.204.240.44:9091/v1/uploadFile", formData)
       .subscribe(
@@ -344,7 +344,7 @@ export class GarbageComponent implements OnInit {
 
           const fileUrlItems: any = fileUrl.split("/");
           const fileName = fileUrlItems[fileUrlItems.length - 1];
-
+          this,this.toastService.showError("alert-8");
           console.log(this.vehcileDataResponse);
 
           const data={
@@ -535,19 +535,24 @@ export class GarbageComponent implements OnInit {
       return;
     }
 
-    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
-    const driverDlNo = driverDlNoElement.value.trim();
-    if (driverDlNo === '') {
-      this.toastService.showWarning('DL number is required.');
-      return;
-    }
-    
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    // const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    // const driverDlNo = driverDlNoElement.value.trim();
+    // if (driverDlNo === '') {
+    //   this.toastService.showWarning('DL number is required.');
+    //   return;
+    // }
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
+    // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
+    // const driverName = driverNameElement.value.trim();
+    // if (driverName === '') {
+    //   this.toastService.showWarning('Driver name is required.');
+    //   return;
+    // }
     
     const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
     const helperId = helperIdElement.value.trim();
@@ -723,19 +728,25 @@ export class GarbageComponent implements OnInit {
       return;
     }
 
-    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
-    const driverDlNo = driverDlNoElement.value.trim();
-    if (driverDlNo === '') {
-      this.toastService.showWarning('DL number is required.');
-      return;
-    }
-    
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    // const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    // const driverDlNo = driverDlNoElement.value.trim();
+    // if (driverDlNo === '') {
+    //   this.toastService.showWarning('DL number is required.');
+    //   return;
+    // }
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
+    
+    // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
+    // const driverName = driverNameElement.value.trim();
+    // if (driverName === '') {
+    //   this.toastService.showWarning('Driver name is required.');
+    //   return;
+    // }
     
     const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
     const helperId = helperIdElement.value.trim();
@@ -856,16 +867,22 @@ export class GarbageComponent implements OnInit {
       return;
     }
 
-    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
-    const driverDlNo = driverDlNoElement.value.trim();
-    if (driverDlNo === '') {
-      this.toastService.showWarning('DL number is required.');
-      return;
-    }
+    // const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    // const driverDlNo = driverDlNoElement.value.trim();
+    // if (driverDlNo === '') {
+    //   this.toastService.showWarning('DL number is required.');
+    //   return;
+    // }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
+    // const driverName = driverNameElement.value.trim();
+    // if (driverName === '') {
+    //   this.toastService.showWarning('Driver name is required.');
+    //   return;
+    // }
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
@@ -1048,82 +1065,88 @@ export class GarbageComponent implements OnInit {
   }
 
   endTrip(){
-
+    this,this.toastService.showError("alert-9");
     const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
     const vehicleNumber = vehicleNumberElement.value.trim();
     if (vehicleNumber === '') {
       this.toastService.showWarning('Vehicle number is required.');
       return;
     }
-
+    this,this.toastService.showError("alert-10");
     const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
     const tripStartReading = tripStartReadingElement.value.trim();
     if (tripStartReading === '') {
       this.toastService.showWarning('Trip start reading is required.');
       return;
     }
-
-    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
-    const driverDlNo = driverDlNoElement.value.trim();
-    if (driverDlNo === '') {
-      this.toastService.showWarning('DL number is required.');
-      return;
-    }
+    this,this.toastService.showError("alert-11");
+    // const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    // const driverDlNo = driverDlNoElement.value.trim();
+    // if (driverDlNo === '') {
+    //   this.toastService.showWarning('DL number is required.');
+    //   return;
+    // }
     
-    const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
-    const driverName = driverNameElement.value.trim();
-    if (driverName === '') {
+    // const driverNameElement = document.querySelector('#driverName') as HTMLInputElement;
+    // const driverName = driverNameElement.value.trim();
+    // if (driverName === '') {
+    //   this.toastService.showWarning('Driver name is required.');
+    //   return;
+    // }
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
       this.toastService.showWarning('Driver name is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-12");
     const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
     const helperId = helperIdElement.value.trim();
     if (helperId === '') {
       this.toastService.showWarning('Helper name is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-13");
     const tripEndReadingElement = document.querySelector('#tripEndReading') as HTMLInputElement;
     const tripEndReading = tripEndReadingElement.value.trim();
     if (tripEndReading === '') {
       this.toastService.showWarning('Trip end reading is required.');
       return;
     }
-
+    this,this.toastService.showError("alert-14");
     if (!this.tripEndReadingImgFile) {
       this.toastService.showWarning("Please select an image for trip end reading.");
       return;
     }
-
+    this,this.toastService.showError("alert-15");
     const grossWeightValueElement = document.querySelector('#grossWeightValue') as HTMLInputElement;
     const grossWeightValue = grossWeightValueElement.value.trim();
     if (grossWeightValue === '') {
       this.toastService.showWarning('Gross weight is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-16");
     const unloadIdElement = document.querySelector('#unloadId') as HTMLInputElement;
     const unloadId = unloadIdElement.value.trim();
     if (unloadId === '') {
       this.toastService.showWarning('Unload wet weight is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-17");
     const wetWeightValueElement = document.querySelector('#wetWeightValue') as HTMLInputElement;
     const wetWeightValue = wetWeightValueElement.value.trim();
     if (wetWeightValue === '') {
       this.toastService.showWarning('Wet weight is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-18");
     const tareWeightValueElement = document.querySelector('#tareWeightValue') as HTMLInputElement;
     const tareWeightValue = tareWeightValueElement.value.trim();
     if (tareWeightValue === '') {
       this.toastService.showWarning('Tare weight is required.');
       return;
     }
-    
+    this,this.toastService.showError("alert-19");
     const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
     const dryWeightValue = dryWeightValueElement.value.trim();
     if (dryWeightValue === '') {
@@ -1133,7 +1156,7 @@ export class GarbageComponent implements OnInit {
 
     const formData = new FormData();
     formData.append("file", this.tripEndReadingImgFile);
-
+    this,this.toastService.showError("alert-20");
     this.httpClient
       .post("http://43.204.240.44:9091/v1/uploadFile", formData)
       .subscribe(
