@@ -557,12 +557,13 @@ export class GarbageComponent implements OnInit {
               
             },
             error=>{
-              console.log(error)
               this.errorResponse=error
-              this.toastService.showError(this.errorResponse.error.message)
+              this.toastService.showError(this.errorResponse?.error?.message)
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
@@ -1293,6 +1294,8 @@ export class GarbageComponent implements OnInit {
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
