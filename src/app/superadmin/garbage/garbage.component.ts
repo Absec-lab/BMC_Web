@@ -1078,7 +1078,7 @@ export class GarbageComponent implements OnInit {
     this.tripEndReadingImgFile = file;
   }
 
-  endTrip(){
+  async endTrip(){
 
     const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
     const vehicleNumber = vehicleNumberElement.value.trim();
@@ -1124,6 +1124,39 @@ export class GarbageComponent implements OnInit {
 
     if (!this.tripEndReadingImgFile) {
       this.toastService.showWarning("Please select an image for trip end reading.");
+      return;
+    }
+
+    const tripEndFileInputElement = document.getElementById('tripEndReadingPictureInput') as HTMLInputElement;
+
+    const allowedTypes = ['.jpg', '.jpeg', '.png'];
+    const fileType = this.tripEndReadingImgFile.name.substring(this.tripEndReadingImgFile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedTypes.includes(fileType)) {
+      this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+      tripEndFileInputElement.value = '';
+      return;
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const arr = new Uint8Array(reader.result as ArrayBuffer).subarray(0, 4);
+      let header = '';
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+      }
+      const mimeType = this.getMimeType(header);
+      if (!allowedMimeTypes.includes(mimeType)) {
+        this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+        tripEndFileInputElement.value = '';
+        return;
+      }
+    };
+    await reader.readAsArrayBuffer(this.tripEndReadingImgFile);
+
+    if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
+      this.toastService.showWarning('Max file size allowed is: 15 MB');
+      tripEndFileInputElement.value = '';
       return;
     }
 
