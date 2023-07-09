@@ -136,8 +136,13 @@
 															Driver Name<span class="text-danger">*</span>
 														</div>
 														<div class="col-md-9">
-															<input type="text" name="" id="driverName" class="form-control"
-																formControlName="driverName">
+															<!-- <input type="text" name="" id="driverName" class="form-control"
+																formControlName="driverName"> -->
+																<select 
+																class="form-select" formControlName="driverId" id="driverId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.driverId" *ngFor="let item of driverList">{{item.driverName}}</option>
+															</select>
 														</div>
 													</div>
 													<div class="row mt-3">
@@ -159,7 +164,7 @@
 														<div class="col-md-9">
 															<select formControlName="routeId" id="routeId" class="form-select">
                                                                 <option value="" disabled selected>--Select--</option>
-                                                                <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}}</option>
+                                                                <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}} - {{x.routeDesc}}</option>
                                                         </select>
 															<!-- <select name="" id=""
 																class="form-control form-select bg-transparent text-white">

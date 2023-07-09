@@ -13,11 +13,11 @@ var environment = {
         // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
 
 
-        LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        URL: `http://43.204.240.44:9091`  //Absec ip 
+           LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
+           URL: `http://43.204.240.44:9091`  //Absec ip 
 
 
-        // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+        // LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
         // URL: `http://192.168.29.128:9091`
 }
 
@@ -27,7 +27,7 @@ var environment = {
 export class CommonService {
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private http: HttpClient) { }
-
+        public dashboardDetailsV2:any
         get(path: string): any {
                 return new Promise(async (resolve, reject) => {
                         try {
@@ -345,5 +345,19 @@ export class CommonService {
         }
         getAllMrfReports(){
                 return this.http.get(environment.URL+'/get/mrf/transaction/value/'+localStorage.getItem("wcId"))
+        }
+        getMrfReportByWc(wcId:any){
+                return this.http.get(environment.URL+'/get/mrf/transaction/value/'+wcId)
+        }
+        getMrfReportForAdmin(){
+                return this.http.get(environment.URL+'/get/all/mrf/report/for/admin')
+        }
+
+        getDashboardDetailsForAdmin(){
+                return this.http.get(environment.URL+'/get/mrf/transaction/for/admin')
+        }
+        getDashboardDetailsV2(wcId:any){
+
+                return this.http.get(environment.URL + '/get/dashboard/details/' + wcId)
         }
 }
