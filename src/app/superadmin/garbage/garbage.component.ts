@@ -50,7 +50,7 @@ export class GarbageComponent implements OnInit {
     helperId:new FormControl
   });
   ngOnInit() {
-    this.setVehicleNumber()
+    // this.setVehicleNumber()
     this.service.getAllHelper().subscribe(
       data=>{
          this.helperList=data
@@ -136,7 +136,19 @@ export class GarbageComponent implements OnInit {
   }
 
  async setVehicleNumber() {
-    console.log(this.form.value.vehicleNumber)
+
+    const vehicleNumber: any = this.form.value.vehicleNumber;
+    if (!vehicleNumber) {
+      this.toastService.showWarning(`Please enter a vehicle number.`);
+      return;
+    }
+
+    this.form.reset();
+
+    this.form.patchValue({
+      vehicleNumber: vehicleNumber
+    });
+
     this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
       data => {
         this.vehcileDataResponse = data
@@ -157,6 +169,7 @@ export class GarbageComponent implements OnInit {
         })
       },
       error => {
+        this.toastService.showError(error.error.message);
       }
     );
     this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
@@ -256,7 +269,20 @@ export class GarbageComponent implements OnInit {
       this.tripStartReadingImgFile = file;
   }
 
-  createTrip(){
+  getMimeType(header: string): string {
+    switch (header) {
+      case '89504e47':
+        return 'image/png';
+      case 'ffd8ffe0':
+      case 'ffd8ffe1':
+      case 'ffd8ffe2':
+        return 'image/jpeg';
+      default:
+        return '';
+    }
+  }
+
+  async createTrip(){
 
     const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
     const vehicleNumber = vehicleNumberElement.value.trim();
@@ -277,6 +303,34 @@ export class GarbageComponent implements OnInit {
       return;
     }
 
+    const allowedTypes = ['.jpg', '.jpeg', '.png'];
+    const fileType = this.tripStartReadingImgFile.name.substring(this.tripStartReadingImgFile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedTypes.includes(fileType)) {
+      this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+      return;
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const arr = new Uint8Array(reader.result as ArrayBuffer).subarray(0, 4);
+      let header = '';
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+      }
+      const mimeType = this.getMimeType(header);
+      if (!allowedMimeTypes.includes(mimeType)) {
+        this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+        return;
+      }
+    };
+    await reader.readAsArrayBuffer(this.tripStartReadingImgFile);
+
+    if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
+      this.toastService.showWarning('Max file size allowed is: 15 MB');
+      return;
+    }
+    
     const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
     const driverDlNo = driverDlNoElement.value.trim();
     if (driverDlNo === '') {
