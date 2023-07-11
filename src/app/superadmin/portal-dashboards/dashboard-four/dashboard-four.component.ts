@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { ReportGenerate } from 'src/app/model/pit.model';
@@ -12,21 +13,31 @@ import { ReportService } from 'src/app/service/report.service';
   styleUrls: ['../../../common.css', './dashboard-four.component.css']
 })
 export class DashboardFourComponent implements OnInit {
-
+  
   chart1: any;
   chart2: any;
   chart3: any;
   chart4: any;
   chart5: any;
-
   role: any = ''
+  loginResponse: any
+  mrfReportList: any = []
   zoneList: any = []
   zoneSelectId: any = 0
   wcSelectId: any = 0
-  wcList: any
+  wcList: any = []
   zoneId: any
   wcId: any
+  zoneName:any
+  wcName:any
+  dashboardResponseV2:any
   inventoryDate: string = "";
+   
+  form = new FormGroup({
+    zoneId: new FormControl,
+    wcId: new FormControl  
+  });
+
 
   payloadInventory: ReportGenerate = {
     reportType: "INVENTORY",
@@ -40,13 +51,54 @@ export class DashboardFourComponent implements OnInit {
   constructor(private datePipe: DatePipe, private service: CommonService, private reportService: ReportService){
     this.role = localStorage.getItem('role');
   }
-
   ngOnInit() {
     this.getZones();
     this.createChart1();
     this.createChart2();
     this.createChart3();
     this.createChart4();
+    this.createChart5([0,0,0]);
+    if (localStorage.getItem("role") == "bmcadmin") {
+      console.log("hello")
+      this.service.getZoneAllData().subscribe(
+        data => {
+          this.zoneList = data
+          this.form.patchValue({zoneId:this.zoneList[0].zoneId})
+        }
+      );
+      this.service.getMrfReportForAdmin().subscribe(
+        data=>{
+          this.loginResponse=data
+          this.mrfReportList=this.loginResponse.data
+        }
+      );
+      
+    }
+    else {
+      // console.log("hii")
+      this.service.getAllMrfReports().subscribe(
+        data => {
+          this.loginResponse = data
+          this.mrfReportList = this.loginResponse.data
+        }
+      );
+      this.service.getWcById(localStorage.getItem("wcId")).subscribe(
+        data=>{
+          this.loginResponse=data
+          this.wcList=[{wcId:this.loginResponse.wcId,wcName:this.loginResponse.wcName}]
+          this.zoneList=[{zoneId:this.loginResponse.zone.zoneId,zoneName:this.loginResponse.zone.zoneName}]
+          setTimeout(()=>{
+            this.form.patchValue({wcId:this.wcList[0].wcId,zoneId:this.zoneList[0].zoneId}) 
+          },1000)
+
+          
+          this.wcName=this.loginResponse.wcName
+          this.zoneName=this.loginResponse.zone.zoneName
+          console.log(this.zoneName)
+        }
+      );
+    }
+    
   }
 
   getZones() {
@@ -400,5 +452,30 @@ export class DashboardFourComponent implements OnInit {
       },
     });
   }
-
+  getAllWcByZoneId() {
+    this.service.getWcListByZoneId(this.form.value.zoneId).subscribe(
+      data => {
+        this.loginResponse=data
+        this.wcList = this.loginResponse.data
+        this.form.patchValue({wcId:this.wcList[0].wcId})
+        // console.log(this.wcList)
+      }
+    );
+  }
+  getMrfReportByWc(){
+    this.service.getMrfReportByWc(this.form.value.wcId).subscribe(
+      data=>{
+        this.loginResponse=data
+        this.mrfReportList=this.loginResponse.data
+      }
+    );
+    this.service.getDashboardDetailsV2(this.form.value.wcId).subscribe(
+      data=>{
+        this.loginResponse=data
+        this.dashboardResponseV2=this.loginResponse.data
+        this.service.dashboardDetailsV2=this.dashboardResponseV2
+        console.log(data)
+      }
+    );
+  }
 }
