@@ -56,25 +56,14 @@ export class GarbageComponent implements OnInit {
   });
   wcId: any = 0;
   ngOnInit() {
-<<<<<<< HEAD
-    this.getAllWcVehicle()
-    this.setVehicleNumber()
-    this.service.getAllHelperByWc().subscribe(
-      data=>{
-         this.helperList=data
-      }
-    );
-=======
     // this.setVehicleNumber()
     this.service.getAllHelperByWcId().subscribe((data) => {
       this.loginResponse = data;
       this.helperList = this.loginResponse.data;
     });
     this.service.getAllDriverList().subscribe((data) => {
-      this.helperList = data;
       this.driverList = data;
     });
->>>>>>> af97f2c8aa6689e86907afd488fef218b5fba3f7
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
