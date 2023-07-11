@@ -1,6 +1,6 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { InventoryReportGenerate } from '../model/pit.model';
+import { ReportGenerate } from '../model/pit.model';
 
 
 export class DeactivationDto {
@@ -8,13 +8,13 @@ export class DeactivationDto {
         activationStatus: Boolean = false
 }
 
-var environment = {
+const environment = {
 
-     //   REPORT_SERVICE_URL: 'http://localhost:8065'// Prod IP
+     //     REPORT_SERVICE_URL: 'http://localhost:8065'// Prod IP
 
-    //    REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
+            REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
 
-          REPORT_SERVICE_URL: 'http://localhost:8065'// Local IP
+    //      REPORT_SERVICE_URL: 'http://15.207.62.200:8065'// Local IP
 }
 
 @Injectable({
@@ -61,8 +61,12 @@ export class ReportService {
 
 
         //Arbind code
-        getInventoryReport(payload : InventoryReportGenerate) {
-             return this.http.post<InventoryReportGenerate>(environment.REPORT_SERVICE_URL + '/generate-report', payload);      
+        getInventoryReport(payload : ReportGenerate) {
+             return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-inventory', payload);      
+        }
+
+        getGarbageReport(payload : ReportGenerate) {
+                return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-garbage', payload);      
         }
         
 }

@@ -7,13 +7,13 @@
                 <div>
                     <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box" (change)="onZoneSelect($event)">
                         <option value="undefined" selected disabled>Select Zone</option>
-                        <option *ngFor="let x of zoneList;" [value]="x.zoneId">{{x.zoneName}}</option>
+                        <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option>
                     </select> 
                 </div>
                 <div class="mt-4">
                     <select id="wcId" formControlName="wcId_" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)">
                         <option value="undefined" selected disabled>Select Wc</option>
-                        <option  *ngFor="let x of wcList;" [value]="x.wcId" >{{x.wcName}}</option>
+                        <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option>
                     </select>  
                 </div>
 			</div>
@@ -104,10 +104,10 @@
                             <div class="fw-bold">Inventory</div>
                         </div>
                         <div>
-                            <input type="date" name="" class="form-control" id="fromDate" formControlName="fromDate"  value="" (ngModelChange)="fromDateChange(this)">
+                            <input type="date" name="" class="form-control" id="fromDate" formControlName="fromDate"  [value]="inventoryFromDt"  (ngModelChange)="fromDateChange(this)">
                         </div>
                         <div>
-                            <input type="date" name="" class="form-control" id="toDate"  formControlName="toDate" value="" (ngModelChange)="toDateChange(this)">
+                            <input type="date" name="" class="form-control" id="toDate"  formControlName="toDate"   (ngModelChange)="toDateChange(this)">
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">

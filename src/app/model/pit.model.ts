@@ -180,7 +180,7 @@ export interface pitByMccId {
   mccId: number
 }
 
-export interface InventoryReportGenerate {
+export interface ReportGenerate {
   reportType: string
   type: string
   fromDate?: string

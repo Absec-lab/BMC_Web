@@ -18,6 +18,7 @@ export class GarbageComponent implements OnInit {
     
     this.wcId = localStorage.getItem("wcId");
     this.getRouteList()
+
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -315,7 +316,7 @@ export class GarbageComponent implements OnInit {
     formData.set("file", this.tripStartReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -1116,7 +1117,7 @@ export class GarbageComponent implements OnInit {
     formData.append("file", this.tripEndReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post("http://15.207.62.200:9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;

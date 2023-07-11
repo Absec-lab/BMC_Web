@@ -6,19 +6,13 @@ export class DeactivationDto {
         activationStatus: Boolean = false
 }
 
+//const endpoint =  `http://15.207.62.200`;   //DEV
+  const endpoint = `http://43.204.240.44`; //PROD
+//const endpoint = `http://localhost`; //LOCCAL
+
 var environment = {
-
-
-        // URL: `http://15.207.62.200:9091`,  //prod url
-        // LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login'
-
-
-        //    LOGIN_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-        //    URL: `http://43.204.240.44:9091`  //Absec ip 
-
-
-        LOGIN_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
-        URL: `http://localhost:9091`
+        URL:  endpoint+":9091",  //prod url
+        LOGIN_SERVICE_URL: endpoint+":8064/bmcwastemanagement/auth/users/login"
 }
 
 @Injectable({
