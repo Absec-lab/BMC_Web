@@ -138,14 +138,14 @@ const routes: Routes = [
   },
   {
     component:WardMasterComponent,
-    path:'superadmin/wealth-center-master',
+    path:'superadmin/ward-master',
     canActivate:[LoginGuard]
   },
   {
     component:MccMasterComponent,
     path:'superadmin/mcc-master',
     canActivate:[LoginGuard]
-  }
+  }  
 
 ];
 
