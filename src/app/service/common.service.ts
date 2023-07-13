@@ -12,8 +12,8 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-//endpoint =  `http://15.207.62.200`;   //DEV
-  endpoint = 'http://43.204.240.44'; //PROD
+  endpoint =  `http://15.207.62.200`;   //DEV
+//  endpoint = 'http://43.204.240.44'; //PROD
 //endpoint = `http://localhost`; //LOCCAL
 
  environment = {
