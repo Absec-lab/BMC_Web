@@ -128,8 +128,9 @@
 									<th>Sl. No.</th>
 									<th>WC Name</th>
 									<th>Drying Yard</th>
-									<th>Dry Compost Wt</th>
-									<th>NPK Ratio</th>
+									<th>Material Type</th>
+									<th>Vehicle No</th>
+									<th>Driver Name</th>
 									<th>Description</th>
 									<th>Created Date</th>
 									<th>Action</th>
@@ -140,8 +141,9 @@
                                         <td>{{ i + 1}}</td>
                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                         <td>{{ x.dryingyard?.centerName || '--' }}</td>
-                                        <td>{{ x.dryCompostWt || '--' }} KG</td>
-					                              <td>{{ x.npkRatio || '--' }}</td>
+					<td>Garbage</td>
+                                        <td>OD21BF7055</td>
+					                              <td>Sujaoy Ghosh</td>
                                         <td>{{ x.description || '--' }}</td>
 
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
