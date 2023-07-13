@@ -8,7 +8,7 @@
     color: #fff;
     z-index: 999;
     margin-left: -86px;
-    height: 91dvh;
+    height: calc(94dvh - 36px);
     overflow-y: auto;
     transition: all .3s;
 }
