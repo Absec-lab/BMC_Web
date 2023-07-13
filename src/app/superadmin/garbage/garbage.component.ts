@@ -400,7 +400,7 @@ export class GarbageComponent implements OnInit {
             },
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
-            "tripStartReadingImg": fileName,
+            "tripStartReadingImg": fileUrl,
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
@@ -439,13 +439,19 @@ export class GarbageComponent implements OnInit {
                       const rowData =   this.activeTripList.map((item: any) => {
                        
                         return {
+                          wc_name: item.wc?.wcName,
                           vehicle_vehicleNo: item.vehicleNo,
                           driver_driverName: item.driver.driverName,
                           helper_name: item.helper.helperName,
                           route_routeName: item.route.routeName,
                           tripStartReading: item.tripStartReading,
                           vehicle_starttime: item.createdDate,
-                          trip_start_reading_image: item.tripStartReadingImg
+                          trip_start_reading_image: item.tripStartReadingImg,
+                          driver: item.driver,
+                          dry_weight: item.dryWt,
+                          gross_weight: item.grossWt,
+                          tare_weight: item.tareWt,
+                          wet_weight: item.wetWt
                         };
                       });
                     //  console.log("ActiveList",this.activeTripList)
@@ -820,12 +826,12 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
-    const dryWeightValue = dryWeightValueElement.value.trim();
-    if (dryWeightValue === '') {
-      this.toastService.showWarning('Dry weight is required.');
-      return;
-    }
+    // const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
+    // const dryWeightValue = dryWeightValueElement.value.trim();
+    // if (dryWeightValue === '') {
+    //   this.toastService.showWarning('Dry weight is required.');
+    //   return;
+    // }
 
     const data={
       "tareWt": this.form.value.tareWeightValue,
@@ -1171,7 +1177,7 @@ export class GarbageComponent implements OnInit {
     };
     await reader.readAsArrayBuffer(this.tripEndReadingImgFile);
 
-    if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
+    if (this.tripEndReadingImgFile.size > 15 * 1024 * 1024) {
       this.toastService.showWarning('Max file size allowed is: 15 MB');
       tripEndFileInputElement.value = '';
       return;
@@ -1240,7 +1246,9 @@ export class GarbageComponent implements OnInit {
           this.service.updateTrip(data).subscribe(
             data=>{
               this.toastService.showSuccess("Trip completed")
-              this.setVehicleNumber();
+              this.form.reset()
+              location.reload()
+              
               this.service.getActiveTrip().subscribe(
                 data => {
                   this.activeTripResponse = data

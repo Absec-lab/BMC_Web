@@ -21,37 +21,25 @@
                                 <div class="devider"></div>
                                 <div class="wrap-login">
                                     <div class="login-form ">
-                                        <form [formGroup]="form" autocomplete="off">
+                                        <form [formGroup]="form">
                                         <span class="login-form-title"> Welcome to the Bhubaneswar Municipal Corporation </span>
                                         <span class="login-form-subtitle m-b-16"> You are now entering a securer enviroment, where you can view overal activity of your system</span>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <input class="input" type="email" placeholder="Email" value="" class="form-control" formControlName="emailId" autocomplete="new-email"  /> <span class="focus-input"></span>
-                                            <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-user"></span> </span> -->
+                                            <input class="input" type="email" placeholder="Email" value="" class="form-control" formControlName="emailId"  /> <span class="focus-input"></span>
                                         </div>
                                         <div class="wrap-input validate-input m-b-16">
-                                            <div class="form-group inner-addon right-addon">
-                                                <div class="input-group col-6 mx-auto">
-                                                  <input name="password"
+                                            <div class="input-group d-flex">
+                                                <input name="password"
                                                       [type]="showPassword ? 'text' : 'password'"
-                                                      class="form-control pwd-control" formControlName="password" autocomplete="new-password"
+                                                      class="form-control pwd-control rounded-start w-auto  border-0" formControlName="password"
                                                       id="password-field" placeholder="Password"/>
-                                                  <div>
-                                                    <i alt="show" class="far fa-eye eye-show" 
-                                                    (click)="showPassword = !showPassword"
+                                                <div class="input-group-text  w-auto px-4 bg-light text-dark border-0" style="cursor: pointer; border-left: 2px solid rgba(0, 0, 0, 0.2) !important;" (click)="showPassword = !showPassword">
+                                                    <i alt="show" class="fas fa-eye eye-show rounded" style="font-size: 1.4rem;"
                                                     [class.hide]="showPassword"></i>
-                                                    <i alt="hide" class="far fa-eye-slash eye-hide" 
-                                                    (click)="showPassword = !showPassword"
+                                                    <i alt="hide" class="fas fa-eye-slash eye-hide rounded" style="font-size: 1.4rem;"
                                                     [class.hide]="!showPassword"></i>
-                                                  </div>
                                                 </div>
-                                              </div>
-                                            <!-- <input class="input" [type]="showPassword ? 'text' : 'password'" placeholder="Password" value="" class="form-control" formControlName="password" autocomplete="new-password" id="password-field"/>  -->
-                                               
-                                           
-                                            <!-- <span class="symbol-input"> <span class="glyphicon glyphicon-lock"></span> </span> -->
-                                            
-                                            
-                                             
+                                            </div>
                                         </div>
                                         <div class="flex-sb-m w-full p-b-25 m-t-16">
                                             <div class="col-md-6 padding-none">
