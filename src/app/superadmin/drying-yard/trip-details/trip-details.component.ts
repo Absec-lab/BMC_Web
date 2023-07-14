@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ImageCellRendererComponent } from '../../image-cell-renderer/image-cell-renderer.component';
 import { ModalService } from 'src/app/service/modal.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditDyActiveTripActionRendererComponent } from '../edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
 @Component({
   selector: 'app-trip-details',
   templateUrl: './trip-details.component.html',
@@ -128,15 +129,8 @@ columnDefs: ColDef[] = [
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
   { field: 'vehicle_starttime', headerName: 'Date', unSortIcon: true,resizable: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-    
-     `; 
-    }
+  { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
+    cellRenderer: 'editDyActiveTripActionRenderer'
   }
 ];
 
@@ -156,7 +150,8 @@ gridOptions = {
   copyHeadersToClipboard:true,
   enableRangeSelection:true,
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent
+    // imageCellRenderer: ImageCellRendererComponent,
+    editDyActiveTripActionRenderer: EditDyActiveTripActionRendererComponent
   }
 }
 rowData = [
