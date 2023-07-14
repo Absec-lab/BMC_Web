@@ -1396,6 +1396,7 @@ columnDefsComp: ColDef[] = [
   // }
   { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
   { field: 'trip_end_reading_image', headerName: 'Trip End Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
+  
 ];
 
 defaultColDefComp: ColDef = {
@@ -1412,7 +1413,8 @@ gridOptionsComp = {
   paginationPageSize: 10,
   rowStyle: { background: '#e2e8f0' },
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent
+    imageCellRenderer: ImageCellRendererComponent,
+    activeTripActionRenderer: ActiveTripActionRendererComponent
   }
 }
 rowDataComp = [

@@ -86,7 +86,7 @@ export class TripDetailsComponent implements OnInit {
             vehicle_vehicleNo: item.vehicle.vehicleNo,
             driver_driverName: item.driver.driverName,
             wcName: item.wc.wcName,
-            wetCompostWt: item.wetCompostWt,
+            wetCompostWt: item.totalWt,
             watCompostWtInDryingYard: item.watCompostWtInDryingYard,
             updateDate: item.date
           };
@@ -127,7 +127,7 @@ columnDefs: ColDef[] = [
   { field: 'wc_name', headerName: 'WC Name.', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
-  { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
+  // { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
   { field: 'vehicle_starttime', headerName: 'Date', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
     cellRenderer: 'editDyActiveTripActionRenderer'
@@ -165,7 +165,7 @@ columnDefsComp: ColDef[] = [
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
-  { field: 'watCompostWtInDryingYard', headerName: 'Wet Compost Wt In Drying Yard', unSortIcon: true,resizable: true},
+  // { field: 'watCompostWtInDryingYard', headerName: 'Wet Compost Wt In Drying Yard', unSortIcon: true,resizable: true},
   { field: 'updateDate', headerName: 'Date', unSortIcon: true,resizable: true},
 //  { headerName: 'Edit', width: 125, sortable: false, filter: false,
 //     cellRenderer: (data: any) => {
