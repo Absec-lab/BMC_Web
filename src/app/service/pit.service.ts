@@ -8,7 +8,7 @@ import { TodayTaskModel } from '../model/todaytask.model';
 import { PitStatusModel } from '../model/pit-status.model';
 
 
-//   const endpoint =  `http://15.207.62.200`;  //DEV
+//     const endpoint =  `http://15.207.62.200`;  //DEV
      const endpoint = `http://43.204.240.44`;   //PROD
 //   const endpoint = `http://localhost`;       //LOCCAL
 
@@ -38,6 +38,7 @@ const environment = {
 export class PitService {
 
   public selectMccId : BehaviorSubject<number> = new BehaviorSubject(0);
+  public selectWcName : BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private http: HttpClient) { }
 

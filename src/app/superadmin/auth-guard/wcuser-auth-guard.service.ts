@@ -10,14 +10,6 @@ export class WcUserAuthGuardService  {
 
   constructor(public auth: AuthService, public router: Router) {}
   // public canActivate(): boolean {
-
-
-  //   console.log("  BMC Admin chk :::   "+this.auth.isAuthenticated());
-  //   console.log("  WC Admin chk :::   "+this.auth.isAuthenticatedByWcuser);
-  //   console.log("  MCC Admin chk :::   "+this.auth.isAuthenticatedbyMccUser());
-
-  //   console.log("  Total check  ::  "+(!this.auth.isAuthenticated() || !this.auth.isAuthenticatedbyMccUser) && !this.auth.isAuthenticatedbyMccUser());
-
   //   if ((!this.auth.isAuthenticated() || !this.auth.isAuthenticatedByWcuser) && !this.auth.isAuthenticatedbyMccUser()) {
   //     this.router.navigate(['login']);    
   //   }
@@ -30,15 +22,14 @@ export class WcUserAuthGuardService  {
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-    console.log('  Authenticated ::  inside Wcuser auth :::::   ',this.auth.isAuthenticated());
-    console.log('  Authenticated ::  inside Wcuser auth 222 ********   :::::   ',this.auth.isAuthenticated());
-    console.log('  Authenticated ::  inside Wcuser auth 3333  ********     :::::   ',this.auth.isAuthenticatedbyMccUser());
-    console.log('  Authenticated ::  inside Wcuser auth 4444   ********    :::::   ',this.auth.isAuthenticatedByWcuser());
+  //  console.log('  Authenticated ::  inside Wcuser auth :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside Wcuser auth 222 ********   :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside Wcuser auth 3333  ********     :::::   ',this.auth.isAuthenticatedbyMccUser());
+  //  console.log('  Authenticated ::  inside Wcuser auth 4444   ********    :::::   ',this.auth.isAuthenticatedByWcuser());
   if (!this.auth.isAuthenticated() && (!this.auth.isAuthenticatedByWcuser() || !this.auth.isAuthenticatedbyMccUser())) {
-    console.log('  Authenticated ::  inside Wcuser auth 222    :::::   ',this.auth.isAuthenticated());
-    console.log('  Authenticated ::  inside Wcuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
-    console.log('  Authenticated ::  inside Wcuser auth 4444    :::::   ',this.auth.isAuthenticatedByWcuser());
-
+  //  console.log('  Authenticated ::  inside Wcuser auth 222    :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside Wcuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
+  //  console.log('  Authenticated ::  inside Wcuser auth 4444    :::::   ',this.auth.isAuthenticatedByWcuser());
     this.router.navigate(['/login']);
     return false;
   }
