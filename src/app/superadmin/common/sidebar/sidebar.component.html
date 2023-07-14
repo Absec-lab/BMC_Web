@@ -45,7 +45,7 @@
 						<span>{{ item.wcName }}</span>
 					</a>
 					<div class="sidebar-sub-menu collapse" id="collapseSidebarWCSubLinks-{{ indexOfItem }}">
-						<a *ngFor="let mccItem of item.mccList" (click)="onClickOnMenu(mccItem)" class="sidebar-link">
+						<a *ngFor="let mccItem of item.mccList" (click)="onClickOnMenu(mccItem , item)" class="sidebar-link">
 							<i class="fa-solid fa-arrow-right"></i>
 							<span>{{ mccItem.mccName }}</span>
 						</a>
