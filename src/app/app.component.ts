@@ -25,7 +25,7 @@ export class AppComponent {
               const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
               sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
               const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
-              appContentElement && appContentElement.classList.toggle('col-lg-9');
+              appContentElement && appContentElement.classList.toggle('col-xl-9');
               appContentElement && appContentElement.classList.toggle('col-12');
             }, 10);
           }
