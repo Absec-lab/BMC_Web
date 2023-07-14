@@ -201,7 +201,7 @@ export class PitViewComponent {
         this.getPitStageDetails();
       });
       this.pitService.selectWcName.subscribe( (val) => {
-        if(val != undefined){
+        if(val != undefined && val != ''){
           this.selectedWcName = val+' WEALTH CENTER';
         }
       });
