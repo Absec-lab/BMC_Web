@@ -17,6 +17,7 @@ export class GarbageComponent implements OnInit {
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
     this.wcId = localStorage.getItem("wcId");
     this.getRouteList()
+
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -61,7 +62,6 @@ export class GarbageComponent implements OnInit {
       this.helperList = this.loginResponse.data;
     });
     this.service.getAllDriverList().subscribe((data) => {
-      this.helperList = data;
       this.driverList = data;
     });
     this.service.getActiveTrip().subscribe(
@@ -379,7 +379,7 @@ export class GarbageComponent implements OnInit {
     formData.set("file", this.tripStartReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post(this.service.endpoint+":9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -400,7 +400,7 @@ export class GarbageComponent implements OnInit {
             },
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
-            "tripStartReadingImg": fileName,
+            "tripStartReadingImg": fileUrl,
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
@@ -439,13 +439,19 @@ export class GarbageComponent implements OnInit {
                       const rowData =   this.activeTripList.map((item: any) => {
                        
                         return {
+                          wc_name: item.wc?.wcName,
                           vehicle_vehicleNo: item.vehicleNo,
                           driver_driverName: item.driver.driverName,
                           helper_name: item.helper.helperName,
                           route_routeName: item.route.routeName,
                           tripStartReading: item.tripStartReading,
                           vehicle_starttime: item.createdDate,
-                          trip_start_reading_image: item.tripStartReadingImg
+                          trip_start_reading_image: item.tripStartReadingImg,
+                          driver: item.driver,
+                          dry_weight: item.dryWt,
+                          gross_weight: item.grossWt,
+                          tare_weight: item.tareWt,
+                          wet_weight: item.wetWt
                         };
                       });
                     //  console.log("ActiveList",this.activeTripList)
@@ -820,12 +826,12 @@ export class GarbageComponent implements OnInit {
       return;
     }
     
-    const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
-    const dryWeightValue = dryWeightValueElement.value.trim();
-    if (dryWeightValue === '') {
-      this.toastService.showWarning('Dry weight is required.');
-      return;
-    }
+    // const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
+    // const dryWeightValue = dryWeightValueElement.value.trim();
+    // if (dryWeightValue === '') {
+    //   this.toastService.showWarning('Dry weight is required.');
+    //   return;
+    // }
 
     const data={
       "tareWt": this.form.value.tareWeightValue,
@@ -1171,7 +1177,7 @@ export class GarbageComponent implements OnInit {
     };
     await reader.readAsArrayBuffer(this.tripEndReadingImgFile);
 
-    if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
+    if (this.tripEndReadingImgFile.size > 15 * 1024 * 1024) {
       this.toastService.showWarning('Max file size allowed is: 15 MB');
       tripEndFileInputElement.value = '';
       return;
@@ -1216,7 +1222,7 @@ export class GarbageComponent implements OnInit {
     formData.append("file", this.tripEndReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post(this.service.endpoint+":9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
@@ -1240,7 +1246,9 @@ export class GarbageComponent implements OnInit {
           this.service.updateTrip(data).subscribe(
             data=>{
               this.toastService.showSuccess("Trip completed")
-              this.setVehicleNumber();
+              this.form.reset()
+              location.reload()
+              
               this.service.getActiveTrip().subscribe(
                 data => {
                   this.activeTripResponse = data
@@ -1415,5 +1423,39 @@ wetWeightCal(){
   const temp1= this.form.value.unloadwetWeightValue
   this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
   }
+
+  allVehicleNos : any = []
+  allVehicleResponse : any = []
+  lastkeydown1: number = 0;
+  getAllWcVehicle(){
+    this.allVehicleNos = []
+    this.allVehicleResponse = []
+    let wcId:any = 0;
+    if(localStorage.getItem('role') == 'wcuser'){
+        wcId = localStorage.getItem('wcId')
+    }
+    this.service.getAllWcVehicle(wcId).subscribe( response => {
+         this.allVehicleResponse = response     
+    })
+  }
+
+
+  getVehicleNumberAuto($event:any){
+     let vehicleShortNo = (<HTMLInputElement>document.getElementById('vehicleNumber')).value;
+     if (vehicleShortNo.length > 2) {
+      if ($event.timeStamp - this.lastkeydown1 > 200) {
+        this.allVehicleNos = this.searchFromArray(this.allVehicleResponse, vehicleShortNo);
+      }
+    }
+  }
+  searchFromArray(arr:any[], regex:string) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    return matches;
+  };
 
 }
