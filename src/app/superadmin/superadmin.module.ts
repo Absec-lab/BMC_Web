@@ -54,6 +54,8 @@ import { HeadeDashboardComponentComponent } from './common/heade-dashboard-compo
 import { TermComponent } from './term/term.component';
 import { PolicyComponent } from './policy/policy.component';
 import { CommonService } from '../service/common.service';
+import { EditDyActiveTripModalComponent } from './drying-yard/edit-dy-active-trip-modal/edit-dy-active-trip-modal.component';
+import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
 
 @NgModule({
   declarations: [
@@ -103,11 +105,14 @@ import { CommonService } from '../service/common.service';
     TermComponent,
     PolicyComponent,
     HeadeDashboardComponentComponent,
-    DashboardFourComponent
+    DashboardFourComponent,
+    EditDyActiveTripModalComponent,
+    EditDyActiveTripActionRendererComponent
   ],
 
   entryComponents: [
-    EditActiveTripModalComponent
+    EditActiveTripModalComponent,
+    EditDyActiveTripModalComponent
   ],
  schemas:[
    CUSTOM_ELEMENTS_SCHEMA
