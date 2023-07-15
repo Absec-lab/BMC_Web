@@ -2,10 +2,10 @@
 <main class="container-fluid">
 	<div class="page-content p-3">
 		<div class="row">
-			<div class="col-lg-3 sidebar-parent">
+			<div class="col-xl-3 sidebar-parent d-none d-xl-block">
 				<app-sidebar></app-sidebar> 
 			</div>
-			<div class="col-lg-9 app-content">
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
 				<div class="card">
 					<div class="card-body">
 						<app-heade-dashboard-component></app-heade-dashboard-component>
@@ -32,7 +32,7 @@
 												</div>
 												<div class="col-md-9">
   
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="wcId" (ngModelChange)="getAllVehicleWcId()" [(ngModel)]="wcName">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="wcId">
 														<option [value]="item.wcId" *ngFor="let item of wcList">{{item.wcName}}</option>
 													</select>
 												</div>
@@ -53,10 +53,12 @@
                                         					<div class="col-md-6 mt-3">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Wet Compost Wt
+													Material Type
 												</div>
 												<div class="col-md-9">
-													<input type="text" name="" id="" class="form-control" formControlName="wetCompostWt">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="materialType" (change)="getFormData()">
+														<option [value]="item.statusName" *ngFor="let item of materialType" selected>{{item.statusName}}</option>
+													</select>
 												</div>
 											</div>
 										</div>
@@ -92,7 +94,7 @@
 												</div>
 												<div class="col-md-9">
 												<select name="" id="" class="form-control form-select bg-white text-black" formControlName="driverId"> 
-														<option [value]="item.driver.driverId" *ngFor="let item of driverList" selected>{{item.driver.driverName}}</option>
+														<option [value]="item.driverId" *ngFor="let item of driverList" selected>{{item.driverName}}</option>
 													</select>												
 												</div>
 												

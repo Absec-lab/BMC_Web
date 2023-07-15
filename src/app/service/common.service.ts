@@ -12,9 +12,9 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-  endpoint =  `http://15.207.62.200`;   //DEV
-//  endpoint = 'http://43.204.240.44'; //PROD
-//endpoint = `http://localhost`; //LOCCAL
+//  endpoint =  `http://15.207.62.200`;   //DEV
+    endpoint = 'http://43.204.240.44'; //PROD
+//  endpoint = `http://localhost`; //LOCCAL
 
  environment = {
         URL:  this.endpoint+":9091",  //prod url
@@ -276,7 +276,7 @@ export class CommonService {
                         const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
                         sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
                         const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
-                        appContentElement && appContentElement.classList.toggle('col-lg-9');
+                        appContentElement && appContentElement.classList.toggle('col-xl-9');
                         appContentElement && appContentElement.classList.toggle('col-12');
                 }
         }
@@ -357,5 +357,10 @@ export class CommonService {
 
                 return this.http.get(this.environment.URL + '/get/dashboard/details/' + wcId)
         }
-        
+        getAllMaterialType(){
+                return this.http.get(this.environment.URL+'/get/all/material/type');
+        }
+        upateCompostDataInDryingYard(data:any){
+                return this.http.post(this.environment.URL+'/inventory/update/compost/data/in/drying/yard',data)
+        }
 }

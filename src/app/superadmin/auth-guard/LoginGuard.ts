@@ -12,7 +12,7 @@ export class LoginGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-      console.log('  Authenticated ::  ',this.auth.isAuthenticated());
+     // console.log('  Authenticated ::  ',this.auth.isAuthenticated());
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['/login']);
       return false;

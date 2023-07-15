@@ -160,9 +160,9 @@
                             <tbody>
                                 <tr *ngFor="let item of mrfReportList">
                                     <td class="border-end border-bottom-0">{{item.goodsName}}</td>
-                                    <td class="border-end border-bottom-0">{{item.dailyMrfValue}} KG</td>
-                                    <td class="border-end border-bottom-0">{{item.weeklyMrfValue}} KG</td>
-                                    <td class="border-bottom-0">{{item.monthlyMrfValue}} KG</td>
+                                    <td class="border-end border-bottom-0">{{item.dailyMrfValue | number:'1.2-2'}} KG</td>
+                                    <td class="border-end border-bottom-0">{{item.weeklyMrfValue | number:'1.2-2'}} KG</td>
+                                    <td class="border-bottom-0">{{item.monthlyMrfValue | number:'1.2-2'}} KG</td>
                                 </tr>
                                 
                             </tbody>
