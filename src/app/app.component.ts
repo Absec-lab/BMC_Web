@@ -9,7 +9,22 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
   title = 'bbsr-bmc';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.handleNavigation();
+      }
+    });
+  }
+
+  handleNavigation() {
+    setTimeout(() => {
+      if (screen.width < 1200) {
+        const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
+        sidebarParentElement && sidebarParentElement.classList.add('hide-on-mobile');
+      }
+    });
+  }
 
   ngOnInit() {
     this.router.events.subscribe(event => {
