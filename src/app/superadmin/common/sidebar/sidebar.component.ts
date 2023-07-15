@@ -131,8 +131,11 @@ export class SidebarComponent {
    
   }
 
-  onClickOnMenu(mccItem : any){
+  onClickOnMenu(mccItem : any , slectedWc : any){
     this.pitService.selectMccId.next(mccItem.mccId)
+    this.pitService.selectWcName.next(slectedWc?.wcName)
+
+    
     this.router.navigate(['/superadmin/mcc/pit-view']);
   }
 

@@ -14,10 +14,10 @@ export class BmcAdminUserAuthGuardService  {
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-    console.log('  Authenticated ::  inside BmcAdmin auth :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside BmcAdmin auth :::::   ',this.auth.isAuthenticated());
   if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedbyBmcAdminUser()) {
-    console.log('  Authenticated ::  inside BmcAdmin auth 222    :::::   ',this.auth.isAuthenticated());
-    console.log('  Authenticated ::  inside BmcAdmin auth 3333    :::::   ',this.auth.isAuthenticatedbyBmcAdminUser());
+  //  console.log('  Authenticated ::  inside BmcAdmin auth 222    :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside BmcAdmin auth 3333    :::::   ',this.auth.isAuthenticatedbyBmcAdminUser());
     this.router.navigate(['/login']);
     return false;
   }

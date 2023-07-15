@@ -21,11 +21,12 @@
                 <div class="col-md-6 mb-3">
                     <div class="form-group">
                         <div class="row">
+                            
                             <div class="col-md-5">
-                                <label for="" class="text-white">Tare Weight</label>
+                                <label for="" class="text-white">Gross Weight</label>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control">
+                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -34,10 +35,10 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-5">
-                                <label for="" class="text-white">Gross Weight</label>
+                                <label for="" class="text-white">Tare Weight</label>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control">
+                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control" (input)="totalWeightCal()">
                             </div>
                         </div>
                     </div>

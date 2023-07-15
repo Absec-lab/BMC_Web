@@ -37,6 +37,7 @@ export class PitViewComponent {
   public pitMixStatus : Boolean=false;
   public pitHistoryStatus : Boolean=false;
   public mccId : number = 0;
+  public selectedWcName : string = '';
 
   public responseBodyT: PitStageBody = {
     filledUpDate: '',
@@ -199,6 +200,11 @@ export class PitViewComponent {
         this.onRefresh();
         this.getPitStageDetails();
       });
+      this.pitService.selectWcName.subscribe( (val) => {
+        if(val != undefined && val != ''){
+          this.selectedWcName = val+' WEALTH CENTER';
+        }
+      });
     this.updateSubscription = interval(10000).subscribe(
       (val) => { this.onRefresh()});
   }
@@ -233,7 +239,7 @@ export class PitViewComponent {
   closePitActivityModalstatus(){
     this.pitmodalstatus =false;
     this.yellowPitarr=[];
-   this.isEventNeeded = false;
+    this.isEventNeeded = false;
     this.form.reset();
   }
 
@@ -543,6 +549,7 @@ export class PitViewComponent {
     pitStatusOverwrite : string ="0";
 
     public showPitmodalstatus(pit : any) {
+      this.pitName = pit.pitName
       this.pitAllStages.pitId = pit.pitId;
       this.form.controls.batchIdVal.setValue(pit.batchId);
       this.form.controls.pitIdVal.setValue(pit.pitId);
@@ -698,6 +705,7 @@ export class PitViewComponent {
 
   // hanld esingle button click for different event of action in PIT process...
   public executeUpdateStatusByPitCurrentStatus(){
+   
    //console.log("action event  :::  current status of pit{} ",  this.clickedPit , this.clickedPit.pitStatus.pitConfigCode);
     if(this.clickedPit.pitStatus.pitConfigCode == pitCheckerEnum.PIT_STATUS_MIXUP_6_8D_COMPLETE ){
       this.activityMixedUpModal = true;

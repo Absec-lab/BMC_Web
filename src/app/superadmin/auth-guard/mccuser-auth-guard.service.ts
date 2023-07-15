@@ -14,10 +14,10 @@ export class MccUserAuthGuardService  {
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-    console.log('  Authenticated ::  inside mccuser auth :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside mccuser auth :::::   ',this.auth.isAuthenticated());
   if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedbyMccUser()) {
-    console.log('  Authenticated ::  inside mccuser auth 222    :::::   ',this.auth.isAuthenticated());
-    console.log('  Authenticated ::  inside mccuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
+  //  console.log('  Authenticated ::  inside mccuser auth 222    :::::   ',this.auth.isAuthenticated());
+  //  console.log('  Authenticated ::  inside mccuser auth 3333    :::::   ',this.auth.isAuthenticatedbyMccUser());
     this.router.navigate(['/login']);
     return false;
   }
