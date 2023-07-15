@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/service/toast.service';
 export class EditDyActiveTripModalComponent {
 
   @Input() data: any;
-
+  vehicleresponse:any
   activeTripsEditForm = new FormGroup({
     vehicle_no: new FormControl('', [Validators.required]),
     gross_weight: new FormControl,
@@ -29,6 +29,13 @@ export class EditDyActiveTripModalComponent {
       tare_weight: this.data.tare_weight,
       total_weight: ''
     });
+    this.service.getVehicleByVehicleNumber(this.activeTripsEditForm.value.vehicle_no).subscribe(
+      data=>{
+        this.vehicleresponse=data
+        console.log(this.vehicleresponse,"vehicleResponse")
+        this.activeTripsEditForm.controls.tare_weight.setValue(this.vehicleresponse.data.vehicleWt)
+      }
+    );
   }
   updateTripData(){
     const data={
@@ -43,6 +50,7 @@ export class EditDyActiveTripModalComponent {
         location.reload()
       }
     );
+    
   }
   totalWeightCal(){
     const temp=this.activeTripsEditForm.value.gross_weight;

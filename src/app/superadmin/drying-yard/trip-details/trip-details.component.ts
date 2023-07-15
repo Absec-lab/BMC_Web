@@ -68,7 +68,8 @@ export class TripDetailsComponent implements OnInit {
             driver_driverName: item.driver.driverName,
             wetCompostWt: item.wetCompostWt,            
             vehicle_starttime: item.createdDate,
-            wc_name:item.wc.wcName
+            wc_name:item.wc.wcName,
+            material_type:item.materialType
           };
         });
        console.log("ActiveList",this.activeTripList)
@@ -88,6 +89,7 @@ export class TripDetailsComponent implements OnInit {
             wcName: item.wc.wcName,
             wetCompostWt: item.totalWt,
             watCompostWtInDryingYard: item.watCompostWtInDryingYard,
+            material_type:item.materialType,
             updateDate: item.date
           };
         });
@@ -127,6 +129,7 @@ columnDefs: ColDef[] = [
   { field: 'wc_name', headerName: 'WC Name.', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
+  { field: 'material_type', headerName: 'Material Type', unSortIcon: true,resizable: true},
   // { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
   { field: 'vehicle_starttime', headerName: 'Date', unSortIcon: true,resizable: true},
   { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
@@ -155,7 +158,7 @@ gridOptions = {
   }
 }
 rowData = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry',  vehicle_starttime: '2023-05-19 06:00:00',wetCompostWt:'125.3' ,wc_name:"Pokhariput" }
+  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry',  vehicle_starttime: '2023-05-19 06:00:00',wetCompostWt:'125.3',material_type:'Compost' ,wc_name:"Pokhariput" }
 ];
 
 
@@ -166,7 +169,9 @@ columnDefsComp: ColDef[] = [
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'wetCompostWt', headerName: 'Wet Compost Wt', unSortIcon: true,resizable: true},
   // { field: 'watCompostWtInDryingYard', headerName: 'Wet Compost Wt In Drying Yard', unSortIcon: true,resizable: true},
+  { field: 'material_type', headerName: 'Material Type', unSortIcon: true,resizable: true},
   { field: 'updateDate', headerName: 'Date', unSortIcon: true,resizable: true},
+  
 //  { headerName: 'Edit', width: 125, sortable: false, filter: false,
 //     cellRenderer: (data: any) => {
 //      return `

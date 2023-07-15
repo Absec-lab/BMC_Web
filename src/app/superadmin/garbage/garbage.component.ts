@@ -887,7 +887,7 @@ export class GarbageComponent implements OnInit {
       },
       error=>{
         this.errorResponse=error
-        this.toastService.showSuccess(this.errorResponse.error.message)
+        this.toastService.showError(this.errorResponse.error.message)
       }
     );
     
