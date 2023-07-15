@@ -35,6 +35,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { ManpowerComponent } from './manpower/manpower.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,7 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-two',component: DashboardTwoComponent},
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-five',component: DashboardFiveComponent},
   {path: 'superadmin/drying-yard/trip-details',component: TripDetailsComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
   {path: 'superadmin/drying-yard/dry-compost-weighment',component: DryCompostWeighmentComponent}, 

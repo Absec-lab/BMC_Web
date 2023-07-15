@@ -806,3 +806,9 @@ input[type="number"] {
 select.bg-transparent option {
   background-color: red;
 }
+
+@media (max-width: 1199px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}

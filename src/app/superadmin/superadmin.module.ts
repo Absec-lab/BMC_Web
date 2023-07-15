@@ -55,6 +55,7 @@ import { PolicyComponent } from './policy/policy.component';
 import { CommonService } from '../service/common.service';
 import { EditDyActiveTripModalComponent } from './drying-yard/edit-dy-active-trip-modal/edit-dy-active-trip-modal.component';
 import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
+import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
@@ -108,6 +109,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
     DashboardFourComponent,
     EditDyActiveTripModalComponent,
     EditDyActiveTripActionRendererComponent,
+    DashboardFiveComponent,
     DisclaimerComponent,
     VehicleManagementComponent
   ],

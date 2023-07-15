@@ -37,4 +37,6 @@ export class MiniSidebarComponent {
     sidebarToggleElement?.click();
   }
 
+  navigatePage() {}
+
 }
