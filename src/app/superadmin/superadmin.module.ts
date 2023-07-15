@@ -109,7 +109,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
     DashboardFourComponent,
     EditDyActiveTripModalComponent,
     EditDyActiveTripActionRendererComponent,
-    DashboardFiveComponent
+    DashboardFiveComponent,
     DisclaimerComponent,
     VehicleManagementComponent
   ],
