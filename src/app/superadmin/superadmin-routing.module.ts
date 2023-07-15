@@ -34,7 +34,7 @@ import { ItemNameMasterComponent } from './item-name-master/item-name-master.com
 import { InventoryComponent } from './inventory/inventory.component';
 import { ManpowerComponent } from './manpower/manpower.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
-import { VehicleMangementComponent } from './vehicle-mangement/vehicle-mangement.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
 
 const routes: Routes = [
@@ -72,7 +72,7 @@ const routes: Routes = [
   {path: 'superadmin/inventory',component: InventoryComponent}, 
   {path: 'superadmin/manpower',component: ManpowerComponent}, 
   {path:'superadmin/disclaimer',component:DisclaimerComponent},
-  {path:'superadmin/vehicle/management',component:VehicleMangementComponent}
+  {path:'superadmin/vehicle/management',component:VehicleManagementComponent}
 ];
 
 @NgModule({

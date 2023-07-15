@@ -35,8 +35,8 @@
                                                                                                 </div>
                                                                                                 <div class="ms-3 d-flex-1">
                                                                                                         <select formControlName="itemCategoryId" class="form-control form-select" [(ngModel)]="itemCategoryId">
-                                                                                                                <option value="">Select</option>
-                                                                                                                <option value={{categoryName}} disabled selected>{{categoryName}}</option>
+                                                                                                                <option value="" disabled>Select</option>
+                                                                                                                
                                                                                                                 <option [value]="x.itemCategoryId" *ngFor="let x of categoryList;">{{x.categoryName}}</option>
                                                                                                         </select>
                                                                                                 </div>
@@ -72,7 +72,23 @@
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>
+                                                                                <div class="col-md-6">
+                                                                                        <div
+                                                                                                class="d-flex align-items-center w-100">
+                                                                                                <div>
+                                                                                                        Select Unit<span class="text-danger">*</span>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                        class="ms-3 d-flex-1">
+                                                                                                        <select formControlName="unitId" class="form-control form-select" >
+                                                                                                                <option value="" disabled>Select</option>
+                                                                                                                <option [value]="x.unitId" *ngFor="let x of unitList;">{{x.unit}}</option>
+                                                                                                        </select>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                </div>
                                                                         </div>
+                                                                        
                                                                 </form>
                                                         </div>
                                                 </div>
@@ -113,6 +129,7 @@
                                                                         <th>Sl. No.</th>
                                                                         <th>Item Category Name</th>
                                                                         <th>Item Name</th>
+                                                                        <th>Unit</th>
                                                                         <th>Description</th>
                                                                         <th>Created Date</th>
                                                                         <th>Action</th>
@@ -123,6 +140,7 @@
                                                                         <td>{{ i + 1}}</td>
                                                                         <td>{{ x.itemcatrgory?.categoryName || '--' }}</td>
                                                                         <td>{{ x.itemname || '--' }}</td>
+                                                                        <td>{{x.unitEntity.unit || '--'}}</td>
                                                                         <td>{{ x.description || '--' }}</td>
                                                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                                                         </td>

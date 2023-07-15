@@ -56,7 +56,7 @@ import { CommonService } from '../service/common.service';
 import { EditDyActiveTripModalComponent } from './drying-yard/edit-dy-active-trip-modal/edit-dy-active-trip-modal.component';
 import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
-import { VehicleMangementComponent } from './vehicle-mangement/vehicle-mangement.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +109,7 @@ import { VehicleMangementComponent } from './vehicle-mangement/vehicle-mangement
     EditDyActiveTripModalComponent,
     EditDyActiveTripActionRendererComponent,
     DisclaimerComponent,
-    VehicleMangementComponent
+    VehicleManagementComponent
   ],
 
   entryComponents: [
