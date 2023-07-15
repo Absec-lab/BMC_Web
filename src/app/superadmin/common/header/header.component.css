@@ -145,3 +145,23 @@
   background: #00bbf9;
   border-radius: 50%;
 }
+
+.app-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.btn-account {
+  background: #45C66D;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  border-radius: 50px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.btn-account i {
+  font-size: 20px;
+}

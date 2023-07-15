@@ -1,0 +1,15 @@
+.btn-dashboard-date-filter-btn {
+    background: #2B2B4D;
+    color: rgba(255,255,255, 0.6);
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    width: 100%;
+    border: 1px solid rgba(255,255,255, 0.6);
+    font-weight: 600;
+}
+
+.btn-dashboard-date-filter-btn:hover {
+    background: #70888E !important;
+    color: #fff;
+    border: 1px solid #70888E;
+}
