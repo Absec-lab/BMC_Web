@@ -33,6 +33,7 @@ import { ItemCategoryMasterComponent } from './item-category-master/item-categor
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ManpowerComponent } from './manpower/manpower.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
 
@@ -72,7 +73,8 @@ const routes: Routes = [
   {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
   {path: 'superadmin/inventory',component: InventoryComponent}, 
   {path: 'superadmin/manpower',component: ManpowerComponent}, 
-  {path: 'superadmin/vehicle-management',component: VehicleManagementComponent}
+  {path:'superadmin/disclaimer',component:DisclaimerComponent},
+  {path:'superadmin/vehicle/management',component:VehicleManagementComponent}
 ];
 
 @NgModule({

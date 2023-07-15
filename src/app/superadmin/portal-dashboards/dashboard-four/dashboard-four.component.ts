@@ -163,6 +163,7 @@ export class DashboardFourComponent implements OnInit {
     this.payloadInventory.fromDate = this.payloadInventory.fromDate ? this.payloadInventory.fromDate : this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
     this.payloadInventory.toDate = this.payloadInventory.toDate ? this.payloadInventory.toDate : this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
     this.getInventoryRecord();
+    this.getMrfReportByWc()
   }
 
   onInventoryChange(ev: any){

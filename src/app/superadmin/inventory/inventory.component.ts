@@ -40,6 +40,7 @@ export class InventoryComponent implements OnInit {
   itemIssueResponse: any
   itemStockList: any = []
   itemStockResponse: any
+  unitName:any
   form = new FormGroup({
     itemPurchaseId: new FormControl,
     itemCategoryId: new FormControl,
@@ -125,7 +126,7 @@ export class InventoryComponent implements OnInit {
             wcName : item.itemName?.wcEntity?.wcName,
             itemName: item.itemName.itemname,
             //unit: 0,
-            stockQuantity: item.stockQuantity
+            stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
 
           };
         });
@@ -135,11 +136,11 @@ export class InventoryComponent implements OnInit {
 
       }
     );
-    this.service.getAllUnit().subscribe(
-      data => {
-        this.unitList = data
-      }
-    );
+    // this.service.getAllUnit().subscribe(
+    //   data => {
+    //     this.unitList = data
+    //   }
+    // );
     this.service.getAllItemCategory().subscribe(
       data => [
         this.itemCategoryList = data
@@ -236,7 +237,7 @@ export class InventoryComponent implements OnInit {
                 return {
                   itemName: item.itemName.itemname,
                   //unit: 0,
-                  stockQuantity: item.stockQuantity
+                  stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
 
                 };
               });
@@ -314,7 +315,7 @@ export class InventoryComponent implements OnInit {
                 return {
                   itemName: item.itemName.itemname,
                   //unit: 0,
-                  stockQuantity: item.stockQuantity
+                  stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
 
                 };
               });
@@ -466,7 +467,7 @@ export class InventoryComponent implements OnInit {
       ...this.defaultColDef
     },
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 25,
     rowStyle: { background: '#e2e8f0' },
     copyHeadersToClipboard: true,
     enableRangeSelection: true
@@ -499,7 +500,7 @@ export class InventoryComponent implements OnInit {
       ...this.defaultColDefComp
     },
     pagination: true,
-    paginationPageSize: 20,
+    paginationPageSize: 25,
     rowStyle: { background: '#e2e8f0' }
   }
   rowDataPurchase = [
@@ -507,5 +508,16 @@ export class InventoryComponent implements OnInit {
   ];
   rowDataIssue = [];
   rowDataStock = [];
-
+  setItemUnit(){
+    const itemData=this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+    if(this.unitList.length>0){
+      this.unitList=[]
+      this.unitList.push(itemData?.unitEntity)
+    }
+    else{
+      this.unitList.push(itemData.unitEntity)
+    }
+    
+    console.log(itemData)
+  }
 }

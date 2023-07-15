@@ -11,7 +11,7 @@
                     </select> 
                 </div>
                 <div class="mt-4">
-                    <select id="wcId" formControlName="wcId_" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)">
+                    <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)">
                         <option value="undefined" selected disabled>Select Wc</option>
                         <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option>
                     </select>  
