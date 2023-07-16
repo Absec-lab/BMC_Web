@@ -16,7 +16,7 @@ export class CommonService {
     endpoint = 'http://43.204.240.44'; //PROD
 //  endpoint = `http://localhost`; //LOCCAL
 
- environment = {
+ public environment = {
         URL:  this.endpoint+":9091",  //prod url
         // LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
         LOGIN_SERVICE_URL: "http://43.204.240.44"+":8064/bmcwastemanagement/auth/users/login"
