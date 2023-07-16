@@ -77,11 +77,14 @@ export class LoginComponent {
    this.service.login(this.loginPayload).subscribe(data => {
     this.logindata = data;
     if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
-            && (this.logindata.userdetails[0].attributes.role == 'mccuser' || this.logindata.userdetails[0].attributes.role == 'wcuser') ){
+            && (this.logindata.userdetails[0].attributes.role == 'mccuser' || this.logindata.userdetails[0].attributes.role == 'wcuser' 
+                || this.logindata.userdetails[0].attributes.role == 'ttsuser') ){
           rolePermission = true;
     }else{
          if( this.logindata.userdetails[0].attributes.role == 'bmcadmin'){
-          roleSuperadminPermission = true; 
+             roleSuperadminPermission = true; 
+         }else if(this.logindata.userdetails[0].attributes.role == 'ttsuser'){
+             rolePermission = true;
          }else{
           this.toastService.showError('No Wealth Center Assigned to this User.');
          }
@@ -102,9 +105,32 @@ export class LoginComponent {
         localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
         localStorage.setItem('zoneId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined && this.logindata.userentity[0].mccEntity != undefined ? this.logindata.userentity[0].mccEntity?.zoneId?.zoneId : 0);   
       }
+      if(this.logindata.userrole != undefined 
+             && this.logindata.userrole?.userRole != undefined 
+             && this.logindata.userdetails.length == 0 
+             && this.logindata.userrole?.userRole == 'ttsuser'){
+
+              localStorage.setItem('userInfo', '');
+              localStorage.setItem('wcId',  '0');
+              localStorage.setItem('zoneId','0');
+      }
+     
       //this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
       //localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
-      this.route.navigate(['/superadmin/home'])
+     
+
+      if(this.logindata.userrole != undefined 
+        && this.logindata.userrole?.userRole != undefined 
+        && this.logindata.userrole?.userRole == 'ttsuser'){
+          console.log('  Test Added /superadmin/drying-yard/trip-details ');
+          this.route.navigate(['/superadmin/drying-yard/trip-details'])
+      }else if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
+        && (this.logindata.userdetails[0].attributes.role == 'mccuser')){
+          this.route.navigate(['/superadmin/mcc/pit-view'])
+      }else{
+          this.route.navigate(['/superadmin/home'])
+      }
+      
     }
 
   }, err => {
