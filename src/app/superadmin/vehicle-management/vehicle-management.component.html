@@ -2,16 +2,76 @@
 <main class="container-fluid">
 	<div class="page-content p-3">
 		<div class="row">
-			<div class="col-lg-3">
-				<app-sidebar></app-sidebar>
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
 			</div>
-			<div class="col-lg-9">
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
 				<div class="card">
 					<div class="card-body">
 						<app-heade-dashboard-component></app-heade-dashboard-component>
 					</div>
 				</div>
-				<marquee><b><h1> UNDER CONSTRUCTION</h1></b></marquee>
+				<marquee><b>
+						<h1> UNDER CONSTRUCTION</h1>
+					</b></marquee>
+				<!-- <div class="row" style="margin-top: 12px;">
+					<div class="container" style="display: flex;
+					align-items: flex-end;
+					justify-content: flex-end;
+				">
+						 <div class="col-sm-3">
+							<input type="text" class="formControl" placeholder="Vehicle Number">
+						</div>
+						<div class="col-sm-3">
+							<input type="text" class="formControl" placeholder="RC">
+						</div>
+						<div class="col-sm-2">
+							<button class="btn btn-primary">Search</button>
+						</div> -->
+
+				<!--	</div> -->
+				<!-- <div class="row">
+					<div class="container">
+						<table style="width: 100%;">
+							<thead style="color: white; background-color: #0393eb;">
+								<tr>
+									<th>Sl.No</th>
+									<th>Zone Name</th>
+									<th>WC Name</th>
+									<th>Vehicle No.</th>
+									<th>RC</th>
+									<th>Vehicle Status</th>
+									<th>Comment</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							
+								<tbody>
+									<tr style="border: 1px solid white;" *ngFor="let data of tabledata; let i = index"
+										[class.odd]="i % 2 !==0" [class.even]="i%2 === 0">
+										<td>{{data.sl}}</td>
+										<td>{{data.zonename}}</td>
+										<td>{{data.wcname}}</td>
+										<td>{{data.vehicleno}}</td>
+										<td>{{data.rc}}</td>
+										<td> <select name="" id="">
+												<option value="d" *ngFor="let d of status">{{d}}</option>
+											</select>
+										</td>
+										<td>
+											<input type="text">
+										</td>
+										<td>
+											<button class="btn" style="color: white; background-color: rgb(44, 31, 31);"
+												(click)="updateVehicleStatus(data)">Submit</button>
+										</td>
+									</tr>
+								</tbody>
+							
+						</table>
+					</div>
+				</div> -->
+
 			</div>
 		</div>
 	</div>

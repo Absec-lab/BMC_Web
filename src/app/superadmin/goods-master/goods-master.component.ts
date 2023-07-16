@@ -30,7 +30,7 @@ export class GoodsMasterComponent implements OnInit{
                 goodsId: new FormControl,
                 wcId: new FormControl(0, [Validators.required]),
                 goodsName: new FormControl('', [Validators.required]),
-                goodsPerKg: new FormControl('', [Validators.required]),
+                goodsPerKg: new FormControl('',),
                 goodsDesc: new FormControl
               });
 
@@ -79,7 +79,7 @@ export class GoodsMasterComponent implements OnInit{
                 this.form.value.wcId = parseInt(this.wcId);
                 const data={
                         "goodsName":this.form.value.goodsName,
-                        "goodsPerKg":this.form.value.goodsPerKg,
+                        // "goodsPerKg":this.form.value.goodsPerKg,
                         "goodsDesc":this.form.value.goodsDesc,
                         "wcId":{
                                 "wcId":this.form.value.wcId
@@ -139,7 +139,17 @@ export class GoodsMasterComponent implements OnInit{
                         return;
                 }
                 this.form.value.wcId = parseInt(this.wcId);
-                this.service.updateGoods(this.form.value).subscribe(
+                const data={
+                        
+                                "goodsId": this.form.value.goodsId,
+                                "wcId": {
+                                        "wcId":this.form.value.wcId
+                                },
+                                "goodsName": this.form.value.goodsName,
+                                "goodsDesc": this.form.value.goodsDesc
+                            
+                }
+                this.service.updateGoods(data).subscribe(
                         data=>{
                                 this.toastService.showSuccess("Goods data updated successfully!!")
                                 this.isAdd=true

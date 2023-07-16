@@ -2,7 +2,7 @@
 <main class="container-fluid">
 	<div class="page-content p-3">
 		<div class="row">
-			<div class="col-xl-3 sidebar-parent d-none d-xl-block">
+			<div class="col-xl-3 sidebar-parent ">
 				<app-sidebar></app-sidebar> 
 			</div>
 			<div class="col-xl-9 app-content mt-4 mt-xl-0">
@@ -129,7 +129,7 @@
 									<th>Sl. No.</th>
 									<th>WC Name</th>
 									<th>Drying Yard</th>
-									<th>Wet Compost Wt</th>
+									<th>Material Type</th>
 									<th>Vehicle No.</th>
 									<th>Driver Name</th>
 									<th>Description</th>
@@ -143,7 +143,7 @@
 
                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                         <td>{{ x.dryingyard?.centerName || '--' }}</td>
-                                        <td>{{ x.wetCompostWt  || '--' }} KG</td>
+                                        <td>{{ x.materialType  || '--' }}</td>
 					<td>{{ x.vehicle?.vehicleNo || '--' }}</td>
 					<td>{{ x.driver?.driverName || '--' }}</td>
 					<td>{{ x.description || '--' }}</td>

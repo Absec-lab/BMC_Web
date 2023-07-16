@@ -10,11 +10,18 @@ import { CommonService, DeactivationDto } from 'src/app/service/common.service';
         styleUrls: ['../../common.css', './vehicle-management.component.css']
 })
 export class VehicleManagementComponent implements OnInit {
+        
         [x: string]: any;
         isAdd: boolean = false
         isUpdate: boolean = false
         zoneResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
+        studentName:any
+        studentEmail:any
+        submitted = false;  
+  
+        id:any
+        studentBranch:any
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
         }
         zoneList: any = []
@@ -26,111 +33,44 @@ export class VehicleManagementComponent implements OnInit {
                                 this.zoneList = data
                         }
                 );
+                this.submitted=false;  
         }
 
         form = new FormGroup({
-                zoneId:new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                vehicleStatus:new FormControl,
+                comment: new FormControl
         });
 
-        editFormData = new FormGroup({
-                zoneId: new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
-        })
-        async getZones() {
-                try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
-                } catch (e) {
-                        console.error(e)
+        
+
+
+        tabledata = [
+                {"sl":1,
+                "zonename": 'south west zone',
+                "wcname":'pokhoriput',
+                "vehicleno":'VEH0001',
+                "routename":'Route 1',
+                "rc": 'OD 33AC7021',
+                "vehiclestatus":'Active',
+                "comment":'',
+
+                },
+                {"sl":2,
+                "zonename": 'easr west zone',
+                "wcname":'pokhoriput',
+                "vehicleno":'VEH0001',
+                "routename":'Route 2',
+                "rc": 'OD 33AC8021',
+                "vehiclestatus":'Inactive',
+                "comment":'',
+                
                 }
-        }
-        addNewZone() {
-                /* Manoj Remove Date 08-05-2023 */
-                // try {
-                //         console.log(this.form.value)
-                //         await this.service.post(`/zone/addZone`, this.form.value)
-                //         this.form.reset()
-                //         this.getZones()
-                // } catch (e) {
-                //         console.error(e)
-                // }
-                /* Manoj added Date 08-05-2023*/
-                this.service.addZone(this.form.value).subscribe(
-                        data => {
-                                window.alert("Zone data saved sucessfully")
-                                this.form.reset()
-                                this.service.getZoneAllData().subscribe(
-                                        data => {
-                                                this.zoneList = data
-                                        }
-                                );
-                        },
-                        error => {
-                                window.alert("Something went wrong")
-                        }
-                );
-        }
-        async removeZone(id: string) {
-                try {
-                        const res = await this.service.delete(`/zone/deleteZone/${id}`)
-                        this.getZones()
-                } catch (e) {
-                        console.error(e)
-                }
-        }
+        ]
 
-        deactivateZone(id: any) {
-                this.service.deactivateZone(id).subscribe(
-                        data => {
-                                window.alert("Zone deleted successfully")
-                                this.service.getZoneAllData().subscribe(
-                                        data => {
-                                                this.zoneList = data
-                                        }
-                                );
-                        },
-                        error => {
-                                window.alert("Something went wrong!!")
-                        }
-                );
+        status = [ "Active","Inactive"
+        ]
+        updateVehicleStatus(data:any){
+           console.log(data)
         }
-        updateData(item: any) {
-                this.isUpdate = true
-                this.isAdd = false
-                console.log(item)
-
-                this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        zoneName: item.zoneName,
-                        zoneDesc: item.zoneDesc
-                })
-               
-        }
-        cancel() {
-                this.isAdd = true
-                this.isUpdate = false
-        }
-
-        updateZone(){
-                console.log(this.form.value)
-                this.service.updateZone(this.form.value).subscribe(
-                        data=>{
-                                window.alert("Zone data updated successfully!!")
-                                this.isAdd=true
-                                this.isUpdate=false
-                                this.service.getZoneAllData().subscribe(
-                                        data => {
-                                                this.zoneList = data
-                                        }
-                                );
-                        },
-                        error=>{
-                                window.alert("something went wrong")
-                        }
-                );
-
-        }
+        
 }

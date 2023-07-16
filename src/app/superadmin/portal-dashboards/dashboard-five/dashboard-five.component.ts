@@ -3,11 +3,11 @@ import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['../../common.css', './dashboard.component.css']
+  selector: 'app-dashboard-five',
+  templateUrl: './dashboard-five.component.html',
+  styleUrls: ['../../../common.css', './dashboard-five.component.css']
 })
-export class DashboardComponent {
+export class DashboardFiveComponent {
 
   chart1: any;
   chart2: any;
@@ -253,4 +253,3 @@ export class DashboardComponent {
   }
 
 }
-

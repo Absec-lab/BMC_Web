@@ -25,6 +25,7 @@ import { MccMasterComponent } from './superadmin/mcc-master/mcc-master.component
 import { TtsUserAuthGuardService } from './superadmin/auth-guard/ttsuser-auth-guard.service';
 import { BmcWcMccUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-mcc-user-auth-guard.service';
 import { BmcWcAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-adminuser-auth-guard.service';
+import { MrfTabComponent } from './superadmin/mrf-tab/mrf-tab.component';
 
 
 const routes: Routes = [
@@ -36,11 +37,6 @@ const routes: Routes = [
   {
     component:HomeComponent,
     path:'superadmin/home',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  },
-  {
-    component:DashboardComponent,
-    path:'superadmin/dashboard',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   },
   {
@@ -145,6 +141,16 @@ const routes: Routes = [
     component:TripDetailsComponent,
     path:'superadmin/drying-yard/trip-details',
     canActivate:[LoginGuard,TtsUserAuthGuardService]
+  } ,
+  {
+    component:DashboardComponent,
+    path:'superadmin/dashboard',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  } ,
+  {
+    component:MrfTabComponent,
+    path:'superadmin/mrf-tab',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   } 
 ];
 
