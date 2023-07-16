@@ -826,6 +826,29 @@ export class MrfTabComponent implements OnInit {
             this.rowDataBailing = rowDataBailing
           }
         );
+        this.service.getAllBailingStock().subscribe(
+          data => {
+            this.itemStockResponse = data
+            this.itemStockList = this.itemStockResponse.data
+            console.log(this.itemStockList,"bailingList")
+            const rowDataStock = this.itemStockList.map((item: {
+              stockQuantity: any; goodssubEntity: any; wcEntity:any;
+            }) => {
+    
+              return {
+                itemName: item.goodssubEntity.subgoodsName,
+                //unit: 0,
+                stockQuantity: item.stockQuantity,
+                wcName:item.wcEntity.wcName
+    
+              };
+            });
+            console.log("itemStockList", this.itemStockList)
+            console.log("rowDataStock", rowDataStock)
+            this.rowDataStock = rowDataStock;
+    
+          }
+        );
       },
       error => {
         window.alert("something went wrong")
