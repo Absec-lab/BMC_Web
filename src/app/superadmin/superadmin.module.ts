@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
+import { MrfTabComponent } from './mrf-tab/mrf-tab.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { MapComponent } from './map/map.component';
@@ -75,6 +76,7 @@ import { PolicyComponent } from './policy/policy.component';
     LoginComponent,
     GarbageComponent,
     MrfComponent,
+    MrfTabComponent,
     PitViewComponent,
     MapComponent,
     ModalComponent,

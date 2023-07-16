@@ -16,6 +16,7 @@ import { HelperMasterComponent } from './helper-master/helper-master.component';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
+import { MrfTabComponent } from './mrf-tab/mrf-tab.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { MapComponent } from './map/map.component';
@@ -53,6 +54,7 @@ const routes: Routes = [
   {path: 'superadmin/helper-master',component: HelperMasterComponent},
   {path: 'superadmin/garbage',component: GarbageComponent}, 
   {path: 'superadmin/mrf',component: MrfComponent},
+  {path: 'superadmin/mrf-tab',component: MrfTabComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
   {path:'map/view',component:MapComponent},
