@@ -127,6 +127,7 @@ export class InventoryComponent implements OnInit {
             itemName: item.itemName.itemname,
             //unit: 0,
             stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
+            // stockQuantity: item.stockQuantity
 
           };
         });
