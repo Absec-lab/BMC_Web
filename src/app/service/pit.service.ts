@@ -9,15 +9,10 @@ import { PitStatusModel } from '../model/pit-status.model';
 
 
 //     const endpoint =  `http://15.207.62.200`;  //DEV
-     const endpoint = `http://43.204.240.44`;   //PROD
-//   const endpoint = `http://localhost`;       //LOCCAL
+       const endpoint = `http://43.204.240.44`;   //PROD
+//     const endpoint = `http://localhost`;       //LOCCAL
 
 const environment = {
-
-//  URL: `http://localhost:9091`,  //localhost url
-//  PIT_SERVICE_URL: 'http://localhost:8062/',
-//  REPORT_SERVICE_URL: 'http://localhost:8065/',
-//  AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
 
   URL: endpoint+':9091',  //dev url
   AUTH_SERVICE_URL: endpoint+':8064/bmcwastemanagement/auth/users/login',
