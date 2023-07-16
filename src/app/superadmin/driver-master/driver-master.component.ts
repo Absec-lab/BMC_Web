@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
@@ -13,7 +14,12 @@ export class DriverMasterComponent implements OnInit {
         isUpdate: boolean = false
         driverId: any
         wcId: any
-        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+        constructor(
+                private service: CommonService, 
+                private formBuilder: FormBuilder, 
+                private toastService: ToastService,
+                private httpClient: HttpClient
+        ) {
                 this.getList()
                 this.getWCList()
         }
@@ -99,6 +105,11 @@ export class DriverMasterComponent implements OnInit {
                                 this.toastService.showWarning('DL number is required.');
                                 return;
                         }
+                        const dlNumberPattern = /^[A-Z]{2}-\d{13}$/;
+                        if (!dlNumberPattern.test(dlNumber)) {
+                                this.toastService.showWarning('DL number is invalid.');
+                                return;
+                        }
                         if (!this.driverPhoto) {
                                 this.toastService.showWarning('Driver photo is required.');
                                 return;
@@ -110,6 +121,15 @@ export class DriverMasterComponent implements OnInit {
                         const phoneNo = this.form.value.phoneNo?.toString().trim();
                         if (!phoneNo) {
                                 this.toastService.showWarning('Phone number is required.');
+                                return;
+                        }
+                        if (phoneNo.length > 10) {
+                                this.toastService.showWarning(`Phone number can't be longer than 10 digits.`);
+                                return;
+                        }
+                        const pattern = /^[6-9]\d{9}$/;
+                        if (!pattern.test(phoneNo)) {
+                                this.toastService.showWarning('Phone number is invalid.');
                                 return;
                         }
                         const dlExpiry = this.form.value.dlExpiry?.trim();
@@ -140,8 +160,17 @@ export class DriverMasterComponent implements OnInit {
                                         "wcId":localStorage.getItem("wcId")
                                 }
                         }
-                        console.log(data)
-                        await this.service.post(`/zone/addDriver`, data)
+                        await this.httpClient.post(`${this.service.environment.URL}/zone/addDriver`, data).subscribe(
+                                (response: any) => {
+                                this.toastService.showSuccess(`Driver registration completed.`);
+                                this.getList();
+                                this.service.getAllDriverList().subscribe(data => {this.list = data});
+                                return;
+                                }, (error: any) => {
+                                this.toastService.showError(`Unable to complete driver registration. Server error.`);
+                                return;
+                                }
+                        );
                         this.form.reset()
                         this.service.getAllDriverList().subscribe(
                                 data => {
@@ -152,6 +181,7 @@ export class DriverMasterComponent implements OnInit {
                         console.error(e)
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteDriver/${id}`)
@@ -240,5 +270,20 @@ export class DriverMasterComponent implements OnInit {
                         }
                 );
 
+        }
+        deactivateDriver(id: any) {
+                this.service.deactivateDriver(id).subscribe(
+                        data => {
+                                window.alert("Item Driver deleted successfully")
+                                this.service.getAllDriverList().subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
+                        },
+                        error => {
+                                window.alert("Something went wrong!!")
+                        }
+                );
         }
 }
