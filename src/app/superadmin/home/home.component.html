@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="home-card-boxes">
-            <a routerLink="/superadmin/portal-dashboards/dashboard-four" class="home-card home-card-1">
+            <a routerLink="/superadmin/dashboard" class="home-card home-card-1" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
                 <div class="text-center">
                     <img src="/assets/images/icons/tachometer.png" alt="" class="home-card-icon">
                     <h5>Dashboard</h5>
