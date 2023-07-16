@@ -5,7 +5,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 @Component({
   selector: "app-dashboard-one",
   templateUrl: "./dashboard-one.component.html",
-  styleUrls: ["../../common.css", "./dashboard-one.component.css"],
+  styleUrls: ["../../../common.css", "./dashboard-one.component.css"],
 })
 export class DashboardOneComponent {
   chart1: any;

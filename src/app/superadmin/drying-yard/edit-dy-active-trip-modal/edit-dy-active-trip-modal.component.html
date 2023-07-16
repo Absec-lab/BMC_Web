@@ -26,7 +26,7 @@
                                 <label for="" class="text-white">Gross Weight</label>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control">
+                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control" (input)="totalWeightCal()">
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <label for="" class="text-white">Tare Weight</label>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control" (input)="totalWeightCal()">
+                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control" >
                             </div>
                         </div>
                     </div>

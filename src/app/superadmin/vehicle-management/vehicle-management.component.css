@@ -241,3 +241,11 @@
 .modal-lg {
 	--bs-modal-width: 700px;
 }
+
+.odd{
+	background-color: #99A1BF;
+}
+
+.even{
+	background-color: #B4BDD9;
+}
