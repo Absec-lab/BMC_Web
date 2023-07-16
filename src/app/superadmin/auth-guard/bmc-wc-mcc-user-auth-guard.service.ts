@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Router, CanActivate, UrlTree } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Router, UrlTree } from '@angular/router';
-
 @Injectable({
   providedIn: 'root'
 })
-export class MccUserAuthGuardService  {
+export class BmcWcMccUserAuthGuardService  {
+
   constructor(public auth: AuthService, public router: Router) {}
- 
+
+
   canActivate():
   | Observable<boolean | UrlTree>
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-  if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedbyMccUser()) {
+  if (!this.auth.isAuthenticated() || ( !this.auth.isAuthenticatedbyBmcAdminUser() && !this.auth.isAuthenticatedByWcuser() && !this.auth.isAuthenticatedbyMccUser())) {
     this.router.navigate(['/login']);
     return false;
   }
   return true;
 }
-
-
 
 }
