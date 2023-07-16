@@ -182,10 +182,10 @@
 															<div class="col-md-6 mt-3">
 															<div class="row">
 																<div class="col-md-3 d-flex align-items-center pe-0">
-																	No. Of Bailing<span class="text-danger">*</span>
+																	No. Of Bailing (Pkts)<span class="text-danger">*</span>
 																</div>
 																<div class="col-md-9">
-																	<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+																	<input type="number" name="" min="0" id="" class="form-control" formControlName="noOfPackets">
 																</div>
 															</div>
 														</div>
@@ -195,7 +195,7 @@
 																	Bailing Weight<span class="text-danger">*</span>
 																</div>
 																<div class="col-md-9">
-																	<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+																	<input type="number" name="" min="0" id="" class="form-control" formControlName="bailingWeight">
 																</div>
 															</div>
 														</div>
@@ -214,7 +214,7 @@
 											</div>
 										</div>
 										<div class="text-end mt-3" *ngIf="isAdd">
-											<button class="btn btn-primary px-5 py-2" (click)="saveMrf()">Add</button>
+											<button class="btn btn-primary px-5 py-2" (click)="saveBailing()">Add</button>
 										</div>
 										<div class="text-end mt-3" *ngIf="isUpdate">
 											<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
@@ -224,7 +224,7 @@
 										<div class="mt-4">
 											<ag-grid-angular
 												class="ag-theme-alpine"
-												[rowData]="rowDataMrf"
+												[rowData]="rowDataBailing"
 												[columnDefs]="columnDefsBailing"
 												[gridOptions]="gridOptions"
 												[animateRows]="true"
@@ -327,7 +327,7 @@
 									</div>
 								</div>
 								<div class="text-end mt-3" *ngIf="isAdd">
-									<button class="btn btn-primary px-5 py-2" (click)="saveMrf()">Add</button>
+									<button class="btn btn-primary px-5 py-2" (click)="soldBailing()">Add</button>
 								</div>
 								<div class="text-end mt-3" *ngIf="isUpdate">
 									<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>

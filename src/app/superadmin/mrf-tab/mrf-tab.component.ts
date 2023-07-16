@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/service/toast.service';
 })
 export class MrfTabComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe,private toastService:ToastService) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe, private toastService: ToastService) {
     this.getItemName()
     this.getItemcategory()
     this.wcId = localStorage.getItem('wcId')
@@ -22,22 +22,22 @@ export class MrfTabComponent implements OnInit {
   }
   isAdd: boolean = true
   isUpdate: boolean = false
-  goodList:any=[]
-  goodResponse:any
-  subGoodResponse:any
-  subgoodList:any=[]
+  goodList: any = []
+  goodResponse: any
+  subGoodResponse: any
+  subgoodList: any = []
   mrfGridList: any = []
   mrfGridResponse: any
   list: any = []
   goodsList: any = []
   goodsName: any
-  subGoodsId:any
-  mrfTrnsId:any
-  mrfResponse:any
-  mrfList:any
-  isActive:any
+  subGoodsId: any
+  mrfTrnsId: any
+  mrfResponse: any
+  mrfList: any
+  isActive: any
   selectionMode = "multiple";
-  wcId : any = 0;
+  wcId: any = 0;
   vehicleNo: any
   searchText: any;
   activeTripResponse: any
@@ -81,14 +81,16 @@ export class MrfTabComponent implements OnInit {
     unitId: new FormControl,
     uploadBill: new FormControl,
     issueDate: new FormControl,
-    itemPurchaseDate: new FormControl
+    itemPurchaseDate: new FormControl,
+    noOfPackets: new FormControl,
+    bailingWeight: new FormControl
   });
   editForm = new FormGroup({
     goodsId: new FormControl,
     subGoodId: new FormControl,
-    interMaterial:new FormControl,
+    interMaterial: new FormControl,
     mrfDescription: new FormControl,
-    quntaum:new FormControl,
+    quntaum: new FormControl,
     goods: new FormControl,
     subGood: new FormControl,
     itemCategoryId: new FormControl,
@@ -101,100 +103,73 @@ export class MrfTabComponent implements OnInit {
     description: new FormControl
   })
   unitList: any = []
+  bailingList: any = []
+  bailingGridresponse: any
+  bailingGridList: any = []
+  rowDataBailing: any
   ngOnInit() {
     this.service.getAllMrf(parseInt(this.wcId)).subscribe(
       data => {
-           this.mrfGridResponse = data
-           this.mrfGridList = this.mrfGridResponse
-           const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
-            
-             return {
-               wcName : item.wcId?.wcName,
-               goods_name: item.goods.goodsName,
-               sub_goods_name: item.subGood.subgoodsName,
-               goods: item.goods.goodsPerKg,
-               inert_material: item.interMaterial,
-               quntaum: item.quntaum,
-               description: item.mrfDesc,     
-               created_date : item.createdDate
-              
-             };
-           });
-          console.log("MrfGridList",this.mrfGridList)
-          console.log("rowData",rowDataMrf)
-          this.rowDataMrf=rowDataMrf;
-           
-         
-                 // window.alert("Mrf data updated successfully!!")
-                 // this.isAdd = true
-                 // this.isUpdate = false
-                 // this.getList()
-                 // this.form.reset()
-         
- 
-         console.log(this.mrfList)
-       }
-     );
-     this.getAllGoods()
-
-    this.service.getAllItemPurchase().subscribe(
-      data => {
-        this.itemPurchaseResponse = data
-        this.itemPurchaseList = this.itemPurchaseResponse
-        const rowDataPurchase = this.itemPurchaseList.map((item: { itemCategory: any;  itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost: any; uploadBill: any; description: any; createdDate: any; updateDate: any; }) => {
+        this.mrfGridResponse = data
+        this.mrfGridList = this.mrfGridResponse
+        const rowDataMrf = this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
 
           return {
-            wcName : item.itemName?.wcEntity?.wcName,
-            itemCategoryName: item.itemCategory.categoryName,
-            itemName: item.itemName.itemname,
-            unit: 0,
-            itemQuantity: item.itemQuantity + " " + item.unit.unit,
-            itemCost: item.itemCost,
-            uploadBill: item.uploadBill,
-            purchaseDate: this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
-            description: item.description
-          };
-        });
-        console.log("itemPurchaseList", this.itemPurchaseList)
-        console.log("rowDataPurchase", rowDataPurchase)
-        this.rowDataPurchase = rowDataPurchase;
-
-      }
-    );
-    this.service.getAllItemIssue().subscribe(
-      data => {
-        this.itemIssueResponse = data
-        this.itemIssueList = this.itemIssueResponse
-        const rowDataIssue = this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate: any; }) => {
-
-          return {
-            wcName : item.itemName?.wcEntity?.wcName,
-            itemName: item.itemName.itemname,
-            //unit: 0,
-            itemQuantity: item.issueQuantity + " " + item.unit.unit,
-            createdDate: item.createdDate
+            wcName: item.wcId?.wcName,
+            goods_name: item.goods.goodsName,
+            sub_goods_name: item.subGood.subgoodsName,
+            goods: item.goods.goodsPerKg,
+            inert_material: item.interMaterial,
+            quntaum: item.quntaum,
+            description: item.mrfDesc,
+            created_date: item.createdDate
 
           };
         });
-        console.log("itemIssueList", this.itemIssueList)
-        console.log("rowData", rowDataIssue)
-        this.rowDataIssue = rowDataIssue;
-
+        console.log("MrfGridList", this.mrfGridList)
+        console.log("rowData", rowDataMrf)
+        this.rowDataMrf = rowDataMrf;
+        console.log(this.mrfList)
       }
     );
-    this.service.getAllItemStockList().subscribe(
+    this.service.getAllBailingList().subscribe(
+      data => {
+        this.bailingGridresponse = data
+        this.bailingGridList = this.bailingGridresponse.data
+        console.log(this.bailingGridList, "BailingGriid")
+        const rowDataBailing = this.bailingGridList.map((item: { goods: any; wcId: any; subGood: any; createdDate: any; noOfPackets: any; bailingWeight: any; mrfDesc: any; updateDate: any; }) => {
+
+          return {
+            wcName: item.wcId?.wcName,
+            goods_name: item.goods.goodsName,
+            sub_goods_name: item.subGood.subgoodsName,
+            goods: item.goods.goodsPerKg,
+            noOfPackets: item.noOfPackets,
+            descriptions: item.mrfDesc,
+            bailing_weight: item.bailingWeight,
+            created_date: item.createdDate
+          };
+        });
+
+        this.rowDataBailing = rowDataBailing
+        console.log(this.rowDataBailing)
+      }
+    );
+    this.getAllGoods()
+    this.service.getAllBailingStock().subscribe(
       data => {
         this.itemStockResponse = data
-        this.itemStockList = this.itemStockResponse
+        this.itemStockList = this.itemStockResponse.data
+        console.log(this.itemStockList,"bailingList")
         const rowDataStock = this.itemStockList.map((item: {
-          stockQuantity: any; itemName: any;
+          stockQuantity: any; goodssubEntity: any; wcEntity:any;
         }) => {
 
           return {
-            wcName : item.itemName?.wcEntity?.wcName,
-            itemName: item.itemName.itemname,
+            itemName: item.goodssubEntity.subgoodsName,
             //unit: 0,
-            stockQuantity: item.stockQuantity
+            stockQuantity: item.stockQuantity,
+            wcName:item.wcEntity.wcName
 
           };
         });
@@ -223,48 +198,48 @@ export class MrfTabComponent implements OnInit {
   itemCategoryList: any = []
   itemNameList: any = []
 
-  getAllGoods(){
+  getAllGoods() {
     this.service.getAllGoods(parseInt(this.wcId)).subscribe(
-     data=>{
-       console.log('  goods res ::  ',data)
-      this.goodResponse=data
-      this.goodList=this.goodResponse
-      //console.log(this.goodList)
-     }
+      data => {
+        console.log('  goods res ::  ', data)
+        this.goodResponse = data
+        this.goodList = this.goodResponse
+        //console.log(this.goodList)
+      }
     );
- }
- getAllSubGoods(){
-   this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
-     data=>{
-       this.subGoodResponse=data
-       //console.log(this.subGoodResponse)
-       this.subgoodList=this.subGoodResponse
-     }
-   );
- }
- getAllSubGoodByGoodId(){
-   console.log(this.form.value.goodsId)
-   this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
-           data=>{
-                   this.responseData=data
-                   this.subgoodList = this.responseData   //this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-                   //this.form.value.goodsId=this.responseData.goods.goodId
-                   //this.goodsName=this.responseData.goods.goodsName
-                   console.log(this.subgoodList)
-           }
-   );
-}
- async getList() {
-   try {
-           let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-           this.list = await this.service.get(`/zone/getAllMrf/`+ wcId)
-          // this.goodsList = await this.service.get(`/zone/getAllGoods`)
-           //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+  }
+  getAllSubGoods() {
+    this.service.getAllSubGood(parseInt(this.wcId)).subscribe(
+      data => {
+        this.subGoodResponse = data
+        //console.log(this.subGoodResponse)
+        this.subgoodList = this.subGoodResponse
+      }
+    );
+  }
+  getAllSubGoodByGoodId() {
+    console.log(this.form.value.goodsId)
+    this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
+      data => {
+        this.responseData = data
+        this.subgoodList = this.responseData   //this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
+        //this.form.value.goodsId=this.responseData.goods.goodId
+        //this.goodsName=this.responseData.goods.goodsName
+        console.log(this.subgoodList)
+      }
+    );
+  }
+  async getList() {
+    try {
+      let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+      this.list = await this.service.get(`/zone/getAllMrf/` + wcId)
+      // this.goodsList = await this.service.get(`/zone/getAllGoods`)
+      //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
-   } catch (e) {
-           console.error(e)
-   }
-}
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   async getItemPurchaseList() {
     try {
@@ -282,7 +257,7 @@ export class MrfTabComponent implements OnInit {
       console.error(e)
     }
   }
-  saveMrf(){
+  saveMrf() {
 
     if (this.form.status === 'INVALID') {
       if (!this.wcId) {
@@ -328,80 +303,82 @@ export class MrfTabComponent implements OnInit {
       "mrfDesc": this.form.value.mrfDesc,
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods,
-      "wcId":parseInt(this.wcId)
-   }
-   console.log(data)
-   this.service.saveMrfData(data).subscribe(
-    data=>{
-      window.alert("Mrf data saved successfully")
+      "wcId": {
+        "wcId": localStorage.getItem("wcId")
+      }
+    }
+    console.log(data)
+    this.service.saveMrfData(data).subscribe(
+      data => {
+        window.alert("Mrf data saved successfully")
         this.mrfGridResponse = data
         this.mrfGridList = this.mrfGridResponse.data
-        const rowDataMrf =   this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
-         
+        const rowDataMrf = this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
+
           return {
             goods_name: item.goods.goodsId,
             sub_goods_name: item.subGood.goodssubId,
             goods: item.goods,
             inert_material: item.interMaterial,
             description: item.mrfDesc,
-            quntaum:item.quntaum,
-            wcName : item.wcId?.wcName
+            quntaum: item.quntaum,
+            wcName: item.wcId?.wcName
 
           };
         });
-       console.log("MrfList",this.mrfGridList)
-       console.log("rowData",rowDataMrf)
-       this.rowDataMrf=rowDataMrf;
-        
-      
-              // window.alert("Mrf data updated successfully!!")
-              // this.isAdd = true
-              // this.isUpdate = false
-              // this.getList()
-              // this.form.reset()
+        console.log("MrfList", this.mrfGridList)
+        console.log("rowData", rowDataMrf)
+        this.rowDataMrf = rowDataMrf;
+
+
+        // window.alert("Mrf data updated successfully!!")
+        // this.isAdd = true
+        // this.isUpdate = false
+        // this.getList()
+        // this.form.reset()
       },
       error => {
-              window.alert("something went wrong")
+        window.alert("something went wrong")
       }
-    
-   );   
-   this.getList()
-   this.form.reset()
+
+    );
+    this.getList()
+    this.form.reset()
   }
   updateMrf() {
-    console.log("Form Value"+this.form.value)
+    console.log("Form Value" + this.form.value)
     this.service.updateMrf(this.form.value).subscribe(
-            data => {
-              this.mrfGridResponse = data
-              this.mrfGridList = this.mrfGridResponse.data
-              const rowDataMrf =   this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate:any; }) => {
-               
-                return {
-                  goods_name: item.goods.goodsId,
-                  sub_goods_name: item.subGood.goodssubId,
-                  goods: item.goods,
-                  inert_material: item.interMaterial,
-                  description: item.mrfDesc, 
-                  quntaum: item.quntaum    
-                  
-                };
-              });
-             console.log("MrfGridList",this.mrfGridList)
-             console.log("rowData",rowDataMrf)
-             this.rowDataMrf=rowDataMrf;
-              
-            
-                    // window.alert("Mrf data updated successfully!!")
-                    // this.isAdd = true
-                    // this.isUpdate = false
-                    // this.getList()
-                    // this.form.reset()
-            },
-            error => {
-                    window.alert("something went wrong")
-            }
+      data => {
+        this.mrfGridResponse = data
+        this.mrfGridList = this.mrfGridResponse.data
+        const rowDataMrf = this.mrfGridList.map((item: { goods: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
+
+          return {
+            goods_name: item.goods.goodsId,
+            sub_goods_name: item.subGood.goodssubId,
+            goods: item.goods,
+            inert_material: item.interMaterial,
+            description: item.mrfDesc,
+            quntaum: item.quntaum
+
+          };
+        });
+        console.log("MrfGridList", this.mrfGridList)
+        console.log("rowData", rowDataMrf)
+        this.rowDataMrf = rowDataMrf;
+
+
+        // window.alert("Mrf data updated successfully!!")
+        // this.isAdd = true
+        // this.isUpdate = false
+        // this.getList()
+        // this.form.reset()
+      },
+      error => {
+        window.alert("something went wrong")
+      }
     );
-  
+
   }
   async addItemPurchase() {
     try {
@@ -456,10 +433,11 @@ export class MrfTabComponent implements OnInit {
 
             }
           );
-          this.service.getAllItemStockList().subscribe(
+          this.service.getAllBailingStock().subscribe(
             data => {
               this.itemStockResponse = data
-              this.itemStockList = this.itemStockResponse
+              this.itemStockList = this.itemStockResponse.data
+              console.log(this.itemStockList,"bailingList")
               const rowDataStock = this.itemStockList.map((item: {
                 stockQuantity: any; itemName: any;
               }) => {
@@ -556,8 +534,8 @@ export class MrfTabComponent implements OnInit {
             }
           );
         },
-        error=>{
-          this.errorResponse=error
+        error => {
+          this.errorResponse = error
           this.toastService.showError(this.errorResponse.error.message)
         }
       );
@@ -641,7 +619,7 @@ export class MrfTabComponent implements OnInit {
 
   }
   columnDefsPurchase: ColDef[] = [
-    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true, resizable: true },
     { field: 'itemCategoryName', headerName: 'Item category', unSortIcon: true, resizable: true, },
     { field: 'itemName', headerName: 'Item Name', unSortIcon: true, resizable: true, },
     { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true, resizable: true, },
@@ -667,7 +645,7 @@ export class MrfTabComponent implements OnInit {
 
   columnDefsIssue: ColDef[] = [
     // { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
-    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true, resizable: true },
     { field: 'itemName', headerName: 'Item Name', unSortIcon: true },
     { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true },
     { field: 'createdDate', headerName: 'Created Date', unSortIcon: true },
@@ -697,7 +675,7 @@ export class MrfTabComponent implements OnInit {
       ...this.defaultColDef
     },
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 25,
     rowStyle: { background: '#e2e8f0' },
     copyHeadersToClipboard: true,
     enableRangeSelection: true
@@ -709,7 +687,7 @@ export class MrfTabComponent implements OnInit {
 
 
   columnDefsStock: ColDef[] = [
-    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true, resizable: true },
     { field: 'itemName', headerName: 'Stock List', unSortIcon: true, resizable: true, },
     {},
     {},
@@ -743,66 +721,191 @@ export class MrfTabComponent implements OnInit {
  * Code for Grid view
  */
 
-columnDefsMrf: ColDef[] = [
-  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
-  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
-  { field: 'quntaum', headerName: 'Goods Weight', unSortIcon: true,resizable: true},
-  { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true,resizable: true},
-  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true},
-  { field: 'created_date', headerName: 'Created Date', unSortIcon: true,resizable: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
+  columnDefsMrf: ColDef[] = [
+    { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
+    { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
+    { field: 'quntaum', headerName: 'Goods Weight', unSortIcon: true, resizable: true },
+    { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true, resizable: true },
+    { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true },
+    { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
       <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
         <i class="fa-solid fa-edit"></i>
       </button>
       <button class="btn btn-danger btn-sm">
         <i class="fa-solid fa-trash-alt"></i>
       </button>
-     `; 
+     `;
+      }
     }
-  }
-];
-columnDefsBailing: ColDef[] = [
-  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
-  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
-  { field: 'quntaum', headerName: 'No. Of Bailing', unSortIcon: true,resizable: true},
-  { field: 'inert_material', headerName: 'Bailing Weight', unSortIcon: true,resizable: true},
-  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true},
-  { field: 'created_date', headerName: 'Created Date', unSortIcon: true,resizable: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
+  ];
+  columnDefsBailing: ColDef[] = [
+    { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
+    { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
+    { field: 'noOfPackets', headerName: 'No. Of Bailing', unSortIcon: true, resizable: true },
+    { field: 'bailing_weight', headerName: 'Bailing Weight', unSortIcon: true, resizable: true },
+    { field: 'descriptions', headerName: 'Description', unSortIcon: true, resizable: true },
+    { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
       <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
         <i class="fa-solid fa-edit"></i>
       </button>
       <button class="btn btn-danger btn-sm">
         <i class="fa-solid fa-trash-alt"></i>
       </button>
-     `; 
+     `;
+      }
     }
-  }
-];
-columnDefsSold: ColDef[] = [
-  { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true,resizable: true},
-  { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true,resizable: true},
-  { field: 'quntaum', headerName: 'No. Of Bailing Sold', unSortIcon: true,resizable: true},
-  { field: 'inert_material', headerName: 'Bailing Weight', unSortIcon: true,resizable: true},
-  { field: 'description', headerName: 'Description', unSortIcon: true,resizable: true},
-  { field: 'created_date', headerName: 'Created Date', unSortIcon: true,resizable: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
+  ];
+  columnDefsSold: ColDef[] = [
+    { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
+    { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
+    { field: 'quntaum', headerName: 'No. Of Bailing Sold', unSortIcon: true, resizable: true },
+    { field: 'inert_material', headerName: 'Bailing Weight', unSortIcon: true, resizable: true },
+    { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true },
+    { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
       <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
         <i class="fa-solid fa-edit"></i>
       </button>
       <button class="btn btn-danger btn-sm">
         <i class="fa-solid fa-trash-alt"></i>
       </button>
-     `; 
+     `;
+      }
     }
+  ];
+  rowDataMrf = []
+    ;
+
+  saveBailing() {
+   
+    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
+    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const data = {
+      "goods": goods,
+      "bailingWeight": this.form.value.bailingWeight,
+      "mrfDesc": this.form.value.mrfDesc,
+      "noOfPackets": this.form.value.noOfPackets,
+      "subGood": subgoods,
+      "wcId": {
+        "wcId": localStorage.getItem("wcId")
+      }
+    }
+    console.log(data)
+    this.service.addBailing(data).subscribe(
+      data => {
+        window.alert("Bailing added successfully")
+        this.service.getAllBailingList().subscribe(
+          data => {
+            this.bailingGridresponse = data
+            this.bailingGridList = this.bailingGridresponse.data
+            const rowDataBailing = this.bailingGridList.map((item: { goods: any; wcId: any; subGood: any; createdDate: any; noOfPackets: any; bailingWeight: any; mrfDesc: any;  }) => {
+
+              return {
+                wcName: item.wcId?.wcName,
+                goods_name: item.goods.goodsName,
+                sub_goods_name: item.subGood.subgoodsName,
+                goods: item.goods.goodsPerKg,
+                noOfPackets: item.noOfPackets,
+                descriptions: item.mrfDesc,
+                bailing_weight: item.bailingWeight,
+                created_date: item.createdDate
+              };
+            });
+
+            this.rowDataBailing = rowDataBailing
+          }
+        );
+      },
+      error => {
+        window.alert("something went wrong")
+      }
+
+    );
+    this.form.reset()
   }
-];
-rowDataMrf = []
-  ;
+  soldBailing(){
+    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
+    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const data = {
+      "goodsEntity": goods,
+      "bailingWeight": this.form.value.bailingWeight,
+      "mrfDesc": this.form.value.mrfDesc,
+      "noOfPackets": this.form.value.noOfPackets,
+      "goodssubEntity": subgoods,
+      "wcId": {
+        "wcId": localStorage.getItem("wcId")
+      }
+    }
+    console.log(data)
+    this.service.soldBailing(data).subscribe(
+      data => {
+        window.alert("Bailing Sold successfully")
+        this.service.getAllBailingList().subscribe(
+          data => {
+            this.bailingGridresponse = data
+            this.bailingGridList = this.bailingGridresponse.data
+            const rowDataBailing = this.bailingGridList.map((item: { goods: any; wcId: any; subGood: any; createdDate: any; noOfPackets: any; bailingWeight: any; mrfDesc: any;  }) => {
+              return {
+                wcName: item.wcId?.wcName,
+                goods_name: item.goods.goodsName,
+                sub_goods_name: item.subGood.subgoodsName,
+                goods: item.goods.goodsPerKg,
+                noOfPackets: item.noOfPackets,
+                descriptions: item.mrfDesc,
+                bailing_weight: item.bailingWeight,
+                created_date: item.createdDate
+              };
+            });
+
+            this.rowDataBailing = rowDataBailing
+            this.service.getAllBailingStock().subscribe(
+              data => {
+                this.itemStockResponse = data
+                this.itemStockList = this.itemStockResponse.data
+                console.log(this.itemStockList,"bailingList")
+                const rowDataStock = this.itemStockList.map((item: {
+                  stockQuantity: any; goodssubEntity: any; wcEntity:any;
+                }) => {
+        
+                  return {
+                    itemName: item.goodssubEntity.subgoodsName,
+                    //unit: 0,
+                    stockQuantity: item.stockQuantity,
+                    wcName:item.wcEntity.wcName
+        
+                  };
+                });
+                console.log("itemStockList", this.itemStockList)
+                console.log("rowDataStock", rowDataStock)
+                this.rowDataStock = rowDataStock;
+        
+              }
+            );
+          },
+          error=>{
+            this.errorResponse=error
+            this.toastService.showError(this.errorResponse.error.message)
+          }
+        );
+      },
+      error => {
+       this.errorResponse=error
+       this.toastService.showError(this.errorResponse.error.message)
+      }
+
+    );
+    this.form.reset()
+    
+  }
 }

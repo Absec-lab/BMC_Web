@@ -12,14 +12,14 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-//  endpoint =  `http://15.207.62.200`;   //DEV
-    endpoint = 'http://43.204.240.44'; //PROD
+ endpoint =  `http://15.207.62.200`;   //DEV
+//     endpoint = 'http://43.204.240.44'; //PROD
 //  endpoint = `http://localhost`; //LOCCAL
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
-        // LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
-        LOGIN_SERVICE_URL: "http://43.204.240.44"+":8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+       
  }
         
         deactivationDto: DeactivationDto = new DeactivationDto
@@ -356,5 +356,17 @@ export class CommonService {
         }
         updateItemNameMaster(data:any){
                 return this.http.put(this.environment.URL+'/inventory/updateItemName',data)
+        }
+        getAllBailingList(){
+                return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
+        }
+        addBailing(data:any){
+                return this.http.post(this.environment.URL+'/zone/add/bailing',data)
+        }
+        getAllBailingStock(){
+                return this.http.get(this.environment.URL+'/zone/getAll/bailing/stock/'+localStorage.getItem("wcId"))
+        }
+        soldBailing(data:any){
+                return this.http.post(this.environment.URL+'/zone/sold/bailing',data)
         }
 }
