@@ -16,6 +16,15 @@ import { WcUserAuthGuardService } from './superadmin/auth-guard/wcuser-auth-guar
 import { InventoryComponent } from './superadmin/inventory/inventory.component';
 import { TermComponent } from './superadmin/term/term.component';
 import { PolicyComponent } from './superadmin/policy/policy.component';
+import { ActiveTripActionRendererComponent } from './superadmin/garbage/active-trip-action-renderer/active-trip-action-renderer.component';
+import { GarbageComponent } from './superadmin/garbage/garbage.component';
+import { TodayTaskComponent } from './superadmin/mcc/today-task/today-task.component';
+import { TripDetailsComponent } from './superadmin/drying-yard/trip-details/trip-details.component';
+import { ManpowerComponent } from './superadmin/manpower/manpower.component';
+import { ZoneMasterComponent } from './superadmin/zone-master/zone-master.component';
+import { WealthCenterMasterComponent } from './superadmin/wealth-center-master/wealth-center-master.component';
+import { WardMasterComponent } from './superadmin/ward-master/ward-master.component';
+import { MccMasterComponent } from './superadmin/mcc-master/mcc-master.component';
 
 
 const routes: Routes = [
@@ -81,7 +90,63 @@ const routes: Routes = [
   {
     component:PolicyComponent,
     path:'superadmin/policy'
-  }
+  },
+  {
+    component:GarbageComponent,
+    path:'superadmin/garbage',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:TodayTaskComponent,
+    path:'superadmin/mcc/today-task',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:TripDetailsComponent,
+    path:'superadmin/drying-yard/trip-details',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:CompostDryingComponent,
+    path:'superadmin/drying-yard/compost-drying',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:DryCompostWeighmentComponent,
+    path:'superadmin/drying-yard/dry-compost-weighment',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:CompostMaterialPackagingComponent,
+    path:'superadmin/drying-yard/compost-material-packaging',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:ManpowerComponent,
+    path:'superadmin/vehicle-management',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:ZoneMasterComponent,
+    path:'superadmin/zone-master',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:WealthCenterMasterComponent,
+    path:'superadmin/wealth-center-master',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:WardMasterComponent,
+    path:'superadmin/ward-master',
+    canActivate:[LoginGuard]
+  },
+  {
+    component:MccMasterComponent,
+    path:'superadmin/mcc-master',
+    canActivate:[LoginGuard]
+  }  
+
 ];
 
 @NgModule({

@@ -1,28 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { CommonService } from 'src/app/service/common.service';
 
 @Component({
   selector: 'app-dashboard-two',
   templateUrl: './dashboard-two.component.html',
   styleUrls: ['../../../common.css', './dashboard-two.component.css']
 })
-export class DashboardTwoComponent {
-
+export class DashboardTwoComponent implements OnInit{
+  constructor(private service:CommonService){}
   chart1: any;
   chart2: any;
   chart3: any;
   chart4: any;
-
+  loginResponse:any
+  mrfReportList:any=[]
   ngOnInit() {
     this.createChart1();
     this.createChart2();
     this.createChart3();
     this.createChart4();
+    this.service.getAllMrfReports().subscribe(
+      data=>{
+        this.loginResponse=data
+        this.mrfReportList=this.loginResponse.data
+      }
+    );
   }
 
   createChart1() {
-    this.chart1 = new Chart("chart1", {
+    this.chart1 = new Chart("chart-53c326af-8dfc-490a-8c07-080955290a47", {
       type: "doughnut",
       data: {
         labels: ["Plastic", "Paper", "Glass", "Leather", "Cloth", "Metal"],
@@ -53,7 +61,7 @@ export class DashboardTwoComponent {
   }
 
   createChart2() {
-    this.chart2 = new Chart("chart2", {
+    this.chart2 = new Chart("chart-22232410-d78c-4116-9f87-b3bde484cf0b", {
       type: "bar",
       data: {
         labels: ["Plastic", "Paper", "Glass", "Leather", "Cloth", "Metal"],
@@ -166,7 +174,7 @@ export class DashboardTwoComponent {
   }
 
   createChart3() {
-    this.chart3 = new Chart("chart3", {
+    this.chart3 = new Chart("chart-36256230-b9eb-4766-861a-a27f69e20511", {
       type: "bar",
       data: {
         labels: ["Total Employee", "Present", "Absent"],
@@ -211,7 +219,7 @@ export class DashboardTwoComponent {
   }
 
   createChart4() {
-    this.chart4 = new Chart("chart4", {
+    this.chart4 = new Chart("chart-55e6d679-5e59-4538-9586-1eeba5e4ff87", {
       type: "doughnut",
       data: {
         labels: ["Total Vehicle", "Vehicle On-field", "Maintenance", "Available"],

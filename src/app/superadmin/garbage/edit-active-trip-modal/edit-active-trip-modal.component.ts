@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-edit-modal',
@@ -11,7 +12,7 @@ import { CommonService } from 'src/app/service/common.service';
 export class EditActiveTripModalComponent implements OnInit {
 
   @Input() data: any;
-
+   responseData:any
   activeTripsEditForm = new FormGroup({
     vehicle_no: new FormControl('', [Validators.required]),
     dry_weight: new FormControl('', [Validators.required]),
@@ -26,7 +27,7 @@ export class EditActiveTripModalComponent implements OnInit {
     tripId: new FormControl()
   });
 
-  constructor(public activeModal: NgbActiveModal,private service:CommonService) {}
+  constructor(public activeModal: NgbActiveModal,private service:CommonService,private toastService:ToastService) {}
 
   ngOnInit() {
     this.activeTripsEditForm.patchValue({
@@ -48,7 +49,7 @@ export class EditActiveTripModalComponent implements OnInit {
         "tareWt": this.activeTripsEditForm.value.tare_weight,
         "tripStartReading": this.activeTripsEditForm.value.trip_start_reading,
         "tripTransactionId": this.activeTripsEditForm.value.tripId,
-        "vehicleNo": "string",
+        "vehicleNo": this.activeTripsEditForm.value.vehicle_no,
         "wetWt": this.activeTripsEditForm.value.wet_weight
       
     }
@@ -57,7 +58,12 @@ export class EditActiveTripModalComponent implements OnInit {
       data=>{
         window.alert("Trip data updated successfully!!")
         this.activeModal.close()
+        location.reload()
         
+      },
+      error=>{
+        this.responseData=error
+        this.toastService.showError(this.responseData.error.message)
       }
     );
   }

@@ -16,7 +16,7 @@
     <div class="modal-dialog modal-lg modal-width">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="pitModalLabel">PIT QUANTUM 3 TON</h1>
+                <h1 class="modal-title fs-5" id="pitModalLabel">{{pitName}}</h1>
             </div>
             <form [formGroup]="form">
             <div class="modal-body p-0">
@@ -131,7 +131,7 @@
                 <div class="row mt-3 pb-1 w-100 ms-0 px-2">
                     <div class="col-md-6 mb-3">
                         <div class="form-group d-flex">
-                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Enzyme Consumed Qty</label>
+                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">EM Solution Qty</label>
                             <div>
                                 <div class="input-group">
                                     <input type="number" min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="mixedEnzymeWt" id="mixedEnzymeWtId" class="form-control text-dark"  id="mixedenzyme" formControlName="mixedEnzymeWtCrt">
@@ -146,7 +146,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group d-flex">
-                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Filled Garbage Wt.</label>
+                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Mo Khata (Wt.)</label>
                             <div>
                                 <div class="input-group">
                                     <input type="number"  min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="filledGarbageWt" id="filledGarbageWtId" class="form-control text-dark"  formControlName="filledGarbageWtCrt">
@@ -176,7 +176,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group d-flex">
-                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Inert material mixed Qty</label>
+                            <label for="" class="form-label d-flex align-items-center mb-0" style="min-width: 50%;">Rice & Husk Qty</label>
                             <div>
                                 <div class="input-group">
                                     <input type="number"  min="0" onkeyup="if(this.value<0)this.value=1" onblur="if(this.value<0)this.value=1" name="" id="inertMaterialMxedQty" class="form-control text-dark"  formControlName="inertMaterialCrt"> 
@@ -208,13 +208,13 @@
     </div>
     <div class="page-content p-3">
         <div class="row">
-			<div class="col-lg-3 sidebar-parent">
+			<div class="col-xl-3 sidebar-parent d-none d-xl-block">
 				<app-sidebar></app-sidebar> 
 			</div>
-			<div class="col-lg-9 app-content">
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body d-flex w-100 align-items-center card-1 stat-card">
@@ -296,7 +296,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <app-heade-dashboard-component></app-heade-dashboard-component>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -311,8 +312,7 @@
                         <li class="nav-item w-100" role="presentation">
                             <button class="nav-link active w-100 text-uppercase text-white" data-bs-toggle="tab"
                                 data-bs-target="#pitview-tab-pane" type="button" role="tab"
-                                aria-controls="pitview-tab-pane" aria-selected="true" (click)="showPitView()">Pit
-                                View</button>
+                                aria-controls="pitview-tab-pane" aria-selected="true" (click)="showPitView()">{{selectedWcName}}</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -372,7 +372,7 @@
                 <div class="text-center d-flex align-items-center border-bottom pb-2">
                     <div class="pit-form-header"></div>
                     <div class="pit-form-header fw-bold">Filling</div>
-                    <div class="pit-form-header fw-bold">Mixing<br /><small [style.display]=" expectedTrMix  ? 'block':'none'" >(Expected)</small></div>
+                    <div class="pit-form-header fw-bold">Transfer<br /><small [style.display]=" expectedTrMix  ? 'block':'none'" >(Expected)</small></div>
                     <div class="pit-form-header fw-bold">1st Turn<br /><small [style.display]=" expectedTrFirstTurn  ? 'block':'none'">(Expected)</small></div>
                     <div class="pit-form-header fw-bold">2nd Turn<br /><small [style.display]=" expectedTrSecondTurn  ? 'block':'none'">(Expected)</small></div>
                 </div>
@@ -384,7 +384,7 @@
                     <div class="pit-form-header"><input type="text" name="secondTurn" id="secondTurnId" class="form-control text-dark" formControlName="secondTurnDtId" readonly></div>
                 </div>
                 <div class="text-center d-flex align-items-center py-2 border-bottom">
-                    <div class="pit-form-header text-start fw-bold">Inert</div>
+                    <div class="pit-form-header text-start fw-bold">Rice & Husk</div>
                     <div class="pit-form-header">
                         <div class="input-group">
                             <input type="text" name="inertFillingMt" id="inertFillingMtId" class="form-control text-dark" formControlName="inertFillingMtFormId" readonly>
@@ -419,7 +419,7 @@
                     </div>
                 </div>
                 <div class="text-center d-flex align-items-center py-2 border-bottom">
-                    <div class="pit-form-header text-start fw-bold">Mixed Enzyme</div>
+                    <div class="pit-form-header text-start fw-bold">EM Solution</div>
                     <div class="pit-form-header">
                         <div class="input-group">
                             <input type="text" name="" id="mixedEnzymeId" class="form-control text-dark" formControlName="mixedEnzymeFillingForm" readonly>
@@ -489,7 +489,7 @@
                     </div>
                 </div>
                 <div class="text-center d-flex align-items-center py-2 border-bottom">
-                    <div class="pit-form-header text-start fw-bold">Filled Garbage Weight</div>
+                    <div class="pit-form-header text-start fw-bold">Mo Khata (Wt.)</div>
                     <div class="pit-form-header">
                         <div class="input-group">
                             <input type="text" name="" id="" class="form-control text-dark" formControlName="filledGarbageFillingForm" readonly>
@@ -529,7 +529,7 @@
                 <div class="row w-100">
                     <div class="col-md-6">
                         <div class="d-flex align-items-center justify-content-end">
-                            <div class="fw-bold">Expected Date of Compost</div>
+                            <div class="fw-bold">Mo Khata</div>
                             <div class="ms-2"><input type="text" name="compostdataName" id="compostdataId" class="form-control bg-white text-dark"  formControlName="expectedDateOfCompostForm" readonly></div>
                         </div>
                     </div>

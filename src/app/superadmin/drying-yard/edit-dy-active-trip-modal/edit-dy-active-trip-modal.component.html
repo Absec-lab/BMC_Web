@@ -1,0 +1,65 @@
+<div class="" style="width: 800px; position: fixed; left: 50%; top: 60px; transform: translateX(-50%);">
+    <div class="modal-header border-0" style="background-color: #2B2B4B;">
+        <h1 class="modal-title fs-5" id="displayEditDyActiveTripsModalLabel">Edit Active Trip</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-secondary text-white">
+        <form [formGroup]="activeTripsEditForm">
+            <div class="row w-100 ms-0">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Vehicle No</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" name="vehicle_no" id="vehicle_no" formControlName="vehicle_no" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Gross Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Tare Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control" (input)="totalWeightCal()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Total Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="total_weight" id="total_weight" formControlName="total_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer bg-secondary border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="activeModal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateTripData()">Save</button>
+    </div>
+</div>
