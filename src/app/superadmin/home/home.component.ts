@@ -9,8 +9,14 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent {
 
+  role:any='';
+
   constructor(private toastr: ToastrService,
        public route:Router){
+  }
+
+  ngOnInit(): void {
+    this.role = localStorage.getItem('role')?.toString();   
   }
 
 
