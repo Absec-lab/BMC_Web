@@ -16,9 +16,10 @@ export class CommonService {
     endpoint = 'http://43.204.240.44'; //PROD
 //  endpoint = `http://localhost`; //LOCCAL
 
- environment = {
+ public environment = {
         URL:  this.endpoint+":9091",  //prod url
-        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+        // LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: "http://43.204.240.44"+":8064/bmcwastemanagement/auth/users/login"
  }
         
         deactivationDto: DeactivationDto = new DeactivationDto
@@ -270,19 +271,6 @@ export class CommonService {
         getAllHelper() {
                 return this.http.get(this.environment.URL + '/zone/getAllHelper')
         }
-
-        toggleDetailedSidebar() {
-                const miniSidebarElement = document.querySelector('#mini-sidebar') as HTMLDivElement;
-                if (miniSidebarElement.classList.contains('toggled')) {
-                        const pageContentElement = document.querySelector('.page-content') as HTMLDivElement;
-                        pageContentElement && pageContentElement.classList.toggle('toggled');
-                        const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
-                        sidebarParentElement && sidebarParentElement.classList.toggle('d-none');
-                        const appContentElement = document.querySelector('.app-content') as HTMLDivElement;
-                        appContentElement && appContentElement.classList.toggle('col-xl-9');
-                        appContentElement && appContentElement.classList.toggle('col-12');
-                }
-        }
         updateDryingCompost(data: any) {
                 return this.http.put(this.environment.URL + '/inventory/updatewetCompostWtInDryingYard', data)
         }
@@ -365,5 +353,8 @@ export class CommonService {
         }
         upateCompostDataInDryingYard(data:any){
                 return this.http.post(this.environment.URL+'/inventory/update/compost/data/in/drying/yard',data)
+        }
+        updateItemNameMaster(data:any){
+                return this.http.put(this.environment.URL+'/inventory/updateItemName',data)
         }
 }

@@ -47,7 +47,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
 import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
 import { ManpowerComponent } from './manpower/manpower.component';
-import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
 import { EditActiveTripModalComponent } from './garbage/edit-active-trip-modal/edit-active-trip-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -57,6 +56,9 @@ import { PolicyComponent } from './policy/policy.component';
 import { CommonService } from '../service/common.service';
 import { EditDyActiveTripModalComponent } from './drying-yard/edit-dy-active-trip-modal/edit-dy-active-trip-modal.component';
 import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
+import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,6 @@ import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-a
     MccMenuComponent,
     ImageCellRendererComponent,
     ManpowerComponent,
-    VehicleManagementComponent,
     ActiveTripActionRendererComponent,
     EditActiveTripModalComponent,
     HeadeDashboardComponentComponent,
@@ -109,7 +110,10 @@ import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-a
     HeadeDashboardComponentComponent,
     DashboardFourComponent,
     EditDyActiveTripModalComponent,
-    EditDyActiveTripActionRendererComponent
+    EditDyActiveTripActionRendererComponent,
+    DashboardFiveComponent,
+    DisclaimerComponent,
+    VehicleManagementComponent
   ],
 
   entryComponents: [

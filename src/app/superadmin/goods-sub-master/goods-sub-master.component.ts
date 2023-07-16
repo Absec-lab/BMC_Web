@@ -27,7 +27,7 @@ export class GoodsSubMasterComponent {
                 goodsId: new FormControl('', [Validators.required]),
                 wcId: new FormControl(0, [Validators.required]),
                 subgoodsName: new FormControl('', [Validators.required]),
-                subGoodsPerKg: new FormControl('', [Validators.required]),
+                subGoodsPerKg: new FormControl(''),
                 subGoodsDesc: new FormControl,
                 goods: new FormControl
         });
@@ -82,7 +82,7 @@ export class GoodsSubMasterComponent {
                         const goods = this.goodsList[this.goodsList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
                         const data = {
                                 "subGoodsDesc": this.form.value.subGoodsDesc,
-                                "subGoodsPerKg": this.form.value.subGoodsPerKg,
+                                // "subGoodsPerKg": this.form.value.subGoodsPerKg,
                                 "subgoodsName": this.form.value.subgoodsName,
                                 "goods": goods,
                                 "wcId":{"wcId":localStorage.getItem("wcId")},

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule,FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
@@ -15,7 +16,12 @@ export class HelperMasterComponent implements OnInit{
         helperIdProof:any
         wcId: any
         isActive: boolean = false
-        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+        constructor(
+                private service: CommonService, 
+                private formBuilder: FormBuilder, 
+                private toastService: ToastService,
+                private httpClient: HttpClient
+        ) {
                 // this.getList()
                 //this.getWCList()
         }
@@ -95,6 +101,15 @@ export class HelperMasterComponent implements OnInit{
                                 this.toastService.showWarning('Phone number is required.');
                                 return;
                         }
+                        if (phoneNo.length > 10) {
+                                this.toastService.showWarning(`Phone number can't be longer than 10 digits.`);
+                                return;
+                        }
+                        const pattern = /^[6-9]\d{9}$/;
+                        if (!pattern.test(phoneNo)) {
+                                this.toastService.showWarning('Phone number is invalid.');
+                                return;
+                        }
                         const address = this.form.value.address?.trim();
                         if (!address) {
                                 this.toastService.showWarning('Address is required.');
@@ -114,7 +129,10 @@ export class HelperMasterComponent implements OnInit{
                         // this.getList()
                         this.service.getHelperByWcId().subscribe(
                                 data=>{
+                                        this.toastService.showSuccess(`Helper registration completed.`);
                                         this.list=data
+                                }, error => {
+                                        this.toastService.showError(`Unable to complete helper registration. Server error.`);
                                 }
                                );
                 } catch (e) {

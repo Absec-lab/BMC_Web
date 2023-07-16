@@ -18,6 +18,7 @@ export class ItemNameMasterComponent implements OnInit{
         itemId:any
         category:any
         responseData:any
+        unitList:any=[]
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getCategories()
@@ -33,6 +34,12 @@ export class ItemNameMasterComponent implements OnInit{
                this.service.getAllItemName().subscribe(
                 data=>{
                         this.list=data
+                        console.log(this.list, "ItemNameList")
+                }
+               );
+               this.service.getAllUnit().subscribe(
+                data=>{
+                        this.unitList=data
                 }
                );
         }
@@ -43,7 +50,8 @@ export class ItemNameMasterComponent implements OnInit{
                 itemId: new FormControl,
                 itemName: new FormControl('', [Validators.required]),
                 itemcategory: new FormControl,
-                description: new FormControl
+                description: new FormControl,
+                unitId:new FormControl
         });
 
         editForm = new FormGroup({
@@ -97,6 +105,9 @@ export class ItemNameMasterComponent implements OnInit{
                                 "itemcatrgory": category,
                                 "wcEntity":{
                                         "wcId":localStorage.getItem("wcId")
+                                },
+                                "unitEntity":{
+                                        "unitId":this.form.value.unitId
                                 }
                         }
                         this.service.addItemName(data).subscribe(
@@ -107,7 +118,7 @@ export class ItemNameMasterComponent implements OnInit{
                                                         this.list=data
                                                 }
                                                );
-                                        this.toastService.showSuccess(this.responseData.message)
+                                        this.toastService.showSuccess("Item name data saved succesfully")
                                         
                                 },
                                 error=>{
@@ -160,7 +171,8 @@ export class ItemNameMasterComponent implements OnInit{
                         itemName: item.itemname,
                         categoryName: item.categoryName,
                         itemcategory: item.category,
-                        description: item.description
+                        description: item.description,
+
                 });
 
                 // this.service.getZoneAllData().subscribe(
@@ -190,16 +202,30 @@ export class ItemNameMasterComponent implements OnInit{
                         }
                         return;
                 }
-                this.service.updateWc(this.form.value).subscribe(
+                const data={
+                        "itemId":this.form.value.itemId,
+                        "itemname": this.form.value.itemName,
+                        "description": this.form.value.description,
+                        "itemcatrgory": this.categoryList[this.categoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)],
+                        "wcEntity":{
+                                "wcId":localStorage.getItem("wcId")
+                        },
+                        "unitEntity":{
+                                "unitId":this.form.value.unitId
+                        }
+                }
+                this.service.updateItemNameMaster(data).subscribe(
                         data => {
+                                this.form.reset()
                                 this.toastService.showSuccess("Item updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
-                                this.service.getAllWcData().subscribe(
+                                this.service.getAllItemName().subscribe(
                                         data => {
                                                 this.list = data
                                         }
                                 );
+                                
                         },
                         error => {
                                 this.toastService.showError("something went wrong")
