@@ -52,7 +52,8 @@ export class GarbageComponent implements OnInit {
     tareWeightValue: new FormControl,
     unloadwetWeightValue: new FormControl,
     routeId: new FormControl,
-    helperId:new FormControl
+    helperId:new FormControl,
+    move_tts:new FormControl
   });
   wcId: any = 0;
   ngOnInit() {
