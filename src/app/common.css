@@ -812,3 +812,17 @@ select.bg-transparent option {
     display: none;
   }
 }
+
+table th {
+  background: #0095E8;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+}
+
+table td {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+  background: #E2E8F0;
+}
