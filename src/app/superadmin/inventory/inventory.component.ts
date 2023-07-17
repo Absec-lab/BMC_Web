@@ -119,14 +119,15 @@ export class InventoryComponent implements OnInit {
         this.itemStockResponse = data
         this.itemStockList = this.itemStockResponse
         const rowDataStock = this.itemStockList.map((item: {
-          stockQuantity: any; itemName: any;
+          stockQuantity: any; itemName: any; unitEntity:any;
         }) => {
 
           return {
             wcName : item.itemName?.wcEntity?.wcName,
             itemName: item.itemName.itemname,
             //unit: 0,
-            stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
+            stockQuantity: item.stockQuantity+" "+item.unitEntity.unit
+            // stockQuantity: item.stockQuantity
 
           };
         });

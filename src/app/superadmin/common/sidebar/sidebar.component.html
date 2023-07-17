@@ -162,11 +162,14 @@
 	
 			</div>
 
-			<a routerLink="/superadmin/vehicle-management" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<!-- <a routerLink="/superadmin/vehicle-management" class="sidebar-link" >
 				<i class="fa-solid fa-users"></i>
 				<span>Manpower</span>
+			</a> -->
+			<a routerLink="/superadmin/inventory" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+				<i class="fa-solid fa-users"></i>
+				<span>Inventory</span>
 			</a>
-			<!-- <a routerLink="/superadmin/inventory" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'"></a> -->
 
 
 
