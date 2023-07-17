@@ -150,7 +150,7 @@
                                 <label for="" class="text-white">Move To TTS</label>
                             </div>
                             <div class="col-md-7">
-                             <select class="form-select" formControlName="move_tts" id="move_tts">
+                             <select class="form-select" formControlName="move_tts" id="move_tts" (change)="moveToTTs()">
                                         <option value="" disabled selected>--Select--</option>
                                         <option value="Yes">YES</option>
                                         <option value="No">NO</option>

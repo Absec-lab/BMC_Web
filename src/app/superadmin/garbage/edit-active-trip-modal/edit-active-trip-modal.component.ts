@@ -52,7 +52,7 @@ export class EditActiveTripModalComponent implements OnInit {
         "tripTransactionId": this.activeTripsEditForm.value.tripId,
         "vehicleNo": this.activeTripsEditForm.value.vehicle_no,
         "wetWt": this.activeTripsEditForm.value.wet_weight,
-        "tts": this.activeTripsEditForm.value.move_tts
+        "moveToTts": this.activeTripsEditForm.value.move_tts
       
     }
     // console.log(data)
@@ -68,5 +68,8 @@ export class EditActiveTripModalComponent implements OnInit {
         this.toastService.showError(this.responseData.error.message)
       }
     );
+  }
+  moveToTTs(){
+    console.log(this.activeTripsEditForm.value.move_tts)
   }
 }
