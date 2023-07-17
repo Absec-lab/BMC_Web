@@ -52,7 +52,8 @@ export class GarbageComponent implements OnInit {
     tareWeightValue: new FormControl,
     unloadwetWeightValue: new FormControl,
     routeId: new FormControl,
-    helperId:new FormControl
+    helperId:new FormControl,
+    move_tts:new FormControl
   });
   wcId: any = 0;
   ngOnInit() {
@@ -407,7 +408,8 @@ export class GarbageComponent implements OnInit {
             },
             "wc": {
               "wcId":localStorage.getItem('wcId')
-             }
+             },
+             "tts":"No"
           }
           console.log(data)
           this.service.createTrip(data).subscribe(
