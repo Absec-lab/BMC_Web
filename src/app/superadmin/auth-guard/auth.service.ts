@@ -70,6 +70,15 @@ export class AuthService {
     }
   }
 
+  public isAuthenticatedbyTtsUserAndDryingYard(): boolean {
+    let token: any;
+    if (localStorage.getItem('role')?.includes('ttsuser') || localStorage.getItem('role')?.includes('dryingyarduser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public isAuthenticatedbyDtyingYardUser(): boolean {
     let token: any;
     if (localStorage.getItem('role')?.includes('dryingyarduser')) {
