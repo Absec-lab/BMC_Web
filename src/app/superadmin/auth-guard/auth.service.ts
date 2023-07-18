@@ -70,4 +70,13 @@ export class AuthService {
     }
   }
 
+  public isAuthenticatedbyDtyingYardUser(): boolean {
+    let token: any;
+    if (localStorage.getItem('role')?.includes('dryingyarduser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

@@ -26,6 +26,7 @@ import { TtsUserAuthGuardService } from './superadmin/auth-guard/ttsuser-auth-gu
 import { BmcWcMccUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-mcc-user-auth-guard.service';
 import { BmcWcAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-adminuser-auth-guard.service';
 import { MrfTabComponent } from './superadmin/mrf-tab/mrf-tab.component';
+import { DryingYardUserAuthGuardService } from './superadmin/auth-guard/dryingyarduser-auth-guard.service copy';
 
 
 const routes: Routes = [
@@ -37,7 +38,7 @@ const routes: Routes = [
   {
     component:HomeComponent,
     path:'superadmin/home',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService,DryingYardUserAuthGuardService]
   },
   {
     component:VehicleMasterComponent,
@@ -57,17 +58,17 @@ const routes: Routes = [
   {
     component:CompostDryingComponent,
     path:'superadmin/drying-yard/compost-drying',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+    canActivate:[LoginGuard,DryingYardUserAuthGuardService]
   },
   {
     component:CompostMaterialPackagingComponent,
     path:'superadmin/drying-yard/compost-material-packaging',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+    canActivate:[LoginGuard,DryingYardUserAuthGuardService]
   },
   {
     component:DryCompostWeighmentComponent,
     path:'superadmin/drying-yard/dry-compost-weighment',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+    canActivate:[LoginGuard,DryingYardUserAuthGuardService]
   },
   {
     component:DryingYardMasterComponent,
@@ -95,21 +96,6 @@ const routes: Routes = [
   {
     component:TodayTaskComponent,
     path:'superadmin/mcc/today-task',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  },
-  {
-    component:CompostDryingComponent,
-    path:'superadmin/drying-yard/compost-drying',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  },
-  {
-    component:DryCompostWeighmentComponent,
-    path:'superadmin/drying-yard/dry-compost-weighment',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  },
-  {
-    component:CompostMaterialPackagingComponent,
-    path:'superadmin/drying-yard/compost-material-packaging',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   },
   {

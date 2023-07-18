@@ -85,6 +85,8 @@ export class LoginComponent {
              roleSuperadminPermission = true; 
          }else if(this.logindata.userdetails[0].attributes.role == 'ttsuser'){
              rolePermission = true;
+         }else if(this.logindata.userdetails[0].attributes.role == 'dryingyarduser'){
+             rolePermission = true;
          }else{
           this.toastService.showError('No Wealth Center Assigned to this User.');
          }
@@ -108,7 +110,7 @@ export class LoginComponent {
       if(this.logindata.userrole != undefined 
              && this.logindata.userrole?.userRole != undefined 
              && this.logindata.userdetails.length == 0 
-             && this.logindata.userrole?.userRole == 'ttsuser'){
+             && (this.logindata.userrole?.userRole == 'ttsuser' || this.logindata.userrole?.userRole == 'dryingyarduser')){
 
               localStorage.setItem('userInfo', '');
               localStorage.setItem('wcId',  '0');
@@ -122,8 +124,11 @@ export class LoginComponent {
       if(this.logindata.userrole != undefined 
         && this.logindata.userrole?.userRole != undefined 
         && this.logindata.userrole?.userRole == 'ttsuser'){
-          console.log('  Test Added /superadmin/drying-yard/trip-details ');
           this.route.navigate(['/superadmin/drying-yard/trip-details'])
+      }else if(this.logindata.userrole != undefined 
+        && this.logindata.userrole?.userRole != undefined 
+        && this.logindata.userrole?.userRole == 'dryingyarduser'){
+          this.route.navigate(['/superadmin/drying-yard/compost-drying'])
       }else if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
         && (this.logindata.userdetails[0].attributes.role == 'mccuser')){
           this.route.navigate(['/superadmin/mcc/pit-view'])
