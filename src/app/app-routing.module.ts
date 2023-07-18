@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     component:HomeComponent,
     path:'superadmin/home',
-    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService,DryingYardUserAuthGuardService]
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   },
   {
     component:VehicleMasterComponent,
