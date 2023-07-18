@@ -13,12 +13,12 @@ export class DeactivationDto {
 export class CommonService {
 
 //  endpoint =  `http://15.207.62.200`;   //DEV
-    endpoint = 'http://43.204.240.44'; //PROD
-//  endpoint = `http://localhost`; //LOCCAL
+//     endpoint = 'http://43.204.240.44'; //PROD
+ endpoint = `http://localhost`; //LOCCAL
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
-        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: "http://15.207.62.200"+":8064/bmcwastemanagement/auth/users/login"
        
  }
         
@@ -292,13 +292,21 @@ export class CommonService {
         addItemIssue(data: any) {
                 return this.http.post(this.environment.URL + '/inventory/addItemIssuse', data)
         }
-
-        getAllCompletedTripInGraveYard() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/' + localStorage.getItem('wcId'))
+        
+        getAllActiveTripInGraveYardFotTTS() {
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/tts/' + localStorage.getItem('wcId'))
         }
 
-        getAllActiveTripInGraveYard() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/' + localStorage.getItem('wcId'))
+        getAllCompletedTripInGraveYardForTTS() {
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/tts/' + localStorage.getItem('wcId'))
+        }
+
+        getAllActiveTripInDryingYardForyingYardUser() {
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/dryingyard/user/' + localStorage.getItem('wcId'))
+        }
+
+        getAllCompletedTripInGraveYardForDyingYardUser() {
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/dryingyard/user/' + localStorage.getItem('wcId'))
         }
 
         addItemName(data: any) {

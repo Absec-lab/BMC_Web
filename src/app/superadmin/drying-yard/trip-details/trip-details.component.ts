@@ -17,6 +17,7 @@ export class TripDetailsComponent implements OnInit {
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalService: NgbModal) {
   
    }
+   userRole:any
    isAdd: boolean = true
    isUpdate: boolean = false
    vehicleNo:any
@@ -56,49 +57,98 @@ export class TripDetailsComponent implements OnInit {
     //      this.helperList=data
     //   }
     // );
-    this.service.getAllActiveTripInGraveYard().subscribe(
-      data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-        console.log(this.activeTripList)
-        const rowData =   this.activeTripList.map((item: any) => {
-         
-          return {
-            vehicle_vehicleNo: item.vehicle.vehicleNo , 
-            driver_driverName: item.driver.driverName,
-            wetCompostWt: item.wetCompostWt,            
-            vehicle_starttime: item.createdDate,
-            wc_name:item.wc.wcName,
-            material_type:item.materialType
-          };
-        });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
-       this.rowData=rowData;
-      }
-    );
-    this.service.getAllCompletedTripInGraveYard().subscribe(
-      data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
-        const rowDataComp =   this.inActiveTripList.map((item: any) => {
-         
-          return {
-            vehicle_vehicleNo: item.vehicle.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            wcName: item.wc.wcName,
-            wetCompostWt: item.totalWt,
-            watCompostWtInDryingYard: item.watCompostWtInDryingYard,
-            material_type:item.materialType,
-            updateDate: item.date
-          };
-        });
-       console.log("Completed",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
-       this.rowDataComp=rowDataComp;
-        
-      }
-    );
+    this.userRole=localStorage.getItem("role")
+    
+    if(this.userRole=="ttsuser"){
+      this.service.getAllActiveTripInGraveYardFotTTS().subscribe(
+        data => {
+          this.activeTripResponse = data
+          this.activeTripList = this.activeTripResponse.data
+          console.log(this.activeTripList)
+          const rowData =   this.activeTripList.map((item: any) => {
+           
+            return {
+              vehicle_vehicleNo: item.vehicle.vehicleNo , 
+              driver_driverName: item.driver.driverName,
+              wetCompostWt: item.wetCompostWt,            
+              vehicle_starttime: item.createdDate,
+              wc_name:item.wc.wcName,
+              material_type:item.materialType
+            };
+          });
+         console.log("ActiveList",this.activeTripList)
+         console.log("rowData",rowData)
+         this.rowData=rowData;
+        }
+      );
+      this.service.getAllCompletedTripInGraveYardForTTS().subscribe(
+        data => {
+          this.inActiveTripResponse = data
+          this.inActiveTripList = this.inActiveTripResponse.data
+          const rowDataComp =   this.inActiveTripList.map((item: any) => {
+           
+            return {
+              vehicle_vehicleNo: item.vehicle.vehicleNo,
+              driver_driverName: item.driver.driverName,
+              wcName: item.wc.wcName,
+              wetCompostWt: item.totalWt,
+              watCompostWtInDryingYard: item.watCompostWtInDryingYard,
+              material_type:item.materialType,
+              updateDate: item.date
+            };
+          });
+         console.log("Completed",this.inActiveTripList)
+         console.log("rowData",rowDataComp)
+         this.rowDataComp=rowDataComp;
+          
+        }
+      );
+    }
+    if(this.userRole=="dryingyarduser"){
+      this.service.getAllActiveTripInDryingYardForyingYardUser().subscribe(
+        data => {
+          this.activeTripResponse = data
+          this.activeTripList = this.activeTripResponse.data
+          console.log(this.activeTripList)
+          const rowData =   this.activeTripList.map((item: any) => {
+           
+            return {
+              vehicle_vehicleNo: item.vehicle.vehicleNo , 
+              driver_driverName: item.driver.driverName,
+              wetCompostWt: item.wetCompostWt,            
+              vehicle_starttime: item.createdDate,
+              wc_name:item.wc.wcName,
+              material_type:item.materialType
+            };
+          });
+         console.log("ActiveList",this.activeTripList)
+         console.log("rowData",rowData)
+         this.rowData=rowData;
+        }
+      );
+      this.service.getAllCompletedTripInGraveYardForDyingYardUser().subscribe(
+        data => {
+          this.inActiveTripResponse = data
+          this.inActiveTripList = this.inActiveTripResponse.data
+          const rowDataComp =   this.inActiveTripList.map((item: any) => {
+           
+            return {
+              vehicle_vehicleNo: item.vehicle.vehicleNo,
+              driver_driverName: item.driver.driverName,
+              wcName: item.wc.wcName,
+              wetCompostWt: item.totalWt,
+              watCompostWtInDryingYard: item.watCompostWtInDryingYard,
+              material_type:item.materialType,
+              updateDate: item.date
+            };
+          });
+         console.log("Completed",this.inActiveTripList)
+         console.log("rowData",rowDataComp)
+         this.rowDataComp=rowDataComp;
+          
+        }
+      );
+    }
     
     
   }
