@@ -166,7 +166,7 @@ export class HelperMasterComponent implements OnInit{
                         phoneNo: item.phoneNo,
                         address: item.address,
                         helperDesc: item.helperDesc,
-                        isActive: false
+                        // isActive: false
                 })
                
 
