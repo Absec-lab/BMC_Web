@@ -27,6 +27,7 @@ import { BmcWcMccUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-mcc
 import { BmcWcAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-adminuser-auth-guard.service';
 import { MrfTabComponent } from './superadmin/mrf-tab/mrf-tab.component';
 import { DryingYardUserAuthGuardService } from './superadmin/auth-guard/dryingyarduser-auth-guard.service copy';
+import { TtsUserAndDryingYardUserAuthGuardService } from './superadmin/auth-guard/ttsuserdryingyarduser-auth-guard.service';
 
 
 const routes: Routes = [
@@ -126,7 +127,7 @@ const routes: Routes = [
   {
     component:TripDetailsComponent,
     path:'superadmin/drying-yard/trip-details',
-    canActivate:[LoginGuard,TtsUserAuthGuardService]
+    canActivate:[LoginGuard,TtsUserAndDryingYardUserAuthGuardService]
   } ,
   {
     component:DashboardComponent,
