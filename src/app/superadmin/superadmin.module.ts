@@ -59,6 +59,7 @@ import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-a
 import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
     EditDyActiveTripActionRendererComponent,
     DashboardFiveComponent,
     DisclaimerComponent,
-    VehicleManagementComponent
+    VehicleManagementComponent,
+    TripStatusReportComponent
   ],
 
   entryComponents: [
