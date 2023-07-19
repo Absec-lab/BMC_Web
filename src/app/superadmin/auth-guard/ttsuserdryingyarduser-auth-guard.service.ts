@@ -6,15 +6,12 @@ import { Router, UrlTree } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class MccUserAuthGuardService  {
+export class TtsUserAndDryingYardUserAuthGuardService  {
   constructor(public auth: AuthService, public router: Router) {}
  
-  canActivate():
-  | Observable<boolean | UrlTree>
-  | Promise<boolean | UrlTree>
-  | boolean
-  | UrlTree {
-  if (!this.auth.isAuthenticated() || !this.auth.isAuthenticatedbyMccUser()) {
+  canActivate():boolean{
+
+  if (!this.auth.isAuthenticatedbyTtsUserAndDryingYard()) {
     this.router.navigate(['/login']);
     return false;
   }

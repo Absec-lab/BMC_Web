@@ -24,7 +24,8 @@ export class EditActiveTripModalComponent implements OnInit {
     trip_end_reading: new FormControl('', [Validators.required]),
     trip_end_reading_image: new FormControl(''),
     trip_end_reading_date: new FormControl('', [Validators.required]),
-    tripId: new FormControl()
+    tripId: new FormControl(),
+    move_tts: new FormControl
   });
 
   constructor(public activeModal: NgbActiveModal,private service:CommonService,private toastService:ToastService) {}
@@ -50,7 +51,8 @@ export class EditActiveTripModalComponent implements OnInit {
         "tripStartReading": this.activeTripsEditForm.value.trip_start_reading,
         "tripTransactionId": this.activeTripsEditForm.value.tripId,
         "vehicleNo": this.activeTripsEditForm.value.vehicle_no,
-        "wetWt": this.activeTripsEditForm.value.wet_weight
+        "wetWt": this.activeTripsEditForm.value.wet_weight,
+        "moveToTts": this.activeTripsEditForm.value.move_tts
       
     }
     // console.log(data)
@@ -66,5 +68,8 @@ export class EditActiveTripModalComponent implements OnInit {
         this.toastService.showError(this.responseData.error.message)
       }
     );
+  }
+  moveToTTs(){
+    console.log(this.activeTripsEditForm.value.move_tts)
   }
 }

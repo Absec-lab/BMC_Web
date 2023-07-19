@@ -181,6 +181,7 @@ export class DriverMasterComponent implements OnInit {
                         console.error(e)
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteDriver/${id}`)
@@ -269,5 +270,20 @@ export class DriverMasterComponent implements OnInit {
                         }
                 );
 
+        }
+        deactivateDriver(id: any) {
+                this.service.deactivateDriver(id).subscribe(
+                        data => {
+                                window.alert("Item Driver deleted successfully")
+                                this.service.getAllDriverList().subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
+                        },
+                        error => {
+                                window.alert("Something went wrong!!")
+                        }
+                );
         }
 }
