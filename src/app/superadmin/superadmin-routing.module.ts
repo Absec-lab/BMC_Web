@@ -37,6 +37,7 @@ import { ManpowerComponent } from './manpower/manpower.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
+import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
 
 
 const routes: Routes = [
@@ -76,7 +77,8 @@ const routes: Routes = [
   {path: 'superadmin/inventory',component: InventoryComponent}, 
   {path: 'superadmin/manpower',component: ManpowerComponent}, 
   {path:'superadmin/disclaimer',component:DisclaimerComponent},
-  {path:'superadmin/vehicle/management',component:VehicleManagementComponent}
+  {path:'superadmin/vehicle/management',component:VehicleManagementComponent},
+  {path:'superadmin/trip-status-report',component:TripStatusReportComponent}
 ];
 
 @NgModule({
