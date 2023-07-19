@@ -409,7 +409,7 @@ export class GarbageComponent implements OnInit {
             "wc": {
               "wcId":localStorage.getItem('wcId')
              },
-             "tts":"No"
+             "tts": "No"
           }
           console.log(data)
           this.service.createTrip(data).subscribe(
