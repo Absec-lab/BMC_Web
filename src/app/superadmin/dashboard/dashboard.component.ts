@@ -1,6 +1,10 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ReportGenerate } from 'src/app/model/pit.model';
+import { CommonService } from 'src/app/service/common.service';
+import { ReportService } from 'src/app/service/report.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +18,64 @@ export class DashboardComponent {
   chart3: any;
   chart4: any;
   chart5: any;
+  role : any =''
+  wcSelectId:any = 0
+  inventoryDate: string = "";
+
+  payloadInventory: ReportGenerate = {
+    reportType: "INVENTORY",
+    type: "MONTHLY",
+    fromDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "",
+    toDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "",
+    wcId: 0,
+    reportName: "INVENTORY"
+  }
+
+  constructor(private datePipe: DatePipe, private service: CommonService, private reportService: ReportService){
+    this.role = localStorage.getItem('role');
+  }
 
   ngOnInit() {
     this.createChart1();
     this.createChart2();
     this.createChart3();
     this.createChart4();
-    this.createChart5();
+    this.createChart5([0,0,0]);
+  }
+
+  getInventoryRecord(){
+    this.payloadInventory.wcId = this.wcSelectId
+    try {
+      this.reportService.getInventoryReport(this.payloadInventory)
+        .subscribe((response:any) => {
+           let inStock = 0;
+           let purchase = 0;
+           let issueStock = 0;
+      
+           //Purchase
+           let itemPurchaseArr = response.itemPurchaseNames;
+           itemPurchaseArr.forEach((element: string) => {
+            purchase = response.response.PURCHASE._1[element].reduce((sum:number, item:any) => sum + item.quantity, 0);
+           });
+
+           //Issue 
+           let itemIssueArr = response.itemIssueNames;
+           itemIssueArr.forEach((element: string) => {
+            issueStock = response.response.ISSUESTOCK._1[element].reduce((sum:number, item:any) => sum + item.quantity, 0);
+           });
+
+
+           //In Stock
+           let itemStockArr = response.itemInStockNames;
+           itemStockArr.forEach((element: string) => {
+            inStock = response.response.INSTOCK._1[element].reduce((sum:number, item:any) => sum + item.quantity, 0);
+           });
+
+           this.createChart5([purchase, issueStock, inStock]);
+        });
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   createChart1() {
@@ -207,16 +262,65 @@ export class DashboardComponent {
     });
   }
 
-  createChart5() {
-    this.chart3 = new Chart("chart-23236985-f16855f5-676c-4201-b1d9-ab68c9d8307a", {
+  // createChart5() {
+  //   this.chart3 = new Chart("chart-23236985-f16855f5-676c-4201-b1d9-ab68c9d8307a", {
+  //     type: "bar",
+  //     data: {
+  //       labels: ["Package", "Unsold", "Sold"],
+  //       datasets: [
+  //         {
+  //           label: "",
+  //           data: [500, 260, 240],
+  //           backgroundColor: ["#11A3F5", "#ED3223", "#15D981"],
+  //           barThickness: 20,
+  //         },
+  //       ],
+  //     },
+  //     // plugins: [ChartDataLabels],
+  //     options: {
+  //       indexAxis: "y",
+  //       responsive: true,
+  //       scales: {
+  //         x: {
+  //           ticks: {
+  //             color: "white",
+  //           },
+  //         },
+  //         y: {
+  //           ticks: {
+  //             color: "white",
+  //           },
+  //         },
+  //       },
+  //       color: "white",
+  //       maintainAspectRatio: false,
+  //       plugins: {
+  //         legend: {
+  //           display: false,
+  //           position: "left",
+  //           labels: {
+  //             color: "#fff",
+  //           },
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
+
+  createChart5(dataArr: number[]) {
+    this.inventoryDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
+    if (this.chart5 != null && this.chart5 != undefined) {
+      this.chart5.destroy()
+    }
+    this.chart5 = new Chart("chart-029ea4bc-fac1-4296-b731-25bb7c6598ac", {
       type: "bar",
       data: {
-        labels: ["Package", "Unsold", "Sold"],
+        labels: ["Purchase", "Issue Stock", "In Stock"],
         datasets: [
           {
             label: "",
-            data: [500, 260, 240],
-            backgroundColor: ["#11A3F5", "#ED3223", "#15D981"],
+            data: dataArr,
+            backgroundColor: ["#14A2F4", "#EE321F", "#12D881"],
             barThickness: 20,
           },
         ],
