@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@a
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 import { ToastService } from 'src/app/service/toast.service';
+import { MrfActionRendererComponent } from './mrf-action-renderer/mrf-action-renderer.component';
 @Component({
   selector: 'app-mrf-tab',
   templateUrl: './mrf-tab.component.html',
@@ -329,8 +330,6 @@ export class MrfTabComponent implements OnInit {
         console.log("MrfList", this.mrfGridList)
         console.log("rowData", rowDataMrf)
         this.rowDataMrf = rowDataMrf;
-
-
         // window.alert("Mrf data updated successfully!!")
         // this.isAdd = true
         // this.isUpdate = false
@@ -678,7 +677,10 @@ export class MrfTabComponent implements OnInit {
     paginationPageSize: 25,
     rowStyle: { background: '#e2e8f0' },
     copyHeadersToClipboard: true,
-    enableRangeSelection: true
+    enableRangeSelection: true,
+    frameworkComponents: {
+      actionCellRenderer: MrfActionRendererComponent
+    }
   }
   rowData = [
     { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', tripEndReading: '120.6', vehicle_starttime: '2023-05-19 06:00:00' }
@@ -729,19 +731,11 @@ export class MrfTabComponent implements OnInit {
     { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true },
     { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
     {
-      headerName: 'Edit', width: 125, sortable: false, filter: false,
-      cellRenderer: (data: any) => {
-        return `
-      <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-      <button class="btn btn-danger btn-sm">
-        <i class="fa-solid fa-trash-alt"></i>
-      </button>
-     `;
-      }
+      headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false,
+      cellRenderer: 'actionCellRenderer'
     }
   ];
+
   columnDefsBailing: ColDef[] = [
     { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
     { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
