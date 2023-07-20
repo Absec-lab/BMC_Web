@@ -60,6 +60,7 @@ import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashb
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
+import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-action-renderer.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { TripStatusReportComponent } from './trip-status-report/trip-status-repo
     DashboardFiveComponent,
     DisclaimerComponent,
     VehicleManagementComponent,
-    TripStatusReportComponent
+    TripStatusReportComponent,
+    MrfActionRendererComponent
   ],
 
   entryComponents: [
