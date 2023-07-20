@@ -1,93 +1,145 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { windowWhen } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { LoginReq } from 'src/app/model/pit.model';
 import { LoginModel, UserInfo } from 'src/app/model/user.model';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  public showPassword: Boolean= false;
   checkagreeterms: any;
-  constructor(private service: CommonService,private route:Router) {
-  }
+    
+    constructor(private toastr: ToastrService, private service: CommonService,private route:Router, private toastService: ToastService) {}
   loginResponse:any
   form = new FormGroup({
-    emailId: new FormControl,
-    password: new FormControl
+    emailId: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   });
 
-
-  
+  public logindata:any;
 
   public loginPayload: LoginReq = {
     email: '',
     password: '',
     hasTermsChecked: true
   };
-
-
   
- /**
-   * Function used to call Bakend OLD Login service *****************
-   */
-  // login(){
-  //   console.log(this.form.value)
-  //   const payload={
-  //     "payload":this.form.value
-  //   }
-  //   this.service.login(payload).subscribe(
-  //     data=>{
-  //       this.loginResponse=data as LoginModel
-  //       localStorage.setItem('userInfo',JSON.stringify(this.loginResponse.responseBody));
-  //       localStorage.setItem('token',this.loginResponse.bearerToken)
-  //      // window.alert("Login Success")
-  //       //this.route.navigate(['/map/view'])
-  //       this.route.navigate(['/superadmin/home'])
-  //     },
-  //     error=>{
-  //       window.alert("Invalid Credentials")
-  //     }
-  //   );
-   
-  // }
 
+  ngOnInit(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('logindetails');
+    localStorage.clear();
+  }
 
-  public logindata: any;
+  validateEmail(email: string) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  
  /**
    * Function used to call Bakend Login service
    */
  public doLogin(): void {
 
-//   if (this.loginPayload.email == null || this.loginPayload.email === '' ||
-//     this.loginPayload.password == null || this.loginPayload.password === '') {
-//  //   this.toastr.warning(' Field can not be left empty ', 'Alert!');
-//     return;
-//   }
-  this.loginPayload.email = 'testbmcadmin@gmail.com';
-  this.loginPayload.password = 'Absec@123';
-  this.loginPayload.hasTermsChecked = true;
-  
-  console.log("Login REQ : ",this.loginPayload);
-  this.service.login(this.loginPayload).subscribe(data => {
+  const email: any = this.form.value.emailId?.trim();
+  const password: any = this.form.value.password?.trim();
+
+  if (this.form.status === 'INVALID') {
+    if (!email) {
+      this.toastService.showWarning('Email is required.');
+      return;
+    }
+    if (!this.validateEmail(email)) {
+      this.toastService.showWarning('Email is not valid.');
+      return;
+    }
+    if (!password) {
+      this.toastService.showWarning('Password is required.');
+      return;
+    }
+    return;
+  }
+
+   this.loginPayload.email = email;
+   this.loginPayload.password = password;
+   this.loginPayload.hasTermsChecked = true;
+   let rolePermission : boolean = false;
+   let roleSuperadminPermission : boolean = false;
+
+   this.service.login(this.loginPayload).subscribe(data => {
     this.logindata = data;
-    console.log("Login RES : ",this.logindata);
-   // localStorage.setItem('access_token', data.token);
-   // localStorage.setItem('role', data.role);
-    this.route.navigate(['/superadmin/home'])
-    // if (data.email) {
-    //   localStorage.setItem('logintype', "password_login");
-    //   this.route.navigate(['/superadmin/home'])
-    //   this.doGetUserDetails(null , data.email , "email_login");
-    // } else {
-    //   this.route.navigate(['login']);
-    // }
-    // call get userdetails by userid to get user details.....
-  }, error => {
-    console.log(error);
+    if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
+            && (this.logindata.userdetails[0].attributes.role == 'mccuser' || this.logindata.userdetails[0].attributes.role == 'wcuser' 
+                || this.logindata.userdetails[0].attributes.role == 'ttsuser') ){
+          rolePermission = true;
+    }else{
+         if( this.logindata.userdetails[0].attributes.role == 'bmcadmin'){
+             roleSuperadminPermission = true; 
+         }else if(this.logindata.userdetails[0].attributes.role == 'ttsuser'){
+             rolePermission = true;
+         }else if(this.logindata.userdetails[0].attributes.role == 'dryingyarduser'){
+             rolePermission = true;
+         }else{
+          this.toastService.showError('No Wealth Center Assigned to this User.');
+         }
+    }
+
+    if(rolePermission == true || roleSuperadminPermission == true){
+      localStorage.setItem('access_token', this.logindata.access_token);
+      this.logindata.userdetails[0] != undefined ? localStorage.setItem('role', this.logindata.userdetails[0].attributes.role) : localStorage.setItem('role', '');
+      localStorage.setItem('logindetails', JSON.stringify(this.logindata));
+      localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
+      localStorage.setItem('email', this.logindata.userdetails[0].email);
+      if(roleSuperadminPermission == true){
+        localStorage.setItem('userInfo', '');
+        localStorage.setItem('wcId',  '0');
+        localStorage.setItem('zoneId','0');
+      }else{
+        this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
+        localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
+        localStorage.setItem('zoneId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined && this.logindata.userentity[0].mccEntity != undefined ? this.logindata.userentity[0].mccEntity?.zoneId?.zoneId : 0);   
+      }
+      if(this.logindata.userrole != undefined 
+             && this.logindata.userrole?.userRole != undefined 
+             && this.logindata.userdetails.length == 0 
+             && (this.logindata.userrole?.userRole == 'ttsuser' || this.logindata.userrole?.userRole == 'dryingyarduser')){
+
+              localStorage.setItem('userInfo', '');
+              localStorage.setItem('wcId',  '0');
+              localStorage.setItem('zoneId','0');
+      }
+     
+      //this.logindata.userentity.length > 0 && this.logindata.userentity[0].mccEntity != undefined ? localStorage.setItem('userInfo', this.logindata.userentity[0].mccEntity) : localStorage.setItem('userInfo', '');
+      //localStorage.setItem('wcId', this.logindata.userentity.length > 0 && this.logindata.userentity[0] != undefined ? this.logindata.userentity[0].wcEntity?.wcId : 0);
+     
+
+      if(this.logindata.userrole != undefined 
+        && this.logindata.userrole?.userRole != undefined 
+        && this.logindata.userrole?.userRole == 'ttsuser'){
+          this.route.navigate(['/superadmin/drying-yard/trip-details'])
+      }else if(this.logindata.userrole != undefined 
+        && this.logindata.userrole?.userRole != undefined 
+        && this.logindata.userrole?.userRole == 'dryingyarduser'){
+          this.route.navigate(['/superadmin/drying-yard/compost-drying'])
+      }else if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
+        && (this.logindata.userdetails[0].attributes.role == 'mccuser')){
+          this.route.navigate(['/superadmin/mcc/pit-view'])
+      }else{
+          this.route.navigate(['/superadmin/home'])
+      }
+      
+    }
+
+  }, err => {
+    this.toastService.showError(err.error.error);
   });
 }
 

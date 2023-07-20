@@ -1,0 +1,23 @@
+#mini-sidebar {
+    position: fixed;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+    width: 86px;
+    background: #2B2B4B;
+    color: #fff;
+    z-index: 999;
+    margin-left: -86px;
+    height: calc(94dvh - 36px);
+    overflow-y: auto;
+    transition: all .3s;
+}
+
+#mini-sidebar.toggled {
+    margin-left: 0;
+}
+
+#mini-sidebar::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}

@@ -2,95 +2,13 @@
 <main class="container-fluid">
     <div class="page-content p-3">
         <div class="row">
-            <div class="col-lg-3">
-                <app-sidebar></app-sidebar>
-            </div>
-            <div class="col-lg-9">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-1 stat-card">
-                                        <div>
-                                            <div>PIT Quantum</div>
-                                            <h4 class="mt-2">1 TON</h4>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-regular fa-file-lines"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-2 stat-card">
-                                        <div>
-                                            <div>Empty PIT</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">13</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-solid fa-receipt"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-3 stat-card">
-                                        <div>
-                                            <div>PIT</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">1</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-regular fa-circle-check"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-4 stat-card">
-                                        <div>
-                                            <div>Assigned To Me</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">3</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-solid fa-user-plus"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <app-heade-dashboard-component></app-heade-dashboard-component>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -112,7 +30,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Vehicle No
+                                                    Vehicle No<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="vehicleNo" type="text" name="" id="" class="form-control">
@@ -122,11 +40,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Zone Name
+                                                    Zone Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="zoneId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                                <option value="" selected>Select</option>
                                                                 <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
                                                         </select>
                                                 </div>
@@ -137,11 +55,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    WC Name
+                                                    WC Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="wcId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                                <option value="" selected>Select</option>
                                                                 <option [value]="x.wcId" *ngFor="let x of wcList;">{{x.wcName }}</option>
                                                         </select>
                                                 </div>
@@ -150,11 +68,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Route Name
+                                                    Route Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="routeId" class="form-select">
-                                                                <option value="" disabled selected>--Select--</option>
+                                                                <option value="" selected>Select</option>
                                                                 <option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName }}</option>
                                                         </select>
                                                 </div>
@@ -165,11 +83,11 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Driver Name/DL
+                                                    Driver Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <select formControlName="driverId" class="form-select">
-                                                        <option value="" disabled selected>--Select--</option>
+                                                        <option value="" selected>Select</option>
                                                         <option [value]="x.driverId" *ngFor="let x of driverList;">{{x.driverName}}</option>
                                                 </select>
                                                 </div>
@@ -178,7 +96,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    RC Number
+                                                    RC Number<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="rcNo" type="text" name="" id="" class="form-control">
@@ -190,20 +108,20 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    RC Photo
+                                                    RC Photo<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="rcPhoto" type="file" name="" id="" class="form-control">
+                                                    <input formControlName="rcPhoto" type="file" name="" id="rcPhoto" class="form-control" (change)="handleFileSelectRcPhoto($event)" accept="image/*">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Vehicle Image
+                                                    Vehicle Image<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleImage" type="file" name="" id="" class="form-control">
+                                                    <input formControlName="vehicleImage" type="file" name="" id="vehicleImage" class="form-control" (change)="handleFileSelectVehiclePhoto($event)" accept="image/*">
                                                 </div>
                                             </div>
                                         </div>
@@ -212,7 +130,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Insurance
+                                                    Insurance<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="insurance" type="text" name="" id="" class="form-control">
@@ -222,10 +140,10 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Vehicle Passing Weight
+                                                    Vehicle Passing Weight<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehiclePassingWt" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="vehiclePassingWt" type="number" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -234,13 +152,29 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Vehicle Weight
+                                                    Helper Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleWt" type="text" name="" id="" class="form-control">
+                                                    <select formControlName="helperId" class="form-select">
+                                                        <option value="" selected>Select</option>
+                                                        <option [value]="x.helperId" *ngFor="let x of helperList;">{{x.helperName}}</option>
+                                                </select>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
+                                                    Vehicle Weight<span class="text-danger">*</span>
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                    <input formControlName="vehicleWt" type="number" name="" id="" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
@@ -267,7 +201,7 @@
 						</div>
                     </div>
                     <div class="mt-4">
-                        <div
+                        <!-- <div
                             class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
                             <div>Vehicle No</div>
                             <div class="ms-3 w-20">
@@ -292,7 +226,7 @@
                                     Search
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <table class="table table-bordered table-striped">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
@@ -303,6 +237,7 @@
                                     <th>Route Name</th>
                                     <th>Driver Name</th>
                                     <th>RC</th>
+                                    <th>Helper Name</th>
                                     <th>Insurance</th>
                                     <th>Vehicle Passing Wt.</th>
                                     <th>Vehicle Wt.</th>
@@ -321,6 +256,7 @@
                                                                         <td>{{ x.route?.routeName || '--' }}</td>
                                                                         <td>{{ x.driver?.driverName || '--' }}</td>
                                                                         <td>{{ x.rcNo || '--' }}</td>
+                                                                        <td>{{ x.helper?.helperName || '--' }}</td>
                                                                         <td>{{ x.insurance || '--' }}</td>
                                                                         <td>{{ x.vehiclePassingWt || '--' }}</td>
                                                                         <td>{{ x.vehicleWt || '--' }}</td>

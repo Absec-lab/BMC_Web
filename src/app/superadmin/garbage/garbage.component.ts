@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup,FormsModule, Validators} from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
 import { ImageCellRendererComponent } from '../image-cell-renderer/image-cell-renderer.component';
+import { ActiveTripActionRendererComponent } from './active-trip-action-renderer/active-trip-action-renderer.component';
+import { ToastService } from 'src/app/service/toast.service';
+
 @Component({
   selector: 'app-garbage',
   templateUrl: './garbage.component.html',
@@ -11,8 +14,10 @@ import { ImageCellRendererComponent } from '../image-cell-renderer/image-cell-re
 })
 export class GarbageComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient) {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
+    this.wcId = localStorage.getItem("wcId");
     this.getRouteList()
+
    }
    isAdd: boolean = true
    isUpdate: boolean = false
@@ -31,10 +36,13 @@ export class GarbageComponent implements OnInit {
   tripResponse: any
   errorResponse:any
   helperList:any=[]
+  loginResponse:any
+  driverList:any=[]
   form = new FormGroup({
     vehicleNumber: new FormControl,
     driverDlNo: new FormControl,
     driverName: new FormControl,
+    driverId: new FormControl,
     routeName: new FormControl,
     tripStartReading: new FormControl,
     tripEndReading: new FormControl,
@@ -44,15 +52,19 @@ export class GarbageComponent implements OnInit {
     tareWeightValue: new FormControl,
     unloadwetWeightValue: new FormControl,
     routeId: new FormControl,
-    helperId:new FormControl
+    helperId:new FormControl,
+    move_tts:new FormControl
   });
+  wcId: any = 0;
   ngOnInit() {
-    this.setVehicleNumber()
-    this.service.getAllHelper().subscribe(
-      data=>{
-         this.helperList=data
-      }
-    );
+    // this.setVehicleNumber()
+    this.service.getAllHelperByWcId().subscribe((data) => {
+      this.loginResponse = data;
+      this.helperList = this.loginResponse.data;
+    });
+    this.service.getAllDriverList().subscribe((data) => {
+      this.driverList = data;
+    });
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data
@@ -60,17 +72,23 @@ export class GarbageComponent implements OnInit {
         const rowData =   this.activeTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc?.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
             route_routeName: item.route.routeName,
             tripStartReading: item.tripStartReading,
             vehicle_starttime: item.createdDate,
-            trip_start_reading_image: item.tripStartReadingImg
+            trip_start_reading_image: item.tripStartReadingImg,
+            driver: item.driver,
+            dry_weight: item.dryWt,
+            gross_weight: item.grossWt,
+            tare_weight: item.tareWt,
+            wet_weight: item.wetWt
           };
         });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
+      //  console.log("ActiveList",this.activeTripList)
+      //  console.log("rowData",rowData)
        this.rowData=rowData;
       }
     );
@@ -81,6 +99,7 @@ export class GarbageComponent implements OnInit {
         const rowDataComp =   this.inActiveTripList.map((item: any) => {
          
           return {
+            wc_name: item.wc.wcName,
             vehicle_vehicleNo: item.vehicleNo,
             driver_driverName: item.driver.driverName,
             helper_name: item.helper.helperName,
@@ -96,8 +115,8 @@ export class GarbageComponent implements OnInit {
             trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
           };
         });
-       console.log("InActiveList",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
+      //  console.log("InActiveList",this.inActiveTripList)
+      //  console.log("rowData",rowDataComp)
        this.rowDataComp=rowDataComp;
         
       }
@@ -114,7 +133,7 @@ export class GarbageComponent implements OnInit {
       data => {
         this.activeTripResponse = data
         this.activeTripList = this.activeTripResponse.data
-         console.log("ActiveList",this.activeTripList)
+        //  console.log("ActiveList",this.activeTripList)
       }
     );
   }
@@ -128,7 +147,19 @@ export class GarbageComponent implements OnInit {
   }
 
  async setVehicleNumber() {
-    console.log(this.form.value.vehicleNumber)
+
+    const vehicleNumber: any = this.form.value.vehicleNumber?.trim();
+    if (!vehicleNumber) {
+      this.toastService.showWarning(`Please enter a vehicle number.`);
+      return;
+    }
+
+    this.form.reset();
+
+    this.form.patchValue({
+      vehicleNumber: vehicleNumber
+    });
+
     this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
       data => {
         this.vehcileDataResponse = data
@@ -136,7 +167,7 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          driverId:this.vehcileDataResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.vehcileDataResponse.data.tripStartReading,
           tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
@@ -144,10 +175,12 @@ export class GarbageComponent implements OnInit {
           dryWeightValue:this.vehcileDataResponse.data.dryWt,
           wetWeightValue:this.vehcileDataResponse.data.wetWt,
           tareWeightValue:this.vehcileDataResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
+          routeId: this.vehcileDataResponse.data.route.routeId,
+          unloadwetWeightValue: (this.vehcileDataResponse.data.grossWt && this.vehcileDataResponse.data.wetWt) ? this.vehcileDataResponse.data.grossWt - this.vehcileDataResponse.data.wetWt : ""
         })
       },
       error => {
+        this.toastService.showError(error.error.message);
       }
     );
     this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
@@ -157,7 +190,8 @@ export class GarbageComponent implements OnInit {
         this.form.patchValue({
           vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
           driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
+          driverName: this.tripResponse.data.driver.driverName,
+          driverId:this.tripResponse.data.driver.driverId,
           routeName: this.vehcileDataResponse.data.route.routeName,
           tripStartReading: this.tripResponse.data.tripStartReading,
           tripEndReading: this.tripResponse.data.tripEndReading,
@@ -166,7 +200,8 @@ export class GarbageComponent implements OnInit {
           wetWeightValue:this.tripResponse.data.wetWt,
           tareWeightValue:this.tripResponse.data.tareWt,
           routeId: this.vehcileDataResponse.data.route.routeId,
-          helperId:this.tripResponse.data.helper.helperId
+          helperId:this.tripResponse.data.helper.helperId,
+          unloadwetWeightValue: (this.tripResponse.data.grossWt && this.tripResponse.data.wetWt) ? this.tripResponse.data.grossWt - this.tripResponse.data.wetWt : ""
         })
         if (this.tripResponse.data.tripStatusEntity.id == 1) {
           this.tripStartButton = false
@@ -174,6 +209,9 @@ export class GarbageComponent implements OnInit {
           this.dryButton = false
           this.wetWeightCapturedButton = false
           this.grossWeightCapturedButton = true
+
+          document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+          !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
           
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 2){
@@ -182,6 +220,11 @@ export class GarbageComponent implements OnInit {
           this.dryButton = false
           this.wetWeightCapturedButton = true
           this.grossWeightCapturedButton = false
+
+          document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+          !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 3){
           this.tripStartButton = false
@@ -189,6 +232,13 @@ export class GarbageComponent implements OnInit {
           this.dryButton = true
           this.wetWeightCapturedButton = false
           this.grossWeightCapturedButton = false
+
+          document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+          !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.tareWeightDiv span') && document.querySelector('.tareWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.dryWeightDiv span') && document.querySelector('.dryWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
         }
         else if(this.tripResponse.data.tripStatusEntity.id == 4){
           this.tripStartButton = false
@@ -196,6 +246,15 @@ export class GarbageComponent implements OnInit {
           this.dryButton = false
           this.wetWeightCapturedButton = false
           this.grossWeightCapturedButton = false
+
+          document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+          !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.tareWeightDiv span') && document.querySelector('.tareWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.dryWeightDiv span') && document.querySelector('.dryWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.tripEndReadingDiv span') && document.querySelector('.tripEndReadingDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+          !document.querySelector('.tripEndReadingPictureDiv span') && document.querySelector('.tripEndReadingPictureDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
         }
       },
       error=>{
@@ -222,44 +281,139 @@ export class GarbageComponent implements OnInit {
       this.tripStartReadingImgFile = file;
   }
 
-  createTrip(){
+  getMimeType(header: string): string {
+    switch (header) {
+      case '89504e47':
+        return 'image/png';
+      case 'ffd8ffe0':
+      case 'ffd8ffe1':
+      case 'ffd8ffe2':
+        return 'image/jpeg';
+      default:
+        return '';
+    }
+  }
 
-    if (!this.tripStartReadingImgFile) {
-      alert("Please select an image for trip start reading.");
+  async createTrip(){
+
+    const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
+    const vehicleNumber = vehicleNumberElement.value.trim();
+    if (vehicleNumber === '') {
+      this.toastService.showWarning('Vehicle number is required.');
       return;
     }
+
+    const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
+    const tripStartReading = tripStartReadingElement.value.trim();
+    if (tripStartReading === '') {
+      this.toastService.showWarning('Trip start reading is required.');
+      return;
+    }
+
+    if (!this.tripStartReadingImgFile) {
+      this.toastService.showWarning("Please select an image for trip start reading.");
+      return;
+    }
+
+    const tripStartFileInputElement = document.getElementById('tripStartReadingPictureInput') as HTMLInputElement;
+
+    const allowedTypes = ['.jpg', '.jpeg', '.png'];
+    const fileType = this.tripStartReadingImgFile.name.substring(this.tripStartReadingImgFile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedTypes.includes(fileType)) {
+      this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+      tripStartFileInputElement.value = '';
+      return;
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const arr = new Uint8Array(reader.result as ArrayBuffer).subarray(0, 4);
+      let header = '';
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+      }
+      const mimeType = this.getMimeType(header);
+      if (!allowedMimeTypes.includes(mimeType)) {
+        this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+        tripStartFileInputElement.value = '';
+        return;
+      }
+    };
+    await reader.readAsArrayBuffer(this.tripStartReadingImgFile);
+
+    if (this.tripStartReadingImgFile.size > 15 * 1024 * 1024) {
+      this.toastService.showWarning('Max file size allowed is: 15 MB');
+      tripStartFileInputElement.value = '';
+      return;
+    }
+    
+    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    const driverDlNo = driverDlNoElement.value.trim();
+    if (driverDlNo === '') {
+      this.toastService.showWarning('DL number is required.');
+      return;
+    }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
+      this.toastService.showWarning('Driver name is required.');
+      return;
+    }
+    
+    const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
+    const helperId = helperIdElement.value.trim();
+    if (helperId === '') {
+      this.toastService.showWarning('Helper name is required.');
+      return;
+    }
+    
+    // const routeIdElement = document.querySelector('#routeId') as HTMLInputElement;
+    // const routeId = routeIdElement.value.trim();
+    // if (routeId === '') {
+    //   this.toastService.showWarning('Route is required.');
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.set("file", this.tripStartReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post(this.service.endpoint+":9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
 
           if (!this.isURL(fileUrl)) {
-            alert("Invalid file link detected.");
+            this.toastService.showError("Invalid file link detected.");
             return;
           }
 
           const fileUrlItems: any = fileUrl.split("/");
           const fileName = fileUrlItems[fileUrlItems.length - 1];
 
+          console.log(this.vehcileDataResponse);
+
           const data={
-            "driver":this.vehcileDataResponse.data.driver,
+            "driver": {
+              "driverId":this.form.value.driverId
+            },
             "route": this.vehcileDataResponse.data.route,
             "tripStartReading": this.form.value.tripStartReading,
-            "tripStartReadingImg": fileName,
+            "tripStartReadingImg": fileUrl,
             "vehicleNo": this.vehcileDataResponse.data.vehicleNo,
             "helper": {
               "helperId":this.form.value.helperId
-            }
+            },
+            "wc": {
+              "wcId":localStorage.getItem('wcId')
+             }
           }
           console.log(data)
           this.service.createTrip(data).subscribe(
             data=>{
-              window.alert("Trip Created Successfully")
+              this.toastService.showSuccess("Trip Created Successfully")
               // this.setVehicleNumber();
               this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
                 data => {
@@ -286,17 +440,23 @@ export class GarbageComponent implements OnInit {
                       const rowData =   this.activeTripList.map((item: any) => {
                        
                         return {
+                          wc_name: item.wc?.wcName,
                           vehicle_vehicleNo: item.vehicleNo,
                           driver_driverName: item.driver.driverName,
                           helper_name: item.helper.helperName,
                           route_routeName: item.route.routeName,
                           tripStartReading: item.tripStartReading,
                           vehicle_starttime: item.createdDate,
-                          trip_start_reading_image: item.tripStartReadingImg
+                          trip_start_reading_image: item.tripStartReadingImg,
+                          driver: item.driver,
+                          dry_weight: item.dryWt,
+                          gross_weight: item.grossWt,
+                          tare_weight: item.tareWt,
+                          wet_weight: item.wetWt
                         };
                       });
-                     console.log("ActiveList",this.activeTripList)
-                     console.log("rowData",rowData)
+                    //  console.log("ActiveList",this.activeTripList)
+                    //  console.log("rowData",rowData)
                      this.rowData=rowData;
                     }
                   );
@@ -319,8 +479,8 @@ export class GarbageComponent implements OnInit {
                           trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                         };
                       });
-                     console.log("InActiveList",this.inActiveTripList)
-                     console.log("rowData",rowDataComp)
+                    //  console.log("InActiveList",this.inActiveTripList)
+                    //  console.log("rowData",rowDataComp)
                      this.rowDataComp=rowDataComp;
                       
                     }
@@ -353,6 +513,9 @@ export class GarbageComponent implements OnInit {
                     this.dryButton = false
                     this.wetWeightCapturedButton = false
                     this.grossWeightCapturedButton = true
+
+                    document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+                    !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
                     
                   }
                   else if(this.tripResponse.data.tripStatusEntity.id == 2){
@@ -401,16 +564,60 @@ export class GarbageComponent implements OnInit {
               
             },
             error=>{
-              console.log(error)
               this.errorResponse=error
-              window.alert(this.errorResponse.error.message)
+              this.toastService.showError(this.errorResponse?.error?.message)
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
   setGrossWtValue(){
+
+    const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
+    const vehicleNumber = vehicleNumberElement.value.trim();
+    if (vehicleNumber === '') {
+      this.toastService.showWarning('Vehicle number is required.');
+      return;
+    }
+
+    const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
+    const tripStartReading = tripStartReadingElement.value.trim();
+    if (tripStartReading === '') {
+      this.toastService.showWarning('Trip start reading is required.');
+      return;
+    }
+
+    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    const driverDlNo = driverDlNoElement.value.trim();
+    if (driverDlNo === '') {
+      this.toastService.showWarning('DL number is required.');
+      return;
+    }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
+      this.toastService.showWarning('Driver name is required.');
+      return;
+    }
+    
+    const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
+    const helperId = helperIdElement.value.trim();
+    if (helperId === '') {
+      this.toastService.showWarning('Helper name is required.');
+      return;
+    }
+    
+    const grossWeightValueElement = document.querySelector('#grossWeightValue') as HTMLInputElement;
+    const grossWeightValue = grossWeightValueElement.value.trim();
+    if (grossWeightValue === '') {
+      this.toastService.showWarning('Gross weight is required.');
+      return;
+    }
+
     const data={
       "grossWt": this.form.value.grossWeightValue,
       "statusEntity": {
@@ -421,7 +628,7 @@ export class GarbageComponent implements OnInit {
     
     this.service.updateTrip(data).subscribe(
       data=>{
-        window.alert("Gross Weight captured successfully")
+        this.toastService.showSuccess("Gross Weight captured successfully");
         
         // this.setVehicleNumber();
         // this.service.getCompletedTrips().subscribe(
@@ -432,80 +639,103 @@ export class GarbageComponent implements OnInit {
         // );
         this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.vehcileDataResponse = data;
+            }
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+            //   tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+            //   grossWeightValue:this.vehcileDataResponse.data.grossWt,
+            //   dryWeightValue:this.vehcileDataResponse.data.dryWt,
+            //   wetWeightValue:this.vehcileDataResponse.data.wetWt,
+            //   tareWeightValue:this.vehcileDataResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
           },
           error => {
           }
         );
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
         this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.tripResponse = data;
+            }
+
+            /**
+             * Enable the wet weight capturing button only.
+             */
+            this.wetWeightCapturedButton = true;
+
+            document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+            !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.tripResponse.data.tripStartReading,
+            //   tripEndReading: this.tripResponse.data.tripEndReading,
+            //   grossWeightValue: this.tripResponse.data.grossWt,
+            //   dryWeightValue:this.tripResponse.data.dryWt,
+            //   wetWeightValue:this.tripResponse.data.wetWt,
+            //   tareWeightValue:this.tripResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
+            // if (this.tripResponse.data.tripStatusEntity.id == 1) {
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = true
               
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 2){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = true
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 3){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 4){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = true
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
           },
           error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+            // this.tripStartButton = true
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
           }
         );
         this.service.getActiveTrip().subscribe(
@@ -525,7 +755,7 @@ export class GarbageComponent implements OnInit {
       
       error=>{
         this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
+        this.toastService.showError(this.errorResponse.error.message)
       }
     );
     
@@ -533,6 +763,77 @@ export class GarbageComponent implements OnInit {
   }
 
   setDryWtValue(){
+
+    const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
+    const vehicleNumber = vehicleNumberElement.value.trim();
+    if (vehicleNumber === '') {
+      this.toastService.showWarning('Vehicle number is required.');
+      return;
+    }
+
+    const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
+    const tripStartReading = tripStartReadingElement.value.trim();
+    if (tripStartReading === '') {
+      this.toastService.showWarning('Trip start reading is required.');
+      return;
+    }
+
+    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    const driverDlNo = driverDlNoElement.value.trim();
+    if (driverDlNo === '') {
+      this.toastService.showWarning('DL number is required.');
+      return;
+    }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
+      this.toastService.showWarning('Driver name is required.');
+      return;
+    }
+    
+    const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
+    const helperId = helperIdElement.value.trim();
+    if (helperId === '') {
+      this.toastService.showWarning('Helper name is required.');
+      return;
+    }
+
+    const grossWeightValueElement = document.querySelector('#grossWeightValue') as HTMLInputElement;
+    const grossWeightValue = grossWeightValueElement.value.trim();
+    if (grossWeightValue === '') {
+      this.toastService.showWarning('Gross weight is required.');
+      return;
+    }
+    
+    const unloadIdElement = document.querySelector('#unloadId') as HTMLInputElement;
+    const unloadId = unloadIdElement.value.trim();
+    if (unloadId === '') {
+      this.toastService.showWarning('Unload wet weight is required.');
+      return;
+    }
+    
+    const wetWeightValueElement = document.querySelector('#wetWeightValue') as HTMLInputElement;
+    const wetWeightValue = wetWeightValueElement.value.trim();
+    if (wetWeightValue === '') {
+      this.toastService.showWarning('Wet weight is required.');
+      return;
+    }
+    
+    const tareWeightValueElement = document.querySelector('#tareWeightValue') as HTMLInputElement;
+    const tareWeightValue = tareWeightValueElement.value.trim();
+    if (tareWeightValue === '') {
+      this.toastService.showWarning('Tare weight is required.');
+      return;
+    }
+    
+    // const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
+    // const dryWeightValue = dryWeightValueElement.value.trim();
+    // if (dryWeightValue === '') {
+    //   this.toastService.showWarning('Dry weight is required.');
+    //   return;
+    // }
+
     const data={
       "tareWt": this.form.value.tareWeightValue,
       "statusEntity": {
@@ -543,7 +844,31 @@ export class GarbageComponent implements OnInit {
     
     this.service.updateTrip(data).subscribe(
       data=>{
-        window.alert("Dry Weight captured successfully")
+        this.toastService.showSuccess("Dry weight captured successfully");
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
+        /**
+         * Enable the trip end capture button only.
+         */
+        this.tripEndButton = true;
+
+        document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+        !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.tareWeightDiv span') && document.querySelector('.tareWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.dryWeightDiv span') && document.querySelector('.dryWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.tripEndReadingDiv span') && document.querySelector('.tripEndReadingDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+        !document.querySelector('.tripEndReadingPictureDiv span') && document.querySelector('.tripEndReadingPictureDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+
         // setTimeout(()=>{this.setVehicleNumber()},1000);
         this.setVehicleNumber()
        
@@ -563,13 +888,71 @@ export class GarbageComponent implements OnInit {
       },
       error=>{
         this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
+        this.toastService.showError(this.errorResponse.error.message)
       }
     );
     
     
   }
+
   setWetWtValue(){
+
+    const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
+    const vehicleNumber = vehicleNumberElement.value.trim();
+    if (vehicleNumber === '') {
+      this.toastService.showWarning('Vehicle number is required.');
+      return;
+    }
+
+    const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
+    const tripStartReading = tripStartReadingElement.value.trim();
+    if (tripStartReading === '') {
+      this.toastService.showWarning('Trip start reading is required.');
+      return;
+    }
+
+    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    const driverDlNo = driverDlNoElement.value.trim();
+    if (driverDlNo === '') {
+      this.toastService.showWarning('DL number is required.');
+      return;
+    }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
+      this.toastService.showWarning('Driver name is required.');
+      return;
+    }
+    
+    const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
+    const helperId = helperIdElement.value.trim();
+    if (helperId === '') {
+      this.toastService.showWarning('Helper name is required.');
+      return;
+    }
+
+    const grossWeightValueElement = document.querySelector('#grossWeightValue') as HTMLInputElement;
+    const grossWeightValue = grossWeightValueElement.value.trim();
+    if (grossWeightValue === '') {
+      this.toastService.showWarning('Gross weight is required.');
+      return;
+    }
+    
+    const unloadIdElement = document.querySelector('#unloadId') as HTMLInputElement;
+    const unloadId = unloadIdElement.value.trim();
+    if (unloadId === '') {
+      this.toastService.showWarning('Unload wet weight is required.');
+      return;
+    }
+    
+    const wetWeightValueElement = document.querySelector('#wetWeightValue') as HTMLInputElement;
+    const wetWeightValue = wetWeightValueElement.value.trim();
+    if (wetWeightValue === '') {
+      this.toastService.showWarning('Wet weight is required.');
+      return;
+    }
+
     const data={
       "wetWt": this.form.value.wetWeightValue,
       "statusEntity": {
@@ -580,84 +963,113 @@ export class GarbageComponent implements OnInit {
     
     this.service.updateTrip(data).subscribe(
       data=>{
-        window.alert("Wet Weight captured successfully")
+        this.toastService.showSuccess("Wet weight captured successfully")
         // this.setVehicleNumber();
         this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
+
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.vehcileDataResponse = data
+            }
+            
+            // console.log("vehcileDataResponse",this.vehcileDataResponse)
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.vehcileDataResponse.data.tripStartReading,
+            //   tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
+            //   grossWeightValue:this.vehcileDataResponse.data.grossWt,
+            //   dryWeightValue:this.vehcileDataResponse.data.dryWt,
+            //   wetWeightValue:this.vehcileDataResponse.data.wetWt,
+            //   tareWeightValue:this.vehcileDataResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
           },
           error => {
           }
         );
+
+        /**
+         * Disable all buttons by default.
+         */
+        this.tripStartButton = false;
+        this.tripEndButton = false;
+        this.dryButton = false;
+        this.wetWeightCapturedButton = false;
+        this.grossWeightCapturedButton = false;
+
         this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
           data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId,
-              helperId: this.vehcileDataResponse.data.helper.helperId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+
+            if (data && data.hasOwnProperty('vehicleNumber')) {
+              this.tripResponse = data;
+            }
+          
+            /**
+             * Enable the dry weight capture button only.
+             */
+            this.dryButton = true;
+
+            document.querySelector('.tripStartReadingPictureDiv .text-danger')?.remove();
+            !document.querySelector('.grossWeightDiv .label span') && document.querySelector('.grossWeightDiv .label')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.unloadWetWeightDiv span') && document.querySelector('.unloadWetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.wetWeightDiv span') && document.querySelector('.wetWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.tareWeightDiv span') && document.querySelector('.tareWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+            !document.querySelector('.dryWeightDiv span') && document.querySelector('.dryWeightDiv')?.insertAdjacentHTML('beforeend', '<span class="text-danger">*</span>');
+
+            // this.form.patchValue({
+            //   vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
+            //   driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
+            //   driverName: this.vehcileDataResponse.data.driver.driverName,
+            //   routeName: this.vehcileDataResponse.data.route.routeName,
+            //   tripStartReading: this.tripResponse.data.tripStartReading,
+            //   tripEndReading: this.tripResponse.data.tripEndReading,
+            //   grossWeightValue: this.tripResponse.data.grossWt,
+            //   dryWeightValue:this.tripResponse.data.dryWt,
+            //   wetWeightValue:this.tripResponse.data.wetWt,
+            //   tareWeightValue:this.tripResponse.data.tareWt,
+            //   routeId: this.vehcileDataResponse.data.route.routeId,
+            //   helperId: this.vehcileDataResponse.data.helper.helperId
+            // })
+            // if (this.tripResponse.data.tripStatusEntity.id == 1) {
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
               
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 2){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = true
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 3){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = false
+            //   this.dryButton = true
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
+            // else if(this.tripResponse.data.tripStatusEntity.id == 4){
+            //   this.tripStartButton = false
+            //   this.tripEndButton = true
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
+            // }
           },
           error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
+            // this.tripStartButton = true
+            //   this.tripEndButton = false
+            //   this.dryButton = false
+            //   this.wetWeightCapturedButton = false
+            //   this.grossWeightCapturedButton = false
           }
         );
         this.service.getActiveTrip().subscribe(
@@ -676,7 +1088,7 @@ export class GarbageComponent implements OnInit {
       },
       error=>{
         this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
+        this.toastService.showError(this.errorResponse.error.message)
       }
     );
     
@@ -690,10 +1102,120 @@ export class GarbageComponent implements OnInit {
     this.tripEndReadingImgFile = file;
   }
 
-  endTrip(){
+  async endTrip(){
+
+    const vehicleNumberElement = document.querySelector('#vehicleNumber') as HTMLInputElement;
+    const vehicleNumber = vehicleNumberElement.value.trim();
+    if (vehicleNumber === '') {
+      this.toastService.showWarning('Vehicle number is required.');
+      return;
+    }
+
+    const tripStartReadingElement = document.querySelector('#tripStartReading') as HTMLInputElement;
+    const tripStartReading = tripStartReadingElement.value.trim();
+    if (tripStartReading === '') {
+      this.toastService.showWarning('Trip start reading is required.');
+      return;
+    }
+
+    const driverDlNoElement = document.querySelector('#driverDlNo') as HTMLInputElement;
+    const driverDlNo = driverDlNoElement.value.trim();
+    if (driverDlNo === '') {
+      this.toastService.showWarning('DL number is required.');
+      return;
+    }
+    
+    const driverIdElement = document.querySelector('#driverId') as HTMLInputElement;
+    const driverId = driverIdElement.value.trim();
+    if (driverId === '') {
+      this.toastService.showWarning('Driver name is required.');
+      return;
+    }
+    
+    const helperIdElement = document.querySelector('#helperId') as HTMLInputElement;
+    const helperId = helperIdElement.value.trim();
+    if (helperId === '') {
+      this.toastService.showWarning('Helper name is required.');
+      return;
+    }
+    
+    const tripEndReadingElement = document.querySelector('#tripEndReading') as HTMLInputElement;
+    const tripEndReading = tripEndReadingElement.value.trim();
+    if (tripEndReading === '') {
+      this.toastService.showWarning('Trip end reading is required.');
+      return;
+    }
 
     if (!this.tripEndReadingImgFile) {
-      alert("Please select an image for trip end reading.");
+      this.toastService.showWarning("Please select an image for trip end reading.");
+      return;
+    }
+
+    const tripEndFileInputElement = document.getElementById('tripEndReadingPictureInput') as HTMLInputElement;
+
+    const allowedTypes = ['.jpg', '.jpeg', '.png'];
+    const fileType = this.tripEndReadingImgFile.name.substring(this.tripEndReadingImgFile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedTypes.includes(fileType)) {
+      this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+      tripEndFileInputElement.value = '';
+      return;
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const arr = new Uint8Array(reader.result as ArrayBuffer).subarray(0, 4);
+      let header = '';
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+      }
+      const mimeType = this.getMimeType(header);
+      if (!allowedMimeTypes.includes(mimeType)) {
+        this.toastService.showWarning('Unsupported file type. Only PNG and JPEG files are allowed.');
+        tripEndFileInputElement.value = '';
+        return;
+      }
+    };
+    await reader.readAsArrayBuffer(this.tripEndReadingImgFile);
+
+    if (this.tripEndReadingImgFile.size > 15 * 1024 * 1024) {
+      this.toastService.showWarning('Max file size allowed is: 15 MB');
+      tripEndFileInputElement.value = '';
+      return;
+    }
+
+    const grossWeightValueElement = document.querySelector('#grossWeightValue') as HTMLInputElement;
+    const grossWeightValue = grossWeightValueElement.value.trim();
+    if (grossWeightValue === '') {
+      this.toastService.showWarning('Gross weight is required.');
+      return;
+    }
+    
+    const unloadIdElement = document.querySelector('#unloadId') as HTMLInputElement;
+    const unloadId = unloadIdElement.value.trim();
+    if (unloadId === '') {
+      this.toastService.showWarning('Unload wet weight is required.');
+      return;
+    }
+    
+    const wetWeightValueElement = document.querySelector('#wetWeightValue') as HTMLInputElement;
+    const wetWeightValue = wetWeightValueElement.value.trim();
+    if (wetWeightValue === '') {
+      this.toastService.showWarning('Wet weight is required.');
+      return;
+    }
+    
+    const tareWeightValueElement = document.querySelector('#tareWeightValue') as HTMLInputElement;
+    const tareWeightValue = tareWeightValueElement.value.trim();
+    if (tareWeightValue === '') {
+      this.toastService.showWarning('Tare weight is required.');
+      return;
+    }
+    
+    const dryWeightValueElement = document.querySelector('#dryWeightValue') as HTMLInputElement;
+    const dryWeightValue = dryWeightValueElement.value.trim();
+    if (dryWeightValue === '') {
+      this.toastService.showWarning('Dry weight is required.');
       return;
     }
 
@@ -701,13 +1223,13 @@ export class GarbageComponent implements OnInit {
     formData.append("file", this.tripEndReadingImgFile);
 
     this.httpClient
-      .post("http://43.204.240.44:9091/v1/uploadFile", formData)
+      .post(this.service.endpoint+":9091/v1/uploadFile", formData)
       .subscribe(
         (response: any) => {
           const fileUrl: string = response.data;
 
           if (!this.isURL(fileUrl)) {
-            alert("Invalid file link detected.");
+            this.toastService.showError("Invalid file link detected.");
             return;
           }
 
@@ -720,12 +1242,14 @@ export class GarbageComponent implements OnInit {
               "id": 5
             },
             "vehicleNo":this.form.value.vehicleNumber,
-            "tripEndReadingImg": fileName
+            "tripEndReadingImg": fileUrl
           }
           this.service.updateTrip(data).subscribe(
             data=>{
-              window.alert("Trip completed")
-              this.setVehicleNumber();
+              this.toastService.showSuccess("Trip completed")
+              this.form.reset()
+              location.reload()
+              
               this.service.getActiveTrip().subscribe(
                 data => {
                   this.activeTripResponse = data
@@ -742,8 +1266,8 @@ export class GarbageComponent implements OnInit {
                       trip_start_reading_image: item.tripStartReadingImg
                     };
                   });
-                 console.log("ActiveList",this.activeTripList)
-                 console.log("rowData",rowData)
+                //  console.log("ActiveList",this.activeTripList)
+                //  console.log("rowData",rowData)
                  this.rowData=rowData;
                 }
               );
@@ -766,8 +1290,8 @@ export class GarbageComponent implements OnInit {
                       trip_end_reading_image: (item.tripEndReadingImg) ? item.tripEndReadingImg : null
                     };
                   });
-                 console.log("InActiveList",this.inActiveTripList)
-                 console.log("rowData",rowDataComp)
+                //  console.log("InActiveList",this.inActiveTripList)
+                //  console.log("rowData",rowDataComp)
                  this.rowDataComp=rowDataComp;
                   
                 }
@@ -775,16 +1299,18 @@ export class GarbageComponent implements OnInit {
             },
             error=>{
               this.errorResponse=error
-              window.alert(this.errorResponse.error.message)
+              this.toastService.showError(this.errorResponse.error.message)
             }
           );
 
+        }, (error) => {
+          this.toastService.showError('Error occured while uploading file.');
         });
   }
 
   async getRouteList() {
     try {
-            this.routeList = await this.service.get(`/zone/getAllRoute`)
+            this.routeList = await this.service.get(`/zone/getAllRoute/`+this.wcId)
             this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
     } catch (e) {
             console.error(e)
@@ -801,6 +1327,7 @@ updateData(item: any) {
 }
 
 columnDefs: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true},
@@ -808,17 +1335,14 @@ columnDefs: ColDef[] = [
   { field: 'tripStartReading', headerName: 'Initial Reading', unSortIcon: true,resizable: true},
   { field: 'vehicle_starttime', headerName: 'Vehicle Start Time', unSortIcon: true,resizable: true},
  { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm">
-        <i class="fa-solid fa-edit"></i>
-      </button>
-    
-     `; 
-    }
+  { headerName: 'Edit', width: 125, sortable: false, filter: false, editable: false, colId: 'actions',
+    cellRenderer: 'activeTripActionRenderer'
   }
 ];
+
+editActiveTripData(itemData: any) {
+  console.log(itemData);
+}
 
 defaultColDef: ColDef = {
   sortable: true,
@@ -836,7 +1360,8 @@ gridOptions = {
   copyHeadersToClipboard:true,
   enableRangeSelection:true,
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent
+    imageCellRenderer: ImageCellRendererComponent,
+    activeTripActionRenderer: ActiveTripActionRendererComponent
   }
 }
 rowData = [
@@ -846,6 +1371,7 @@ rowData = [
 
 
 columnDefsComp: ColDef[] = [
+  { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true,resizable: true},
   { field: 'vehicle_vehicleNo', headerName: 'Vehicle No.', unSortIcon: true,resizable: true,},
   { field: 'driver_driverName', headerName: 'Driver Name', unSortIcon: true,resizable: true,},
   { field: 'helper_name', headerName: 'Helper Name', unSortIcon: true,resizable: true,},
@@ -871,6 +1397,7 @@ columnDefsComp: ColDef[] = [
   // }
   { field: 'trip_start_reading_image', headerName: 'Trip Start Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
   { field: 'trip_end_reading_image', headerName: 'Trip End Reading Image', unSortIcon: false,resizable: true, cellRenderer: 'imageCellRenderer', editable: false, width: 240},
+  
 ];
 
 defaultColDefComp: ColDef = {
@@ -887,7 +1414,8 @@ gridOptionsComp = {
   paginationPageSize: 10,
   rowStyle: { background: '#e2e8f0' },
   frameworkComponents: {
-    imageCellRenderer: ImageCellRendererComponent
+    imageCellRenderer: ImageCellRendererComponent,
+    activeTripActionRenderer: ActiveTripActionRendererComponent
   }
 }
 rowDataComp = [
@@ -898,5 +1426,39 @@ wetWeightCal(){
   const temp1= this.form.value.unloadwetWeightValue
   this.form.controls.wetWeightValue.setValue(temp-temp1)  ;
   }
+
+  allVehicleNos : any = []
+  allVehicleResponse : any = []
+  lastkeydown1: number = 0;
+  getAllWcVehicle(){
+    this.allVehicleNos = []
+    this.allVehicleResponse = []
+    let wcId:any = 0;
+    if(localStorage.getItem('role') == 'wcuser'){
+        wcId = localStorage.getItem('wcId')
+    }
+    this.service.getAllWcVehicle(wcId).subscribe( response => {
+         this.allVehicleResponse = response     
+    })
+  }
+
+
+  getVehicleNumberAuto($event:any){
+     let vehicleShortNo = (<HTMLInputElement>document.getElementById('vehicleNumber')).value;
+     if (vehicleShortNo.length > 2) {
+      if ($event.timeStamp - this.lastkeydown1 > 200) {
+        this.allVehicleNos = this.searchFromArray(this.allVehicleResponse, vehicleShortNo);
+      }
+    }
+  }
+  searchFromArray(arr:any[], regex:string) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    return matches;
+  };
 
 }

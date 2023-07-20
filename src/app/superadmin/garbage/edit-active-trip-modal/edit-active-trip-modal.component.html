@@ -1,0 +1,170 @@
+<div class="" style="width: 1140px; position: fixed; left: 50%; top: 60px; transform: translateX(-50%);">
+    <div class="modal-header border-0" style="background-color: #2B2B4B;">
+        <h1 class="modal-title fs-5" id="displayEditActiveTripsModalLabel">Edit Active Trip</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-secondary text-white">
+        <form [formGroup]="activeTripsEditForm">
+            <div class="row w-100 ms-0">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Vehicle No</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" name="vehicle_no" id="vehicle_no" formControlName="vehicle_no" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Dry Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="dry_weight" id="dry_weight" formControlName="dry_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Wet Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="wet_weight" id="wet_weight" formControlName="wet_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Gross Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="gross_weight" id="gross_weight" formControlName="gross_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Tare Weight</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="tare_weight" id="tare_weight" formControlName="tare_weight" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip Start Reading</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="trip_start_reading" id="trip_start_reading" formControlName="trip_start_reading"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip Start Reading Image</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="file" name="trip_start_reading_image" id="trip_start_reading_image" formControlName="trip_start_reading_image"
+                                    class="form-control" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip Start Reading (Date)</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="date" name="trip_start_reading_date" id="trip_start_reading_date" formControlName="trip_start_reading_date"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip End Reading</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="number" name="trip_end_reading" id="trip_end_reading" formControlName="trip_end_reading" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip End Reading Image</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="file" name="trip_end_reading_image" id="trip_end_reading_image" formControlName="trip_end_reading_image"
+                                    class="form-control" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Trip End Reading (Date)</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="date" name="trip_end_reading_date" id="trip_end_reading_date" formControlName="trip_end_reading_date"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="text-white">Move To TTS</label>
+                            </div>
+                            <div class="col-md-7">
+                             <select class="form-select" formControlName="move_tts" id="move_tts" (change)="moveToTTs()">
+                                        <option value="" disabled selected>--Select--</option>
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer bg-secondary border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="activeModal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateTripData()">Save</button>
+    </div>
+</div>

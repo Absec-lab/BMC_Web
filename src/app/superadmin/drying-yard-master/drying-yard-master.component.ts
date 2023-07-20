@@ -1,8 +1,9 @@
 import { withNoXsrfProtection } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService, DeactivationDto } from 'src/app/service/common.service'; 
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-drying-yard-master',
@@ -13,41 +14,51 @@ export class DryingYardMasterComponent implements OnInit {
         [x: string]: any;
         isAdd: boolean = false
         isUpdate: boolean = false
-        zoneResponseById: any
+        dryingYardResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
+        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
         }
-        zoneList: any = []
+        dryingYardList: any = []
         ngOnInit() {
                 this.isAdd = true
                 this.isUpdate = false
-                this.service.getZoneAllData().subscribe(
+                this.service.getDryingYardAllData().subscribe(
                         data => {
-                                this.zoneList = data
+                                this.dryingYardList = data
                         }
                 );
         }
 
         form = new FormGroup({
-                zoneId:new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                dryyardId:new FormControl,
+                centerName: new FormControl('', [Validators.required]),
+                description: new FormControl
         });
 
         editFormData = new FormGroup({
-                zoneId: new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                dryyardId: new FormControl,
+                centerName: new FormControl,
+                description: new FormControl
         })
-        async getZones() {
+        async getDryingYard() {
                 try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                        this.dryingYardList = await this.service.get(`/inventory/getAllDryingyard`)
+                        this.dryingYardList = this.dryingYardList.sort((a: any, b: any) => a.centerName - b.centerName)
                 } catch (e) {
                         console.error(e)
                 }
         }
-        addNewZone() {
+        addDryingYard() {
+
+                if (this.form.status === 'INVALID') {
+                        const centerName = this.form.value.centerName?.trim();
+                        if (!centerName) {
+                                this.toastService.showWarning('Center name is required.');
+                                return;
+                        }
+                        return;
+                }
+                
                 /* Manoj Remove Date 08-05-2023 */
                 // try {
                 //         console.log(this.form.value)
@@ -58,39 +69,48 @@ export class DryingYardMasterComponent implements OnInit {
                 //         console.error(e)
                 // }
                 /* Manoj added Date 08-05-2023*/
-                this.service.addZone(this.form.value).subscribe(
+                const data={
+                        "centerName":this.form.value.centerName,
+                           "description":this.form.value.description,
+                           "wcEntity":{
+                                "wcId":localStorage.getItem("wcId")
+                           }
+                }
+                this.service.addDryingYard(data).subscribe(
                         data => {
-                                window.alert("Zone data saved sucessfully")
+                                
+                                this.toastService.showSuccess("Drying Yard data saved sucessfully")
                                 this.form.reset()
-                                this.service.getZoneAllData().subscribe(
+                                this.service.getDryingYardAllData().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.dryingYardList = data
                                         }
                                 );
                         },
                         error => {
-                                window.alert("Something went wrong")
+                                this.toastService.showError("Something went wrong")
                         }
                 );
         }
         async removeZone(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteZone/${id}`)
-                        this.getZones()
+                        this.getDryingYard()
                 } catch (e) {
                         console.error(e)
                 }
         }
 
-        deactivateZone(id: any) {
-                this.service.deactivateZone(id).subscribe(
+        deactivateDryingYard(id: any) {
+                this.service.deactivateDryingYard(id).subscribe(
                         data => {
-                                window.alert("Zone deleted successfully")
-                                this.service.getZoneAllData().subscribe(
+                                window.alert("Drying Yard deleted successfully")
+                                this.service.getDryingYardAllData().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.dryingYardList = data
                                         }
                                 );
+                                this.form.reset()
                         },
                         error => {
                                 window.alert("Something went wrong!!")
@@ -102,10 +122,10 @@ export class DryingYardMasterComponent implements OnInit {
                 this.isAdd = false
                 console.log(item)
 
-                this.form = this.formBuilder.group({
-                        zoneId: item.zoneId,
-                        zoneName: item.zoneName,
-                        zoneDesc: item.zoneDesc
+                this.form.patchValue({
+                        dryyardId: item.dryyardId,
+                        centerName: item.centerName,
+                        description: item.description
                 })
                
         }
@@ -114,21 +134,29 @@ export class DryingYardMasterComponent implements OnInit {
                 this.isUpdate = false
         }
 
-        updateZone(){
-                console.log(this.form.value)
-                this.service.updateZone(this.form.value).subscribe(
+        updateDryingYard(){
+                if (this.form.status === 'INVALID') {
+                        const centerName = this.form.value.centerName?.trim();
+                        if (!centerName) {
+                                this.toastService.showWarning('Center name is required.');
+                                return;
+                        }
+                        return;
+                }
+                this.service.updateDryingYard(this.form.value).subscribe(
                         data=>{
-                                window.alert("Zone data updated successfully!!")
+                                this.toastService.showSuccess("Drying Yard data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
-                                this.service.getZoneAllData().subscribe(
+                                this.service.getDryingYardAllData().subscribe(
                                         data => {
-                                                this.zoneList = data
+                                                this.dryingYardList = data
                                         }
                                 );
+                                this.form.reset()
                         },
                         error=>{
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

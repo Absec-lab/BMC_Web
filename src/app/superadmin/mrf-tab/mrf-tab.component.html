@@ -1,0 +1,358 @@
+<app-header></app-header>
+<main class="container-fluid">
+	<div class="page-content p-3">
+		<div class="row">
+			<div class="col-lg-3 sidebar-parent">
+				<app-sidebar></app-sidebar>
+			</div>
+			<div class="col-lg-9 app-content">
+				<div class="card">
+					<div class="card-body">
+						<app-heade-dashboard-component></app-heade-dashboard-component>
+					</div>
+				</div>
+				<div class="mt-4">
+					<div class="breadcrumb">
+						<a routerLink=""><i class="fa-solid fa-home"></i></a>
+						<span class="mx-2">/</span>
+						<a routerLink="">MRF Tansaction Weighment</a>
+					</div>
+				</div>
+				<div class="mt-4">
+					<form [formGroup]="form">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item w-25" role="presentation">
+								<button class="nav-link active w-100 text-uppercase text-white" id="trip-tab"
+									data-bs-toggle="tab" data-bs-target="#trip-tab-pane" type="button" role="tab"
+									aria-controls="trip-tab-pane" aria-selected="true">MRF</button>
+							</li>
+							<li class="nav-item w-25" role="presentation">
+								<button class="nav-link w-100 text-uppercase text-white" id="active-tab"
+									data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
+									aria-controls="active-tab-pane" aria-selected="false">Bailing</button>
+							</li>
+							<li class="nav-item w-25" role="presentation">
+								<button class="nav-link w-100 text-uppercase text-white" id="completed-tab"
+									data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab"
+									aria-controls="completed-tab-pane" aria-selected="false">Stock</button>
+							</li>
+							<li class="nav-item w-25" role="presentation">
+								<button class="nav-link w-100 text-uppercase text-white" id="active-tab"
+									data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
+									aria-controls="active-tab-pane" aria-selected="false">Bailing Sold</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active bg-secondary border border-white border-top-0 p-2"
+								id="trip-tab-pane" role="tabpanel" aria-labelledby="trip-tab" tabindex="0">
+								<div class="trip-details">
+									<div class="card rounded-0">
+											<div class="card-header rounded-0">
+												MRF Transaction Weighment
+											</div>
+											<div class="card-body">
+												<form [formGroup]="form">
+													<div class="row">
+														<div class="col-md-6">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Goods Name<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+				  
+																	<select name="" id="" class="form-control form-select" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+																		<option value="">Select</option>
+																		<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Sub-Goods Name<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<select name="" id="" class="form-control form-select" formControlName="goodssubId">
+																		<option value="">Select</option>
+																		<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+															<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Goods (Kg)<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Inert Material<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<div class="input-group">
+																<input type="number" min="0" name="" id="" class="form-control" formControlName="interMaterial">
+																<div class="input-group-text text-white bg-danger">
+																Quantum
+																</div>
+														    </div>
+															</div>
+															</div>
+														</div>
+														<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Description
+																</div>
+																<div class="col-md-9">
+																	<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										<div class="text-end mt-3" *ngIf="isAdd">
+											<button class="btn btn-primary px-5 py-2" (click)="saveMrf()">Add</button>
+										</div>
+										<div class="text-end mt-3" *ngIf="isUpdate">
+											<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+											<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateMrf()">Update</button>
+										</div>
+									
+										<div class="mt-4">
+											<ag-grid-angular
+												class="ag-theme-alpine"
+												[rowData]="rowDataMrf"
+												[columnDefs]="columnDefsMrf"
+												[gridOptions]="gridOptions"
+												[animateRows]="true"
+												[suppressMenuHide]="true"
+											>
+											</ag-grid-angular>
+											
+										</div>	
+								</div>
+								
+							</div>
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0"
+								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
+								<div class="trip-details">
+									<div class="card rounded-0">
+											<div class="card-header rounded-0">
+												BAILING
+											</div>
+											<div class="card-body">
+												<form [formGroup]="form">
+													<div class="row">
+														<div class="col-md-6">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Goods Name<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+				  
+																	<select name="" id="" class="form-control form-select" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+																		<option value="">Select</option>
+																		<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Sub-Goods Name<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<select name="" id="" class="form-control form-select" formControlName="goodssubId">
+																		<option value="">Select</option>
+																		<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+															<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	No. Of Bailing (Pkts)<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<input type="number" name="" min="0" id="" class="form-control" formControlName="noOfPackets">
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Bailing Weight<span class="text-danger">*</span>
+																</div>
+																<div class="col-md-9">
+																	<input type="number" name="" min="0" id="" class="form-control" formControlName="bailingWeight">
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6 mt-3">
+															<div class="row">
+																<div class="col-md-3 d-flex align-items-center pe-0">
+																	Description
+																</div>
+																<div class="col-md-9">
+																	<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										<div class="text-end mt-3" *ngIf="isAdd">
+											<button class="btn btn-primary px-5 py-2" (click)="saveBailing()">Add</button>
+										</div>
+										<div class="text-end mt-3" *ngIf="isUpdate">
+											<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+											<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateMrf()">Update</button>
+										</div>
+									
+										<div class="mt-4">
+											<ag-grid-angular
+												class="ag-theme-alpine"
+												[rowData]="rowDataBailing"
+												[columnDefs]="columnDefsBailing"
+												[gridOptions]="gridOptions"
+												[animateRows]="true"
+												[suppressMenuHide]="true"
+											>
+											</ag-grid-angular>
+											
+										</div>	
+								</div>
+							</div>
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
+								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+								<div class="card rounded-0">
+									<div class="card-header rounded-0 border-0">
+										Stock
+									</div>
+									<div class="card-body">
+
+										<ag-grid-angular class="ag-theme-alpine" [rowData]="rowDataStock"
+											[columnDefs]="columnDefsStock">
+										</ag-grid-angular>
+										<!-- [gridOptions]="gridOptionsComp"
+										[animateRows]="true"
+										[suppressMenuHide]="true">
+									
+										</ag-grid-angular> -->
+
+									</div>
+								</div>
+							</div>
+
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
+								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+								<div class="card rounded-0">
+									<div class="card-header rounded-0">
+										BAILING SOLD
+									</div>
+									<div class="card-body">
+										<form [formGroup]="form">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Goods Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+		  
+															<select name="" id="" class="form-control form-select" formControlName="goodsId" (ngModelChange)="getAllSubGoodByGoodId()" [(ngModel)]="goodsName">
+																<option value="">Select</option>
+																<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Sub-Goods Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<select name="" id="" class="form-control form-select" formControlName="goodssubId">
+																<option value="">Select</option>
+																<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+													<div class="col-md-6 mt-3">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															No. Of Bailing Sold<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6 mt-3">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Bailing Weight<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6 mt-3">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Description
+														</div>
+														<div class="col-md-9">
+															<input type="text" name="" id="" class="form-control" formControlName="mrfDesc">
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="text-end mt-3" *ngIf="isAdd">
+									<button class="btn btn-primary px-5 py-2" (click)="soldBailing()">Add</button>
+									
+								</div>
+								<div class="text-end mt-3" *ngIf="isUpdate">
+									<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+									<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateMrf()">Update</button>
+								</div>
+							
+								<div class="mt-4">
+									<ag-grid-angular
+										class="ag-theme-alpine"
+										[rowData]="rowDataMrf"
+										[columnDefs]="columnDefsSold"
+										[gridOptions]="gridOptions"
+										[animateRows]="true"
+										[suppressMenuHide]="true"
+									>
+									</ag-grid-angular>
+									
+								</div>	
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<app-footer></app-footer>

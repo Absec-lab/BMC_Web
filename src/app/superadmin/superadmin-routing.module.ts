@@ -16,6 +16,7 @@ import { HelperMasterComponent } from './helper-master/helper-master.component';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
+import { MrfTabComponent } from './mrf-tab/mrf-tab.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from './mcc/today-task/today-task.component';
 import { MapComponent } from './map/map.component';
@@ -25,12 +26,18 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { TripDetailsComponent } from './drying-yard/trip-details/trip-details.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
 import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
 import { ItemCategoryMasterComponent } from './item-category-master/item-category-master.component';
 import { ItemNameMasterComponent } from './item-name-master/item-name-master.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ManpowerComponent } from './manpower/manpower.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
+import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
 
 
 const routes: Routes = [
@@ -50,6 +57,7 @@ const routes: Routes = [
   {path: 'superadmin/helper-master',component: HelperMasterComponent},
   {path: 'superadmin/garbage',component: GarbageComponent}, 
   {path: 'superadmin/mrf',component: MrfComponent},
+  {path: 'superadmin/mrf-tab',component: MrfTabComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
   {path:'map/view',component:MapComponent},
@@ -59,12 +67,18 @@ const routes: Routes = [
   {path: 'superadmin/portal-dashboards/dashboard-two',component: DashboardTwoComponent},
   {path: 'superadmin/portal-dashboards/dashboard-three',component: DashboardThreeComponent},
   {path: 'superadmin/portal-dashboards/dashboard-four',component: DashboardFourComponent},
+  {path: 'superadmin/portal-dashboards/dashboard-five',component: DashboardFiveComponent},
+  {path: 'superadmin/drying-yard/trip-details',component: TripDetailsComponent},
   {path: 'superadmin/drying-yard/compost-drying',component: CompostDryingComponent},
   {path: 'superadmin/drying-yard/dry-compost-weighment',component: DryCompostWeighmentComponent}, 
   {path: 'superadmin/drying-yard/compost-material-packaging',component: CompostMaterialPackagingComponent},   
   {path: 'superadmin/item-category-master',component: ItemCategoryMasterComponent},
   {path: 'superadmin/item-name-master',component: ItemNameMasterComponent}, 
   {path: 'superadmin/inventory',component: InventoryComponent}, 
+  {path: 'superadmin/manpower',component: ManpowerComponent}, 
+  {path:'superadmin/disclaimer',component:DisclaimerComponent},
+  {path:'superadmin/vehicle/management',component:VehicleManagementComponent},
+  {path:'superadmin/trip-status-report',component:TripStatusReportComponent}
 ];
 
 @NgModule({

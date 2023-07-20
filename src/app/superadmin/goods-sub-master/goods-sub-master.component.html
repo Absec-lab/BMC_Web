@@ -2,95 +2,13 @@
 <main class="container-fluid">
     <div class="page-content p-3">
         <div class="row">
-            <div class="col-lg-3">
-                <app-sidebar></app-sidebar>
-            </div>
-            <div class="col-lg-9">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-1 stat-card">
-                                        <div>
-                                            <div>PIT Quantum</div>
-                                            <h4 class="mt-2">1 TON</h4>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-regular fa-file-lines"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-2 stat-card">
-                                        <div>
-                                            <div>Empty PIT</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">13</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-solid fa-receipt"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-3 stat-card">
-                                        <div>
-                                            <div>PIT</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">1</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-regular fa-circle-check"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body d-flex w-100 align-items-center card-4 stat-card">
-                                        <div>
-                                            <div>Assigned To Me</div>
-                                            <div class="d-flex align-items-end gap-2">
-                                                <h4 class="mt-2">3</h4>
-                                                <span class="stat-card-sub-title">Quality</span>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="stat-card-icon">
-                                                <i class="fa-solid fa-user-plus"></i>
-                                            </div>
-                                            <div class="mt-2 text-center">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <app-heade-dashboard-component></app-heade-dashboard-component>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -112,11 +30,12 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Goods Name
+                                                    Goods Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsId">
-                                                                <option value={{goodsName}}  selected>{{goodsName}}</option>
+                                                            <option value="">Select</option>
+                                                                <option *ngIf="goodsName && goodsName.length > 0" value={{goodsName}}>{{goodsName}}</option>
                                                                 <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName}}</option>
                                                         </select>
                                                 </div>
@@ -125,7 +44,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Sub Goods Name
+                                                    Sub Goods Name<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="subgoodsName" type="text" name="" id="" class="form-control">
@@ -134,16 +53,16 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Goods (Kg)
+                                                    Goods (Kg)<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="subGoodsPerKg" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="subGoodsPerKg" type="number" min="0" name="" id="" class="form-control">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
@@ -167,7 +86,7 @@
 						</div>
                     </div>
                     <div class="mt-4">
-                        <div
+                        <!-- <div
                             class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
                             <div>Goods Name</div>
                             <div class="ms-3 w-25">
@@ -188,14 +107,15 @@
                                     Search
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <table class="table table-bordered table-striped">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>Sl. No.</th>
+                                    <th>Wc Name</th>
                                     <th>Goods Name</th>
                                     <th>Sub Goods Name</th>
-                                    <th>Goods (Kg)</th>
+                                    <!-- <th>Goods (Kg)</th> -->
                                     <th>Description</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
@@ -204,9 +124,10 @@
                             <tbody class="text-center">
                                 <tr *ngFor="let x of list; index as i;">
                                         <td>{{ i + 1}}</td>
+                                        <td>{{ x.wcId?.wcName || '--' }}</td>
                                         <td>{{ x.goods?.goodsName || '--' }}</td>
                                         <td>{{ x.subgoodsName || '--' }}</td>
-                                        <td>{{ x.subGoodsPerKg || '--' }}</td>
+                                        <!-- <td>{{ x.subGoodsPerKg || '--' }}</td> -->
                                         <td>{{ x.subGoodsDesc || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>

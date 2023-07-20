@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-item-name-master',
@@ -17,22 +18,40 @@ export class ItemNameMasterComponent implements OnInit{
         itemId:any
         category:any
         responseData:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        unitList:any=[]
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getList()
                 this.getCategories()
         }
         ngOnInit(){
                this.isAdd=true
                this.isUpdate=false
+               this.service.getAllItemCategory().subscribe(
+                data=>{
+                        this.categoryList=data
+                }
+               );
+               this.service.getAllItemName().subscribe(
+                data=>{
+                        this.list=data
+                        console.log(this.list, "ItemNameList")
+                }
+               );
+               this.service.getAllUnit().subscribe(
+                data=>{
+                        this.unitList=data
+                }
+               );
         }
 
         form = new FormGroup({
-                itemCategoryId: new FormControl,
+                itemCategoryId: new FormControl('', [Validators.required]),
                 categoryName: new FormControl,
                 itemId: new FormControl,
-                itemName: new FormControl,
+                itemName: new FormControl('', [Validators.required]),
                 itemcategory: new FormControl,
-                description: new FormControl
+                description: new FormControl,
+                unitId:new FormControl
         });
 
         editForm = new FormGroup({
@@ -49,7 +68,7 @@ export class ItemNameMasterComponent implements OnInit{
 
         async getCategories() {
                 try {
-                        this.categoryList = await this.service.get(`/zone/getAllItemCategory`)
+                        this.categoryList = await this.service.getAllItemCategory()
                         this.categoryList = this.categoryList.sort((a: any, b: any) => a.categoryName - b.categoryName)
                 } catch (e) {
                         console.error(e)
@@ -57,24 +76,62 @@ export class ItemNameMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllItemName`)
+                        this.list = await this.service.get(`/inventory/getAllItemName`)
                         this.list = this.list.sort((a: any, b: any) => a.itemName - b.itemName)
                 } catch (e) {
                         console.error(e)
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const category = this.form.value.itemCategoryId?.trim();
+                        if (!category) {
+                                this.toastService.showWarning('Category is required.');
+                                return;
+                        }
+                        const itemName = this.form.value.itemName?.trim();
+                        if (!itemName) {
+                                this.toastService.showWarning('Item name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const category = this.categoryList[this.categoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]
                         const data = {
                                 "itemId":this.form.value.itemId,
                                 "itemname": this.form.value.itemName,
                                 "description": this.form.value.description,
-                                "itemcatrgory": category
+                                "itemcatrgory": category,
+                                "wcEntity":{
+                                        "wcId":localStorage.getItem("wcId")
+                                },
+                                "unitEntity":{
+                                        "unitId":this.form.value.unitId
+                                }
                         }
-                        await this.service.post(`/zone/addItemName`, data)
+                        this.service.addItemName(data).subscribe(
+                                data=>{
+                                        this.responseData=data
+                                        this.service.getAllItemName().subscribe(
+                                                data=>{
+                                                        this.list=data
+                                                }
+                                               );
+                                        this.toastService.showSuccess("Item name data saved succesfully")
+                                        
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
+                                }
+                        );
                         this.form.reset()
-                        this.getList()
+                        this.service.getAllItemName().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                 } catch (e) {
                         console.error(e)
                 }
@@ -107,25 +164,22 @@ export class ItemNameMasterComponent implements OnInit{
         updateData(item: any) {
                 this.isUpdate = true
                 this.isAdd = false
-                console.log(item)
-                //.wcId=item.wcId
-                //this.zoneName=item.zone.zoneName
-                console.log(item.zone.zoneName)
 
-                this.form = this.formBuilder.group({
-                        itemCategoryId: item.categoryId,
+                this.form.patchValue({
+                        itemCategoryId: item.itemcatrgory.itemCategoryId,
                         itemId: item.itemId,
-                        itemName: item.itemDesc,
+                        itemName: item.itemname,
                         categoryName: item.categoryName,
                         itemcategory: item.category,
-                        description: item.description
-                        
-                })
-                this.service.getZoneAllData().subscribe(
-                        data=>{
-                                this.categoryList=data
-                        }
-                );
+                        description: item.description,
+
+                });
+
+                // this.service.getZoneAllData().subscribe(
+                //         data=>{
+                //                 this.categoryList=data
+                //         }
+                // );
 
         }
         cancel() {
@@ -135,20 +189,46 @@ export class ItemNameMasterComponent implements OnInit{
         }
 
         updateWcc() {
-                console.log(this.form.value)
-                this.service.updateWc(this.form.value).subscribe(
+                if (this.form.status === 'INVALID') {
+                        const category = this.form.value.itemCategoryId?.trim();
+                        if (!category) {
+                                this.toastService.showWarning('Category is required.');
+                                return;
+                        }
+                        const itemName = this.form.value.itemName?.trim();
+                        if (!itemName) {
+                                this.toastService.showWarning('Item name is required.');
+                                return;
+                        }
+                        return;
+                }
+                const data={
+                        "itemId":this.form.value.itemId,
+                        "itemname": this.form.value.itemName,
+                        "description": this.form.value.description,
+                        "itemcatrgory": this.categoryList[this.categoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)],
+                        "wcEntity":{
+                                "wcId":localStorage.getItem("wcId")
+                        },
+                        "unitEntity":{
+                                "unitId":this.form.value.unitId
+                        }
+                }
+                this.service.updateItemNameMaster(data).subscribe(
                         data => {
-                                window.alert("Item updated successfully!!")
+                                this.form.reset()
+                                this.toastService.showSuccess("Item updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
-                                this.service.getAllWcData().subscribe(
+                                this.service.getAllItemName().subscribe(
                                         data => {
                                                 this.list = data
                                         }
                                 );
+                                
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

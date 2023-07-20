@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-vehicle-master',
@@ -17,11 +18,12 @@ export class VehicleMasterComponent implements OnInit{
         wcId:any
         vehicleResponse:any
         driverList:any=[]
-        constructor(private service: CommonService, private formBuilder :FormBuilder) {
-                this.getList()
+        helperList:any=[]
+        constructor(private service: CommonService, private formBuilder :FormBuilder, private toastService: ToastService) {
+                // this.getList()
                 this.getZones()
-                this.getWCList()
-                this.getRouteList()
+                // this.getWCList()
+                // this.getRouteList()
         }
         ngOnInit(){
                 this.service.getAllDriverList().subscribe(
@@ -30,21 +32,52 @@ export class VehicleMasterComponent implements OnInit{
                               console.log(this.driverList)
                         }
                       );
+                this.service.getAllHelperByWcId().subscribe( // need to add helper list
+                data=>{
+                        this.responseData=data
+                        this.helperList=this.responseData.data
+                        console.log(this.helperList)
+                }
+                );
+                this.service.getAllWcData().subscribe(
+                        data=>{
+                                this.wcList=data
+                        }
+                );
+                this.service.getAllRouteData().subscribe(
+                        data=>{
+                                this.routeList=data
+                        }
+                );
+                this.service.getAllDriverList().subscribe(
+                        data=>{
+                                this.driverList=data
+                        }
+                );
+                this.service.getVehicleListByWcId().subscribe(
+                        data=>{
+                                this.responseData=data
+                                this.list=this.responseData.data
+                               
+                        }
+                );
         }
 
         form = new FormGroup({
-                vehicleNo: new FormControl(''),
-                driverId: new FormControl(''),
-                rcNo: new FormControl(''),
-                rcPhoto: new FormControl(''),
-                vehicleImage: new FormControl(''),
-                insurance: new FormControl(''),
-                vehiclePassingWt: new FormControl(''),
-                vehicleWt: new FormControl(''),
+                vehicleNo: new FormControl('', [Validators.required]),
+                driverId: new FormControl('', [Validators.required]),
+                helperId: new FormControl('', [Validators.required]),
+                helperIDProof: new FormControl(''),
+                rcNo: new FormControl('', [Validators.required]),
+                rcPhoto: new FormControl('', [Validators.required]),
+                vehicleImage: new FormControl('', [Validators.required]),
+                insurance: new FormControl('', [Validators.required]),
+                vehiclePassingWt: new FormControl('', [Validators.required]),
+                vehicleWt: new FormControl('', [Validators.required]),
                 vehicleDesc: new FormControl(''),
-                zoneId: new FormControl(''),
-                routeId: new FormControl(''),
-                wcId: new FormControl('')
+                zoneId: new FormControl('', [Validators.required]),
+                routeId: new FormControl('', [Validators.required]),
+                wcId: new FormControl('', [Validators.required])
               });
         list: any = []
         zoneList: any = []
@@ -77,14 +110,89 @@ export class VehicleMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/getAll/vehicle`)
+                        this.list = await this.service.get(`/getAll/vehicle/`+localStorage.getItem('wcId'))
                         this.list = this.list.data
                         this.list = this.list.sort((a: any, b: any) => a.vehicleNo - b.vehicleNo)
                 } catch (e) {
                         console.error(e)
                 }
         }
+
+        rcPhoto: any = null;
+        vehiclePhoto: any = null;
+
+        handleFileSelectRcPhoto(event: any): void {
+                const selectedFiles: any = event.target.files[0];
+                this.rcPhoto = selectedFiles;
+        }
+
+        handleFileSelectVehiclePhoto(event: any): void {
+                const selectedFiles: any = event.target.files[0];
+                this.vehiclePhoto = selectedFiles;
+        }
+
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const vehicleNo = this.form.value.vehicleNo?.trim();
+                        if (!vehicleNo) {
+                                this.toastService.showWarning('Vehicle number is required.');
+                                return;
+                        }
+                        const zoneId = this.form.value.zoneId?.trim();
+                        if (!zoneId) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wcId = this.form.value.wcId?.trim();
+                        if (!wcId) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const routeId = this.form.value.routeId?.trim();
+                        if (!routeId) {
+                                this.toastService.showWarning('Route is required.');
+                                return;
+                        }
+                        const driverId = this.form.value.driverId?.trim();
+                        if (!driverId) {
+                                this.toastService.showWarning('Driver is required.');
+                                return;
+                        }
+                        const rcNumber = this.form.value.rcNo?.trim();
+                        if (!rcNumber) {
+                                this.toastService.showWarning('RC number is required.');
+                                return;
+                        }
+                        if (!this.rcPhoto) {
+                                this.toastService.showWarning('RC photo is required.');
+                                return;
+                        }
+                        if (!this.vehiclePhoto) {
+                                this.toastService.showWarning('Vehicle photo is required.');
+                                return;
+                        }
+                        const insurance = this.form.value.insurance?.trim();
+                        if (!insurance) {
+                                this.toastService.showWarning('Insurance is required.');
+                                return;
+                        }
+                        const vehiclePassingWeight = this.form.value.vehiclePassingWt?.toString().trim();
+                        if (!vehiclePassingWeight) {
+                                this.toastService.showWarning('Vehicle passing weight is required.');
+                                return;
+                        }
+                        const helperId = this.form.value.helperId?.trim();
+                        if (!helperId) {
+                                this.toastService.showWarning('Helper is required.');
+                                return;
+                        }
+                        const vehicleWeight = this.form.value.vehicleWt?.trim();
+                        if (!vehicleWeight) {
+                                this.toastService.showWarning('Vehicle weight is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const data = {
                                 vehicleNo: this.form.value.vehicleNo,
@@ -107,7 +215,9 @@ export class VehicleMasterComponent implements OnInit{
                                 driver: {
                                         driverId: this.form.value.driverId
                                 },
-                                "status":true
+                                helper: {
+                                        helperId: this.form.value.helperId
+                                }
                         }
                         console.log(data)
                         await this.service.post(`/vehicle/add`, data)
@@ -162,17 +272,77 @@ export class VehicleMasterComponent implements OnInit{
         }
 
         updateVehicle() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const vehicleNo = this.form.value.vehicleNo?.trim();
+                        if (!vehicleNo) {
+                                this.toastService.showWarning('Vehicle number is required.');
+                                return;
+                        }
+                        const zoneId = this.form.value.zoneId?.trim();
+                        if (!zoneId) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wcId = this.form.value.wcId?.trim();
+                        if (!wcId) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const routeId = this.form.value.routeId?.trim();
+                        if (!routeId) {
+                                this.toastService.showWarning('Route is required.');
+                                return;
+                        }
+                        const driverId = this.form.value.driverId?.trim();
+                        if (!driverId) {
+                                this.toastService.showWarning('Driver is required.');
+                                return;
+                        }
+                        const rcNumber = this.form.value.rcNo?.trim();
+                        if (!rcNumber) {
+                                this.toastService.showWarning('RC number is required.');
+                                return;
+                        }
+                        if (!this.rcPhoto) {
+                                this.toastService.showWarning('RC photo is required.');
+                                return;
+                        }
+                        if (!this.vehiclePhoto) {
+                                this.toastService.showWarning('Vehicle photo is required.');
+                                return;
+                        }
+                        const insurance = this.form.value.insurance?.trim();
+                        if (!insurance) {
+                                this.toastService.showWarning('Insurance is required.');
+                                return;
+                        }
+                        const vehiclePassingWeight = this.form.value.vehiclePassingWt?.toString().trim();
+                        if (!vehiclePassingWeight) {
+                                this.toastService.showWarning('Vehicle passing weight is required.');
+                                return;
+                        }
+                        const helperId = this.form.value.helperId?.trim();
+                        if (!helperId) {
+                                this.toastService.showWarning('Helper is required.');
+                                return;
+                        }
+                        const vehicleWeight = this.form.value.vehicleWt?.trim();
+                        if (!vehicleWeight) {
+                                this.toastService.showWarning('Vehicle weight is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateVehicle(this.form.value).subscribe(
                         data => {
-                                window.alert("Vehicle data updated successfully!!")
+                                this.toastService.showSuccess("Vehicle data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("Vehicle data updated successfully!!")
+                                this.toastService.showError("Vehicle data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
@@ -202,6 +372,13 @@ export class VehicleMasterComponent implements OnInit{
                 this.service.getAllDriverList().subscribe(
                   data=>{
                         this.driverList=data
+                  }
+                );
+        }
+        getAllHelpers(){
+                this.service.getAllHelper().subscribe( 
+                  data=>{
+                        this.helperList=data
                   }
                 );
         }

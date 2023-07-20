@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-wealth-center-master',
@@ -14,27 +15,34 @@ export class WealthCenterMasterComponent implements OnInit{
         wcId:any
         zoneId:any
         responseData:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
-                this.getList()
+        role:any
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
+                // this.getList()
                 this.getZones()
         }
         ngOnInit(){
                this.isAdd=true
                this.isUpdate=false
+               this.service.getAllWcData().subscribe(
+                data=>{
+                        this.list=data
+                }
+               );
         }
 
         form = new FormGroup({
-                zoneId: new FormControl,
+                zoneId: new FormControl('', [Validators.required]),
                 zoneName:new FormControl,
-                wcName: new FormControl,
+                wcName: new FormControl('', [Validators.required]),
                 wcDesc: new FormControl,
                 wcId: new FormControl
         });
 
         editForm = new FormGroup({
-                zoneId: new FormControl,
+                zoneId: new FormControl('', [Validators.required]),
                 zoneName: new FormControl,
-                wcName: new FormControl,
+                wcName: new FormControl('', [Validators.required]),
                 wcDesc: new FormControl,
                 wcId: new FormControl
         })
@@ -59,6 +67,19 @@ export class WealthCenterMasterComponent implements OnInit{
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wcName = this.form.value.wcName?.trim();
+                        if (!wcName) {
+                                this.toastService.showWarning('WC name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         var zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
                         const data = {
@@ -106,7 +127,7 @@ export class WealthCenterMasterComponent implements OnInit{
                 this.zoneName=item.zone.zoneName
                 console.log(item.zone.zoneName)
 
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         zoneId: item.zoneId,
                         zoneName: item.zoneName,
                         wcName: item.wcName,
@@ -127,10 +148,22 @@ export class WealthCenterMasterComponent implements OnInit{
         }
 
         updateWcc() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wcName = this.form.value.wcName?.trim();
+                        if (!wcName) {
+                                this.toastService.showWarning('WC name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateWc(this.form.value).subscribe(
                         data => {
-                                window.alert("Wcc data updated successfully!!")
+                                this.toastService.showSuccess("Wcc data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(
@@ -140,7 +173,7 @@ export class WealthCenterMasterComponent implements OnInit{
                                 );
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

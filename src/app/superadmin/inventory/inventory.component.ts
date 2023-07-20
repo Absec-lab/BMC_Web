@@ -1,25 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup,FormsModule} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 import { ColDef } from 'ag-grid-community';
+import { ToastService } from 'src/app/service/toast.service';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['../../common.css', './inventory.component.css']
+  styleUrls: ['../../common.css', './inventory.component.css'],
+  providers: [DatePipe]
 })
 export class InventoryComponent implements OnInit {
 
-  constructor(private service: CommonService, private formBuilder: FormBuilder) {
-    this.getRouteList()
-   }
-   isAdd: boolean = true
-   isUpdate: boolean = false
-   vehicleNo:any
-   searchText: any;
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe,private toastService:ToastService) {
+    this.getItemName()
+    this.getItemcategory()
+    //this.getList()
+  }
+  isAdd: boolean = true
+  isUpdate: boolean = false
+  vehicleNo: any
+  searchText: any;
   activeTripResponse: any
   activeTripList: any = []
-  inActiveTripList: any = []
-  inActiveTripResponse: any
+  itemPurchaseList: any = []
+  itemPurchaseResponse: any
   vehcileDataResponse: any
   tripStartButton: boolean = false
   tripEndButton: boolean = false
@@ -27,579 +32,493 @@ export class InventoryComponent implements OnInit {
   dryButton: boolean = false
   wetWeightCapturedButton: boolean = false
   tripResponse: any
-  errorResponse:any
+  errorResponse: any
+  responseData: any
+  categoryName: any
+  inventoryList: any = []
+  itemIssueList: any = []
+  itemIssueResponse: any
+  itemStockList: any = []
+  itemStockResponse: any
+  unitName:any
   form = new FormGroup({
-    vehicleNumber: new FormControl,
-    driverDlNo: new FormControl,
-    driverName: new FormControl,
-    routeName: new FormControl,
-    tripStartReading: new FormControl,
-    tripEndReading: new FormControl,
-    grossWeightValue: new FormControl,
-    dryWeightValue: new FormControl,
-    wetWeightValue: new FormControl,
-    tareWeightValue: new FormControl,
-    routeId: new FormControl,
+    itemPurchaseId: new FormControl,
+    itemCategoryId: new FormControl,
+    itemId: new FormControl,
+    itemName: new FormControl,
+    itemQuantity: new FormControl,
+    itemCost: new FormControl,
+    category: new FormControl,
+    item: new FormControl,
+    description: new FormControl,
+    unitId: new FormControl,
+    uploadBill: new FormControl,
+    issueDate: new FormControl,
+    itemPurchaseDate: new FormControl
   });
+  editForm = new FormGroup({
+    itemCategoryId: new FormControl,
+    itemId: new FormControl,
+    itemName: new FormControl,
+    itemQuantity: new FormControl,
+    itemCost: new FormControl,
+    category: new FormControl,
+    item: new FormControl,
+    description: new FormControl
+  })
+  unitList: any = []
   ngOnInit() {
-    this.setVehicleNumber()
-    this.service.getActiveTrip().subscribe(
+
+    this.service.getAllItemPurchase().subscribe(
       data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-        const rowData =   this.activeTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; createdDate: any; }) => {
-         
+        this.itemPurchaseResponse = data
+        this.itemPurchaseList = this.itemPurchaseResponse
+        const rowDataPurchase = this.itemPurchaseList.map((item: { itemCategory: any;  itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost: any; uploadBill: any; description: any; createdDate: any; updateDate: any; }) => {
+
           return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            tripStartReading: item.tripStartReading,
-            vehicle_starttime: item.createdDate
+            wcName : item.itemName?.wcEntity?.wcName,
+            itemCategoryName: item.itemCategory.categoryName,
+            itemName: item.itemName.itemname,
+            unit: 0,
+            itemQuantity: item.itemQuantity + " " + item.unit.unit,
+            itemCost: item.itemCost,
+            uploadBill: item.uploadBill,
+            purchaseDate: this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
+            description: item.description
           };
         });
-       console.log("ActiveList",this.activeTripList)
-       console.log("rowData",rowData)
-       this.rowData=rowData;
+        console.log("itemPurchaseList", this.itemPurchaseList)
+        console.log("rowDataPurchase", rowDataPurchase)
+        this.rowDataPurchase = rowDataPurchase;
+
       }
     );
-    this.service.getCompletedTrips().subscribe(
+    this.service.getAllItemIssue().subscribe(
       data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
-        const rowDataComp =   this.inActiveTripList.map((item: { vehicleNo: any; driver: any; helperName: any; route: any; tripStartReading: any; tripEndReading:any; createdDate: any; updateDate:any; }) => {
-         
+        this.itemIssueResponse = data
+        this.itemIssueList = this.itemIssueResponse
+        const rowDataIssue = this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate: any; }) => {
+
           return {
-            vehicle_vehicleNo: item.vehicleNo,
-            driver_driverName: item.driver.driverName,
-            helper_name: "Ramakant Das",
-            route_routeName: item.route.routeName,
-            tripStartReading: item.tripStartReading,
-            tripEndReading:item.tripEndReading,
-            vehicle_starttime: item.createdDate,
-            vehicle_endtime:item.updateDate
+            wcName : item.itemName?.wcEntity?.wcName,
+            itemName: item.itemName.itemname,
+            //unit: 0,
+            itemQuantity: item.issueQuantity + " " + item.unit.unit,
+            createdDate: item.createdDate
+
           };
         });
-       console.log("InActiveList",this.inActiveTripList)
-       console.log("rowData",rowDataComp)
-       this.rowDataComp=rowDataComp;
-        
+        console.log("itemIssueList", this.itemIssueList)
+        console.log("rowData", rowDataIssue)
+        this.rowDataIssue = rowDataIssue;
+
       }
     );
-    // this.setVehicleNumber();
-    
-    
-  }
-  routeList: any = []
- 
-
-  getActiveTrip() {
-    this.service.getActiveTrip().subscribe(
+    this.service.getAllItemStockList().subscribe(
       data => {
-        this.activeTripResponse = data
-        this.activeTripList = this.activeTripResponse.data
-         console.log("ActiveList",this.activeTripList)
+        this.itemStockResponse = data
+        this.itemStockList = this.itemStockResponse
+        const rowDataStock = this.itemStockList.map((item: {
+          stockQuantity: any; itemName: any; unitEntity:any;
+        }) => {
+
+          return {
+            wcName : item.itemName?.wcEntity?.wcName,
+            itemName: item.itemName.itemname,
+            //unit: 0,
+            stockQuantity: item.stockQuantity+" "+item.unitEntity.unit
+            // stockQuantity: item.stockQuantity
+
+          };
+        });
+        console.log("itemStockList", this.itemStockList)
+        console.log("rowDataStock", rowDataStock)
+        this.rowDataStock = rowDataStock;
+
       }
     );
-  }
-  getCompletedTrip() {
-    this.service.getCompletedTrips().subscribe(
+    // this.service.getAllUnit().subscribe(
+    //   data => {
+    //     this.unitList = data
+    //   }
+    // );
+    this.service.getAllItemCategory().subscribe(
+      data => [
+        this.itemCategoryList = data
+      ]
+    );
+    this.service.getAllItemName().subscribe(
       data => {
-        this.inActiveTripResponse = data
-        this.inActiveTripList = this.inActiveTripResponse.data
+        this.itemNameList = data
       }
     );
   }
+  itemCategoryList: any = []
+  itemNameList: any = []
 
- async setVehicleNumber() {
-    console.log(this.form.value.vehicleNumber)
-    this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-      data => {
-        this.vehcileDataResponse = data
-        console.log("vehcileDataResponse",this.vehcileDataResponse)
-        this.form.patchValue({
-          vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-          driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
-          routeName: this.vehcileDataResponse.data.route.routeName,
-          tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-          tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-          grossWeightValue:this.vehcileDataResponse.data.grossWt,
-          dryWeightValue:this.vehcileDataResponse.data.dryWt,
-          wetWeightValue:this.vehcileDataResponse.data.wetWt,
-          tareWeightValue:this.vehcileDataResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
-        })
-      },
-      error => {
-      }
-    );
-    this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-      data => {
-        this.tripResponse = data
-        console.log(this.tripResponse)
-        this.form.patchValue({
-          vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-          driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-          driverName: this.vehcileDataResponse.data.driver.driverName,
-          routeName: this.vehcileDataResponse.data.route.routeName,
-          tripStartReading: this.tripResponse.data.tripStartReading,
-          tripEndReading: this.tripResponse.data.tripEndReading,
-          grossWeightValue: this.tripResponse.data.grossWt,
-          dryWeightValue:this.tripResponse.data.dryWt,
-          wetWeightValue:this.tripResponse.data.wetWt,
-          tareWeightValue:this.tripResponse.data.tareWt,
-          routeId: this.vehcileDataResponse.data.route.routeId
-        })
-        if (this.tripResponse.data.tripStatusEntity.id == 1) {
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = true
-          
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 2){
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = true
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 3){
-          this.tripStartButton = false
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = true
-          this.grossWeightCapturedButton = false
-        }
-        else if(this.tripResponse.data.tripStatusEntity.id == 4){
-          this.tripStartButton = false
-          this.tripEndButton = true
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-        }
-      },
-      error=>{
-        this.tripStartButton = true
-          this.tripEndButton = false
-          this.dryButton = false
-          this.wetWeightCapturedButton = false
-          this.grossWeightCapturedButton = false
-      }
-    );
-    
-   
-  }
 
-  createTrip(){
-    const data={
-      "driver":this.vehcileDataResponse.data.driver,
-      "route": this.vehcileDataResponse.data.route,
-      "tripStartReading": this.form.value.tripStartReading,
-      "tripStartReadingImg": null,
-      "vehicleNo": this.vehcileDataResponse.data.vehicleNo
-    }
-    console.log(data)
-    this.service.createTrip(data).subscribe(
-      data=>{
-        window.alert("Trip Created Successfully")
-        // this.setVehicleNumber();
-        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-          },
-          error => {
-          }
-        );
-        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
-              
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-          },
-          error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-          }
-        );
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-        
-      },
-      error=>{
-        console.log(error)
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-  }
 
-  setGrossWtValue(){
-    const data={
-      "grossWt": this.form.value.grossWeightValue,
-      "statusEntity": {
-        "id": 2
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Gross Weight captured successfully")
-        this.setVehicleNumber();
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-
-  setDryWtValue(){
-    const data={
-      "dryWt": this.form.value.dryWeightValue,
-      "statusEntity": {
-        "id": 3
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Dry Weight captured successfully")
-        // setTimeout(()=>{this.setVehicleNumber()},1000);
-        this.setVehicleNumber()
-       
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-  setWetWtValue(){
-    const data={
-      "wetWt": this.form.value.wetWeightValue,
-      "statusEntity": {
-        "id": 4
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Wet Weight captured successfully")
-        // this.setVehicleNumber();
-        this.service.getVehicleByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.vehcileDataResponse = data
-            console.log("vehcileDataResponse",this.vehcileDataResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.vehcileDataResponse.data.tripStartReading,
-              tripEndReading:  this.vehcileDataResponse.data.tripEndReading,
-              grossWeightValue:this.vehcileDataResponse.data.grossWt,
-              dryWeightValue:this.vehcileDataResponse.data.dryWt,
-              wetWeightValue:this.vehcileDataResponse.data.wetWt,
-              tareWeightValue:this.vehcileDataResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-          },
-          error => {
-          }
-        );
-        this.service.getTripByVehicleNumber(this.form.value.vehicleNumber).subscribe(
-          data => {
-            this.tripResponse = data
-            console.log(this.tripResponse)
-            this.form.patchValue({
-              vehicleNumber: this.vehcileDataResponse.data.vehicleNo,
-              driverDlNo: this.vehcileDataResponse.data.driver.dlNo,
-              driverName: this.vehcileDataResponse.data.driver.driverName,
-              routeName: this.vehcileDataResponse.data.route.routeName,
-              tripStartReading: this.tripResponse.data.tripStartReading,
-              tripEndReading: this.tripResponse.data.tripEndReading,
-              grossWeightValue: this.tripResponse.data.grossWt,
-              dryWeightValue:this.tripResponse.data.dryWt,
-              wetWeightValue:this.tripResponse.data.wetWt,
-              tareWeightValue:this.tripResponse.data.tareWt,
-              routeId: this.vehcileDataResponse.data.route.routeId
-            })
-            if (this.tripResponse.data.tripStatusEntity.id == 1) {
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = true
-              
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 2){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = true
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 3){
-              this.tripStartButton = false
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = true
-              this.grossWeightCapturedButton = false
-            }
-            else if(this.tripResponse.data.tripStatusEntity.id == 4){
-              this.tripStartButton = false
-              this.tripEndButton = true
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-            }
-          },
-          error=>{
-            this.tripStartButton = true
-              this.tripEndButton = false
-              this.dryButton = false
-              this.wetWeightCapturedButton = false
-              this.grossWeightCapturedButton = false
-          }
-        );
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-    
-    
-  }
-  endTrip(){
-    const data={
-      "tripEndReading": this.form.value.tripEndReading,
-      "statusEntity": {
-        "id": 5
-      },
-      "vehicleNo":this.form.value.vehicleNumber
-    }
-    this.service.updateTrip(data).subscribe(
-      data=>{
-        window.alert("Trip completed")
-        this.setVehicleNumber();
-        this.service.getActiveTrip().subscribe(
-          data => {
-            this.activeTripResponse = data
-            this.activeTripList = this.activeTripResponse.data
-            // console.log(this.activeTripList)
-          }
-        );
-        this.service.getCompletedTrips().subscribe(
-          data => {
-            this.inActiveTripResponse = data
-            this.inActiveTripList = this.inActiveTripResponse.data
-          }
-        );
-      },
-      error=>{
-        this.errorResponse=error
-        window.alert(this.errorResponse.error.message)
-      }
-    );
-  }
-
-  async getRouteList() {
+  async getItemPurchaseList() {
     try {
-            this.routeList = await this.service.get(`/zone/getAllRoute`)
-            this.routeList = this.routeList.sort((a: any, b: any) => a.routeName - b.routeName)
+      this.inventoryList = await this.service.get(`/inventory/getAllItemPurchase`)
+      this.inventoryList = this.inventoryList.sort((a: any, b: any) => a.itemCategoryName - b.itemCategoryName)
     } catch (e) {
-            console.error(e)
+      console.error(e)
     }
-}
+  }
+  async getItemIssueList() {
+    try {
+      this.itemIssueList = await this.service.get(`/inventory/getAllItemIssuse`)
+      this.itemIssueList = this.itemIssueList.sort((a: any, b: any) => a.itemname - b.itemname)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  async addItemPurchase() {
+    try {
+      const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == this.form.value.itemCategoryId)]  //this.form.value.itemCategoryId
+      const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+      const unit = this.unitList[this.unitList.findIndex((e: any) => e.unitId == this.form.value.unitId)]
+      console.log(this.form.value.itemId)
+      console.log(this.form.value.unitId)
+      const data = {
+        //"itemCategoryId":this.form.value.itemCategoryId,
+        //"itemId":this.form.value.itemId,
+        // "itemname": this.form.value.itemName,
+        "itemQuantity": this.form.value.itemQuantity,
+        "description": this.form.value.description,
+        "itemCategory": category,
+        "itemName": item,
+        "unit": unit,
+        "itemCost": this.form.value.itemCost,
+        "purchaseDate": this.datePipe.transform(this.form.value.itemPurchaseDate, 'yyyy-MM-dd HH:MM'),          //this.form.value.itemPurchaseDate,
+        "uploadBill": this.form.value.uploadBill,
+        "wcEntity": {
+          "wcId": localStorage.getItem("wcId")
+        }
+      }
 
-updateData(item: any) {
-  this.isUpdate = true
-  this.isAdd = false
-  console.log(item)
-  this.vehicleNo=item.vehicle.vehicleNo
 
-  
-}
+      console.log(data)
+      // await this.service.post(`/inventory/addItemPurchase`, data)
+      this.service.addItemPurchase(data).subscribe(
+        data => {
+          window.alert("Item purchase data saved successfully!!")
+          this.service.getAllItemPurchase().subscribe(
+            data => {
+              this.itemPurchaseResponse = data
+              this.itemPurchaseList = this.itemPurchaseResponse
+              const rowDataPurchase = this.itemPurchaseList.map((item: { itemCategory: any; itemName: any; unit: any; itemQuantity: any; purchaseDate: any; itemCost: any; uploadBill: any; description: any; createdDate: any; updateDate: any; }) => {
 
-columnDefs: ColDef[] = [
-  { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
-  { field: 'vehicle_vehicleNo', headerName: 'Item Name', unSortIcon: true},
-  { field: 'driver_driverName', headerName: 'Item Quantity', unSortIcon: true},
-  { field: 'vehicle_starttime', headerName: 'Created Date', unSortIcon: true},
-  { headerName: 'Edit', width: 125, sortable: false, filter: false,
-    cellRenderer: (data: any) => {
-     return `
-      <button class="btn btn-primary btn-sm">
+                return {
+                  itemCategoryName: item.itemCategory.categoryName,
+                  itemName: item.itemName.itemname,
+                  unit: 0,
+                  itemQuantity: item.itemQuantity + " " + item.unit.unit,
+                  itemCost: item.itemCost,
+                  uploadBill: item.uploadBill,
+                  purchaseDate: this.datePipe.transform(item.purchaseDate, 'yyyy-MM-dd HH:MM:ss'),//formatDate(item.createdDate, 'yyyy/MM/dd HH:MM:ss', 'en'),
+                  description: item.description
+                };
+              });
+              console.log("itemPurchaseList", this.itemPurchaseList)
+              console.log("rowDataPurchase", rowDataPurchase)
+              this.rowDataPurchase = rowDataPurchase;
+
+            }
+          );
+          this.service.getAllItemStockList().subscribe(
+            data => {
+              this.itemStockResponse = data
+              this.itemStockList = this.itemStockResponse
+              const rowDataStock = this.itemStockList.map((item: {
+                stockQuantity: any; itemName: any;
+              }) => {
+
+                return {
+                  itemName: item.itemName.itemname,
+                  //unit: 0,
+                  stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
+
+                };
+              });
+              console.log("itemStockList", this.itemStockList)
+              console.log("rowDataStock", rowDataStock)
+              this.rowDataStock = rowDataStock;
+
+            }
+          );
+        }
+      );
+      this.form.reset()
+      this.getItemPurchaseList()
+    } catch (e) {
+      console.error(e)
+    }
+
+  }
+
+  async addItemIssue() {
+    try {
+      //const category = this.itemCategoryList[this.itemCategoryList.findIndex((e: any) => e.itemCategoryId == 3)]  //this.form.value.itemCategoryId
+      const item = this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+      const unit = this.unitList[this.unitList.findIndex((e: any) => e.unitId == this.form.value.unitId)]
+      const data = {
+        //"itemCategoryId":this.form.value.itemCategoryId,
+        //"itemId":this.form.value.itemId,
+        // "itemname": this.form.value.itemName,
+        "issueQuantity": this.form.value.itemQuantity,
+        //"description": this.form.value.description,
+        //"itemCategory": category,
+        "itemName": item,
+        "unit": unit,
+        // "itemCost": this.form.value.itemCost,
+        "issueDate": this.datePipe.transform(this.form.value.issueDate, 'yyyy-MM-dd HH:MM'), //this.form.value.issueDate,
+        //"uploadBill": this.form.value.uploadBill
+        "wcEntity": {
+          "wcId": localStorage.getItem("wcId")
+        }
+
+      }
+      console.log(data)
+      //  await this.service.post(`/inventory/addItemIssuse`, data)
+      this.service.addItemIssue(data).subscribe(
+        data => {
+          window.alert("Item issued successfully!!")
+          this.service.getAllItemIssue().subscribe(
+            data => {
+              this.itemIssueResponse = data
+              this.itemIssueList = this.itemIssueResponse
+              const rowDataIssue = this.itemIssueList.map((item: { itemName: any; unit: any; issueQuantity: any; issueDate: any; createdDate: any; updateDate: any; }) => {
+
+                return {
+                  itemName: item.itemName.itemname,
+                  //unit: 0,
+                  itemQuantity: item.issueQuantity + " " + item.unit.unit,
+                  createdDate: item.createdDate
+
+                };
+              });
+              console.log("itemIssueList", this.itemIssueList)
+              console.log("rowData", rowDataIssue)
+              this.rowDataIssue = rowDataIssue;
+
+            }
+          );
+          this.service.getAllItemStockList().subscribe(
+            data => {
+              this.itemStockResponse = data
+              this.itemStockList = this.itemStockResponse
+              const rowDataStock = this.itemStockList.map((item: {
+                stockQuantity: any; itemName: any;
+              }) => {
+
+                return {
+                  itemName: item.itemName.itemname,
+                  //unit: 0,
+                  stockQuantity: item.stockQuantity+" "+item.itemName.unitEntity.unit
+
+                };
+              });
+              console.log("itemStockList", this.itemStockList)
+              console.log("rowDataStock", rowDataStock)
+              this.rowDataStock = rowDataStock;
+
+            }
+          );
+        },
+        error=>{
+          this.errorResponse=error
+          this.toastService.showError(this.errorResponse.error.message)
+        }
+      );
+
+      this.form.reset()
+      this.getItemIssueList()
+    } catch (e) {
+      console.error(e)
+    }
+
+  }
+  cancel() {
+    this.isAdd = true
+    this.isUpdate = false
+    this.form.reset()
+  }
+
+  updateWcc() {
+    console.log(this.form.value)
+    // this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
+    //         data => {
+    //                 window.alert("SubGood data updated successfully!!")
+    //                 this.isAdd = true
+    //                 this.isUpdate = false
+    //                 this.getList()
+    //                 this.form.reset()
+    //         },
+    //         error => { 
+    //                 window.alert("something went wrong")
+    //         }
+    // );
+
+  }
+
+  getItemNameyByCategoryId() {
+    console.log(this.form.value.itemId)
+    this.service.getWcById(this.form.value.itemId).subscribe(
+      data => {
+        this.responseData = data
+        this.form.value.itemCategoryId = this.responseData.itemCategory.itemCategoryId
+        this.categoryName = this.responseData.itemCategory.categoryName
+        console.log(this.categoryName)
+      }
+    );
+  }
+
+  getAllItemNameyByCategoryId() {
+    console.log(this.form.value.itemCategoryId)
+    this.service.getAllItemNameyByCategoryId(this.form.value.itemCategoryId).subscribe(
+      data => {
+        this.responseData = data
+        this.itemNameList = this.responseData
+      }
+    );
+  }
+
+
+  async getItemcategory() {
+    try {
+      this.itemCategoryList = await this.service.getAllItemCategory()
+      this.itemCategoryList = this.itemCategoryList.sort((a: any, b: any) => a.routeName - b.routeName)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  async getItemName() {
+    try {
+      this.itemNameList = await this.service.get(`/inventory/getAllItemName`)
+      this.itemNameList = this.itemNameList.sort((a: any, b: any) => a.itemName - b.itemName)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  updateData(item: any) {
+    this.isUpdate = true
+    this.isAdd = false
+    console.log(item)
+    this.vehicleNo = item.vehicle.vehicleNo
+
+
+  }
+  columnDefsPurchase: ColDef[] = [
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'itemCategoryName', headerName: 'Item category', unSortIcon: true, resizable: true, },
+    { field: 'itemName', headerName: 'Item Name', unSortIcon: true, resizable: true, },
+    { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true, resizable: true, },
+    { field: 'itemCost', headerName: 'Item Cost', unSortIcon: true, resizable: true, },
+    { field: 'uploadBill', headerName: 'Bill', unSortIcon: true, resizable: true, },
+    { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true, },
+    { field: 'purchaseDate', headerName: 'Purchase Date', unSortIcon: true, resizable: true, },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
+      <button class="btn btn-primary btn-sm" (click)="updateData(x)">
         <i class="fa-solid fa-edit"></i>
       </button>
-    
-     `; 
+      <button class="btn btn-danger btn-sm">
+      <i class="fa-solid fa-trash-alt"></i>
+    </button>
+     `;
+      }
     }
+  ];
+
+
+  columnDefsIssue: ColDef[] = [
+    // { field: 'vehicle_starttime', headerName: 'SL. No', unSortIcon: true},
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'itemName', headerName: 'Item Name', unSortIcon: true },
+    { field: 'itemQuantity', headerName: 'Item Quantity', unSortIcon: true },
+    { field: 'createdDate', headerName: 'Created Date', unSortIcon: true },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
+    <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+      <i class="fa-solid fa-edit"></i>
+    </button>
+    <button class="btn btn-danger btn-sm">
+    <i class="fa-solid fa-trash-alt"></i>
+  </button>
+   `;
+      }
+    }
+  ];
+
+  defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    editable: true
+  };
+
+  gridOptions = {
+    defaultColDef: {
+      ...this.defaultColDef
+    },
+    pagination: true,
+    paginationPageSize: 25,
+    rowStyle: { background: '#e2e8f0' },
+    copyHeadersToClipboard: true,
+    enableRangeSelection: true
   }
-];
-
-defaultColDef: ColDef = {
-  sortable: true,
-  filter: true,
-  editable:true
-};
-
-gridOptions = {
-  defaultColDef: {
-    ...this.defaultColDef
-  },
-  pagination: true,
-  paginationPageSize: 10,
-  rowStyle: { background: '#e2e8f0' },
-  copyHeadersToClipboard:true,
-  enableRangeSelection:true
-}
-rowData = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5',tripEndReading: '120.6', vehicle_starttime: '2023-05-19 06:00:00' }
-];
+  rowData = [
+    { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', tripEndReading: '120.6', vehicle_starttime: '2023-05-19 06:00:00' }
+  ];
 
 
 
-columnDefsComp: ColDef[] = [
-  { field: 'vehicle_vehicleNo', headerName: 'Stock List', unSortIcon: true,resizable: true,},
-  { },
-  { },
-  { },
-  { },
-  { field: 'tripEndReading', headerName: 'Quantity', unSortIcon: true,resizable: true,},
-  
-];
+  columnDefsStock: ColDef[] = [
+    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true,resizable: true},
+    { field: 'itemName', headerName: 'Stock List', unSortIcon: true, resizable: true, },
+    {},
+    {},
+    {},
+    { field: 'stockQuantity', headerName: 'Quantity', unSortIcon: true, resizable: true, },
 
-defaultColDefComp: ColDef = {
-  sortable: true,
-  filter: true,
-  resizable: true,
-};
-
-gridOptionsComp = {
-  defaultColDef: {
-    ...this.defaultColDefComp 
-  },
-  pagination: true,
-  paginationPageSize: 10,
-  rowStyle: { background: '#e2e8f0' }
-}
-rowDataComp = [
-  { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
-];
+  ];
 
 
+  defaultColDefComp: ColDef = {
+    sortable: true,
+    filter: true,
+    resizable: true,
+  };
+
+  gridOptionsComp = {
+    defaultColDef: {
+      ...this.defaultColDefComp
+    },
+    pagination: true,
+    paginationPageSize: 25,
+    rowStyle: { background: '#e2e8f0' }
+  }
+  rowDataPurchase = [
+    { vehicle_vehicleNo: 'Vechile 2023051', driver_driverName: 'Faraz Choudhry', helper_name: 'Bahadur Basu', route_routeName: 'Patia', tripStartReading: '100.5', vehicle_starttime: '2023-05-19 06:00:00' }
+  ];
+  rowDataIssue = [];
+  rowDataStock = [];
+  setItemUnit(){
+    const itemData=this.itemNameList[this.itemNameList.findIndex((e: any) => e.itemId == this.form.value.itemId)]
+    if(this.unitList.length>0){
+      this.unitList=[]
+      this.unitList.push(itemData?.unitEntity)
+    }
+    else{
+      this.unitList.push(itemData.unitEntity)
+    }
+    
+    console.log(itemData)
+  }
 }

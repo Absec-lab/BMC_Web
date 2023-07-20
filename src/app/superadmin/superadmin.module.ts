@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SuperadminRoutingModule } from './superadmin-routing.module';
@@ -18,10 +18,11 @@ import { GoodsSubMasterComponent } from './goods-sub-master/goods-sub-master.com
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { DriverMasterComponent } from './driver-master/driver-master.component';
 import { HelperMasterComponent } from './helper-master/helper-master.component'; 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { GarbageComponent } from './garbage/garbage.component';
 import { MrfComponent } from './mrf/mrf.component';
+import { MrfTabComponent } from './mrf-tab/mrf-tab.component';
 import { PitViewComponent } from './mcc/pit-view/pit-view.component';
 import { TodayTaskComponent } from "./mcc/today-task/today-task.component";
 import { MapComponent } from './map/map.component';
@@ -34,6 +35,7 @@ import { DashboardOneComponent } from './dashboard-one/dashboard-one.component';
 import { DashboardTwoComponent } from './portal-dashboards/dashboard-two/dashboard-two.component';
 import { DashboardThreeComponent } from './portal-dashboards/dashboard-three/dashboard-three.component';
 import { DashboardFourComponent } from './portal-dashboards/dashboard-four/dashboard-four.component';
+import { TripDetailsComponent } from './drying-yard/trip-details/trip-details.component';
 import { CompostDryingComponent } from './drying-yard/compost-drying/compost-drying.component';
 import { DryCompostWeighmentComponent } from './drying-yard/dry-compost-weighment/dry-compost-weighment.component';
 import { CompostMaterialPackagingComponent } from './drying-yard/compost-material-packaging/compost-material-packaging.component';
@@ -43,7 +45,21 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-renderer.component';
-
+import { MccMenuComponent } from './mcc-menu/mcc-menu.component';
+import { ManpowerComponent } from './manpower/manpower.component';
+import { ActiveTripActionRendererComponent } from './garbage/active-trip-action-renderer/active-trip-action-renderer.component';
+import { EditActiveTripModalComponent } from './garbage/edit-active-trip-modal/edit-active-trip-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeadeDashboardComponentComponent } from './common/heade-dashboard-component/heade-dashboard-component.component';
+import { TermComponent } from './term/term.component';
+import { PolicyComponent } from './policy/policy.component';
+import { CommonService } from '../service/common.service';
+import { EditDyActiveTripModalComponent } from './drying-yard/edit-dy-active-trip-modal/edit-dy-active-trip-modal.component';
+import { EditDyActiveTripActionRendererComponent } from './drying-yard/edit-dy-active-trip-action-renderer/edit-dy-active-trip-action-renderer.component';
+import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +82,7 @@ import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-ren
     LoginComponent,
     GarbageComponent,
     MrfComponent,
+    MrfTabComponent,
     PitViewComponent,
     MapComponent,
     ModalComponent,
@@ -76,21 +93,53 @@ import { ImageCellRendererComponent } from './image-cell-renderer/image-cell-ren
     DashboardTwoComponent,
     DashboardThreeComponent,
     DashboardFourComponent,
+    TripDetailsComponent,
     CompostDryingComponent,
     CompostMaterialPackagingComponent,
     DryCompostWeighmentComponent,
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
     InventoryComponent,
-    ImageCellRendererComponent
+    MccMenuComponent,
+    ImageCellRendererComponent,
+    ManpowerComponent,
+    ActiveTripActionRendererComponent,
+    EditActiveTripModalComponent,
+    HeadeDashboardComponentComponent,
+    TermComponent,
+    PolicyComponent,
+    HeadeDashboardComponentComponent,
+    DashboardFourComponent,
+    EditDyActiveTripModalComponent,
+    EditDyActiveTripActionRendererComponent,
+    DashboardFiveComponent,
+    DisclaimerComponent,
+    VehicleManagementComponent,
+    TripStatusReportComponent
   ],
+
+  entryComponents: [
+    EditActiveTripModalComponent,
+    EditDyActiveTripModalComponent
+  ],
+ schemas:[
+   CUSTOM_ELEMENTS_SCHEMA
+ ],
   imports: [
     CommonModule,
     SuperadminRoutingModule,
     ReactiveFormsModule,
     AgGridModule,
     SharedModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
+    BrowserAnimationsModule,
+    FormsModule,
+    NgbModule
+  ],
+  providers:[
+    CommonService
   ]
 })
 export class SuperadminModule { }

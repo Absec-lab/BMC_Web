@@ -6,7 +6,7 @@ export interface Header {
 }
 
 export interface PitInitModel {
-  header:Header
+  header?:Header
   inertMaterial: number
   mixedEnzymeWt?: string
   cocopeat?: string

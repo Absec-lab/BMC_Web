@@ -1,8 +1,9 @@
 import { withNoXsrfProtection } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService, DeactivationDto } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-zone-master',
@@ -15,7 +16,9 @@ export class ZoneMasterComponent implements OnInit {
         isUpdate: boolean = false
         zoneResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
+        userRole : any =""
+        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.userRole=localStorage.getItem("role");
         }
         zoneList: any = []
         ngOnInit() {
@@ -29,9 +32,9 @@ export class ZoneMasterComponent implements OnInit {
         }
 
         form = new FormGroup({
-                zoneId:new FormControl,
-                zoneName: new FormControl,
-                zoneDesc: new FormControl
+                zoneId:new FormControl(''),
+                zoneName: new FormControl('', [Validators.required]),
+                zoneDesc: new FormControl('')
         });
 
         editFormData = new FormGroup({
@@ -48,6 +51,14 @@ export class ZoneMasterComponent implements OnInit {
                 }
         }
         addNewZone() {
+                if (this.form.status === 'INVALID') {
+                        const zoneName = this.form.value.zoneName?.trim();
+                        if (!zoneName) {
+                                this.toastService.showWarning('Zone name is required.');
+                                return;
+                        }
+                        return;
+                }
                 /* Manoj Remove Date 08-05-2023 */
                 // try {
                 //         console.log(this.form.value)
@@ -60,7 +71,7 @@ export class ZoneMasterComponent implements OnInit {
                 /* Manoj added Date 08-05-2023*/
                 this.service.addZone(this.form.value).subscribe(
                         data => {
-                                window.alert("Zone data saved sucessfully")
+                                this.toastService.showSuccess("Zone data saved sucessfully")
                                 this.form.reset()
                                 this.service.getZoneAllData().subscribe(
                                         data => {
@@ -69,7 +80,7 @@ export class ZoneMasterComponent implements OnInit {
                                 );
                         },
                         error => {
-                                window.alert("Something went wrong")
+                                this.toastService.showError("Something went wrong")
                         }
                 );
         }
@@ -102,7 +113,7 @@ export class ZoneMasterComponent implements OnInit {
                 this.isAdd = false
                 console.log(item)
 
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         zoneId: item.zoneId,
                         zoneName: item.zoneName,
                         zoneDesc: item.zoneDesc
@@ -115,10 +126,17 @@ export class ZoneMasterComponent implements OnInit {
         }
 
         updateZone(){
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const zoneName = this.form.value.zoneName?.trim();
+                        if (!zoneName) {
+                                this.toastService.showWarning('Zone name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateZone(this.form.value).subscribe(
                         data=>{
-                                window.alert("Zone data updated successfully!!")
+                                this.toastService.showSuccess("Zone data updated successfully!!")
                                 this.isAdd=true
                                 this.isUpdate=false
                                 this.service.getZoneAllData().subscribe(
@@ -128,9 +146,13 @@ export class ZoneMasterComponent implements OnInit {
                                 );
                         },
                         error=>{
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
+        }
+
+        searchZone() {
+                
         }
 }

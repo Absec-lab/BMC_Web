@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-compost-drying',
@@ -18,6 +19,8 @@ export class CompostDryingComponent implements OnInit{
   vehicleList:any=[]
   driverResponse:any
   driverList:any=[]
+  vehicleNo:any
+  driverName:any
   list: any = []
   //goodsList: any = []
   wcName: any
@@ -27,12 +30,11 @@ export class CompostDryingComponent implements OnInit{
   compostdryingList:any
   responseData:any
   isActive:any
-  constructor(private service:CommonService, private formBuilder:FormBuilder){
+  materialType:any=[]
+  constructor(private service:CommonService, private formBuilder:FormBuilder,private toastService:ToastService){
     this.getList()
-    this.getAllWC()
     this.getAllDryingYard()
-    this.getAllVehicle()
-    this.getAllDriver()
+    
   }
   ngOnInit() {
     this.service.getAllDryingYard().subscribe(
@@ -42,7 +44,31 @@ export class CompostDryingComponent implements OnInit{
         console.log(this.compostdryingList)
       }
     );
-    this.getAllWC()
+    this.service.getAllWcData().subscribe(
+      data=>{
+       this.wcList=data
+       this.form.value.wcId=this.wcList[0].wcId
+       console.log(this.form.value.wcId)
+      //  this.wcList=this.wcResponse
+       //console.log(this.goodList)
+      }
+     );
+    this.service.getAllMaterialType().subscribe(
+      data=>{
+        this.materialType=data
+      }
+    );
+    this.service.getVehicleListByWcId().subscribe(
+      data=>{
+        this.responseData=data
+        this.vehicleList=this.responseData.data
+      }
+    );
+    this.service.getAllDriverList().subscribe(
+      data=>{
+        this.driverList=data
+      }
+    );
   }
   form = new FormGroup({
     compostdryingTrnsId: new FormControl,
@@ -52,13 +78,15 @@ export class CompostDryingComponent implements OnInit{
     driverId: new FormControl,
     npkRatio: new FormControl,
     description: new FormControl,
-    dryCompostWt: new FormControl,
+    wetCompostWt: new FormControl,
     wc: new FormControl,
     dryingyard: new FormControl,
     vehicle : new FormControl,
     driver : new FormControl,
     isActive: new FormControl,
-    date: new FormControl
+    date: new FormControl,
+    dryCompostId: new FormControl,
+    materialType:new FormControl
   });
   editForm = new FormGroup({
     wcId: new FormControl,
@@ -72,10 +100,10 @@ export class CompostDryingComponent implements OnInit{
     driver: new FormControl
 })
   getAllWC(){
-     this.service.getAllWcData().subscribe(
+    this.service.getAllWcData().subscribe(
       data=>{
-       this.wcResponse=data
-       this.wcList=this.wcResponse
+       this.wcList=data
+      //  this.wcList=this.wcResponse
        //console.log(this.goodList)
       }
      );
@@ -89,16 +117,37 @@ export class CompostDryingComponent implements OnInit{
       }
     );
   }
-  getAllVehicle(){
-    this.service.getAllActiveVehicle().subscribe(
+  // getAllVehicle(){
+  //   this.service.getAllActiveVehicle().subscribe(
+  //     data=>{
+  //       this.vehicleResponse=data
+        
+  //       this.vehicleList=this.vehicleResponse
+  //       console.log(this.vehicleList)
+  //     }
+  //   );
+  // }
+  getAllVehicleWcId(){
+    this.service.getAllWcVehicle(localStorage.getItem('wcId')).subscribe(
       data=>{
         this.vehicleResponse=data
-        
+        //console.log(this.subGoodResponse)
         this.vehicleList=this.vehicleResponse
-        console.log(this.vehicleList)
       }
     );
-  }
+   }
+   getAllDriverByvehicleId(){
+    this.service.getAllDriverByVehicleId(this.form.value.vehicleId).subscribe(
+      data=>{
+        this.driverResponse=data
+        //console.log(this.subGoodResponse)
+        this.driverList=this.driverResponse
+      }
+    );
+
+
+   }
+
   getAllDriver(){
     this.service.getAllDriverList().subscribe(
       data=>{
@@ -108,6 +157,7 @@ export class CompostDryingComponent implements OnInit{
       }
     );
   }
+
   getAllDryingYardByWcId(){
     console.log(this.form.value.wcId)
     this.service.getAllDryingYardByWcId(this.form.value.wcId).subscribe(
@@ -122,7 +172,8 @@ export class CompostDryingComponent implements OnInit{
 }
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllDryingyard`)
+            this.list = await this.service.get(`/inventory/getAllDryingCompost/`+localStorage.getItem('wcId'))
+
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -130,30 +181,42 @@ export class CompostDryingComponent implements OnInit{
             console.error(e)
     }
 }
-  saveMrf(){
+  saveCompostDrying(){
     const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
     const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryingyardId == this.form.value.dryingyardId)]
-    const vehicle = this.vehicleList[this.vehicleList.findIndex((e: any) => e.vehicleId == this.form.value.vehicleId)]
+    const vehicle = this.vehicleList[this.vehicleList.findIndex((e: any) => e.vehicleId == this.form.value.vehicleId)] //this.form.value.vehicleId
     const driver = this.driverList[this.driverList.findIndex((e: any) => e.driverId == this.form.value.driverId)]
+    console.log(driver.driver)
     const data = {
-      "compostId": this.form.value.dryingyardId,
+      "dryCompostId": this.form.value.compostdryingTrnsId,
       "wc": wc,
-      "dryCompostWt": this.form.value.dryCompostWt,
+      // "wetCompostWt": this.form.value.wetCompostWt,
       "description": this.form.value.description,
-      "npkRatio": this.form.value.npkRatio,
+      //"npkRatio": this.form.value.npkRatio,
+      "materialType":this.form.value.materialType,
       "dryingyard": dryingyard,
-      "vehicle": vehicle,
-      "driver": driver,
+      "vehicle": {
+        "vehicleId":this.form.value.vehicleId
+      },
+      "driver": {
+        "driverId":this.form.value.driverId
+      },
       "date": this.form.value.date
    }
    console.log(data)
    this.service.saveCompostDrying(data).subscribe(
     data=>{
       window.alert("Compost Drying data saved successfully")
+      this.getList()
+    },
+    error=>{
+       this.responseData=error
+       this.toastService.showError(this.responseData.error.message)
     }
-   );   
-   this.getList()
-   this.form.reset()
+   ); 
+   this.form.reset()  
+   this.getList()  
+
   }
   getGoodId() {
     console.log(this.form.value)
@@ -177,7 +240,9 @@ updateData(item: any) {
           compostdryingTrnsId:item.compostdryingTrnsId,
           npkRatio: item.npkRatio,
           description: item.description,
-          dryCompostWt: item.dryCompostWt,
+
+          wetCompostWt: item.wetCompostWt,
+          dryCompostId:item.dryCompostId,
           wc : item.wc,
           dryingyard: item.dryingyard,
           vehicle: item.vehicle,
@@ -198,9 +263,11 @@ cancel() {
   this.form.reset()
 }
 
-updateMrf() {
+
+updateCompostDrying() {
+
   console.log("Form Value"+this.form.value)
-  this.service.updateMrf(this.form.value).subscribe(
+  this.service.updateDryingCompost(this.form.value).subscribe(
           data => {
                   window.alert("Compost Drying data updated successfully!!")
                   this.isAdd = true
@@ -213,6 +280,9 @@ updateMrf() {
           }
   );
 
+}
+getFormData(){
+  console.log(this.form.value)
 }
 }
 

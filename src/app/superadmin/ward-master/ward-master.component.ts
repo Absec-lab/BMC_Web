@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-ward-master',
@@ -16,20 +17,29 @@ export class WardMasterComponent implements OnInit{
         responseData:any
         wealthCentreName:any
         wcName:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        role:any
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
+                this.wcId =  localStorage.getItem('wcId');
                 this.getList()
                 this.getZones()
-                this.getWCList()
+                // this.getWCList()
         }
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
+                this.service.getAllWcData().subscribe(
+                        data=>{
+                                this.wcList=data
+                        }
+                );
+
          }
         form = new FormGroup({
-                zoneId: new FormControl,
-                wcId: new FormControl,
+                zoneId: new FormControl('', [Validators.required]),
+                wcId: new FormControl('', [Validators.required]),
                 wardId: new FormControl,
-                wardName: new FormControl,
+                wardName: new FormControl('', [Validators.required]),
                 wardDesc: new FormControl                
               });
         editForm = new FormGroup({
@@ -63,7 +73,8 @@ export class WardMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllWard`)
+                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/zone/getAllWard/`+wcId)
                         this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
                 } catch (e) {
                         console.error(e)
@@ -81,6 +92,24 @@ export class WardMasterComponent implements OnInit{
                 );
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const weathCentre = this.form.value.wcId?.trim();
+                        if (!weathCentre) {
+                                this.toastService.showWarning('Wealth centre is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wardName = this.form.value.wardName?.trim();
+                        if (!wardName) {
+                                this.toastService.showWarning('Ward name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
                         const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
@@ -92,11 +121,12 @@ export class WardMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/zone/addWard`, data)
-                        window.alert("Ward data adeed successfully!!")
+                        this.toastService.showSuccess("Ward data adeed successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
                         console.error(e)
+                        this.toastService.showError('Some error occured.');
                 }
         }
         async remove(id: string) {
@@ -141,7 +171,7 @@ export class WardMasterComponent implements OnInit{
                 this.wealthCentreName=item.wc.wcName
                 console.log(item.zone.zoneName)
 
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         wardId: item.wardId,
@@ -163,10 +193,27 @@ export class WardMasterComponent implements OnInit{
         }
 
         updateWard() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const weathCentre = this.form.value.wcId?.trim();
+                        if (!weathCentre) {
+                                this.toastService.showWarning('Wealth centre is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const wardName = this.form.value.wardName?.trim();
+                        if (!wardName) {
+                                this.toastService.showWarning('Ward name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateWard(this.form.value).subscribe(
                         data => {
-                                window.alert("Ward data updated successfully!!")
+                                this.toastService.showSuccess("Ward data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(
@@ -178,7 +225,7 @@ export class WardMasterComponent implements OnInit{
                                 this.getList()
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 

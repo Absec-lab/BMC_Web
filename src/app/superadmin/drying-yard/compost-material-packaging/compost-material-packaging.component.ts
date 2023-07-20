@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
 
+export class WetType{
+  type:any
+}
+
 @Component({
   selector: 'app-compost-material-packaging',
   templateUrl: './compost-material-packaging.component.html',
@@ -10,11 +14,12 @@ import { CommonService } from 'src/app/service/common.service';
 export class CompostMaterialPackagingComponent implements OnInit{
   isAdd: boolean = true
   isUpdate: boolean = false
-  goodList:any=[]
-  goodResponse:any
-  subGoodResponse:any
-  subgoodList:any=[]
-  list: any = []
+  wcList:any=[]
+  wcResponse:any
+  dryingyardResponse:any
+  dryingyardList:any=[]
+  wetTypeList:any=[]
+  list: any =[]
   goodsList: any = []
   goodsName: any
   subGoodsId:any
@@ -23,74 +28,83 @@ export class CompostMaterialPackagingComponent implements OnInit{
   mrfList:any
   responseData:any
   isActive:any
+  composePackingList:any=[]
+  packagingType:any=[5,10,15,20]
+  wcId : any = 0;
   constructor(private service:CommonService, private formBuilder:FormBuilder){
+    this.wcId = localStorage.getItem('wcId')
     this.getList()
-    this.getAllGoods()
-     this.getAllSubGoods() 
+    this.getAllWC()
+     this.getAllDryingYard() 
   }
   ngOnInit() {
-    this.service.getAllMrf().subscribe(
+    this.service.getAllMrf(parseInt(this.wcId)).subscribe(
       data => {
         this.mrfResponse = data
         this.mrfList = this.mrfResponse
         console.log(this.mrfList)
       }
     );
-    this.getAllGoods()
+    this.service.getAllUnit().subscribe(
+      data=>{
+        this.wetTypeList=data
+      }
+    );
+    this.service.getAllCompostPacking().subscribe(
+      data=>{
+        this.composePackingList=data
+      }
+    );
+   console.log(this.list)
   }
   form = new FormGroup({
-    mrfTrnsId: new FormControl,
-    goodsId: new FormControl,
-    goodssubId: new FormControl,
-    interMaterial: new FormControl,
-    mrfDesc: new FormControl,
-    quntaum: new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl,
-    isActive: new FormControl
+    dryingPackgingId: new FormControl,
+    dryingyardId: new FormControl,
+    wcId: new FormControl,
+    dryCompostWt: new FormControl,
+    npkRatio: new FormControl,
+    date: new FormControl,
+    description: new FormControl,
+    wc: new FormControl,
+    dryingyard: new FormControl,
+    isActive: new FormControl,
+    unitId: new FormControl,
+    noOfPacketsIssue:new FormControl
   });
   editForm = new FormGroup({
-    goodsId: new FormControl,
-    subGoodId: new FormControl,
-    interMaterial:new FormControl,
-    mrfDescription: new FormControl,
-    quntaum:new FormControl,
-    goods: new FormControl,
-    subGood: new FormControl
+    dryingPackgingId: new FormControl,
+    dryingyardId: new FormControl,
+    wcId: new FormControl,
+    dryCompostWt: new FormControl,
+    npkRatio: new FormControl,
+    date: new FormControl,
+    description: new FormControl,
+    wc: new FormControl,
+    dryingyard: new FormControl,
+    isActive: new FormControl
 })
-  getAllGoods(){
-     this.service.getAllGoods().subscribe(
-      data=>{
-       this.goodResponse=data
-       this.goodList=this.goodResponse
-       //console.log(this.goodList)
-      }
-     );
-  }
-  getAllSubGoods(){
-    this.service.getAllSubGood().subscribe(
-      data=>{
-        this.subGoodResponse=data
-        //console.log(this.subGoodResponse)
-        this.subgoodList=this.subGoodResponse
-      }
-    );
-  }
-  getAllSubGoodByGoodId(){
-    console.log(this.form.value.goodsId)
-    this.service.getAllSubGoodByGoodId(this.form.value.goodsId).subscribe(
-            data=>{
-                    this.responseData=data
-                    this.subgoodList = this.responseData.data.sort((a: any, b: any) => a.subgoodsName - b.subgoodsName)
-                    //this.form.value.goodId=this.responseData.goods.goodId
-                    //this.goodsName=this.responseData.goods.goodsName
-                    console.log(this.subGoodsId)
-            }
-    );
+getAllWC(){
+  this.service.getAllWcData().subscribe(
+   data=>{
+    this.wcResponse=data
+    this.wcList=this.wcResponse
+    //console.log(this.goodList)
+   }
+  );
 }
+getAllDryingYard(){
+ this.service.getAllDryingYard().subscribe(
+   data=>{
+     this.dryingyardResponse=data
+     //console.log(this.subGoodResponse)
+     this.dryingyardList=this.dryingyardResponse
+   }
+ );
+}
+  
   async getList() {
     try {
-            this.list = await this.service.get(`/zone/getAllMrf`)
+            this.list = await this.service.get(`/inventory/getAllCompostWtmt`)
            // this.goodsList = await this.service.get(`/zone/getAllGoods`)
             //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -99,23 +113,33 @@ export class CompostMaterialPackagingComponent implements OnInit{
     }
 }
   saveMrf(){
-    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
-    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
+    const dryingyard = this.dryingyardList[this.dryingyardList.findIndex((e: any) => e.dryyardId == this.form.value.dryingyardId)]
+    // const unit= this.wetTypeList[this.wetTypeList.findIndex((e:any)=>e.unitId == this.form.value.unitId)]
     const data = {
-      "goods": goods,
-      "interMaterial": this.form.value.interMaterial,
-      "mrfDesc": this.form.value.mrfDesc,
-      "quntaum": this.form.value.quntaum,
-      "subGood": subgoods
+      "dryCompostId": this.form.value.dryingPackgingId,
+      "wc": wc,
+      "dryCompostWt": this.form.value.dryCompostWt,
+      "description": this.form.value.description,
+      "npkRatio": this.form.value.npkRatio,
+      "dryingyard": dryingyard,
+      "date": this.form.value.date,
+      "packageWtType": this.form.value.unitId,
+      "noOfPacketsIssue": this.form.value.noOfPacketsIssue
    }
    console.log(data)
-   this.service.saveMrfData(data).subscribe(
+   this.service.saveCompostPacking(data).subscribe(
     data=>{
-      window.alert("Mrf data saved successfully")
+      window.alert("Compose packing data saved successfully")
+      this.service.getAllCompostPacking().subscribe(
+        data=>{
+          this.composePackingList=data
+        }
+      );
     }
-   );   
-   this.getList()
-   this.form.reset()
+   ); 
+   this.form.reset()  
+   this.getList()   
   }
   getGoodId() {
     console.log(this.form.value)
@@ -135,14 +159,7 @@ updateData(item: any) {
   console.log(item.goodssubId)
   this.goodsName = item.goods.goodsName
   this.form.patchValue({
-          goodsId: item.goods.goodsId,
-          goodssubId: item.subGood.goodssubId,
-          mrfTrnsId:item.mrfTrnsId,
-          interMaterial: item.interMaterial,
-          mrfDesc: item.mrfDesc,
-          quntaum: item.quntaum,
-          //goods: item.goods,
-          //subGood:item.subGood,
+          
           isActive: true
   })
   this.subGoodsId=item.goodssubId

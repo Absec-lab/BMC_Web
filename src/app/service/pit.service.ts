@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PitHistoryReq, PitModel, PitProcessMain, PitStageRoot } from '../model/pit.model';
+import { ReportGenerate, PitHistoryReq, PitModel, PitProcessMain, PitStageRoot,  pitPayload } from '../model/pit.model';
 import { PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from '../model/pitInit.model';
 import { TodayTaskModel } from '../model/todaytask.model';
 import { PitStatusModel } from '../model/pit-status.model';
 
+
+       const endpoint =  `http://15.207.62.200`;  //DEV
+//     const endpoint = `http://43.204.240.44`;   //PROD
+//     const endpoint = `http://localhost`;       //LOCCAL
+
 const environment = {
 
-  //URL: `http://localhost:9091`,  //prod url
-  //PIT_SERVICE_URL: 'http://localhost:8062/',
-  URL: `http://43.204.240.44:9091`,  //prod url
-  PIT_SERVICE_URL: 'http://43.204.240.44:8062/',
-  AUTH_SERVICE_URL: 'http://43.204.240.44:8064/bmcwastemanagement/auth/users/login',
-  //URL: `http://15.207.62.200:9091`,  //prod url
-  //PIT_SERVICE_URL: 'http://15.207.62.200:8062/',
-  //AUTH_SERVICE_URL: 'http://15.207.62.200:8064/bmcwastemanagement/auth/users/login',
+  URL: endpoint+':9091',  //dev url
+  AUTH_SERVICE_URL: endpoint+':8064/bmcwastemanagement/auth/users/login',
+  PIT_SERVICE_URL:  endpoint+':8062/',
+  REPORT_SERVICE_URL: endpoint+':8065/',
+
   getAllPit: 'pit/v1/getAllPitListByMccId',
   savePitInit: 'pit/v1/savePitProcessDetails',
   getPitHistory: 'pit/v1/getPitProcessDetails',
   submitWorkflowInit: 'pit/v1/pitWorkFlow',
   pitstatusUpdate: 'pit/v1/updatePitStatus',
-
+  reportService: 'generate-report',
 }
 
 @Injectable({
@@ -30,23 +32,24 @@ const environment = {
 })
 export class PitService {
 
+  public selectMccId : BehaviorSubject<number> = new BehaviorSubject(0);
+  public selectWcName : BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private http: HttpClient) { }
 
-  getAllPitsByMcc(): Observable<PitModel> {
-    let param = {
-      "payload": {
-        "mccId": 1,
-        "wcId": 1
-      }
-    };
+  getAllPitsByMcc(pitPay : pitPayload): Observable<PitModel> {
+    let param = pitPay;
     let urlString =   environment.PIT_SERVICE_URL +'pit/v1/getAllPitListByMccId';
     return this.http.post<PitModel>(urlString, param);
   }
 
-  savePitInitForCompost(inParam: PitInitModel): Observable<PitInitModel> {
+  savePitInitForCompost(inParam: PitInitModel , headerDict : any): Observable<PitInitModel> {
+    console.log('  Request Pit Process :  ',inParam);
+    const requestHeaders = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
     let urlString = environment.PIT_SERVICE_URL + environment.savePitInit;
-    return this.http.post<PitInitModel>(urlString, inParam);
+    return this.http.post<PitInitModel>(urlString, inParam , requestHeaders);
   }
 
   onFetchPitHistoryDetails(inParam: PitHistoryReq): Observable<PitProcessMain> {
@@ -64,9 +67,14 @@ export class PitService {
     return this.http.post<PitModel>(urlString, inParam);
   }
 
+  
+  onReportGenerate(inParam: ReportGenerate): Observable<PitModel> {
+    let urlString = environment.PIT_SERVICE_URL + environment.reportService;
+    return this.http.post<PitModel>(urlString, inParam);
+  }
+
   getTodayTaskList(payload: {
-    mccId: Number,
-    wcId: Number
+    mccId: Number
   }) {
     return this.http.post<TodayTaskModel>(`${environment.PIT_SERVICE_URL}pit/v1/getTodaysTaskView`, payload);
   }
@@ -77,13 +85,12 @@ export class PitService {
 
   getAllPitStagesStatus(payload:any){
      return this.http.post<PitStageRoot>(`${environment.PIT_SERVICE_URL}pit/v1/getPitAllStageDetails`,payload)
-     //return this.http.post<PitStageRoot>(`http://localhost:8062/pit/v1/getPitAllStageDetails`,payload)
   }
 
   updatePitStatus(payload: {
     "pitId": Number,
     "operationStatus": Number,
-    "remark":string
+    "remarks":string
   }) {
     return this.http.post<{code: Number; message:string;}>(`${environment.PIT_SERVICE_URL}pit/v1/updatePitOperationStatus`, payload);
   }

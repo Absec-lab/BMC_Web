@@ -5,7 +5,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 @Component({
   selector: "app-dashboard-one",
   templateUrl: "./dashboard-one.component.html",
-  styleUrls: ["../../common.css", "./dashboard-one.component.css"],
+  styleUrls: ["../../../common.css", "./dashboard-one.component.css"],
 })
 export class DashboardOneComponent {
   chart1: any;
@@ -17,7 +17,7 @@ export class DashboardOneComponent {
   }
 
   createChart1() {
-    this.chart1 = new Chart("chart1", {
+    this.chart1 = new Chart("chart-ee10daf0-be5f-4732-bc57-b50584b7b113", {
       type: "bar",
       data: {
         labels: ["Package", "Unsold", "Sold"],
@@ -53,7 +53,7 @@ export class DashboardOneComponent {
   }
 
   createChart2() {
-    this.chart2 = new Chart("chart2", {
+    this.chart2 = new Chart("chart-83d1d444-889f-48a7-9901-ac8d3a9cd972", {
       type: "bar",
       data: {
         labels: ["Plastic", "Paper", "Glass", "Leather", "Cloth", "Metal"],

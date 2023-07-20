@@ -1,0 +1,127 @@
+<app-header></app-header>
+<main class="container-fluid">
+	<div class="page-content p-3">
+		<div class="row">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
+				<div class="card">
+					<div class="card-body">
+						<app-heade-dashboard-component></app-heade-dashboard-component>
+					</div>
+				</div>
+				<div class="mt-4">
+					<div class="breadcrumb">
+						<a routerLink=""><i class="fa-solid fa-home"></i></a>
+						<span class="mx-2">/</span>
+						<a routerLink="">Trip Details</a>
+					</div>
+				</div>
+				<div class="mt-4">
+					<form [formGroup]="form">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item w-50" role="presentation">
+								<button class="nav-link active w-100 text-uppercase text-white" id="active-tab"
+								data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
+								aria-controls="active-tab-pane" aria-selected="true">Active Trips</button>
+							</li>
+							<li class="nav-item w-50" role="presentation">
+								<button class="nav-link w-100 text-uppercase text-white" id="completed-tab"
+									data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab"
+									aria-controls="completed-tab-pane" aria-selected="false">Completed Trips</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+						
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 active show"
+								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
+								<div class="card rounded-0">
+									<div class="card-header rounded-0 border-0">
+										Active Trips <i class="fa fa-truck b-green" aria-hidden="true"></i>
+									</div>
+									<div class="card-body">
+										
+										<ag-grid-angular
+										class="ag-theme-alpine"
+										[rowData]="rowData"
+										[columnDefs]="columnDefs"
+										[gridOptions]="gridOptions"
+										[animateRows]="true"
+										[suppressMenuHide]="true">
+									
+										</ag-grid-angular>
+										
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
+								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+								<div class="card rounded-0">
+									<div class="card-header rounded-0 border-0">
+										Completed Trips <i class="fa fa-truck b-red" aria-hidden="true"></i>
+									</div>
+									<div class="card-body">
+										<!-- <div
+											class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
+											<div class="ms-3 w-25">
+												<input type="text" name="" id="" class="form-control"
+													placeholder="Enter Vehicle No.">
+											</div>
+											<div class="ms-3 w-25">
+												<input type="date" name="" id="" class="form-control"
+													placeholder="Select Date">
+											</div>
+											<div class="ms-3">
+												<button class="btn btn-primary px-3">
+													Search
+												</button>
+											</div>
+										</div> -->
+										<ag-grid-angular
+										class="ag-theme-alpine"
+										[rowData]="rowDataComp"
+										[columnDefs]="columnDefsComp"
+										[gridOptions]="gridOptionsComp"
+										[animateRows]="true"
+										[suppressMenuHide]="true">
+									
+										</ag-grid-angular>
+										<!-- <table class="table table-bordered table-striped">
+											<thead class="bg-primary text-white text-center">
+												<tr>
+													<th>Vehicle No</th>
+													<th>Driver Name</th>
+													<th>Helper Name</th>
+													<th>Route</th>
+													<th>Initial Reading</th>
+													<th>Final Reading</th>
+													<th>Vehicle Start Time</th>
+													<th>Vehicle End Time</th>
+												</tr>
+											</thead>
+											<tbody class="text-center">
+												<tr *ngFor="let item of inActiveTripList">
+													<td>{{item.vehicleNo}}</td>
+													<td>{{item.driver.driverName}}</td>
+													<td>Ramakant Das</td>
+													<td>{{item.route.routeName}}</td>
+													<td>{{item.tripStartReading}}</td>
+													<td>{{item.tripEndReading}}</td>
+													<td>{{item.createdDate}}</td>
+													<td>{{item.updateDate}}</td>
+												</tr>
+
+											</tbody>
+										</table> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> 
+</main>
+<app-footer></app-footer>

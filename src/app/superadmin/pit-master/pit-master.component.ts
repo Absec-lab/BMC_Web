@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
         selector: 'app-pit-master',
@@ -11,7 +12,7 @@ export class PitMasterComponent {
         mccDataById: any
         wccByIdData: any
         zoneName: any
-        constructor(private service: CommonService) {
+        constructor(private service: CommonService, private toastService: ToastService) {
                 this.getList()
                 // this.getZones()
                 this.getWCList()
@@ -19,10 +20,10 @@ export class PitMasterComponent {
         }
 
         form = new FormGroup({
-                zoneId: new FormControl(''),
-                wcId: new FormControl(''),
-                mccId: new FormControl(''),
-                pitName: new FormControl(''),
+                zoneId: new FormControl('', [Validators.required]),
+                wcId: new FormControl('', [Validators.required]),
+                mccId: new FormControl('', [Validators.required]),
+                pitName: new FormControl('', [Validators.required]),
                 pitDesc: new FormControl('')
         });
         list: any = []
@@ -63,6 +64,29 @@ export class PitMasterComponent {
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const wealthCenter = this.form.value.wcId?.trim();
+                        if (!wealthCenter) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const mcc = this.form.value.mccId?.trim();
+                        if (!mcc) {
+                                this.toastService.showWarning('MCC is required.');
+                                return;
+                        }
+                        const pitName = this.form.value.pitName?.trim();
+                        if (!pitName) {
+                                this.toastService.showWarning('Pit name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         const zone = this.mccDataById.data.zone
                         const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
@@ -93,7 +117,7 @@ export class PitMasterComponent {
         deactivatePit(id: any) {
                 this.service.deactivatePit(id).subscribe(
                         data => {
-                                window.alert("Pit deleted successfully")
+                                this.toastService.showSuccess("Pit deleted successfully")
                                 this.service.getAllPitData().subscribe(
                                         data => {
                                                 this.list = data
@@ -101,7 +125,7 @@ export class PitMasterComponent {
                                 );
                         },
                         error => {
-                                window.alert("Something went wrong!!")
+                                this.toastService.showError("Something went wrong!!")
                         }
                 );
         }

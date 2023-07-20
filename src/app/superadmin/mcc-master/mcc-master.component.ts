@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-mcc-master',
   templateUrl: './mcc-master.component.html',
   styleUrls: ['../../common.css','./mcc-master.component.css']
 })
-export class MccMasterComponent {
+export class MccMasterComponent implements OnInit{
         isAdd: boolean = true
         isUpdate: boolean = false
         responseData:any
@@ -15,16 +16,26 @@ export class MccMasterComponent {
         zoneName:any
         wealthCentreName:any
         wcId:any
-        constructor(private service: CommonService, private formBuilder: FormBuilder) {
+        role:any
+        constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
+                this.role =  localStorage.getItem('role');
+                this.wcId =  localStorage.getItem('wcId');
                 this.getList()
                 // this.getZones()
-                this.getWCList()
+                // this.getWCList()
+        }
+        ngOnInit() {
+              this.service.getAllWcData().subscribe(
+                data=>{
+                        this.wcList=data
+                }
+              );
         }
 
         form = new FormGroup({
-                zoneId: new FormControl,
-                wcId: new FormControl,
-                mccName: new FormControl,
+                zoneId: new FormControl('', [Validators.required]),
+                wcId: new FormControl('', [Validators.required]),
+                mccName: new FormControl('', [Validators.required]),
                 mccDesc: new FormControl,
                 zone: new FormControl,
                 wc: new FormControl,
@@ -59,13 +70,32 @@ export class MccMasterComponent {
         }
         async getList() {
                 try {
-                        this.list = await this.service.get(`/zone/getAllMcc`)
+                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/zone/getAllMcc/`+wcId)
                         this.list = this.list.sort((a: any, b: any) => a.mccName - b.mccName)
                 } catch (e) {
                         console.error(e)
                 }
         }
         async addNew() {
+                if (this.form.status === 'INVALID') {
+                        const wealthCenter = this.form.value.wcId?.trim();
+                        if (!wealthCenter) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const mccName = this.form.value.mccName?.trim();
+                        if (!mccName) {
+                                this.toastService.showWarning('MCC name is required.');
+                                return;
+                        }
+                        return;
+                }
                 try {
                         // const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
                         const zone=this.responseData.zone
@@ -125,7 +155,7 @@ export class MccMasterComponent {
                 console.log(item)
                 this.zoneName=item.zone.zoneName
                 this.wealthCentreName=item.wc.wcName
-                this.form = this.formBuilder.group({
+                this.form.patchValue({
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         mccName: item.mccName,
@@ -144,17 +174,34 @@ export class MccMasterComponent {
         }
 
         updateMcc() {
-                console.log(this.form.value)
+                if (this.form.status === 'INVALID') {
+                        const wealthCenter = this.form.value.wcId?.trim();
+                        if (!wealthCenter) {
+                                this.toastService.showWarning('Wealth center is required.');
+                                return;
+                        }
+                        const zone = this.form.value.zoneId?.trim();
+                        if (!zone) {
+                                this.toastService.showWarning('Zone is required.');
+                                return;
+                        }
+                        const mccName = this.form.value.mccName?.trim();
+                        if (!mccName) {
+                                this.toastService.showWarning('MCC name is required.');
+                                return;
+                        }
+                        return;
+                }
                 this.service.updateMcc(this.form.value).subscribe(
                         data => {
-                                window.alert("SubGood data updated successfully!!")
+                                this.toastService.showSuccess("SubGood data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()
                                 this.form.reset()
                         },
                         error => {
-                                window.alert("something went wrong")
+                                this.toastService.showError("something went wrong")
                         }
                 );
 
