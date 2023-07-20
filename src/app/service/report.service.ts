@@ -10,11 +10,11 @@ export class DeactivationDto {
 
 const environment = {
 
-                REPORT_SERVICE_URL: 'http://43.204.240.44:8065'// Prod IP
+     //         REPORT_SERVICE_URL: 'http://43.204.240.44:8065'// Prod IP
 
-     //         REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
+     //           REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
 
-     //         REPORT_SERVICE_URL: 'http://15.207.62.200:8065'// Local IP
+                REPORT_SERVICE_URL: 'http://15.207.62.200:8065'// Local IP
 }
 
 @Injectable({
@@ -67,6 +67,10 @@ export class ReportService {
 
         getGarbageReport(payload : ReportGenerate) {
                 return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-garbage', payload);      
+        }
+
+        getTripReport(payload : ReportGenerate) {
+                return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-trip', payload);      
         }
         
 }
