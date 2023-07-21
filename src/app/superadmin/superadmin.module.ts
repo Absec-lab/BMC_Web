@@ -60,6 +60,7 @@ import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashb
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
+import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godown/mokhata-move-to-godown.component';
 import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-action-renderer.component';
 
 @NgModule({
@@ -117,6 +118,7 @@ import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-ac
     DisclaimerComponent,
     VehicleManagementComponent,
     TripStatusReportComponent,
+    MokhataMoveToGodownComponent,
     MrfActionRendererComponent
   ],
 
