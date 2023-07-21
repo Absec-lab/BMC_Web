@@ -112,6 +112,7 @@
 																</div>
 																<div class="col-md-9">
 																	<input type="text" name="" id="mrf_desc" class="form-control" formControlName="mrfDesc">
+																	<input type="text" name="" id="mrf_transactionId" class="form-control" formControlName="mrfTrnsId" hidden>
 																</div>
 															</div>
 														</div>
@@ -123,7 +124,7 @@
 											<button class="px-5 py-2 btn btn-primary" (click)="saveMrf()">Add</button>
 										</div>
 										<div class="mt-3 text-end update-mrf-btn d-none">
-											<button class="px-5 py-2 btn btn-primary">Update</button>
+											<button class="px-5 py-2 btn btn-primary" (click)="updateMrf()">Update</button>
 										</div>
 										<div class="mt-3 text-end" *ngIf="isUpdate">
 											<button class="px-5 py-2 btn btn-primary" (click)="cancel()">Cancel</button>
