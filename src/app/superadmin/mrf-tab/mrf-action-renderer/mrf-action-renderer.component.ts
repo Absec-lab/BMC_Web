@@ -24,6 +24,7 @@ export class MrfActionRendererComponent implements ICellRendererAngularComp {
 
   fillEditForm() {
     const data = this.params.data;
+    (document.querySelector(`input[id="mrf_transactionId"]`) as HTMLInputElement).value = data.mrfTransactionId;
     (document.querySelector(`input[id="mrf_quantum"]`) as HTMLInputElement).value = data.quntaum;
     (document.querySelector(`input[id="mrf_inert"]`) as HTMLInputElement).value = data.inert_material;
     (document.querySelector(`input[id="mrf_desc"]`) as HTMLInputElement).value = data.description;

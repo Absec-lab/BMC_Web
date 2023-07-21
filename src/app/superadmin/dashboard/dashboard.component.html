@@ -6,16 +6,20 @@
                 <div class="row">
                     <div class="col-xl-5">
                         <div class="row">
+                          <!-- <form [formGroup]="form"> -->
                             <div class="col-sm-6">
-                                <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box">
-                                    <option value="undefined" selected disabled>Select All Zones</option>
+                                <<select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box" >
+                                    <option value="undefined" selected disabled>Select Zone</option>
+                                    <!-- <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> -->
                                 </select>
                             </div>
                             <div class="col-sm-6 mt-3 mt-sm-0">
-                                <select id="wcId" formControlName="wcId_" class="form-control form-select dashboard-select-box">
-                                    <option value="undefined" selected disabled>Pokhariput Wc</option>
+                                <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" >
+                                    <option value="undefined" selected disabled>Select Wc</option>
+                                    <!-- <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> -->
                                 </select>
                             </div>
+                          <!-- </form> -->
                         </div>
                     </div>
                     <div class="col-xl-7 mt-4 mt-xl-0">
