@@ -14,8 +14,8 @@ export class CommonService {
 
 
 //      endpoint =  `http://15.207.62.200`;   //DEV
-//        endpoint = 'http://43.204.240.44'; //PROD
-      endpoint = `http://localhost`; //LOCCAL
+        endpoint = 'http://43.204.240.44'; //PROD
+//      endpoint = `http://localhost`; //LOCCAL
 
 
 
@@ -240,10 +240,6 @@ export class CommonService {
         }
         saveMrfData(data: any) {
                 return this.http.post(this.environment.URL + '/zone/addMrf', data)
-        }
-        saveStockData(data: any) {
-             
-                return this.http.post(this.environment.URL + '/zone/addStockData', data)
         }
         updateMrf(data: any) {
                 return this.http.post(this.environment.URL + '/zone/updateMrf', data)

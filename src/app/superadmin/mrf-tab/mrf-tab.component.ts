@@ -249,18 +249,6 @@ export class MrfTabComponent implements OnInit {
     }
   }
 
-  async getStockData() {
-    try {
-      let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-      this.list = await this.service.get(`/zone/getAllStockData/` + wcId)
-      // this.goodsList = await this.service.get(`/zone/getAllGoods`)
-      //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
-
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   async getItemPurchaseList() {
     try {
       this.inventoryList = await this.service.get(`/inventory/getAllItemPurchase`)
@@ -415,123 +403,6 @@ export class MrfTabComponent implements OnInit {
     );
 
   }
-
-
-
-
-
-
-//save stock
-saveStock() {
-
-  if (this.form.status === 'INVALID') {
-    if (!this.wcId) {
-      this.toastService.showWarning('Wealth center is required. Please login again. ');
-      return;
-    }
-    const goodsName = this.form.value.goodsId?.trim();
-    if (!goodsName || goodsName === '') {
-      this.toastService.showWarning('Goods name is required.');
-      return;
-    }
-    const subGoodsName = this.form.value.goodssubId?.trim();
-    if (!subGoodsName || subGoodsName === '') {
-      this.toastService.showWarning('Sub-Goods name is required.');
-      return;
-    }
-    const goodsWeight: any = this.form.value.quntaum;
-    if ((goodsWeight != 0 && !goodsWeight) || goodsWeight === '') {
-      this.toastService.showWarning('Goods Quantity is required.');
-      return;
-    }
-    if (+goodsWeight < 0) {
-      this.toastService.showWarning('Goods Quantity must be a valid number.');
-      return;
-    }
-
-    //cost per kg
-
-    const costPerkg :any =this.form.value.itemCost;
-    if ((costPerkg != 0 && !costPerkg) || costPerkg === '') {
-      this.toastService.showWarning('Cost/Kg is required.');
-      return;
-    }
-    if (+costPerkg < 0) {
-      this.toastService.showWarning('Cost/Kg must be a valid number.');
-      return;
-    }
-
-
-
-    const inertMaterial: any = this.form.value.interMaterial;
-    if ((inertMaterial != 0 && !inertMaterial) || inertMaterial === '') {
-      this.toastService.showWarning('Inert material is required.');
-      return;
-    }
-    if (+inertMaterial < 0) {
-      this.toastService.showWarning('Inert material must be a valid number.');
-      return;
-    }
-    return;
-  }
-
-  const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
-  const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
-  const data = {
-    "goods": goods,
-    "subGood": subgoods,
-    "quntaum":this.form.value.quntaum,
-    "cost":this.form.value.itemCost,
-    "interMaterial": this.form.value.interMaterial,
-    "mrfDesc": this.form.value.mrfDesc,
-   // "quntaum": this.form.value.quntaum,
-    
-    "wcId": {
-      "wcId": localStorage.getItem("wcId")
-    }
-  }
-  console.log(data);
-  this.service.saveStockData(data).subscribe(
-    data => {
-      debugger
-      window.alert("Stock Data Saved Successfully");
-      this.mrfGridResponse=[];
-      this.mrfGridResponse = data
-      this.mrfGridList = this.mrfGridResponse.data
-      const rowDataMrf = this.mrfGridList.map((item: { goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
-
-        return {
-          goods_name: item.goods.goodsId,
-          sub_goods_name: item.subGood.goodssubId,
-          goods: item.goods,
-          inert_material: item.interMaterial,
-          description: item.mrfDesc,
-          quntaum: item.quntaum,
-          wcName: item.wcId?.wcName
-
-        };
-      });
-   //   console.log("MrfList", this.mrfGridList)
-  //    console.log("rowData", rowDataMrf)
-      this.rowDataMrf = rowDataMrf;
-      // window.alert("Mrf data updated successfully!!")
-      // this.isAdd = true
-      // this.isUpdate = false
-      // this.getList()
-      // this.form.reset()
-    },
-    error => {
-      window.alert("something went wrong")
-    }
-
-  );
-  this.getStockData();
-  this.form.reset();
-}
-
-//end for save stock
-
-
   refresh(): void {
     window.location.reload();
   }
@@ -893,12 +764,25 @@ saveStock() {
   ];
 
   columnDefsBailing: ColDef[] = [
-    { field: 'wc_name', headerName: 'WC Name', unSortIcon: true, resizable: true },
-    
     { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
     { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
-    { field: 'quntaum', headerName: 'Quantity', unSortIcon: true, resizable: true },
-      
+    { field: 'noOfPackets', headerName: 'No. Of Bailing', unSortIcon: true, resizable: true },
+    { field: 'bailing_weight', headerName: 'Bailing Weight', unSortIcon: true, resizable: true },
+    { field: 'descriptions', headerName: 'Description', unSortIcon: true, resizable: true },
+    { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
+    {
+      headerName: 'Edit', width: 125, sortable: false, filter: false,
+      cellRenderer: (data: any) => {
+        return `
+      <button class="btn btn-primary btn-sm" (click)="this.updateData($event)">
+        <i class="fa-solid fa-edit"></i>
+      </button>
+      <button class="btn btn-danger btn-sm">
+        <i class="fa-solid fa-trash-alt"></i>
+      </button>
+     `;
+      }
+    }
   ];
   columnDefsSold: ColDef[] = [
     { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
@@ -926,81 +810,73 @@ saveStock() {
 
   saveBailing() {
    
-    // const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
-    // const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
-    // const data = {
-    //   "goods": goods,
-    //   "bailingWeight": this.form.value.bailingWeight,
-    //   "mrfDesc": this.form.value.mrfDesc,
-    //   "noOfPackets": this.form.value.noOfPackets,
-    //   "subGood": subgoods,
-    //   "wcId": {
-    //     "wcId": localStorage.getItem("wcId")
-    //   }
-    // }
-  //  console.log(data)
- //   this.service.addBailing(data).subscribe(
-  //    data => {
-  //      window.alert("Bailing added successfully")
-        // this.service.getAllBailingList().subscribe(
-        //   data => {
-        //     this.bailingGridresponse = data
-        //     this.bailingGridList = this.bailingGridresponse.data
-        //     const rowDataBailing = this.bailingGridList.map((item: { goods: any; wcId: any; subGood: any; createdDate: any; noOfPackets: any; bailingWeight: any; mrfDesc: any;  }) => {
+    const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
+    const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const data = {
+      "goods": goods,
+      "bailingWeight": this.form.value.bailingWeight,
+      "mrfDesc": this.form.value.mrfDesc,
+      "noOfPackets": this.form.value.noOfPackets,
+      "subGood": subgoods,
+      "wcId": {
+        "wcId": localStorage.getItem("wcId")
+      }
+    }
+    console.log(data)
+    this.service.addBailing(data).subscribe(
+      data => {
+        window.alert("Bailing added successfully")
+        this.service.getAllBailingList().subscribe(
+          data => {
+            this.bailingGridresponse = data
+            this.bailingGridList = this.bailingGridresponse.data
+            const rowDataBailing = this.bailingGridList.map((item: { goods: any; wcId: any; subGood: any; createdDate: any; noOfPackets: any; bailingWeight: any; mrfDesc: any;  }) => {
 
-        //       return {
-        //         wcName: item.wcId?.wcName,
-        //         goods_name: item.goods.goodsName,
-        //         sub_goods_name: item.subGood.subgoodsName,
-        //         goods: item.goods.goodsPerKg,
-        //         noOfPackets: item.noOfPackets,
-        //         descriptions: item.mrfDesc,
-        //         bailing_weight: item.bailingWeight,
-        //         created_date: item.createdDate
-        //       };
-        //     });
+              return {
+                wcName: item.wcId?.wcName,
+                goods_name: item.goods.goodsName,
+                sub_goods_name: item.subGood.subgoodsName,
+                goods: item.goods.goodsPerKg,
+                noOfPackets: item.noOfPackets,
+                descriptions: item.mrfDesc,
+                bailing_weight: item.bailingWeight,
+                created_date: item.createdDate
+              };
+            });
 
-        //     this.rowDataBailing = rowDataBailing
-        //   } );
+            this.rowDataBailing = rowDataBailing
+          }
+        );
         this.service.getAllBailingStock().subscribe(
           data => {
-            debugger;
             this.itemStockResponse = data
             this.itemStockList = this.itemStockResponse.data
             console.log(this.itemStockList,"bailingList")
             const rowDataStock = this.itemStockList.map((item: {
-              quntaum: any; goodssubEntity: any;goods:any;wcId:any;subGood:any; wcEntity:any;stockQuantity:any;
+              stockQuantity: any; goodssubEntity: any; wcEntity:any;
             }) => {
-              debugger;
     
               return {
-                   
-                wc_name:item.wcId.wcName,
-
-                goods_name: item.goods.goodsName,
-                sub_goods_name:item.subGood.subgoodsName,
-                quntaum: item.quntaum
-             //   stockQuantity: item.stockQuantity,
-                
+                itemName: item.goodssubEntity.subgoodsName,
+                //unit: 0,
+                stockQuantity: item.stockQuantity,
+                wcName:item.wcEntity.wcName
     
               };
-              
             });
-         //   alert(rowDataStock);
-
-            debugger;
-          //  alert(this.itemStockList)
-
-          //  console.log("itemStockList", this.itemStockList)
-         //   console.log("rowDataStock", rowDataStock)
+            console.log("itemStockList", this.itemStockList)
+            console.log("rowDataStock", rowDataStock)
             this.rowDataStock = rowDataStock;
     
           }
         );
-      
-       
+      },
+      error => {
+        window.alert("something went wrong")
+      }
 
- 
+    );
+    this.form.reset()
   }
   soldBailing(){
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
@@ -1076,12 +952,4 @@ saveStock() {
     this.form.reset()
     
   }
-
-
-
-
-
-
-
-
 }
