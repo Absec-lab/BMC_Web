@@ -38,6 +38,8 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { DashboardFiveComponent } from './portal-dashboards/dashboard-five/dashboard-five.component';
 import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
+import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godown/mokhata-move-to-godown.component';
+import { LoginGuard } from './auth-guard/LoginGuard';
 
 
 const routes: Routes = [
@@ -78,7 +80,8 @@ const routes: Routes = [
   {path: 'superadmin/manpower',component: ManpowerComponent}, 
   {path:'superadmin/disclaimer',component:DisclaimerComponent},
   {path:'superadmin/vehicle/management',component:VehicleManagementComponent},
-  {path:'superadmin/trip-status-report',component:TripStatusReportComponent}
+  {path:'superadmin/trip-status-report',component:TripStatusReportComponent},
+  {path:'superadmin/drying-yard/mokhata-move-to-godown',component:MokhataMoveToGodownComponent, canActivate: [LoginGuard]}
 ];
 
 @NgModule({
