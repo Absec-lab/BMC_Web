@@ -63,6 +63,7 @@ import { TripStatusReportComponent } from './trip-status-report/trip-status-repo
 import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godown/mokhata-move-to-godown.component';
 import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-action-renderer.component';
 import { CompostMaterialActionRendererComponent } from './drying-yard/compost-material-action-renderer/compost-material-action-renderer.component';
+import { GodownComponent } from './godown/godown.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { CompostMaterialActionRendererComponent } from './drying-yard/compost-ma
     TripStatusReportComponent,
     MokhataMoveToGodownComponent,
     MrfActionRendererComponent,
-    CompostMaterialActionRendererComponent
+    CompostMaterialActionRendererComponent,
+    GodownComponent
   ],
 
   entryComponents: [

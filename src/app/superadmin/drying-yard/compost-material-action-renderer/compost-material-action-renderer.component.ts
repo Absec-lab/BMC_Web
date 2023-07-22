@@ -33,7 +33,10 @@ export class CompostMaterialActionRendererComponent implements ICellRendererAngu
     unitIdElement.value = this.params.data.response_data.packageWtType;
 
     const priceElement = document.querySelector('#price') as HTMLInputElement;
-    priceElement.value = this.params.data.response_data.price;
+    priceElement.value = this.params.data.response_data.amountPerKg;
+
+    const compPackagingIdElement = document.querySelector('#compPackagingId') as HTMLInputElement;
+    compPackagingIdElement.value = this.params.data.response_data.compPackagingId;
 
     const addBtnParentElement = document.querySelector('#addBtnParent') as HTMLDivElement;
     addBtnParentElement.classList.add('d-none');

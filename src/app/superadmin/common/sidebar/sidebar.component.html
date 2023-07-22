@@ -164,6 +164,10 @@
 				</a>	
 	
 			</div>
+			<a routerLink="/superadmin/godown" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser'">
+				<i class="fa-solid fa-box"></i>
+				<span>Godown</span>
+			</a>
             <a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks3" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'ttsuser'">
 				<i class="fa-solid fa-wind"></i>
 				<span>TTS</span>

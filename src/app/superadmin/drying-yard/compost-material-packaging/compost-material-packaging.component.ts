@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { CommonService } from 'src/app/service/common.service';
 import { ToastService } from 'src/app/service/toast.service';
 import { CompostMaterialActionRendererComponent } from '../compost-material-action-renderer/compost-material-action-renderer.component';
+import { HttpClient } from '@angular/common/http';
 
 export class WetType{
   type:any
@@ -50,7 +51,7 @@ export class CompostMaterialPackagingComponent implements OnInit {
       ...this.defaultColDef,
     },
     pagination: true,
-    paginationPageSize: 10,
+    paginationPageSize: 25,
     rowStyle: { background: "#e2e8f0" },
     copyHeadersToClipboard: true,
     enableRangeSelection: true,
@@ -96,7 +97,8 @@ export class CompostMaterialPackagingComponent implements OnInit {
   constructor(
     private service: CommonService,
     private formBuilder: FormBuilder,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private httpClient: HttpClient
   ) {
     this.wcId = localStorage.getItem("wcId");
     this.getList();
@@ -123,9 +125,9 @@ export class CompostMaterialPackagingComponent implements OnInit {
           wc_name: item?.wc?.wcName,
           packaging_weight_type: item.packageWtType,
           packets_issued: item.noOfPacketsIssue,
-          total_weight: (item.totalWeight) ? item.totalWeight : '',
-          amount_per_kg: (item.amountPerKg) ? item.amountPerKg : '',
-          total_amount: item.price,
+          total_weight: (item.totalWeight) ? item.totalWeight : 0,
+          amount_per_kg: (item.amountPerKg) ? item.amountPerKg : 0,
+          total_amount: item.totalAmount,
           created_date: moment(new Date(item.createdDate)).format("DD/MM/YYYY"),
           response_data: item
         });
@@ -226,13 +228,29 @@ export class CompostMaterialPackagingComponent implements OnInit {
       },
       packageWtType: this.form.value.unitId,
       noOfPacketsIssue: this.form.value.noOfPacketsIssue,
-      price: this.form.value.price,
+      amountPerKg: this.form.value.price,
     };
     //  console.log(data)
     this.service.saveCompostPacking(data).subscribe((data) => {
       this.toastService.showSuccess("Mo khata packing data has been saved.");
       this.service.getAllCompostPacking().subscribe((data) => {
         this.composePackingList = data;
+        // console.log(this.composePackingList)
+  
+        this.rowData = [];
+  
+        this.composePackingList.forEach((item: any) => {
+          this.rowData.push({
+            wc_name: item?.wc?.wcName,
+            packaging_weight_type: item.packageWtType,
+            packets_issued: item.noOfPacketsIssue,
+            total_weight: (item.totalWeight) ? item.totalWeight : 0,
+            amount_per_kg: (item.amountPerKg) ? item.amountPerKg : 0,
+            total_amount: item.totalAmount,
+            created_date: moment(new Date(item.createdDate)).format("DD/MM/YYYY"),
+            response_data: item
+          });
+        });
       });
     });
     this.form.reset();
@@ -277,6 +295,7 @@ export class CompostMaterialPackagingComponent implements OnInit {
     const noOfPacketsIssueElement = document.querySelector('#noOfPacketsIssue') as HTMLInputElement;
     const unitIdElement = document.querySelector('#unitId') as HTMLSelectElement;
     const priceElement = document.querySelector('#price') as HTMLInputElement;
+    const compPackagingIdElement = document.querySelector('#compPackagingId') as HTMLInputElement;
 
     const packagingIssued =  noOfPacketsIssueElement.value;
     const price = priceElement.value;
@@ -301,22 +320,42 @@ export class CompostMaterialPackagingComponent implements OnInit {
     }
 
     const data = {
-      compPackagingId: null,
+      compPackagingId: compPackagingIdElement.value,
       wc: {
         wcId: wcID,
       },
       packageWtType: unitId,
       noOfPacketsIssue: packagingIssued,
-      price: price,
+      amountPerKg: price,
     };
 
-    this.service.updateMrf(data).subscribe(
+    this.httpClient.put(this.service.environment.URL + '/inventory/updateCompostPackaging', data).subscribe(
       (data) => {
         this.toastService.showSuccess("Mrf data updated successfully!!");
         this.isAdd = true;
         this.isUpdate = false;
         this.getList();
         this.form.reset();
+
+        this.service.getAllCompostPacking().subscribe((data) => {
+          this.composePackingList = data;
+          // console.log(this.composePackingList)
+    
+          this.rowData = [];
+    
+          this.composePackingList.forEach((item: any) => {
+            this.rowData.push({
+              wc_name: item?.wc?.wcName,
+              packaging_weight_type: item.packageWtType,
+              packets_issued: item.noOfPacketsIssue,
+              total_weight: (item.totalWeight) ? item.totalWeight : 0,
+              amount_per_kg: (item.amountPerKg) ? item.amountPerKg : 0,
+              total_amount: item.totalAmount,
+              created_date: moment(new Date(item.createdDate)).format("DD/MM/YYYY"),
+              response_data: item
+            });
+          });
+        });
       },
       (error) => {
         this.toastService.showError("something went wrong");
