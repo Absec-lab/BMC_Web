@@ -10,7 +10,7 @@ export class DeactivationDto {
 
 const environment = {
 
-                 REPORT_SERVICE_URL: 'http://43.204.240.44:8065'// Prod IP
+                  REPORT_SERVICE_URL: 'http://43.204.240.44:8065'// Prod IP
 
     //              REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
 

@@ -5,51 +5,53 @@
             <div class="col-12 mb-4 mt-2">
                 <div class="row">
                     <div class="col-xl-5">
+                        <form [formGroup]="form"> 
                         <div class="row">
-                          <!-- <form [formGroup]="form"> -->
                             <div class="col-sm-6">
-                                <<select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box" >
+                                <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box"  (change)="onZoneSelect($event)">
                                     <option value="undefined" selected disabled>Select Zone</option>
-                                    <!-- <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> -->
+                                     <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> 
                                 </select>
                             </div>
                             <div class="col-sm-6 mt-3 mt-sm-0">
-                                <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" >
+                                <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
                                     <option value="undefined" selected disabled>Select Wc</option>
-                                    <!-- <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> -->
+                                    <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> 
                                 </select>
                             </div>
-                          <!-- </form> -->
                         </div>
+                        <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>
+                        <input type="date" class="form-control bg-transparent"  name="filter_to_date" id="filter_to_date" hidden/>
+                     </form> 
                     </div>
                     <div class="col-xl-7 mt-4 mt-xl-0">
                         <div class="row">
                             <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
-                                <button class="btn btn-dashboard-date-filter-btn">
+                                <button class="btn btn-dashboard-date-filter-btn" (click) = "monthlyReport()">
                                     Monthly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "weeklyReport()">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Weekly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "todayReport()">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Today
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "FirstHalfReport()">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     1st Half
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "SecondHalfReport()">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     2nd Half
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2">
+                            <div class="col-sm-6 col-md-4 col-lg-2" hidden>
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Custom Date
                                 </button>
@@ -65,8 +67,8 @@
                             <div class="card-body d-flex w-100 align-items-center card-1 stat-card">
                                 <div>
                                     <h5 class="fw-bold mb-3">Trip Summary</h5>
-                                    <div>Active Trips: 15</div>
-                                    <div style="margin-top: 2px;">Completed Trips: 48</div>
+                                    <div>Active Trips: {{dataMap.get('totalActiveTrip')}}</div>
+                                    <div style="margin-top: 2px;">Completed Trips: {{dataMap.get('totalCompletedTrip')}}</div>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="stat-card-icon">
@@ -84,8 +86,8 @@
                             <div class="card-body d-flex w-100 align-items-center card-4 stat-card">
                                 <div>
                                     <h5 class="fw-bold mb-3">Garbage Summary</h5>
-                                    <div>Total Dry Weight: 85 KG</div>
-                                    <div style="margin-top: 2px;">Total Wet Weight: 155 KG</div>
+                                    <div>Total Dry Weight: {{dataMap.get('totalDryWeight')}} KG</div>
+                                    <div style="margin-top: 2px;">Total Wet Weight: {{dataMap.get('totalWetWeight')}} KG</div>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="stat-card-icon">
@@ -121,7 +123,7 @@
                             <div class="card-body d-flex w-100 align-items-center card-3 stat-card">
                                 <div class="h-100">
                                     <h5 class="fw-bold mb-4">MRF</h5>
-                                    <div class="pt-3">Total MRF: 100 KG</div>
+                                    <div class="pt-3">Total MRF: {{dataMap.get('totalMRFWeight')}} KG</div>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="stat-card-icon">
@@ -246,14 +248,14 @@
                 </div>
             </div>
             <div class="col-xl-6 mb-4">
-                <div class="card mb-4">
-                    <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="fw-bold text-uppercase">Man Power</div>
+                <div class="card mb-4" hidden>
+                    <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;" >
+                        <div class="d-flex align-items-center w-100" >
+                            <div class="fw-bold text-uppercase" >Man Power</div>
                         </div>
                     </div>
-                    <div class="card-body px-4 pb-3">
-                        <div class="">
+                    <div class="card-body px-4 pb-3" >
+                        <div class="" >
                             <canvas id="chart-23236985-42b9-4174-9d5a-0a199dd473d9" style="height: 150px;">{{ chart3 }}</canvas>
                         </div>
                     </div>
@@ -282,7 +284,7 @@
                             </div>
                             <div class="card-body px-4 pb-3">
                                 <div class="">
-                                    <canvas id="chart-23236985-f16855f5-676c-4201-b1d9-ab68c9d8307a" style="height: 150px;">{{ chart5 }}</canvas>
+                                    <canvas id="chart-029ea4bc-fac1-4296-b731-25bb7c6598ac" style="height: 150px;">{{ chart5 }}</canvas>
                                 </div>
                             </div>
                         </div>
