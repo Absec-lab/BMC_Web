@@ -49,6 +49,8 @@ export class TripStatusReportComponent {
   }
 
   fetchReportData() {
+    this.reportPayload.fromDate =  (document.querySelector(`input[id="filter_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.reportPayload.toDate =  (document.querySelector(`input[id="filter_date"]`) as HTMLInputElement).value +" 00:00:00"
       this.service.getTripReport(this.reportPayload)
             .subscribe((response) => {
              console.log(response);

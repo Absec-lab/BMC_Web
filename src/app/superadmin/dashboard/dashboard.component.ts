@@ -1,10 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import Chart, { scales } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import * as moment from 'moment';
 import { ReportGenerate } from 'src/app/model/pit.model';
 import { CommonService } from 'src/app/service/common.service';
 import { ReportService } from 'src/app/service/report.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +24,27 @@ export class DashboardComponent {
   role : any =''
   wcSelectId:any = 0
   inventoryDate: string = "";
+  wcList: any = []
+  zoneList: any = []
+  mrfReportList : any = []
+  wcResponse:any
+  wcName:string=''
+  zoneName:string=''
+  zoneSelectId: any = 0
+  mrfResponse : any = ''
+  mrfReportListv2:any
+  reportResponseWcBasedData : any
+  zoneMap = new Map()
+  zoneDataArr : any = []
+  wcBasedData : any
+  dataMap: any = new Map()
+
+
+  form = new FormGroup({
+    zoneId: new FormControl,
+    wcId: new FormControl  
+  });
+
 
   payloadInventory: ReportGenerate = {
     reportType: "INVENTORY",
@@ -31,19 +55,244 @@ export class DashboardComponent {
     reportName: "INVENTORY"
   }
 
-  constructor(private datePipe: DatePipe, private service: CommonService, private reportService: ReportService){
+  reportTripPayload : ReportGenerate = {
+    reportType: 'TRIP',
+    type: '',
+    wcId: 0,
+    fromDate: '',
+    toDate: '',
+    reportName: 'TRIP'
+  }
+
+  constructor(private datePipe: DatePipe, private service: CommonService, private reportService: ReportService , private toastService: ToastService){
     this.role = localStorage.getItem('role');
   }
 
+  verifyWcSelected():boolean{
+    if(this.wcSelectId == 0 || this.wcSelectId == undefined){
+       return false;
+    }
+    return true
+  }
+
+  monthlyReport(){
+    if(!this.verifyWcSelected()){
+      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
+      return;
+    }
+      const dateElementTo  = document.querySelector('#filter_from_date') as HTMLInputElement;
+      const dateElementTo_ = moment(dateElementTo.value).format('YYYY-MM-DD HH:mm:ss');
+      const dateElementFrom_ = moment(dateElementTo.value).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
+      console.log('  Monthly Report :: From :  ', dateElementFrom_  , dateElementTo);
+      this.payloadInventory.fromDate = dateElementFrom_
+      this.payloadInventory.toDate = dateElementTo_
+      this.reportTripPayload.fromDate =  dateElementFrom_
+      this.reportTripPayload.toDate =  dateElementTo_
+      this.callAllCommonReportServices();
+  }
+
+  weeklyReport(){
+    if(!this.verifyWcSelected()){
+      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
+      return;
+    }
+    const dateElementTo = document.querySelector('#filter_from_date') as HTMLInputElement;
+    const dateElementTo_ = moment(dateElementTo.value).format('YYYY-MM-DD HH:mm:ss');
+    const dateElementFrom_ = moment(dateElementTo.value).subtract(7, 'days').format('YYYY-MM-DD HH:mm:ss');
+    console.log('  weekly Report  :: From :  ', dateElementFrom_  , dateElementTo);
+    this.payloadInventory.fromDate = dateElementFrom_
+    this.payloadInventory.toDate = dateElementTo_
+    this.reportTripPayload.fromDate =  dateElementFrom_
+    this.reportTripPayload.toDate =  dateElementTo_
+    this.callAllCommonReportServices();
+  }
+
+  todayReport(){
+    if(!this.verifyWcSelected()){
+      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
+      return;
+    }
+    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
+    const dateElement_ = moment(dateElementFrom.value).format('YYYY-MM-DD HH:mm:ss');
+    console.log('  today Report  :: From :  ', dateElement_  , dateElement_);
+    this.payloadInventory.fromDate = dateElement_
+    this.payloadInventory.toDate = dateElement_
+    this.reportTripPayload.fromDate =  dateElement_
+    this.reportTripPayload.toDate =  dateElement_
+    this.callAllCommonReportServices();
+  }
+
+  FirstHalfReport(){
+    if(!this.verifyWcSelected()){
+      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
+      return;
+    }
+    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
+    const dateElementFrom_ = moment(dateElementFrom.value).format('YYYY-MM-DD 06:00:00');
+    const dateElementTo_ = moment(dateElementFrom.value).format('YYYY-MM-DD 12:00:00');
+    console.log('  FirstHalf Report  :: From :  ', dateElementFrom_  , dateElementTo_);
+    this.payloadInventory.fromDate = dateElementFrom_
+    this.payloadInventory.toDate = dateElementTo_
+    this.reportTripPayload.fromDate =  dateElementFrom_
+    this.reportTripPayload.toDate =  dateElementTo_
+    this.callAllCommonReportServices();
+  }
+
+  SecondHalfReport(){
+    if(!this.verifyWcSelected()){
+      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
+      return;
+    }
+    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
+    const dateElementFrom_ = moment(dateElementFrom.value).format('YYYY-MM-DD 12:00:00');
+    const dateElementTo_ = moment(dateElementFrom.value).format('YYYY-MM-DD 18:00:00');
+    console.log('  SecondHalf Report  :: From :  ', dateElementFrom_  , dateElementTo_);
+    this.payloadInventory.fromDate = dateElementFrom_
+    this.payloadInventory.toDate = dateElementTo_
+    this.reportTripPayload.fromDate =  dateElementFrom_
+    this.reportTripPayload.toDate =  dateElementTo_
+    this.callAllCommonReportServices();
+  }
+
+  fromDateChange(){
+    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
+    dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
+    console.log('  fromDateChange Report  :: From :  ', dateElementFrom.value);
+  }
+  toDateChange(){
+    const dateElementTo = document.querySelector('#filter_to_date') as HTMLInputElement;
+    dateElementTo.value = moment(new Date()).format('YYYY-MM-DD');
+    console.log('  toDateChange Report  :: From :  ', dateElementTo.value);
+  } 
+  
+  callAllCommonReportServices(){
+    this.getMrfReportByWc();
+    this.getInventoryRecord();
+    this.fetchReport();
+  }
   ngOnInit() {
+
+    this.dataMap.set('totalActiveTrip', 0);
+    this.dataMap.set('totalCompletedTrip', 0);
+    this.dataMap.set('totalDryWeight', 0);
+    this.dataMap.set('totalWetWeight', 0);
+    this.dataMap.set('totalMRFWeight', 0);
+    this.dataMap.set('numberOfVehicles', 0);
+    this.dataMap.set('numberOfActiveTrip',0);
+    this.dataMap.set('numberOfMaintenanceVehicle', 0);
+    this.dataMap.set('numberOfAvailableVehicle', 0);
+
+
+    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
+    dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
+    const dateElementTo = document.querySelector('#filter_to_date') as HTMLInputElement;
+    dateElementTo.value = moment(new Date()).format('YYYY-MM-DD');
+
+    this.reportTripPayload.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.reportTripPayload.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+
+    this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+
+    // const dateElementFromElement = document.querySelector('#filter_from_date') as HTMLInputElement;
+    // const dateElementToElement = document.querySelector('#filter_from_date') as HTMLInputElement;
+    
+    this.getZones();
     this.createChart1();
-    this.createChart2();
+    this.createChart2([], []);
     this.createChart3();
-    this.createChart4();
+    this.createChart4([0,0,0,0]);
     this.createChart5([0,0,0]);
+    if (localStorage.getItem("role") == "bmcadmin") {
+    this.service.getZoneAllData().subscribe(
+          data => {
+            this.zoneList = data
+            this.form.patchValue({zoneId:this.zoneList[0].zoneId})
+          }
+        ); 
+    }this.service.getWcById(localStorage.getItem("wcId")).subscribe(
+          data=>{
+            this.wcResponse=data
+            this.wcList=[{wcId:this.wcResponse.wcId,wcName:this.wcResponse.wcName}]
+            this.zoneList=[{zoneId:this.wcResponse.zone.zoneId,zoneName:this.wcResponse.zone.zoneName}]
+            setTimeout(()=>{
+              this.form.patchValue({wcId:this.wcList[0].wcId,zoneId:this.zoneList[0].zoneId}) 
+            },1000)
+
+            this.wcName=this.wcResponse.wcName
+            this.zoneName=this.wcResponse.zone.zoneName
+            console.log(this.zoneName)
+          }
+    );
+  }
+
+  getZones() {
+    try {
+      this.service.getZoneAllData()
+        .subscribe((response) => {
+          if (this.role == 'bmcadmin') {
+            this.zoneList = response
+          } else if (this.role == 'wcuser') {
+            let tempArr: any = []
+            tempArr = response
+            this.zoneList.push(tempArr.filter((temp: any) => temp.zoneId == localStorage.getItem('zoneId'))[0]);
+            const e = new Event("change");
+            const element = document.querySelector('#zoneId')
+            element?.dispatchEvent(e);
+          }
+
+        });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  onZoneSelect(ev: any) {
+    if(ev.target.value !== 'undefined'){
+      this.zoneSelectId = ev.target.value
+    }else{
+      this.zoneSelectId = this.zoneList[0].zoneId;
+    }
+    console.log(ev)
+    this.wcList = []
+    this.getWcListByZoneId();
+  }
+
+  getWcListByZoneId() {
+    try {
+      this.service.getWcListByZoneId(this.zoneSelectId)
+        .subscribe((response: any) => {
+          if (this.role == 'bmcadmin') {
+            this.wcList = response.data
+          } else if (this.role == 'wcuser') {
+            let tempArr: any = []
+            tempArr = response.data
+            this.wcList.push(tempArr.filter((temp: any) => temp.wcId == localStorage.getItem('wcId'))[0])
+            const e = new Event("change");
+            const element = document.querySelector('#wcId')
+            element?.dispatchEvent(e);
+          }
+        });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  onWcSelect(ev: any) {
+    if(ev.target.value !== 'undefined'){
+      this.wcSelectId = ev.target.value;
+    }else{
+      this.wcSelectId = this.wcList[0].wcId;
+    }
+    this.payloadInventory.wcId = this.wcSelectId
+    this.payloadInventory.fromDate = (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.payloadInventory.toDate =(document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.callAllCommonReportServices();
+
   }
 
   getInventoryRecord(){
+ 
     this.payloadInventory.wcId = this.wcSelectId
     try {
       this.reportService.getInventoryReport(this.payloadInventory)
@@ -77,6 +326,106 @@ export class DashboardComponent {
       console.error(e)
     }
   }
+
+  getMrfReportByWc(){
+    this.service.getMrfReportByWc(this.form.value.wcId).subscribe(
+      data=>{
+        this.mrfResponse=data
+        this.mrfReportList=this.mrfResponse.data
+      }
+    );
+    this.service.getDashboardDetailsV2(this.form.value.wcId).subscribe(
+      data=>{
+        this.mrfResponse=data
+        this.mrfReportListv2=this.mrfResponse.data
+        this.service.dashboardDetailsV2=this.mrfReportListv2
+        console.log('  MRF Response ::  ' , data)
+      }
+    );
+  }
+
+
+
+  fetchReport(){
+  
+    this.reportService.getTripReport(this.reportTripPayload)
+    .subscribe((response) => {
+     console.log(response);
+    this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
+  //  this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
+   console.log('  report response wc based ',this.reportResponseWcBasedData );
+   if(this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null){
+          return;
+   }
+   this.wcBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
+      return element.wealthCenterId == this.wcSelectId
+   });
+   this.dataMap = new Map()
+   if( this.wcBasedData.length > 0 &&  this.wcBasedData != undefined){
+      this.dataMap.set('totalActiveTrip', this.wcBasedData[0].numberOfActiveTrip);
+      this.dataMap.set('totalCompletedTrip', this.wcBasedData[0].numberOfCompletedTrip);
+      this.dataMap.set('totalDryWeight', this.wcBasedData[0].totalDryWeight);
+      this.dataMap.set('totalWetWeight', this.wcBasedData[0].totalWetWeight);
+      this.dataMap.set('totalMRFWeight', this.wcBasedData[0].totalMRFProcessed);
+
+      this.dataMap.set('numberOfVehicles', this.wcBasedData[0].numberOfVehicles);
+      this.dataMap.set('numberOfActiveTrip', this.wcBasedData[0].numberOfActiveTrip);
+      this.dataMap.set('numberOfMaintenanceVehicle', 0);
+      this.dataMap.set('numberOfAvailableVehicle', this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip);
+
+      this.createChart4([this.wcBasedData[0].numberOfVehicles,this.wcBasedData[0].numberOfActiveTrip, 0 , this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip]);
+   }
+
+  //  const groupedByZone = this.groupBy(this.reportResponseWcBasedData, (popup1popup2:any) => popup1popup2.zoneName);
+  //  for (let key of groupedByZone.keys()) {
+  //   let totalVehicles : number = 0;
+  //   let totalNoOfActiveTrip : number = 0;
+  //   let totalNoOfCompletedTrip : number = 0;
+  //      groupedByZone.get(key).map( (obj : any) => {
+  //           if(this.zoneDataArr.some((element:any) => element.get('zone') == key )){
+  //             this.zoneMap = new Map()
+  //             const existingzoneMap = this.zoneDataArr.filter((element:any) => element.get('zone') == key)[0];
+  //             this.zoneDataArr.pop(existingzoneMap)
+  //             totalVehicles = obj.numberOfVehicles + existingzoneMap.get('totalvehicle')
+  //             totalNoOfActiveTrip = obj.numberOfActiveTrip + existingzoneMap.get('totalActiveTrip')
+  //             totalNoOfCompletedTrip = obj.numberOfCompletedTrip + existingzoneMap.get('totalCompletedTrip')
+  //             existingzoneMap.set('zoneId' , obj.zoneId);
+  //             existingzoneMap.set('zone' , obj.zoneName);
+  //             existingzoneMap.set('totalvehicle' , totalVehicles);
+  //             existingzoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
+  //             existingzoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
+  //             this.zoneDataArr.push(existingzoneMap)
+  //           }else{
+  //             this.zoneMap = new Map()
+  //             totalVehicles = totalVehicles + obj.numberOfVehicles
+  //             totalNoOfActiveTrip = totalNoOfActiveTrip + obj.numberOfActiveTrip
+  //             totalNoOfCompletedTrip = totalNoOfCompletedTrip + obj.numberOfCompletedTrip
+  //             this.zoneMap.set('zoneId' , obj.zoneId);
+  //             this.zoneMap.set('zone' , obj.zoneName);
+  //             this.zoneMap.set('totalvehicle' , totalVehicles);
+  //             this.zoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
+  //             this.zoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
+  //             this.zoneDataArr.push(this.zoneMap)
+  //           }
+  //        })
+  //      }
+    });
+  }
+
+  groupBy(list:any, keyGetter:any) {
+    const map = new Map();
+    list.forEach((item:any) => {
+         const key = keyGetter(item);
+         const collection = map.get(key);
+         if (!collection) {
+             map.set(key, [item]);
+         } else {
+             collection.push(item);
+         }
+    });
+    return map;
+  }
+
 
   createChart1() {
     this.chart1 = new Chart("chart-99e18e69-3e60-4552-9013-95c594d09659", {
@@ -126,7 +475,7 @@ export class DashboardComponent {
     });
   }
 
-  createChart2() {
+  createChart2(lebelsArr:any[] , dataArr:any[]) {
     this.chart2 = new Chart("chart-e017e3c3-333c-4ca7-8b20-56d7b361c29b", {
       type: "line",
       data: {
@@ -226,7 +575,10 @@ export class DashboardComponent {
     });
   }
 
-  createChart4() {
+  createChart4(dataArr : any[]) {
+    if (this.chart4 != null && this.chart4 != undefined) {
+      this.chart4.destroy()
+    }
     this.chart4 = new Chart("chart-19b8e3bd-bc26-46c8-9ea4-01d6345cb2e2", {
       type: "doughnut",
       data: {
@@ -239,7 +591,7 @@ export class DashboardComponent {
         datasets: [
           {
             // label: "In Percentage",
-            data: [450, 220, 120, 110],
+            data: dataArr,
             backgroundColor: ["#4E4CFD", "#92CA33", "#EF4BD0", "#0086CE"],
             borderWidth: 0,
           },
