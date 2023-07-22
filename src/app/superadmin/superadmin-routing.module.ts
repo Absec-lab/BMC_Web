@@ -41,6 +41,7 @@ import { TripStatusReportComponent } from './trip-status-report/trip-status-repo
 import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godown/mokhata-move-to-godown.component';
 import { LoginGuard } from './auth-guard/LoginGuard';
 import { GodownComponent } from './godown/godown.component';
+import { TtsMasterComponent } from './tts-master/tts-master.component';
 
 
 const routes: Routes = [
@@ -83,7 +84,8 @@ const routes: Routes = [
   {path:'superadmin/vehicle/management',component:VehicleManagementComponent},
   {path:'superadmin/trip-status-report',component:TripStatusReportComponent},
   {path:'superadmin/drying-yard/mokhata-move-to-godown',component:MokhataMoveToGodownComponent, canActivate: [LoginGuard]},
-  {path: 'superadmin/godown', component: GodownComponent, canActivate: [LoginGuard]}
+  {path: 'superadmin/godown', component: GodownComponent, canActivate: [LoginGuard]},
+  {path: 'superadmin/tts-master', component: TtsMasterComponent, canActivate: [LoginGuard]}
 ];
 
 @NgModule({
