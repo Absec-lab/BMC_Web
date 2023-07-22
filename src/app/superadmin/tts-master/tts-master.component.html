@@ -1,0 +1,93 @@
+<app-header></app-header>
+<main class="container-fluid">
+	<div class="page-content p-3">
+		<div class="row">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
+				<div class="card">
+					<div class="card-body">
+						<app-heade-dashboard-component></app-heade-dashboard-component>
+					</div>
+				</div>
+				<div class="mt-4">
+					<div class="breadcrumb">
+						<a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
+						<span class="mx-2">/</span>
+						<span>Authority Entry</span>
+						<span class="mx-2">/</span>
+						<span>TTS Master</span>
+					</div>
+					<div class="mt-4">
+						<div class="card rounded-0">
+							<div class="card-header rounded-0">
+								TTS Master
+							</div>
+							<div class="card-body">
+								<form>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="d-flex align-items-center w-100">
+												<div>
+													TTS Name<span class="text-danger">*</span>
+												</div>
+												<div class="ms-3 d-flex-1">
+													<input formControlName="centerName" type="text" name="" id="" class="form-control">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="d-flex align-items-center w-100">
+												<div>
+													Description
+												</div>
+												<div class="ms-3 d-flex-1">
+													<input formControlName="description" type="text" name="" id="" class="form-control">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="text-end mt-3">
+							<button class="btn btn-primary px-5 py-2">Add</button>
+						</div>
+					</div>
+					<div class="mt-4">
+						<div class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
+							<!-- <div>Zone Name</div> -->
+							<!-- <div class="ms-3 w-25">
+								<select name="" id="" class="form-control form-select">
+									<option value="" disabled selected>Select Zone</option>
+									<option [value]="x.zoneId" *ngFor="let x of zoneList;">{{ x.zoneName }}</option>
+								</select>
+							</div>
+							<div class="ms-3">
+								<button class="btn btn-primary px-3">
+									Search
+								</button>
+							</div> -->
+						</div>
+						<table class="table table-bordered table-striped">
+							<thead class="bg-primary text-white text-center">
+								<tr>
+									<th>Sl. No.</th>
+									<th>TTS Name</th>
+									<th>Description</th>
+									<th>Created Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody class="text-center">
+                                                            
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<app-footer></app-footer>

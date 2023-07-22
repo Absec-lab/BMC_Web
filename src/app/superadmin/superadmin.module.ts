@@ -64,6 +64,7 @@ import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godo
 import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-action-renderer.component';
 import { CompostMaterialActionRendererComponent } from './drying-yard/compost-material-action-renderer/compost-material-action-renderer.component';
 import { GodownComponent } from './godown/godown.component';
+import { TtsMasterComponent } from './tts-master/tts-master.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { GodownComponent } from './godown/godown.component';
     MokhataMoveToGodownComponent,
     MrfActionRendererComponent,
     CompostMaterialActionRendererComponent,
-    GodownComponent
+    GodownComponent,
+    TtsMasterComponent
   ],
 
   entryComponents: [
