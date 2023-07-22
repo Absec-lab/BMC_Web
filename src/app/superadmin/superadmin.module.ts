@@ -62,6 +62,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
 import { TripStatusReportComponent } from './trip-status-report/trip-status-report.component';
 import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godown/mokhata-move-to-godown.component';
 import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-action-renderer.component';
+import { CompostMaterialActionRendererComponent } from './drying-yard/compost-material-action-renderer/compost-material-action-renderer.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-ac
     VehicleManagementComponent,
     TripStatusReportComponent,
     MokhataMoveToGodownComponent,
-    MrfActionRendererComponent
+    MrfActionRendererComponent,
+    CompostMaterialActionRendererComponent
   ],
 
   entryComponents: [
