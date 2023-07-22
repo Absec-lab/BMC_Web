@@ -97,6 +97,7 @@ export class LoginComponent {
       this.logindata.userdetails[0] != undefined ? localStorage.setItem('role', this.logindata.userdetails[0].attributes.role) : localStorage.setItem('role', '');
       localStorage.setItem('logindetails', JSON.stringify(this.logindata));
       localStorage.setItem('name', this.logindata.userdetails[0].firstName + "  " +this.logindata.userdetails[0].lastName);
+      localStorage.setItem('userUniqueUserId', this.logindata.userdetails[0].id);
       localStorage.setItem('email', this.logindata.userdetails[0].email);
       if(roleSuperadminPermission == true){
         localStorage.setItem('userInfo', '');
