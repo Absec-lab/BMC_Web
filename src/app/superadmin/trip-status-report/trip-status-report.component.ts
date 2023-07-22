@@ -42,14 +42,15 @@ export class TripStatusReportComponent {
   ngOnInit() {
     const dateElement = document.querySelector('#filter_date') as HTMLInputElement;
     dateElement.value = moment(new Date()).format('YYYY-MM-DD');
-    this.reportPayload.fromDate = dateElement.value+" 00:00:00"
-    this.reportPayload.toDate = dateElement.value+" 00:00:00"
+     this.reportPayload.fromDate = dateElement.value+" 00:00:00"
+     this.reportPayload.toDate = dateElement.value+" 00:00:00"
     // this.reportPayload.fromDate = "2023-07-19 00:00:00"
     // this.reportPayload.toDate = "2023-07-19 00:00:00"
-    this.fetchReportData()
   }
 
   fetchReportData() {
+    this.reportPayload.fromDate =  (document.querySelector(`input[id="filter_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.reportPayload.toDate =  (document.querySelector(`input[id="filter_date"]`) as HTMLInputElement).value +" 00:00:00"
       this.service.getTripReport(this.reportPayload)
             .subscribe((response) => {
              console.log(response);

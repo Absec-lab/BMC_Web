@@ -23,7 +23,7 @@
                         <input type="date" class="form-control" name="filter_date" id="filter_date" />
                     </div>
                     <div>
-                        <button class="btn btn-primary" style="font-size: 0.9rem;">Search</button>
+                        <button class="btn btn-primary" style="font-size: 0.9rem;" (click)="fetchReportData()">Search</button>
                     </div>
                 </div>
                 <table class="table table-bordered text-center table-striped">
@@ -86,7 +86,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5" id="zoneWCModalLabel">{{selectedZone}} - {{selectedWc}}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="reOpenModal('#zoneModal')"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closepopup3ByWc()"></button>
                 </div>
                 <div class="modal-body bg-secondary">
                     <table class="table table-bordered table-striped text-center">
