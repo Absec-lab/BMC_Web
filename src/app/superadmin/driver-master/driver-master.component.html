@@ -125,21 +125,21 @@
 							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateDriver()">Update</button>
 						</div>
                     </div>
-                    <div class="mt-4 w-100" style="overflow-x: auto;">
+                    <div class="mt-4" style="overflow-x: auto;">
                         <table class="table table-bordered table-striped">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
-                                    <th>Sl. No.</th>
-                                    <th>Wc Name</th>
-                                    <th>Driver Name</th>
-                                    <th>DL Number</th>
-                                    <th>Phone Number</th>
-                                    <th>DL Exp Dt.</th>
-                                    <th>Driver Photo</th>
-                                    <th>Address</th>
-                                    <th>Description</th>
-                                    <th>Created Date</th>
-                                    <th>Action</th>
+                                    <th style="min-width: 100px">Sl. No.</th>
+                                    <th style="min-width: 200px">Wc Name</th>
+                                    <th style="min-width: 200px">Driver Name</th>
+                                    <th style="min-width: 200px">DL Number</th>
+                                    <th style="min-width: 200px">Phone Number</th>
+                                    <th style="min-width: 200px">DL Exp Dt.</th>
+                                    <th style="min-width: 200px">Driver Photo</th>
+                                    <th style="min-width: 200px">Address</th>
+                                    <th style="min-width: 200px">Description</th>
+                                    <th style="min-width: 200px">Created Date</th>
+                                    <th style="min-width: 200px">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -150,7 +150,7 @@
                                                                         <td>{{ x.dlNo || '--' }}</td>
                                                                         <td>{{ x.phoneNo || '--' }}</td>
                                                                         <td>{{ x.dlExpiry || '--' }}</td>
-                                                                        <td>{{ x.dlPhoto || '--' }}</td>
+                                                                        <td><img *ngIf="x.dlPhoto && x.dlPhoto.length > 0" src="{{ x.dlPhoto }}" alt="" style="width: 100px" /></td>
                                                                         <td>{{ x.address || '--' }}</td>
                                                                         <td>{{ x.dlDesc || '--' }}</td>
                                                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
