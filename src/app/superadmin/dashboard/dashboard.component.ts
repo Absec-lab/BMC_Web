@@ -21,6 +21,7 @@ export class DashboardComponent {
   chart3: any;
   chart4: any;
   chart5: any;
+  chart6:any;
   role : any =''
   wcSelectId:any = 0
   inventoryDate: string = "";
@@ -34,10 +35,13 @@ export class DashboardComponent {
   mrfResponse : any = ''
   mrfReportListv2:any
   reportResponseWcBasedData : any
+  reportResponseWcBasedMrfData : any
   zoneMap = new Map()
   zoneDataArr : any = []
   wcBasedData : any
+  wcBasedMrfData : any
   dataMap: any = new Map()
+  zoneBasedData : any = []
 
 
   form = new FormGroup({
@@ -170,8 +174,8 @@ export class DashboardComponent {
     this.getInventoryRecord();
     this.fetchReport();
   }
-  ngOnInit() {
 
+  resetData(){
     this.dataMap.set('totalActiveTrip', 0);
     this.dataMap.set('totalCompletedTrip', 0);
     this.dataMap.set('totalDryWeight', 0);
@@ -181,7 +185,12 @@ export class DashboardComponent {
     this.dataMap.set('numberOfActiveTrip',0);
     this.dataMap.set('numberOfMaintenanceVehicle', 0);
     this.dataMap.set('numberOfAvailableVehicle', 0);
+    this.zoneBasedData = []
+  }
 
+  ngOnInit() {
+
+   this.resetData();
 
     const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
     dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
@@ -203,7 +212,8 @@ export class DashboardComponent {
     this.createChart3();
     this.createChart4([0,0,0,0]);
     this.createChart5([0,0,0]);
-    if (localStorage.getItem("role") == "bmcadmin") {
+    this.createChart6();
+    if (localStorage.getItem("role") == "bmcadmin" || localStorage.getItem("role") == "bmcsuperadminuser") {
     this.service.getZoneAllData().subscribe(
           data => {
             this.zoneList = data
@@ -230,7 +240,7 @@ export class DashboardComponent {
     try {
       this.service.getZoneAllData()
         .subscribe((response) => {
-          if (this.role == 'bmcadmin') {
+          if (this.role == 'bmcadmin' || this.role == "bmcsuperadminuser") {
             this.zoneList = response
           } else if (this.role == 'wcuser') {
             let tempArr: any = []
@@ -262,7 +272,7 @@ export class DashboardComponent {
     try {
       this.service.getWcListByZoneId(this.zoneSelectId)
         .subscribe((response: any) => {
-          if (this.role == 'bmcadmin') {
+          if (this.role == 'bmcadmin' || this.role == "bmcsuperadminuser") {
             this.wcList = response.data
           } else if (this.role == 'wcuser') {
             let tempArr: any = []
@@ -300,7 +310,8 @@ export class DashboardComponent {
            let inStock = 0;
            let purchase = 0;
            let issueStock = 0;
-      
+           this.reportRes = response
+           this.responseData = this.reportRes.response
            //Purchase
            let itemPurchaseArr = response.itemPurchaseNames;
            itemPurchaseArr.forEach((element: string) => {
@@ -320,7 +331,8 @@ export class DashboardComponent {
             inStock = response.response.INSTOCK._1[element].reduce((sum:number, item:any) => sum + item.quantity, 0);
            });
 
-           this.createChart5([purchase, issueStock, inStock]);
+          // this.createChart5([purchase, issueStock, inStock]);
+           this.createChart2DataSet();
         });
     } catch (e) {
       console.error(e)
@@ -352,13 +364,20 @@ export class DashboardComponent {
     .subscribe((response) => {
      console.log(response);
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
+    this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
   //  this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
    console.log('  report response wc based ',this.reportResponseWcBasedData );
-   if(this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null){
+ 
+   if(this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null || this.reportResponseWcBasedData.length == 0){
+          this.resetData();
           return;
    }
    this.wcBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
       return element.wealthCenterId == this.wcSelectId
+   });
+
+   this.wcBasedMrfData = this.reportResponseWcBasedMrfData.filter( (element:any) => {
+    return element.wealthCenterId == this.wcSelectId
    });
    this.dataMap = new Map()
    if( this.wcBasedData.length > 0 &&  this.wcBasedData != undefined){
@@ -376,39 +395,47 @@ export class DashboardComponent {
       this.createChart4([this.wcBasedData[0].numberOfVehicles,this.wcBasedData[0].numberOfActiveTrip, 0 , this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip]);
    }
 
-  //  const groupedByZone = this.groupBy(this.reportResponseWcBasedData, (popup1popup2:any) => popup1popup2.zoneName);
-  //  for (let key of groupedByZone.keys()) {
-  //   let totalVehicles : number = 0;
-  //   let totalNoOfActiveTrip : number = 0;
-  //   let totalNoOfCompletedTrip : number = 0;
-  //      groupedByZone.get(key).map( (obj : any) => {
-  //           if(this.zoneDataArr.some((element:any) => element.get('zone') == key )){
-  //             this.zoneMap = new Map()
-  //             const existingzoneMap = this.zoneDataArr.filter((element:any) => element.get('zone') == key)[0];
-  //             this.zoneDataArr.pop(existingzoneMap)
-  //             totalVehicles = obj.numberOfVehicles + existingzoneMap.get('totalvehicle')
-  //             totalNoOfActiveTrip = obj.numberOfActiveTrip + existingzoneMap.get('totalActiveTrip')
-  //             totalNoOfCompletedTrip = obj.numberOfCompletedTrip + existingzoneMap.get('totalCompletedTrip')
-  //             existingzoneMap.set('zoneId' , obj.zoneId);
-  //             existingzoneMap.set('zone' , obj.zoneName);
-  //             existingzoneMap.set('totalvehicle' , totalVehicles);
-  //             existingzoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
-  //             existingzoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
-  //             this.zoneDataArr.push(existingzoneMap)
-  //           }else{
-  //             this.zoneMap = new Map()
-  //             totalVehicles = totalVehicles + obj.numberOfVehicles
-  //             totalNoOfActiveTrip = totalNoOfActiveTrip + obj.numberOfActiveTrip
-  //             totalNoOfCompletedTrip = totalNoOfCompletedTrip + obj.numberOfCompletedTrip
-  //             this.zoneMap.set('zoneId' , obj.zoneId);
-  //             this.zoneMap.set('zone' , obj.zoneName);
-  //             this.zoneMap.set('totalvehicle' , totalVehicles);
-  //             this.zoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
-  //             this.zoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
-  //             this.zoneDataArr.push(this.zoneMap)
-  //           }
-  //        })
-  //      }
+   // Trip Data Based on Zone..............
+   this.zoneBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
+      return element.zoneId == this.zoneSelectId
+   });
+
+    
+
+
+    // const groupedByZone = this.groupBy(this.reportResponseWcBasedData, (popup1popup2:any) => popup1popup2.zoneName);
+    // for (let key of groupedByZone.keys()) {
+    // let totalVehicles : number = 0;
+    // let totalNoOfActiveTrip : number = 0;
+    // let totalNoOfCompletedTrip : number = 0;
+    //    groupedByZone.get(key).map( (obj : any) => {
+    //         if(this.zoneDataArr.some((element:any) => element.get('zone') == key )){
+    //           this.zoneMap = new Map()
+    //           const existingzoneMap = this.zoneDataArr.filter((element:any) => element.get('zone') == key)[0];
+    //           this.zoneDataArr.pop(existingzoneMap)
+    //           totalVehicles = obj.numberOfVehicles + existingzoneMap.get('totalvehicle')
+    //           totalNoOfActiveTrip = obj.numberOfActiveTrip + existingzoneMap.get('totalActiveTrip')
+    //           totalNoOfCompletedTrip = obj.numberOfCompletedTrip + existingzoneMap.get('totalCompletedTrip')
+    //           existingzoneMap.set('zoneId' , obj.zoneId);
+    //           existingzoneMap.set('zone' , obj.zoneName);
+    //           existingzoneMap.set('totalvehicle' , totalVehicles);
+    //           existingzoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
+    //           existingzoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
+    //           this.zoneDataArr.push(existingzoneMap)
+    //         }else{
+    //           this.zoneMap = new Map()
+    //           totalVehicles = totalVehicles + obj.numberOfVehicles
+    //           totalNoOfActiveTrip = totalNoOfActiveTrip + obj.numberOfActiveTrip
+    //           totalNoOfCompletedTrip = totalNoOfCompletedTrip + obj.numberOfCompletedTrip
+    //           this.zoneMap.set('zoneId' , obj.zoneId);
+    //           this.zoneMap.set('zone' , obj.zoneName);
+    //           this.zoneMap.set('totalvehicle' , totalVehicles);
+    //           this.zoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
+    //           this.zoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
+    //           this.zoneDataArr.push(this.zoneMap)
+    //         }
+    //      })
+    //    }
     });
   }
 
@@ -658,6 +685,152 @@ export class DashboardComponent {
   //     },
   //   });
   // }
+
+  dataSetArr: any[] = []
+  dataSetChatArr: any[] = []
+  issueItemsMap = new Map<string, number>();
+  inStockMap = new Map<string, number>();
+  purchaseMap = new Map<string, number>();
+  issueItems: any[] = []
+  instockItems: any[] = []
+  purchaseItems: any[] = []
+  responseData: any = {}
+  reportRes: any
+  inventoryToDate: string = "";
+  inventoryFromDt: string = "";
+
+  createChart2DataSet() {
+    this.dataSetChatArr = []
+    let chartModel = {
+      'label': "",
+      'data': [0],
+      'backgroundColor': "#175CFF"
+    }
+    this.issueItems = this.reportRes.itemIssueNames
+    this.instockItems = this.reportRes.itemInStockNames
+    this.purchaseItems = this.reportRes.itemPurchaseNames
+    this.issueItems.forEach(issueItem => {
+      let issueStockObj = this.responseData.ISSUESTOCK._1
+      for (var key in issueStockObj[issueItem.toString()]) {
+        let item = issueStockObj[issueItem.toString()][key]['itemName']
+        let quantity = issueStockObj[issueItem.toString()][key]['quantity']
+        if (this.issueItemsMap.has(item)) {
+          this.issueItemsMap.set(item, this.issueItemsMap.get(item) + quantity)
+        } else {
+          this.issueItemsMap.set(item, quantity)
+        }
+      }
+    })
+    chartModel.label = 'Issue Stock Items'
+    this.issueItems.forEach(issueItem => {
+      this.dataSetArr.push(this.issueItemsMap.get(issueItem) != undefined ? this.issueItemsMap.get(issueItem) : 0)
+    });
+    chartModel.data = this.dataSetArr
+    chartModel.backgroundColor = '#FF0069'
+    this.dataSetChatArr.push(chartModel)
+    //console.log(issueItemsMap)
+    chartModel = {
+      'label': "",
+      'data': [0],
+      'backgroundColor': "#175CFF"
+    }
+    this.instockItems.forEach(instockItem => {
+      let inStockObj = this.responseData.INSTOCK._1
+      for (var key in inStockObj[instockItem.toString()]) {
+        let item = inStockObj[instockItem.toString()][key]['itemName']
+        let quantity = inStockObj[instockItem.toString()][key]['quantity']
+        if (this.inStockMap.has(item)) {
+          this.inStockMap.set(item, this.inStockMap.get(item) + quantity)
+        } else {
+          this.inStockMap.set(item, quantity)
+        }
+      }
+    })
+    this.dataSetArr = []
+    chartModel.label = 'InStock Items'
+    this.instockItems.forEach(stockItem => {
+      this.dataSetArr.push(this.inStockMap.get(stockItem) != undefined ? this.inStockMap.get(stockItem) : 0)
+    });
+    chartModel.data = this.dataSetArr
+    chartModel.backgroundColor = '#E5D05D'
+    this.dataSetChatArr.push(chartModel)
+    //console.log(inStockMap)
+    chartModel = {
+      'label': "",
+      'data': [0],
+      'backgroundColor': "#175CFF"
+    }
+
+    this.purchaseItems.forEach(purchaseItem => {
+      let purchaseObj = this.responseData.PURCHASE._1
+      for (var key in purchaseObj[purchaseItem.toString()]) {
+        let item = purchaseObj[purchaseItem.toString()][key]['itemName']
+        let quantity = purchaseObj[purchaseItem.toString()][key]['quantity']
+        if (this.purchaseMap.has(item)) {
+          this.purchaseMap.set(item, this.purchaseMap.get(item) + quantity)
+        } else {
+          this.purchaseMap.set(item, quantity)
+        }
+      }
+    })
+    //console.log(purchaseMap)
+    this.dataSetArr = []
+    chartModel.label = 'Purchase Items'
+    this.purchaseItems.forEach(purchaseItem => {
+      this.dataSetArr.push(this.purchaseMap.get(purchaseItem) != undefined ? this.purchaseMap.get(purchaseItem) : 0)
+    });
+    chartModel.data = this.dataSetArr
+    chartModel.backgroundColor = '#175CFF'
+    this.dataSetChatArr.push(chartModel)
+    ///console.log(inStockMap)
+    chartModel = {
+      'label': "",
+      'data': [0],
+      'backgroundColor': "#175CFF"
+    }
+    //console.log( this.dataSetChatArr)
+    this.createChart6()
+  }
+
+  createChart6() {
+    let currDt = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    // this.form.controls['fromDate'].setValue(new Date());
+    // this.form.controls['toDate'].setValue(new Date());
+    this.inventoryFromDt =  this.inventoryToDate = currDt ?? "";
+    if (this.chart6 != null && this.chart6 != undefined) {
+      this.chart6.destroy()
+    }
+    this.chart6 = new Chart("chart-029ea4bc-fac1-4296-b731-25bb7c6598ac34", {
+      type: "bar",
+      data: {
+        labels: this.purchaseItems,
+        datasets: this.dataSetChatArr
+      },
+      // plugins: [ChartDataLabels],
+      options: {
+        indexAxis: "x",
+        responsive: true,
+        scales: {
+          x: {
+            ticks: {
+              color: "white",
+            },
+            // stacked: true
+          },
+          y: {
+            ticks: {
+              color: "white",
+            },
+            // stacked: fal se
+          },
+        },
+        color: "white",
+        maintainAspectRatio: false,
+        skipNull: true
+      },
+    });
+  }
+
 
   createChart5(dataArr: number[]) {
     this.inventoryDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";

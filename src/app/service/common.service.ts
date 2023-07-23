@@ -13,7 +13,7 @@ export class DeactivationDto {
 export class CommonService {
 
 
-//        endpoint =  `http://15.207.62.200`;   //DEV
+//      endpoint =  `http://15.207.62.200`;   //DEV
         endpoint = 'http://43.204.240.44'; //PROD
 //      endpoint = `http://localhost`; //LOCCAL
 
@@ -21,8 +21,8 @@ export class CommonService {
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
-        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
-        //LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
+        //LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
        
  }
         

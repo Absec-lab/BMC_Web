@@ -30,7 +30,7 @@
 	</div>
 	<div class="card mt-4">
 		<div class="card-body">
-			<a routerLink="/superadmin/dashboard" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a routerLink="/superadmin/dashboard" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-gauge-high"></i>
 				<span>Dashboard</span>
 			</a>
@@ -106,19 +106,19 @@
 			<a routerLink="/superadmin/mrf" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'" hidden>
 				<i class="fa-brands fa-bitbucket"></i>
 			</a>
-			<a routerLink="/superadmin/mrf-tab" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a routerLink="/superadmin/mrf-tab" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
                              <i class="fa-brands fa-bitbucket"></i>
 					<span>MRF</span>			
 			</a>
-			<a routerLink="/superadmin/garbage" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'"> 
+			<a routerLink="/superadmin/garbage" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'"> 
 				<i class="fa-solid fa-recycle"></i>
 				<span>Garbage</span>
 			</a>
-			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks2" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks2" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-list-check"></i>
 				<span>Today's Task</span>
 			</a>
-			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks2" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks2" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<a routerLink="/superadmin/mcc/today-task" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>MCC Task</span>
@@ -133,16 +133,16 @@
 				</a>
 			</div>
 			
-			<a routerLink="/superadmin/vehicle/management" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a routerLink="/superadmin/vehicle/management" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-truck"></i>
 				<span>Vehicle Management</span>
 			</a>
-			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks3" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser'">
+			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks3" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-wind"></i>
 				<span>Drying Yard</span>
 			</a>
 			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks3" >
-				<a routerLink="/superadmin/drying-yard/compost-drying" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser'">
+				<a routerLink="/superadmin/drying-yard/compost-drying" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser' || role === 'bmcsuperadminuser'">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Mo Khata Move to Drying Yard</span>
 				</a>
@@ -154,11 +154,11 @@
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Compost Weightment</span>
 				</a> -->
-				<a routerLink="/superadmin/drying-yard/compost-material-packaging" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser'">
+				<a routerLink="/superadmin/drying-yard/compost-material-packaging" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser' || role === 'bmcsuperadminuser'">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Mo Khata Packaging</span>
 				</a>
-				<a routerLink="/superadmin/drying-yard/mokhata-move-to-godown" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser'">
+				<a routerLink="/superadmin/drying-yard/mokhata-move-to-godown" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role==='dryingyarduser' || role === 'bmcsuperadminuser'">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Mo Khata Move to Godown</span>
 				</a>	
@@ -178,12 +178,12 @@
 				<i class="fa-solid fa-users"></i>
 				<span>Manpower</span>
 			</a> -->
-			<a routerLink="/superadmin/inventory" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a routerLink="/superadmin/inventory" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-users"></i>
 				<span>Inventory</span>
 			</a>
 
-			<a routerLink="/superadmin/trip-status-report" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a routerLink="/superadmin/trip-status-report" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-chart-pie"></i>
 				<span>Trip Status Report</span>
 			</a>
@@ -191,13 +191,13 @@
 
 
 		<!-- org: aria-expanded: false -->
-			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks1" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks4" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks1" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<i class="fa-solid fa-database"></i>
 				<span>Master Entry</span>
 			</a>
 			
 		<!-- org: class: sidebar-sub-menu collapse -->
-			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
 				<a routerLink="/superadmin/zone-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Zone Master</span>
