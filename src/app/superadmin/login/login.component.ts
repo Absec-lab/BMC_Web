@@ -83,6 +83,8 @@ export class LoginComponent {
     }else{
          if( this.logindata.userdetails[0].attributes.role == 'bmcadmin'){
              roleSuperadminPermission = true; 
+         }else if(this.logindata.userdetails[0].attributes.role == 'bmcsuperadminuser'){
+             roleSuperadminPermission = true;
          }else if(this.logindata.userdetails[0].attributes.role == 'ttsuser'){
              rolePermission = true;
          }else if(this.logindata.userdetails[0].attributes.role == 'dryingyarduser'){
