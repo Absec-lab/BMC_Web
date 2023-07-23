@@ -1,0 +1,92 @@
+<app-header></app-header>
+<main class="container-fluid">
+	<div class="page-content p-3">
+		<div class="row">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
+				<div class="card">
+					<div class="card-body">
+						<app-heade-dashboard-component></app-heade-dashboard-component>
+					</div>
+				</div>
+				<div class="mt-4">
+					<div class="breadcrumb">
+						<a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
+						<span class="mx-2">/</span>
+						<span>Godown</span>
+					</div>
+                </div>
+                <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+                    <li class="nav-item w-25" role="presentation">
+                        <button class="text-white nav-link active w-100 text-uppercase" id="activetrip-tab"
+                            data-bs-toggle="tab" data-bs-target="#activetrip-tab-pane" type="button" role="tab"
+                            aria-controls="activetrip-tab-pane" aria-selected="true">Active Trips</button>
+                    </li>
+                    <li class="nav-item w-25" role="presentation">
+                        <button class="text-white nav-link w-100 text-uppercase" id="completedtrip-tab"
+                            data-bs-toggle="tab" data-bs-target="#completedtrip-tab-pane" type="button" role="tab"
+                            aria-controls="completedtrip-tab-pane" aria-selected="false">Completed Trips</button>
+                    </li>
+                    <li class="nav-item w-25" role="presentation">
+                        <button class="text-white nav-link w-100 text-uppercase" id="stock-tab"
+                            data-bs-toggle="tab" data-bs-target="#stock-tab-pane" type="button" role="tab"
+                            aria-controls="stock-tab-pane" aria-selected="false">Stock</button>
+                    </li>
+                    <li class="nav-item w-25" role="presentation">
+                        <button class="text-white nav-link w-100 text-uppercase" id="sold-tab"
+                            data-bs-toggle="tab" data-bs-target="#sold-tab-pane" type="button" role="tab"
+                            aria-controls="sold-tab-pane" aria-selected="false">Sold</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="p-4 border border-white tab-pane fade show active bg-secondary border-top-0" id="activetrip-tab-pane" role="tabpanel" aria-labelledby="activetrip-tab" tabindex="0">
+                        <h5>Active Trips</h5>
+                        <hr>
+                        <ag-grid-angular
+							class="ag-theme-alpine"
+							[rowData]="rowData"
+							[columnDefs]="columnDefs"
+							[gridOptions]="gridOptions"
+							[animateRows]="true"
+							[suppressMenuHide]="true">
+						</ag-grid-angular>
+                    </div>
+                    <div class="border border-white tab-pane fade show bg-secondary border-top-0 p-4" id="completedtrip-tab-pane" role="tabpanel" aria-labelledby="completedtrip-tab" tabindex="0">
+
+                    </div>
+                    <div class="border border-white tab-pane fade show bg-secondary border-top-0 p-4" id="stock-tab-pane" role="tabpanel" aria-labelledby="stock-tab" tabindex="0">
+                        <h5>Mo Khata Stock</h5>
+                        <hr>
+                        <table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Item List</th>
+									<th>No. of Stocks (KG)</th>
+									<th>Cost/KG</th>
+									<th>Total Cost</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of stockData">
+									<td>{{ item.item_name }}</td>
+									<td>{{ item.stock_count }}</td>
+									<td>{{ item.cost_per_kg }}</td>
+									<td>{{ item.total_cost }}</td>
+								</tr>
+							</tbody>
+						</table>
+                    </div>
+                    <div class="border border-white tab-pane fade show bg-secondary border-top-0 p-4" id="sold-tab-pane" role="tabpanel" aria-labelledby="sold-tab" tabindex="0">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Active T   rips
+Completed Trips
+Stock
+Sold -->
