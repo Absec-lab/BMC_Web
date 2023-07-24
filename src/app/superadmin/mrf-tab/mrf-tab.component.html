@@ -38,9 +38,9 @@
 									aria-controls="completed-tab-pane" aria-selected="false">Stock</button>
 							</li> -->
 							<li class="nav-item w-33" role="presentation">
-								<button class="text-white nav-link w-100 text-uppercase" id="active-tab"
-									data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
-									aria-controls="active-tab-pane" aria-selected="false">Bailing Sold</button>
+								<button class="text-white nav-link w-100 text-uppercase" id="completed-tab"
+									data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab"
+									aria-controls="completed-tab-pane" aria-selected="false"> Sold</button>
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent">
@@ -249,13 +249,19 @@
 												[gridOptions]="gridOptions"
 												[animateRows]="true"
 												[suppressMenuHide]="true"
+
+
+
+
+
+												
 											>
 											</ag-grid-angular>
 											
 										</div>	
 								</div>
 							</div>
-							<div class="p-2 border border-white tab-pane fade show bg-secondary border-top-0"
+							<!-- <div class="p-2 border border-white tab-pane fade show bg-secondary border-top-0"
 								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="border-0 card-header rounded-0">
@@ -266,15 +272,15 @@
 										<ag-grid-angular class="ag-theme-alpine" [rowData]="rowDataStock"
 											[columnDefs]="columnDefsStock">
 										</ag-grid-angular>
-										<!-- [gridOptions]="gridOptionsComp"
+										  [gridOptions]="gridOptionsComp"
 										[animateRows]="true"
 										[suppressMenuHide]="true">
 									
-										</ag-grid-angular> -->
+										</ag-grid-angular>  
 
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="p-2 border border-white tab-pane fade show bg-secondary border-top-0"
 								id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
@@ -305,7 +311,7 @@
 															Sub-Goods Name<span class="text-danger">*</span>
 														</div>
 														<div class="col-md-9">
-															<select name="" id="" class="form-control form-select" formControlName="goodssubId">
+															<select name="" id="gdsSId" (change)="estimateCost()" class="form-control form-select" formControlName="goodssubId">
 																<option value="">Select</option>
 																<option [value]="item.goodssubId" *ngFor="let item of subgoodList" selected>{{item.subgoodsName}}</option>
 															</select>
@@ -315,20 +321,35 @@
 													<div class="mt-3 col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															No. Of Bailing Sold<span class="text-danger">*</span>
+															Sold Qty<span class="text-danger">*</span>
 														</div>
 														<div class="col-md-9">
-															<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+															<input type="number" name="" min="0" id="sq" (change)="estimateCost()" class="form-control" formControlName="quntaum">
+														</div>
+													</div>
+												</div>
+
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Sold To<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+		  
+															<select name="" id="" class="form-control form-select" formControlName="soldToId"  [(ngModel)]="goodsName">
+																<option value="">Select</option>
+																<option [value]="item.goodsId" *ngFor="let item of goodList">{{item.goodsName}}</option>
+															</select>
 														</div>
 													</div>
 												</div>
 												<div class="mt-3 col-md-6">
 													<div class="row">
 														<div class="col-md-3 d-flex align-items-center pe-0">
-															Bailing Weight<span class="text-danger">*</span>
+															Total Cost<span class="text-danger">*</span>
 														</div>
 														<div class="col-md-9">
-															<input type="number" name="" min="0" id="" class="form-control" formControlName="quntaum">
+															<input type="number" value={{totalCostP}} readonly  name="" min="0" id="totalCost" class="form-control" formControlName="itemCost">
 														</div>
 													</div>
 												</div>
@@ -358,7 +379,7 @@
 								<div class="mt-4">
 									<ag-grid-angular
 										class="ag-theme-alpine"
-										[rowData]="rowDataMrf"
+										[rowData]="rowDataSold"
 										[columnDefs]="columnDefsSold"
 										[gridOptions]="gridOptions"
 										[animateRows]="true"

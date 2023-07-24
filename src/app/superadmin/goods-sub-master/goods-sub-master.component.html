@@ -53,16 +53,16 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <!-- <div class="col-md-6">
+                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
-                                                    Goods (Kg)<span class="text-danger">*</span>
+                                                    Cost Per Kg<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
                                                     <input formControlName="subGoodsPerKg" type="number" min="0" name="" id="" class="form-control">
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div> 
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center w-100">
                                                 <div>
@@ -115,7 +115,7 @@
                                     <th>Wc Name</th>
                                     <th>Goods Name</th>
                                     <th>Sub Goods Name</th>
-                                    <!-- <th>Goods (Kg)</th> -->
+                                    <th>Cost Per Kg</th> 
                                     <th>Description</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
@@ -127,7 +127,7 @@
                                         <td>{{ x.wcId?.wcName || '--' }}</td>
                                         <td>{{ x.goods?.goodsName || '--' }}</td>
                                         <td>{{ x.subgoodsName || '--' }}</td>
-                                        <!-- <td>{{ x.subGoodsPerKg || '--' }}</td> -->
+                                      <td>{{ x.subGoodsPerKg || '--' }}</td> 
                                         <td>{{ x.subGoodsDesc || '--' }}</td>
                                         <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
                                         </td>
