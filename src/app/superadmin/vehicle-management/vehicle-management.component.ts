@@ -40,10 +40,7 @@ export class VehicleManagementComponent implements OnInit {
 
   vehicleList: VehicleManagementModel[] = [];
 
-  status = [
-    { id: 0, label: "Inactive" },
-    { id: 1, label: "Active" },
-  ];
+  vehicleStatus = [{id:0, status:'Active'}, {id:1, status:'Under Maintenance'}];
 
   constructor(
     private service: CommonService,
@@ -61,12 +58,47 @@ export class VehicleManagementComponent implements OnInit {
     ]).subscribe({
       next: ([zoneData, vehicleListData]) => {
         this.zoneList = zoneData;
-        this.vehicleList = (vehicleListData as {data: VehicleManagementModel[]; message:string; responseCode: number;}).data as VehicleManagementModel[];
+        this.vehicleList = (
+          vehicleListData as {
+            data: VehicleManagementModel[];
+            message: string;
+            responseCode: number;
+          }
+        ).data as VehicleManagementModel[];
       },
     });
     this.submitted = false;
   }
-  
+
+  onStatusChange(ev: any) {
+    this.form.controls["vehicleStatus"].setValue(ev.target.value);
+  }
+
+  onSubmit() {
+    let payload = {
+      activateBy: "string",
+      createdBy: "string",
+      createdDate: "string",
+      id: 0,
+      inactivateBy: "string",
+      maintenanceImage1: "string",
+      maintenanceImage2: "string",
+      maintenanceImage3: "string",
+      underMaintenance:
+        this.form.controls["vehicleStatus"].value,
+      underMaintenanceDate: "string",
+      underMaintenanceReason: this.form.controls["comment"].value,
+      updatedBy: "string",
+      updatedDate: "string",
+      vehicleActivateDate: "string",
+      vehicleActivateImage: "string",
+      vehicleActivateReason: String,
+      vehicleNo: "string",
+    }; 
+
+    console.log(payload)
+  }
+
   updateVehicleStatus(data: any) {
     console.log(data);
   }

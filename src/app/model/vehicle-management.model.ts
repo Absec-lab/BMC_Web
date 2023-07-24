@@ -18,6 +18,7 @@ export interface VehicleManagementModel {
     vehicleWt: number
     vehicleDesc: string
     isActive: boolean
+    isUnderMaintenance:boolean
   }
   
   export interface Zone {

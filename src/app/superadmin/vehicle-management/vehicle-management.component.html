@@ -39,6 +39,7 @@
 							<button class="btn btn-primary" style="font-size: 0.9rem;">Search</button>
 						</div>
 					</div>
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -55,21 +56,23 @@
 						</thead>
 						<tbody>
 							<tr  *ngFor="let vehicle of vehicleList; let i = index">
-								<td>{{i + 1}}</td>
-								<td>{{vehicle.zone.zoneName}}</td>
-								<td>{{vehicle.wc.wcName}}</td>
-								<td>{{vehicle.vehicleNo}}</td>
-								<td>{{vehicle.route.routeName}}</td>
-								<td>{{vehicle.rcNo}}</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="-1" disabled>Select</option>
-									<option [value]="status.id" *ngFor="let status of status">{{status.label}}</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
+							
+									<td>{{i + 1}}</td>
+									<td>{{vehicle.zone.zoneName}}</td>
+									<td>{{vehicle.wc.wcName}}</td>
+									<td>{{vehicle.vehicleNo}}</td>
+									<td>{{vehicle.route.routeName}}</td>
+									<td>{{vehicle.rcNo}}</td>
+									<td><select formControlName="vehicleStatus" [id]="i" class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)">
+										<option [value]="status.id" [selected]="!vehicle.isActive && vehicle.isUnderMaintenance ? 1 : 0" *ngFor="let status of vehicleStatus">{{status.status}}</option>
+									</select></td>
+									<td><input type="text" formControlName="comment" id="" class="form-control border-dark text-dark form-control-sm"></td>
+									<td><button class="btn btn-sm btn-dark" type="submit" [disabled]="!form.valid">Submit</button></td>
+								
 							</tr>
 						</tbody>
 					</table>
+				</form>
 				</div>
 			</div>
 		</div>
