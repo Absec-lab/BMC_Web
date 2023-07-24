@@ -1,76 +1,73 @@
-import { withNoXsrfProtection } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CommonService, DeactivationDto } from 'src/app/service/common.service';
+import { CommonService, DeactivationDto } from "src/app/service/common.service";
+
+import { withNoXsrfProtection } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { forkJoin } from "rxjs";
+import { VehicleManagementModel } from "src/app/model/vehicle-management.model";
 
 @Component({
-        selector: 'app-vehicle-management',
-        templateUrl: './vehicle-management.component.html',
-        styleUrls: ['../../common.css', './vehicle-management.component.css']
+  selector: "app-vehicle-management",
+  templateUrl: "./vehicle-management.component.html",
+  styleUrls: ["../../common.css", "./vehicle-management.component.css"],
 })
 export class VehicleManagementComponent implements OnInit {
-        
-        [x: string]: any;
-        isAdd: boolean = false
-        isUpdate: boolean = false
-        zoneResponseById: any
-        deactivationDto: DeactivationDto = new DeactivationDto
-        studentName:any
-        studentEmail:any
-        submitted = false;  
+  [x: string]: any;
+  isAdd: boolean = false;
+  isUpdate: boolean = false;
+  zoneResponseById: any;
+  deactivationDto: DeactivationDto = new DeactivationDto();
+  studentName: any;
+  studentEmail: any;
+  submitted = false;
+
+  id: any;
+  studentBranch: any;
+
+  form = new FormGroup({
+    vehicleStatus: new FormControl(),
+    comment: new FormControl(),
+  });
+
+  zoneList: any = [];
+
+  vehicleList: VehicleManagementModel[] = [];
+
+  status = [
+    { id: 0, label: "Inactive" },
+    { id: 1, label: "Active" },
+  ];
+
+  constructor(
+    private service: CommonService,
+    private route: Router,
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.isAdd = true;
+    this.isUpdate = false;
+
+    forkJoin([
+      this.service.getZoneAllData(),
+      this.service.getVehicleListByWcId(),
+    ]).subscribe({
+      next: ([zoneData, vehicleListData]) => {
+        this.zoneList = zoneData;
+        this.vehicleList = (vehicleListData as {data: VehicleManagementModel[]; message:string; responseCode: number;}).data as VehicleManagementModel[];
+      },
+    });
+    this.submitted = false;
+  }
   
-        id:any
-        studentBranch:any
-        constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder) {
-        }
-        zoneList: any = []
-        ngOnInit() {
-                this.isAdd = true
-                this.isUpdate = false
-                this.service.getZoneAllData().subscribe(
-                        data => {
-                                this.zoneList = data
-                        }
-                );
-                this.submitted=false;  
-        }
-
-        form = new FormGroup({
-                vehicleStatus:new FormControl,
-                comment: new FormControl
-        });
-
-        
-
-
-        tabledata = [
-                {"sl":1,
-                "zonename": 'south west zone',
-                "wcname":'pokhoriput',
-                "vehicleno":'VEH0001',
-                "routename":'Route 1',
-                "rc": 'OD 33AC7021',
-                "vehiclestatus":'Active',
-                "comment":'',
-
-                },
-                {"sl":2,
-                "zonename": 'easr west zone',
-                "wcname":'pokhoriput',
-                "vehicleno":'VEH0001',
-                "routename":'Route 2',
-                "rc": 'OD 33AC8021',
-                "vehiclestatus":'Inactive',
-                "comment":'',
-                
-                }
-        ]
-
-        status = [ "Active","Inactive"
-        ]
-        updateVehicleStatus(data:any){
-           console.log(data)
-        }
-        
+  updateVehicleStatus(data: any) {
+    console.log(data);
+  }
 }

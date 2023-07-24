@@ -1,5 +1,6 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export class DeactivationDto {
         id: any
@@ -12,9 +13,7 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-//      endpoint =  `http://15.207.62.200`;   //DEV
-        endpoint = 'http://43.204.240.44'; //PROD
-//      endpoint = `http://localhost`; //LOCCAL
+     endpoint =  environment.url;  
 uniqueUserId:any
 userDetails:any=[]
 
