@@ -54,7 +54,7 @@ const routes: Routes = [
   {
     component:PitViewComponent,
     path:'superadmin/mcc/pit-view',
-    canActivate:[LoginGuard ,BmcWcMccUserAuthGuardService ]
+    canActivate:[LoginGuard , BmcWcMccUserAuthGuardService ]
   },
   {
     component:CompostDryingComponent,

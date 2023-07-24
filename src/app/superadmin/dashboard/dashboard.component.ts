@@ -42,6 +42,7 @@ export class DashboardComponent {
   wcBasedMrfData : any
   dataMap: any = new Map()
   zoneBasedData : any = []
+  reportType = ''
 
 
   form = new FormGroup({
@@ -79,85 +80,27 @@ export class DashboardComponent {
     return true
   }
 
-  monthlyReport(){
+  TimeBasedreport(eventType :string){
     if(!this.verifyWcSelected()){
       this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
       return;
     }
-      const dateElementTo  = document.querySelector('#filter_from_date') as HTMLInputElement;
-      const dateElementTo_ = moment(dateElementTo.value).format('YYYY-MM-DD HH:mm:ss');
-      const dateElementFrom_ = moment(dateElementTo.value).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
-      console.log('  Monthly Report :: From :  ', dateElementFrom_  , dateElementTo);
-      this.payloadInventory.fromDate = dateElementFrom_
-      this.payloadInventory.toDate = dateElementTo_
-      this.reportTripPayload.fromDate =  dateElementFrom_
-      this.reportTripPayload.toDate =  dateElementTo_
-      this.callAllCommonReportServices();
+      const dateElementCurrent  = document.querySelector('#filter_from_date') as HTMLInputElement;
+      console.log(' Report :: From :  ', dateElementCurrent.value  , dateElementCurrent.value);
+      // this.payloadInventory.fromDate = dateElementCurrent.value
+      // this.payloadInventory.toDate = dateElementCurrent.value
+      // this.reportTripPayload.fromDate =  dateElementCurrent.value
+      // this.reportTripPayload.toDate =  dateElementCurrent.value
+
+      this.payloadInventory.fromDate = '2023-07-23 00:00:00'
+      this.payloadInventory.toDate = '2023-07-23 00:00:00'
+      this.reportTripPayload.fromDate =  '2023-07-23 00:00:00'
+      this.reportTripPayload.toDate =  '2023-07-23 00:00:00'
+
+      this.callAllCommonReportServices(eventType);
   }
 
-  weeklyReport(){
-    if(!this.verifyWcSelected()){
-      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
-      return;
-    }
-    const dateElementTo = document.querySelector('#filter_from_date') as HTMLInputElement;
-    const dateElementTo_ = moment(dateElementTo.value).format('YYYY-MM-DD HH:mm:ss');
-    const dateElementFrom_ = moment(dateElementTo.value).subtract(7, 'days').format('YYYY-MM-DD HH:mm:ss');
-    console.log('  weekly Report  :: From :  ', dateElementFrom_  , dateElementTo);
-    this.payloadInventory.fromDate = dateElementFrom_
-    this.payloadInventory.toDate = dateElementTo_
-    this.reportTripPayload.fromDate =  dateElementFrom_
-    this.reportTripPayload.toDate =  dateElementTo_
-    this.callAllCommonReportServices();
-  }
-
-  todayReport(){
-    if(!this.verifyWcSelected()){
-      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
-      return;
-    }
-    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
-    const dateElement_ = moment(dateElementFrom.value).format('YYYY-MM-DD HH:mm:ss');
-    console.log('  today Report  :: From :  ', dateElement_  , dateElement_);
-    this.payloadInventory.fromDate = dateElement_
-    this.payloadInventory.toDate = dateElement_
-    this.reportTripPayload.fromDate =  dateElement_
-    this.reportTripPayload.toDate =  dateElement_
-    this.callAllCommonReportServices();
-  }
-
-  FirstHalfReport(){
-    if(!this.verifyWcSelected()){
-      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
-      return;
-    }
-    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
-    const dateElementFrom_ = moment(dateElementFrom.value).format('YYYY-MM-DD 06:00:00');
-    const dateElementTo_ = moment(dateElementFrom.value).format('YYYY-MM-DD 12:00:00');
-    console.log('  FirstHalf Report  :: From :  ', dateElementFrom_  , dateElementTo_);
-    this.payloadInventory.fromDate = dateElementFrom_
-    this.payloadInventory.toDate = dateElementTo_
-    this.reportTripPayload.fromDate =  dateElementFrom_
-    this.reportTripPayload.toDate =  dateElementTo_
-    this.callAllCommonReportServices();
-  }
-
-  SecondHalfReport(){
-    if(!this.verifyWcSelected()){
-      this.toastService.showError('No Wealth Center Selected. Please select any Wealth Center');  
-      return;
-    }
-    const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
-    const dateElementFrom_ = moment(dateElementFrom.value).format('YYYY-MM-DD 12:00:00');
-    const dateElementTo_ = moment(dateElementFrom.value).format('YYYY-MM-DD 18:00:00');
-    console.log('  SecondHalf Report  :: From :  ', dateElementFrom_  , dateElementTo_);
-    this.payloadInventory.fromDate = dateElementFrom_
-    this.payloadInventory.toDate = dateElementTo_
-    this.reportTripPayload.fromDate =  dateElementFrom_
-    this.reportTripPayload.toDate =  dateElementTo_
-    this.callAllCommonReportServices();
-  }
-
+ 
   fromDateChange(){
     const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
     dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
@@ -169,10 +112,9 @@ export class DashboardComponent {
     console.log('  toDateChange Report  :: From :  ', dateElementTo.value);
   } 
   
-  callAllCommonReportServices(){
-    this.getMrfReportByWc();
+  callAllCommonReportServices(eventType :string){
     this.getInventoryRecord();
-    this.fetchReport();
+    this.fetchReport(eventType);
   }
 
   resetData(){
@@ -203,6 +145,11 @@ export class DashboardComponent {
     this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
     this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
+    if(localStorage.getItem('wcId') != undefined){
+         this.payloadInventory.wcId = localStorage.getItem('wcId')
+         this.reportTripPayload.wcId = localStorage.getItem('wcId')
+    }
+    this.callAllCommonReportServices('TODAY');
     // const dateElementFromElement = document.querySelector('#filter_from_date') as HTMLInputElement;
     // const dateElementToElement = document.querySelector('#filter_from_date') as HTMLInputElement;
     
@@ -266,6 +213,7 @@ export class DashboardComponent {
     console.log(ev)
     this.wcList = []
     this.getWcListByZoneId();
+    this.fetchReport('TODAY')
   }
 
   getWcListByZoneId() {
@@ -297,7 +245,7 @@ export class DashboardComponent {
     this.payloadInventory.wcId = this.wcSelectId
     this.payloadInventory.fromDate = (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
     this.payloadInventory.toDate =(document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
-    this.callAllCommonReportServices();
+    this.callAllCommonReportServices('TODAY');
 
   }
 
@@ -339,26 +287,11 @@ export class DashboardComponent {
     }
   }
 
-  getMrfReportByWc(){
-    this.service.getMrfReportByWc(this.form.value.wcId).subscribe(
-      data=>{
-        this.mrfResponse=data
-        this.mrfReportList=this.mrfResponse.data
-      }
-    );
-    this.service.getDashboardDetailsV2(this.form.value.wcId).subscribe(
-      data=>{
-        this.mrfResponse=data
-        this.mrfReportListv2=this.mrfResponse.data
-        this.service.dashboardDetailsV2=this.mrfReportListv2
-        console.log('  MRF Response ::  ' , data)
-      }
-    );
-  }
 
 
 
-  fetchReport(){
+
+  fetchReport(eventType :string){
   
     this.reportService.getTripReport(this.reportTripPayload)
     .subscribe((response) => {
@@ -366,21 +299,34 @@ export class DashboardComponent {
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
     this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
   //  this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
-   console.log('  report response wc based ',this.reportResponseWcBasedData );
+  
  
-   if(this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null || this.reportResponseWcBasedData.length == 0){
+   if((this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null) &&
+      (this.reportResponseWcBasedMrfData == undefined || this.reportResponseWcBasedMrfData == null) ){
           this.resetData();
           return;
    }
-   this.wcBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
-      return element.wealthCenterId == this.wcSelectId
-   });
+   if(this.reportResponseWcBasedData != undefined){
+        this.wcBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
+          return element.wealthCenterId == this.wcSelectId
+        });
+        // Trip Data Based on Zone..............
+        this.zoneBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
+          return element.zoneId == this.zoneSelectId
+        });
+   }
+   
 
    this.wcBasedMrfData = this.reportResponseWcBasedMrfData.filter( (element:any) => {
-    return element.wealthCenterId == this.wcSelectId
+      return element.wealthCenterId == this.wcSelectId
    });
    this.dataMap = new Map()
-   if( this.wcBasedData.length > 0 &&  this.wcBasedData != undefined){
+   console.log('  report response wc based ',this.wcBasedData );
+   console.log('  report response wc based mrf ',this.wcBasedMrfData );
+
+  
+
+   if( this.wcBasedData != undefined && this.wcBasedData.length > 0){
       this.dataMap.set('totalActiveTrip', this.wcBasedData[0].numberOfActiveTrip);
       this.dataMap.set('totalCompletedTrip', this.wcBasedData[0].numberOfCompletedTrip);
       this.dataMap.set('totalDryWeight', this.wcBasedData[0].totalDryWeight);
@@ -395,10 +341,23 @@ export class DashboardComponent {
       this.createChart4([this.wcBasedData[0].numberOfVehicles,this.wcBasedData[0].numberOfActiveTrip, 0 , this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip]);
    }
 
-   // Trip Data Based on Zone..............
-   this.zoneBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
-      return element.zoneId == this.zoneSelectId
-   });
+   if( this.wcBasedMrfData != undefined && this.wcBasedMrfData.length > 0){
+    this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? this.wcBasedMrfData[0].totalMonthlyDryWeight : eventType == 'WEEKLY' ? 
+                                                                this.wcBasedMrfData[0].totalWeeklyDryWeight :  eventType == 'TODAY' ? 
+                                                                this.wcBasedMrfData[0].totalDryWeight :  eventType == 'FIRST_HALF' ? 
+                                                                this.wcBasedMrfData[0].totalFirstHalfDryWeight :  eventType == 'SECOND_HALF' ?
+                                                                this.wcBasedMrfData[0].totalSecondHalfDryWeight : 0);
+    this.dataMap.set('totalWetWeight', eventType == 'MONTHLY' ?
+                                  this.wcBasedMrfData[0].totalMonthlyWetWeight : eventType == 'WEEKLY' ? 
+                                  this.wcBasedMrfData[0].totalWeeklyWetWeight :  eventType == 'TODAY' ? 
+                                  this.wcBasedMrfData[0].totalWetWeight :  eventType == 'FIRST_HALF' ? 
+                                  this.wcBasedMrfData[0].totalFirstHalfWetWeight :  eventType == 'SECOND_HALF' ?
+                                  this.wcBasedMrfData[0].totalSecondHalfWetWeight : 0
+    
+    );
+ }
+
+   
 
     
 

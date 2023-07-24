@@ -15,7 +15,7 @@ export class BmcWcMccUserAuthGuardService  {
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-  if (!this.auth.isAuthenticated() || ( !this.auth.isAuthenticatedbyBmcAdminUser() && !this.auth.isAuthenticatedByWcuser() && !this.auth.isAuthenticatedbyMccUser())) {
+  if (!this.auth.isAuthenticated() || ( !this.auth.isAuthenticatedbyBmcAdminUser() && !this.auth.isAuthenticatedByWcuser() && !this.auth.isAuthenticatedbyMccUser() && !this.auth.isAuthenticatedbyBmcSuperAdminUser())) {
     this.router.navigate(['/login']);
     return false;
   }
