@@ -10,7 +10,8 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['../../../common.css']
 })
 export class EditActiveTripModalComponent implements OnInit {
-
+  ttsUserList:any=[]
+  loginResponse:any
   @Input() data: any;
    responseData:any
   activeTripsEditForm = new FormGroup({
@@ -25,7 +26,8 @@ export class EditActiveTripModalComponent implements OnInit {
     trip_end_reading_image: new FormControl(''),
     trip_end_reading_date: new FormControl('', [Validators.required]),
     tripId: new FormControl(),
-    move_tts: new FormControl
+    move_tts: new FormControl,
+    tts_user_id: new FormControl
   });
 
   constructor(public activeModal: NgbActiveModal,private service:CommonService,private toastService:ToastService) {}
@@ -41,6 +43,12 @@ export class EditActiveTripModalComponent implements OnInit {
       trip_end_reading: "",
       tripId:this.data.tripId
     });
+    this.service.getAllTts().subscribe(
+      data=>{
+        this.loginResponse=data
+        this.ttsUserList=this.loginResponse.data
+      }
+    );
   }
   updateTripData(){
     const data={
@@ -52,7 +60,8 @@ export class EditActiveTripModalComponent implements OnInit {
         "tripTransactionId": this.activeTripsEditForm.value.tripId,
         "vehicleNo": this.activeTripsEditForm.value.vehicle_no,
         "wetWt": this.activeTripsEditForm.value.wet_weight,
-        "moveToTts": this.activeTripsEditForm.value.move_tts
+        "moveToTts": "Yes",
+        "ttsUserId": this.activeTripsEditForm.value.tts_user_id
       
     }
     // console.log(data)

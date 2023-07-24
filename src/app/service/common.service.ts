@@ -12,17 +12,16 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-
 //      endpoint =  `http://15.207.62.200`;   //DEV
         endpoint = 'http://43.204.240.44'; //PROD
 //      endpoint = `http://localhost`; //LOCCAL
-
+uniqueUserId:any
+userDetails:any=[]
 
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
         LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
-        //LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
        
  }
         
@@ -302,11 +301,11 @@ export class CommonService {
         }
         
         getAllActiveTripInGraveYardFotTTS() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/tts/' + localStorage.getItem('wcId'))
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/tts/' + localStorage.getItem('wcId')+'/'+localStorage.getItem('userUniqueUserId'))
         }
 
         getAllCompletedTripInGraveYardForTTS() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/tts/' + localStorage.getItem('wcId'))
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/tts/' + localStorage.getItem('wcId')+'/'+localStorage.getItem('userUniqueUserId'))
         }
 
         getAllActiveTripInDryingYardForyingYardUser() {
@@ -384,5 +383,8 @@ export class CommonService {
         }
         soldBailing(data:any){
                 return this.http.post(this.environment.URL+'/zone/sold/bailing',data)
+        }
+        getAllTts(){
+                return this.http.get(this.environment.URL+'/get/all/tts/users')
         }
 }

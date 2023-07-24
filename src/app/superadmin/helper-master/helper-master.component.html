@@ -13,11 +13,11 @@
                 </div>
                 <div class="mt-4">
                     <div class="breadcrumb">
-                        <a routerLink=""><i class="fa-solid fa-home"></i></a>
+                        <a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
                         <span class="mx-2">/</span>
-                        <a routerLink="">Master Entry</a>
+                        <span>Authority Entry</span>
                         <span class="mx-2">/</span>
-                        <a routerLink="">Helper Registration</a>
+                        <span>Helper Registration</span>
                     </div>
                     <div class="mt-4">
                         <div class="card rounded-0">
@@ -128,47 +128,51 @@
                                 </button>
                             </div>
                         </div> -->
-                        <table class="table table-bordered table-striped">
-                            <thead class="bg-primary text-white text-center">
-                                <tr>
-                                    <th>Sl. No.</th>
-                                    <th>Wc Name</th>
-                                    <th>Helper Name</th>
-                                    <th>Helper ID Proof</th>
-                                    <th>Phone Number</th>
-                                    <th>Helper Photo</th>
-                                    <th>Address</th>
-                                    <th>Description</th>
-                                    <th>Created Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-								<tr *ngFor="let x of list; index as i;">
-                                                                        <td>{{ i + 1}}</td>
-                                                                        <td>{{ x.wc?.wcName || '--' }}</td>
-                                                                        <td>{{ x.helperName || '--' }}</td>
-                                                                        <td>{{ x.helperIdProof || '--' }}</td>
-                                                                        <td>{{ x.phoneNo || '--' }}</td>
-                                                                        <td>{{ x.helperPhoto || '--' }}</td>
-                                                                        <td>{{ x.address || '--' }}</td>
-                                                                        <td>{{ x.helperDesc || '--' }}</td>
-                                                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="d-flex align-items-center gap-1 justify-content-center">
-                                                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
-                                                                                    <i class="fa-solid fa-edit"></i>
-                                                                                </button>
-                                                                                <button (click)="remove(x.helperId)" class="btn btn-danger btn-sm">
-                                                                                        <i
-                                                                                                class="fa-solid fa-trash-alt"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                </tr>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x: auto;">
+                            <table class="table table-bordered table-striped">
+                                <thead class="bg-primary text-white text-center">
+                                    <tr>
+                                        <th style="min-width: 100px">Sl. No.</th>
+                                        <th style="min-width: 200px">Wc Name</th>
+                                        <th style="min-width: 200px">Helper Name</th>
+                                        <th style="min-width: 200px">Helper ID Proof</th>
+                                        <th style="min-width: 200px">Phone Number</th>
+                                        <th style="min-width: 200px">Helper Photo</th>
+                                        <th style="min-width: 200px">Address</th>
+                                        <th style="min-width: 200px">Description</th>
+                                        <th style="min-width: 200px">Created Date</th>
+                                        <th style="min-width: 200px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr *ngFor="let x of list; index as i;">
+                                                                            <td>{{ i + 1}}</td>
+                                                                            <td>{{ x.wc?.wcName || '--' }}</td>
+                                                                            <td>{{ x.helperName || '--' }}</td>
+                                                                            <td>{{ x.helperIdProof || '--' }}</td>
+                                                                            <td>{{ x.phoneNo || '--' }}</td>
+                                                                            <td>
+                                                                                <img *ngIf="x.helperPhoto && x.helperPhoto.length > 0" src="{{ x.helperPhoto }}" alt="" style="width: 100px" />
+                                                                            </td>
+                                                                            <td>{{ x.address || '--' }}</td>
+                                                                            <td>{{ x.helperDesc || '--' }}</td>
+                                                                            <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="d-flex align-items-center gap-1 justify-content-center">
+                                                                                    <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+                                                                                        <i class="fa-solid fa-edit"></i>
+                                                                                    </button>
+                                                                                    <button (click)="remove(x.helperId)" class="btn btn-danger btn-sm">
+                                                                                            <i
+                                                                                                    class="fa-solid fa-trash-alt"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

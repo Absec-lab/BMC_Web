@@ -1355,7 +1355,7 @@ gridOptions = {
     ...this.defaultColDef
   },
   pagination: true,
-  paginationPageSize: 10,
+  paginationPageSize: 25,
   rowStyle: { background: '#e2e8f0' },
   copyHeadersToClipboard:true,
   enableRangeSelection:true,
@@ -1411,7 +1411,7 @@ gridOptionsComp = {
     ...this.defaultColDefComp 
   },
   pagination: true,
-  paginationPageSize: 10,
+  paginationPageSize: 25,
   rowStyle: { background: '#e2e8f0' },
   frameworkComponents: {
     imageCellRenderer: ImageCellRendererComponent,
