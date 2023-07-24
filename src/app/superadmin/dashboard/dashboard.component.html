@@ -27,26 +27,26 @@
                     <div class="col-xl-7 mt-4 mt-xl-0">
                         <div class="row">
                             <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
-                                <button class="btn btn-dashboard-date-filter-btn" (click) = "monthlyReport()">
+                                <button class="btn btn-dashboard-date-filter-btn" (click) = "TimeBasedreport('MONTHLY')">
                                     Monthly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "weeklyReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('WEEKLY')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Weekly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "todayReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('TODAY')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Today
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "FirstHalfReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('FIRST_HALF')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     1st Half
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "SecondHalfReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('SECOND_HALF')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     2nd Half
                                 </button>
