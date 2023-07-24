@@ -72,6 +72,11 @@ const routes: Routes = [
     canActivate:[LoginGuard,BmcWcAdminUserDryingYardUserAuthGuardService]
   },
   {
+    component:TripDetailsComponent,
+    path:'superadmin/drying-yard/trip-details',
+    canActivate:[LoginGuard,BmcWcAdminUserDryingYardUserAuthGuardService]
+  },
+  {
     component:DryingYardMasterComponent,
     path:'superadmin/drying-yard-master',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]

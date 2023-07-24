@@ -1,0 +1,153 @@
+<app-header></app-header>
+<main class="container-fluid">
+    <div class="page-content p-3">
+        <div class="row">
+			<div class="col-xl-3 sidebar-parent ">
+				<app-sidebar></app-sidebar> 
+			</div>
+			<div class="col-xl-9 app-content mt-4 mt-xl-0">
+                <div class="card">
+                    <div class="card-body">
+                        <app-heade-dashboard-component></app-heade-dashboard-component>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="breadcrumb">
+                        <a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
+                        <span class="mx-2">/</span>
+                        <span>Authority Entry</span>
+                        <span class="mx-2">/</span>
+                        <span>Goods Sub Master</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="card rounded-0">
+                            <div class="card-header rounded-0">
+                                Goods Sub Master
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
+                                                    Goods Name<span class="text-danger">*</span>
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                        <select formControlName="goodsId" class="form-select" [(ngModel)]="goodsId">
+                                                            <option value="">Select</option>
+                                                                <option *ngIf="goodsName && goodsName.length > 0" value={{goodsName}}>{{goodsName}}</option>
+                                                                <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{x.goodsName}}</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
+                                                    Sub Goods Name<span class="text-danger">*</span>
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                    <input formControlName="subgoodsName" type="text" name="" id="" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                         <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
+                                                    Cost Per Kg<span class="text-danger">*</span>
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                    <input formControlName="subGoodsPerKg" type="number" min="0" name="" id="" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div>
+                                                    Description
+                                                </div>
+                                                <div class="ms-3 d-flex-1">
+                                                    <input formControlName="subGoodsDesc" type="text" name="" id="" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="text-end mt-3" *ngIf="isAdd">
+							<button class="btn btn-primary px-5 py-2" (click)="addNew()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateWcc()">Update</button>
+						</div>
+                    </div>
+                    <div class="mt-4">
+                        <!-- <div
+                            class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
+                            <div>Goods Name</div>
+                            <div class="ms-3 w-25">
+                                <select name="" id="" class="form-control form-select">
+									<option value="" disabled selected>Select Goods</option>
+                                                                        <option [value]="x.goodsId" *ngFor="let x of goodsList;">{{ x.goodsName }}</option>
+                                </select>
+                            </div>
+                            <div class="wc-ml-10">Sub Goods Name</div>
+                            <div class="ms-3 w-25">
+                                <select name="" id="" class="form-control form-select">
+                                    <option value="" selected>Select Sub Goods</option>
+                                    <option [value]="x.goodssubId" *ngFor="let x of list;">{{ x.subgoodsName }}</option>
+                                </select>
+                            </div>
+                            <div class="ms-3">
+                                <button class="btn btn-primary px-3">
+                                    Search
+                                </button>
+                            </div>
+                        </div> -->
+                        <table class="table table-bordered table-striped">
+                            <thead class="bg-primary text-white text-center">
+                                <tr>
+                                    <th>Sl. No.</th>
+                                    <th>Wc Name</th>
+                                    <th>Goods Name</th>
+                                    <th>Sub Goods Name</th>
+                                    <th>Cost Per Kg</th> 
+                                    <th>Description</th>
+                                    <th>Created Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr *ngFor="let x of list; index as i;">
+                                        <td>{{ i + 1}}</td>
+                                        <td>{{ x.wcId?.wcName || '--' }}</td>
+                                        <td>{{ x.goods?.goodsName || '--' }}</td>
+                                        <td>{{ x.subgoodsName || '--' }}</td>
+                                      <td>{{ x.subGoodsPerKg || '--' }}</td> 
+                                        <td>{{ x.subGoodsDesc || '--' }}</td>
+                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
+                                        </td>
+                                        <td
+                                                class="d-flex align-items-center gap-1 justify-content-center">
+                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+                                                        <i class="fa-solid fa-edit"></i>
+                                                </button>
+                                                <button (click)="remove(x.goodssubId)" class="btn btn-danger btn-sm">
+                                                        <i
+                                                                class="fa-solid fa-trash-alt"></i>
+                                                </button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<app-footer></app-footer>
