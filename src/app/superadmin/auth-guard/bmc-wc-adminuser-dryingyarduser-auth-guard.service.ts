@@ -14,7 +14,7 @@ export class BmcWcAdminUserDryingYardUserAuthGuardService  {
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree {
-  if (!this.auth.isAuthenticated() || (!this.auth.isAuthenticatedbyBmcAdminUser() && !this.auth.isAuthenticatedByWcuser() && !this.auth.isAuthenticatedbyDtyingYardUser())) {
+  if (!this.auth.isAuthenticated() || (!this.auth.isAuthenticatedbyBmcAdminUser() && !this.auth.isAuthenticatedByWcuser() && !this.auth.isAuthenticatedbyDtyingYardUser()  && !this.auth.isAuthenticatedbyBmcSuperAdminUser())) {
     this.router.navigate(['/login']);
     return false;
   }

@@ -6,43 +6,43 @@
             </div>
         </div>
         <div class="home-card-boxes">
-            <a routerLink="/superadmin/dashboard" class="home-card home-card-1" *ngIf="role === 'wcuser' || role === 'bmcadmin'">
+            <a routerLink="/superadmin/dashboard" class="home-card home-card-1" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role === 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/tachometer.png" alt="" class="home-card-icon">
                     <h5>Dashboard</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/mcc/pit-view" class="home-card home-card-2">
+            <a routerLink="/superadmin/mcc/pit-view" class="home-card home-card-2" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/archive.png" alt="" class="home-card-icon">
                     <h5>MCC</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/mrf-tab" class="home-card home-card-3">
+            <a routerLink="/superadmin/mrf-tab" class="home-card home-card-3" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/glass.png" alt="" class="home-card-icon">
                     <h5>MRF</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/garbage" class="home-card home-card-4">
+            <a routerLink="/superadmin/garbage" class="home-card home-card-4" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/trash-can.png" alt="" class="home-card-icon">
                     <h5>Waste Trip</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/drying-yard/compost-drying" class="home-card home-card-7">
+            <a routerLink="/superadmin/drying-yard/compost-drying" class="home-card home-card-7" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/fertilizer.png" alt="" class="home-card-icon">
                     <h5>Mo Khata</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/vehicle/management" class="home-card home-card-5">
+            <a routerLink="/superadmin/vehicle/management" class="home-card home-card-5" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/truck.png" alt="" class="home-card-icon">
                     <h5>Vehicle Mgmt</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/inventory" class="home-card home-card-6">
+            <a routerLink="/superadmin/inventory" class="home-card home-card-6" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/group.png" alt="" class="home-card-icon">
                     <h5>Inventory</h5>

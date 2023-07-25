@@ -402,4 +402,13 @@ export class CommonService {
         getPerCostValueSubGdId(wcId: any) {
                 return this.http.get(this.environment.URL + '/zone/getPerCostValueSubGdId/' + wcId)
         }
+
+        updateVehicleMantenanceStatus(data:any){
+                return this.http.post(this.environment.URL+'/update/vehicle/maintenance' , data)
+        }
+        getVehicleMainTenanceListByWcId() {
+                return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
+        }
+        
+
 }

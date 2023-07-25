@@ -27,26 +27,26 @@
                     <div class="col-xl-7 mt-4 mt-xl-0">
                         <div class="row">
                             <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
-                                <button class="btn btn-dashboard-date-filter-btn" (click) = "monthlyReport()">
+                                <button class="btn btn-dashboard-date-filter-btn" (click) = "TimeBasedreport('MONTHLY')">
                                     Monthly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "weeklyReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('WEEKLY')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Weekly
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "todayReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('TODAY')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     Today
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "FirstHalfReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('FIRST_HALF')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     1st Half
                                 </button>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "SecondHalfReport()">
+                            <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('SECOND_HALF')">
                                 <button class="btn btn-dashboard-date-filter-btn">
                                     2nd Half
                                 </button>
@@ -157,11 +157,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr *ngFor="let item of wcBasedMrfData">
                                         <td>Wet Garbage Processed</td>
-                                        <td>700 KG</td>
-                                        <td>1700 KG</td>
-                                        <td>2200 KG</td>
+                                        <td>{{item.totalWetWeight}}</td>
+                                        <td>{{item.totalWeeklyWetWeight}}</td>
+                                        <td>{{item.totalMonthlyWetWeight}}</td>
                                     </tr>
                                     <tr>
                                         <td>Mo Khata Produced</td>
@@ -234,15 +234,45 @@
                 <div class="card h-100">
                     <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
                         <div class="d-flex align-items-center w-100">
-                            <div class="fw-bold text-uppercase">Total Garbage Collection</div>
-                            <div class="ms-auto">
+                            <div class="fw-bold text-uppercase">Trip Report (Zone Based)</div>
+                            <div class="ms-auto" hidden>
                                 <input type="date" name="" id="" class="form-control bg-transparent" value="2023-05-22" />
                             </div>
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">
                         <div class="">
-                            <canvas id="chart-e017e3c3-333c-4ca7-8b20-56d7b361c29b" style="height: 400px;">{{ chart2 }}</canvas>
+                            <!-- <canvas id="chart-e017e3c3-333c-4ca7-8b20-56d7b361c29b" style="height: 400px;">{{ chart2 }}</canvas> -->
+
+                            <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%);" class="p-2">
+                                <table class="table table-bordered text-center mb-0 bg-transparent text-white">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30%">Zone</th>
+                                            <th style="width: 20%">WC</th>
+                                            <th style="width: 25%">No Of Vehicle Used</th>
+                                            <th style="width: 25%">No Of completed trip</th>
+                                            <th style="width: 25%">No Of active trip</th>
+                                            <th style="width: 25%">Dry Wt.</th>
+                                            <th style="width: 25%">Wet Wt.</th>
+                                            <th style="width: 25%">MRF processed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of zoneBasedData">
+                                            <td>{{item.zoneName}}</td>
+                                            <td>{{item.wealthCenter}}</td>
+                                            <td>{{item.numberOfVehiclesUsed}}</td>
+                                            <td>{{item.numberOfCompletedTrip}}</td>
+                                            <td>{{item.numberOfActiveTrip}}</td>
+                                            <td>{{item.totalDryWeight}}</td>
+                                            <td>{{item.totalWetWeight}}</td>
+                                            <td>{{item.totalMRFProcessed}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -284,7 +314,7 @@
                             </div>
                             <div class="card-body px-4 pb-3">
                                 <div class="">
-                                    <canvas id="chart-029ea4bc-fac1-4296-b731-25bb7c6598ac" style="height: 150px;">{{ chart5 }}</canvas>
+                                    <canvas id="chart-029ea4bc-fac1-4296-b731-25bb7c6598ac34" style="height: 150px;">{{ chart6 }}</canvas>
                                 </div>
                             </div>
                         </div>
