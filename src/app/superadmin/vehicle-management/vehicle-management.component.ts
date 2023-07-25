@@ -12,6 +12,7 @@ import {
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { VehicleManagementModel } from "src/app/model/vehicle-management.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-vehicle-management",
@@ -44,13 +45,11 @@ export class VehicleManagementComponent implements OnInit {
   constructor(
     private service: CommonService,
     private route: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
-  ngOnInit() {
-    this.isAdd = true;
-    this.isUpdate = false;
-
+  vehicleMaintenanceData(){
     forkJoin([
       this.service.getZoneAllData(),
       this.service.getVehicleMainTenanceListByWcId(),
@@ -67,6 +66,12 @@ export class VehicleManagementComponent implements OnInit {
       },
     });
     this.submitted = false;
+  }
+
+  ngOnInit() {
+    this.isAdd = true;
+    this.isUpdate = false;
+    this.vehicleMaintenanceData();
   }
 
   onStatusChange(ev: any) {
@@ -105,6 +110,7 @@ export class VehicleManagementComponent implements OnInit {
     payload.wc.wcId = vehicle.wc.wcId
     payload.zone.zoneId = vehicle.zone.zoneId
     payload.vehicleNo = vehicle.vehicleNo
+    var commentId = "comment"+vehicle.vehicleNo;
     if(this.form.controls["vehicleStatus"].value == true){  // 
       payload.underMaintenance = true
       payload.underMaintenanceReason = this.form.controls["comment"].value
@@ -125,6 +131,8 @@ export class VehicleManagementComponent implements OnInit {
           .subscribe({
             next:(response : any)=>{
               console.log('Logged success  ',response);
+              this.toastr.success(' Data updataed successfully')
+              this.vehicleMaintenanceData();
             },
             error(err:any){
               console.error('Logged error  ',err);

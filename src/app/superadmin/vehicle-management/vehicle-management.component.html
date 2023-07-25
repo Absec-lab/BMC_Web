@@ -63,7 +63,7 @@
 									<td>{{vehicle.vehicleNo}}</td>
 									<td>{{vehicle.route.routeName}}</td>
 									<td>{{vehicle.rcNo}}</td>
-									<td><select formControlName="vehicleStatus" [id]="i" class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)">
+									<td><select formControlName="vehicleStatus{{i}}"  [id]="i" class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)">
 										<option [value]="status.id" [selected]="!vehicle.isActive && vehicle.isUnderMaintenance ? 1 : 0" *ngFor="let status of vehicleStatus">{{status.status}}</option>
 									</select></td>
 									<td><input type="text" formControlName="comment" id="" class="form-control border-dark text-dark form-control-sm"></td>
