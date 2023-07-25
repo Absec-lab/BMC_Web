@@ -1,5 +1,6 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export class DeactivationDto {
         id: any
@@ -12,9 +13,7 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-//      endpoint =  `http://15.207.62.200`;   //DEV
-        endpoint = 'http://43.204.240.44'; //PROD
-//      endpoint = `http://localhost`; //LOCCAL
+     endpoint =  environment.url;  
 uniqueUserId:any
 userDetails:any=[]
 
@@ -387,4 +386,11 @@ userDetails:any=[]
         getAllTts(){
                 return this.http.get(this.environment.URL+'/get/all/tts/users')
         }
+        updateVehicleMantenanceStatus(data:any){
+                return this.http.post(this.environment.URL+'/update/vehicle/maintenance' , data)
+        }
+        getVehicleMainTenanceListByWcId() {
+                return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
+        }
+        
 }
