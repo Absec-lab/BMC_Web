@@ -122,7 +122,7 @@ export class MrfTabComponent implements OnInit {
     data => {
       this.mrfGridResponse = data
       this.mrfGridList = this.mrfGridResponse
-      const rowDataMrf = this.mrfGridList.map((item: {  mrfTrnsId:any,  goods: any; wcId: any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
+      const rowDataMrf = this.mrfGridList.map((item: {  mrfTrnsId:any,  goods: any; wcId: any; subGoodsPerKg:any; interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any; }) => {
 
         return {
           mrfTransactionId: item.mrfTrnsId,
@@ -132,6 +132,8 @@ export class MrfTabComponent implements OnInit {
           goods: item.goods.goodsPerKg,
           inert_material: item.interMaterial,
           quntaum: item.quntaum,
+          price_per_kg:item.subGood.subGoodsPerKg,
+          total_subgoods_price: item.subGood.subGoodsPerKg * item.quntaum,
           description: item.mrfDesc,
           created_date: item.createdDate
 
@@ -148,10 +150,10 @@ export class MrfTabComponent implements OnInit {
 
  getAllSoldData(){
   
-  debugger;
+ 
   this.service.getAllMrfSoldByWCId(parseInt(this.wcId)).subscribe(
     data => {
-      debugger
+      
       this.soldGridResponse = data;
       this.soldGridList = this.soldGridResponse;
       console.log(this.soldGridList);
@@ -164,8 +166,7 @@ export class MrfTabComponent implements OnInit {
           soldTransactionId: item.id,
           wcName: item.wcId?.wcName,
           goods_name: item.goodsEntity.goodsName,
-          sub_goods_name: item.goodssubEntity.subgoodsName,
-          
+          sub_goods_name: item.goodssubEntity.subgoodsName,          
           quntaum: item.itemQuantity,
           sold_to:item.soldToId,
           cost:item.itemCost,
@@ -508,7 +509,7 @@ saveStock() {
 
     //cost per kg
 
-    debugger;
+    
     console.log(this.totalCostP);
     const costPerkg :any =this.form.value.itemCost;
     if ((costPerkg != 0 && !costPerkg) || costPerkg === '') {
@@ -552,7 +553,6 @@ saveStock() {
   console.log(data);
   this.service.saveStockData(data).subscribe(
     data => {
-      debugger
       window.alert("Stock Data Saved Successfully");
       this.mrfGridResponse=[];
       this.mrfGridResponse = data
@@ -904,12 +904,11 @@ saveStock() {
 
 
   columnDefsStock: ColDef[] = [
-    { field: 'wcName', headerName: 'Wc Name', unSortIcon: true, resizable: true },
-    { field: 'itemName', headerName: 'Stock List', unSortIcon: true, resizable: true, },
-    {},
-    {},
-    {},
-    { field: 'stockQuantity', headerName: 'Quantity', unSortIcon: true, resizable: true, },
+    { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true, resizable: true },
+    { field: 'sub_goods_name', headerName: 'Stock List', unSortIcon: true, resizable: true, },
+    { field: 'quntaum', headerName: 'Quantity', unSortIcon: true, resizable: true, },
+    { field: 'price_per_kg', headerName: 'Sub Goods Price(Per Kg)', unSortIcon: true, resizable: true },
+    { field: 'total_subgoods_price', headerName: 'Total Price', unSortIcon: true, resizable: true },
 
   ];
 
@@ -941,7 +940,9 @@ saveStock() {
   columnDefsMrf: ColDef[] = [
     { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
     { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
-    { field: 'quntaum', headerName: 'Goods Weight', unSortIcon: true, resizable: true },
+    { field: 'quntaum', headerName: 'Sub Goods Weight(Kg)', unSortIcon: true, resizable: true },
+    { field: 'price_per_kg', headerName: 'Sub Goods Price(Per Kg)', unSortIcon: true, resizable: true },
+    { field: 'total_subgoods_price', headerName: 'Total Price', unSortIcon: true, resizable: true },
     { field: 'inert_material', headerName: 'Inert Material', unSortIcon: true, resizable: true },
     { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true },
     { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
@@ -963,8 +964,9 @@ saveStock() {
     { field: 'goods_name', headerName: 'Goods Name', unSortIcon: true, resizable: true },
     { field: 'sub_goods_name', headerName: 'Sub-Goods Name', unSortIcon: true, resizable: true },
     { field: 'quntaum', headerName: 'Sold Qty', unSortIcon: true, resizable: true },
-    { field: 'sold_to', headerName: 'Sold To', unSortIcon: true, resizable: true },
+    { field: 'price_per_kg', headerName: 'Qty Per Price', unSortIcon: true, resizable: true },
     { field: 'cost', headerName: 'Total Cost', unSortIcon: true, resizable: true },
+    { field: 'sold_to', headerName: 'Sold To', unSortIcon: true, resizable: true },    
     { field: 'description', headerName: 'Description', unSortIcon: true, resizable: true },
     { field: 'created_date', headerName: 'Created Date', unSortIcon: true, resizable: true },
     
@@ -1025,14 +1027,14 @@ saveStock() {
         //   } );
         this.service.getAllBailingStock().subscribe(
           data => {
-            debugger;
+           
             this.itemStockResponse = data
             this.itemStockList = this.itemStockResponse.data
             console.log(this.itemStockList,"bailingList")
             const rowDataStock = this.itemStockList.map((item: {
               quntaum: any; goodssubEntity: any;goods:any;wcId:any;subGood:any; wcEntity:any;stockQuantity:any;
             }) => {
-              debugger;
+              
     
               return {
                    
@@ -1040,6 +1042,8 @@ saveStock() {
 
                 goods_name: item.goods.goodsName,
                 sub_goods_name:item.subGood.subgoodsName,
+                price_per_kg:item.subGood.subGoodsPerKg,
+                total_subgoods_price: item.subGood.subGoodsPerKg * item.quntaum,
                 quntaum: item.quntaum
              //   stockQuantity: item.stockQuantity,
                 
@@ -1049,7 +1053,7 @@ saveStock() {
             });
          //   alert(rowDataStock);
 
-            debugger;
+            
           //  alert(this.itemStockList)
 
           //  console.log("itemStockList", this.itemStockList)
@@ -1064,7 +1068,7 @@ saveStock() {
  
   }
   soldBailing(){
-    debugger;
+    
 
 
 
@@ -1104,7 +1108,7 @@ if (!soldToId || soldToId === '') {
   return;
 }
 
-debugger;
+
   //  console.log(this.totalCostP);
   const inertMaterial: any = this.totalCostP;
   if ((inertMaterial != 0 && !inertMaterial) || inertMaterial === '') {
@@ -1118,7 +1122,7 @@ debugger;
  // return;
 }
  
-debugger;
+
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
     const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
     const data = {
@@ -1137,7 +1141,7 @@ debugger;
     console.log(data);
     this.service.mrfSoldBailing(data).subscribe(
       data => {
-        debugger;
+        
     window.alert("Bailing Sold successfully");
         this.soldGridResponse = data;
         this.soldGridList = this.soldGridResponse;
@@ -1146,7 +1150,7 @@ debugger;
        goods_name:any;goods_id:any;
       //    interMaterial: any; mrfDesc: any; quntaum: any; subGood: any; createdDate: any; updateDate: any;
          }) => {
-debugger;
+
           return {
 
             //goods nm //sub gd nm //sold qty //sold to // total cost // desc //cr dt
