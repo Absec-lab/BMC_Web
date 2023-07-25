@@ -13,32 +13,33 @@
 				</div>
 				<div class="mt-4">
 					<div class="breadcrumb">
-						<a routerLink=""><i class="fa-solid fa-home"></i></a>
+						<a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
 						<span class="mx-2">/</span>
-						<a routerLink="">Vehicle Management</a>
+						<span>Vehicle Management</span>
 					</div>
 				</div>
 				<div class="mt-4">
 					<div style="background-color: #2B2C4B;" class="d-flex align-items-center justify-content-end py-2 px-2 gap-2 flex-wrap border border-light border-bottom-0">
 						<div>
-							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;">
+							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;" hidden>
 								<option value="">Select Vehicle Number</option>
 							</select>
 						</div>
 						<div>
-							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;">
+							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;" hidden>
 								<option value="">Select RC</option>
 							</select>
 						</div>
 						<div>
-							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;">
+							<select name="" id="" class="form-control form-select" style="font-size: 0.9rem;" hidden>
 								<option value="">Select DL Number</option>
 							</select>
 						</div>
 						<div>
-							<button class="btn btn-primary" style="font-size: 0.9rem;">Search</button>
+							<button class="btn btn-primary" style="font-size: 0.9rem;" hidden>Search</button>
 						</div>
 					</div>
+					<form [formGroup]="form">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -54,113 +55,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>South West Zone</td>
-								<td>Pokhariput WC</td>
-								<td>Vehicle 202301</td>
-								<td>Route 1</td>
-								<td>OD7890245688</td>
-								<td><select name="" id="" class="form-control border-dark text-dark bg-transparent form-control-sm">
-									<option value="">Select</option>
-									<option value="">Active</option>
-									<option value="">Inactive</option>
-								</select></td>
-								<td><input type="text" name="" id="" class="form-control border-dark text-dark form-control-sm"></td>
-								<td><button class="btn btn-sm btn-dark">Submit</button></td>
+							<tr  *ngFor="let vehicle of vehicleList; let i = index">
+							
+									<td>{{i + 1}}</td>
+									<td>{{vehicle.zone.zoneName}}</td>
+									<td>{{vehicle.wc.wcName}}</td>
+									<td>{{vehicle.vehicleNo}}</td>
+									<td>{{vehicle.route.routeName}}</td>
+									<td>{{vehicle.rcNo}}</td>
+									<td><select formControlName="vehicleStatus{{i}}"  [id]="i" class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)">
+										<option [value]="status.id" [selected]="!vehicle.isActive && vehicle.isUnderMaintenance ? 1 : 0" *ngFor="let status of vehicleStatus">{{status.status}}</option>
+									</select></td>
+									<td><input type="text" formControlName="comment" id="" class="form-control border-dark text-dark form-control-sm"></td>
+									<td><button class="btn btn-sm btn-dark" type="submit" [disabled]="!form.valid" (click) = "onSubmitUpdateStatus(vehicle , i)">Submit</button></td>
+								
 							</tr>
 						</tbody>
 					</table>
+				</form>
 				</div>
 			</div>
 		</div>

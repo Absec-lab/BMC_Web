@@ -185,6 +185,6 @@ export interface ReportGenerate {
   type: string
   fromDate?: string
   toDate?: string
-  wcId: number
+  wcId?: any
   reportName: string
 }

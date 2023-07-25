@@ -88,4 +88,13 @@ export class AuthService {
     }
   }
 
+  public isAuthenticatedbyBmcSuperAdminUser(): boolean {
+    let token: any;
+    if (localStorage.getItem('role')?.includes('bmcsuperadminuser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
