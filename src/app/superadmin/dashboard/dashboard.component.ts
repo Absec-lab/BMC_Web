@@ -87,15 +87,15 @@ export class DashboardComponent {
     }
       const dateElementCurrent  = document.querySelector('#filter_from_date') as HTMLInputElement;
       console.log(' Report :: From :  ', dateElementCurrent.value  , dateElementCurrent.value);
-      // this.payloadInventory.fromDate = dateElementCurrent.value
-      // this.payloadInventory.toDate = dateElementCurrent.value
-      // this.reportTripPayload.fromDate =  dateElementCurrent.value
-      // this.reportTripPayload.toDate =  dateElementCurrent.value
+      this.payloadInventory.fromDate = dateElementCurrent.value
+      this.payloadInventory.toDate = dateElementCurrent.value
+      this.reportTripPayload.fromDate =  dateElementCurrent.value
+      this.reportTripPayload.toDate =  dateElementCurrent.value
 
-      this.payloadInventory.fromDate = '2023-07-23 00:00:00'
-      this.payloadInventory.toDate = '2023-07-23 00:00:00'
-      this.reportTripPayload.fromDate =  '2023-07-23 00:00:00'
-      this.reportTripPayload.toDate =  '2023-07-23 00:00:00'
+      // this.payloadInventory.fromDate = '2023-07-23 00:00:00'
+      // this.payloadInventory.toDate = '2023-07-23 00:00:00'
+      // this.reportTripPayload.fromDate =  '2023-07-23 00:00:00'
+      // this.reportTripPayload.toDate =  '2023-07-23 00:00:00'
 
       this.callAllCommonReportServices(eventType);
   }
@@ -130,10 +130,7 @@ export class DashboardComponent {
     this.zoneBasedData = []
   }
 
-  ngOnInit() {
-
-   this.resetData();
-
+  currentDateSelect(){
     const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
     dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
     const dateElementTo = document.querySelector('#filter_to_date') as HTMLInputElement;
@@ -144,11 +141,18 @@ export class DashboardComponent {
 
     this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
     this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+  }
 
-    if(localStorage.getItem('wcId') != undefined){
+  ngOnInit() {
+
+   this.resetData();
+   this.currentDateSelect();
+    if(localStorage.getItem('wcId') != undefined && localStorage.getItem('wcId') != '0'){
          this.payloadInventory.wcId = localStorage.getItem('wcId')
          this.reportTripPayload.wcId = localStorage.getItem('wcId')
+         this.wcSelectId = localStorage.getItem('wcId')
     }
+    console.log(' wc selected :   ',this.wcSelectId )
     this.callAllCommonReportServices('TODAY');
     // const dateElementFromElement = document.querySelector('#filter_from_date') as HTMLInputElement;
     // const dateElementToElement = document.querySelector('#filter_from_date') as HTMLInputElement;
@@ -237,14 +241,13 @@ export class DashboardComponent {
   }
 
   onWcSelect(ev: any) {
-    if(ev.target.value !== 'undefined'){
+    if(ev.target.value != 'undefined'){
       this.wcSelectId = ev.target.value;
-    }else{
-      this.wcSelectId = this.wcList[0].wcId;
+    }else if(localStorage.getItem('wcId') != '0'){
+      this.wcSelectId = localStorage.getItem('wcId');
     }
     this.payloadInventory.wcId = this.wcSelectId
-    this.payloadInventory.fromDate = (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
-    this.payloadInventory.toDate =(document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.currentDateSelect();
     this.callAllCommonReportServices('TODAY');
 
   }
@@ -299,14 +302,20 @@ export class DashboardComponent {
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
     this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
   //  this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
-  
  
    if((this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null) &&
       (this.reportResponseWcBasedMrfData == undefined || this.reportResponseWcBasedMrfData == null) ){
           this.resetData();
           return;
    }
+   //short fix
+   if(this.wcSelectId == undefined || (localStorage.getItem('role') != 'bmcsuperadmin' 
+                                    && localStorage.getItem('role') != 'bmcsuperadmin')
+                                    && localStorage.getItem('wcId') != '0'){
+        this.wcSelectId = localStorage.getItem('wcId')
+   }
    if(this.reportResponseWcBasedData != undefined){
+    console.log('wc selected ', this.wcSelectId);
         this.wcBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
           return element.wealthCenterId == this.wcSelectId
         });
@@ -324,8 +333,6 @@ export class DashboardComponent {
    console.log('  report response wc based ',this.wcBasedData );
    console.log('  report response wc based mrf ',this.wcBasedMrfData );
 
-  
-
    if( this.wcBasedData != undefined && this.wcBasedData.length > 0){
       this.dataMap.set('totalActiveTrip', this.wcBasedData[0].numberOfActiveTrip);
       this.dataMap.set('totalCompletedTrip', this.wcBasedData[0].numberOfCompletedTrip);
@@ -337,7 +344,6 @@ export class DashboardComponent {
       this.dataMap.set('numberOfActiveTrip', this.wcBasedData[0].numberOfActiveTrip);
       this.dataMap.set('numberOfMaintenanceVehicle', 0);
       this.dataMap.set('numberOfAvailableVehicle', this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip);
-
       this.createChart4([this.wcBasedData[0].numberOfVehicles,this.wcBasedData[0].numberOfActiveTrip, 0 , this.wcBasedData[0].numberOfVehicles -  this.wcBasedData[0].numberOfActiveTrip]);
    }
 
@@ -841,4 +847,3 @@ export class DashboardComponent {
   }
 
 }
-

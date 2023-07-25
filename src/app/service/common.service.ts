@@ -12,16 +12,19 @@ export class DeactivationDto {
 })
 export class CommonService {
 
-//      endpoint =  `http://15.207.62.200`;   //DEV
-        endpoint = 'http://43.204.240.44'; //PROD
-//      endpoint = `http://localhost`; //LOCCAL
-uniqueUserId:any
-userDetails:any=[]
+
+
+     endpoint =  `http://15.207.62.200`;   //DEV
+      // endpoint = 'http://43.204.240.44'; //PROD
+     // endpoint = `http://localhost`; //LOCCAL
+
+
 
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
-        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+      //  LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
        
  }
         
@@ -186,6 +189,7 @@ userDetails:any=[]
                 return this.http.put(this.environment.URL + '/zone/updateGoods', item)
         }
         updateSubGood(item: any, subGoodId: any) {
+                debugger;
                 return this.http.put(this.environment.URL + '/zone/updateGoodssub/', item)
         }
         updateDriver(item: any) {
@@ -239,6 +243,10 @@ userDetails:any=[]
         }
         saveMrfData(data: any) {
                 return this.http.post(this.environment.URL + '/zone/addMrf', data)
+        }
+        saveStockData(data: any) {
+             
+                return this.http.post(this.environment.URL + '/zone/addStockData', data)
         }
         updateMrf(data: any) {
                 return this.http.post(this.environment.URL + '/zone/updateMrf', data)
@@ -301,11 +309,11 @@ userDetails:any=[]
         }
         
         getAllActiveTripInGraveYardFotTTS() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/tts/' + localStorage.getItem('wcId')+'/'+localStorage.getItem('userUniqueUserId'))
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/active/trip/for/tts/' + localStorage.getItem('wcId'))
         }
 
         getAllCompletedTripInGraveYardForTTS() {
-                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/tts/' + localStorage.getItem('wcId')+'/'+localStorage.getItem('userUniqueUserId'))
+                return this.http.get(this.environment.URL + '/inventory/get/all/dryingyard/completed/trip/for/tts/' + localStorage.getItem('wcId'))
         }
 
         getAllActiveTripInDryingYardForyingYardUser() {
@@ -384,7 +392,23 @@ userDetails:any=[]
         soldBailing(data:any){
                 return this.http.post(this.environment.URL+'/zone/sold/bailing',data)
         }
-        getAllTts(){
-                return this.http.get(this.environment.URL+'/get/all/tts/users')
+        mrfSoldBailing(data:any){
+                
+                return this.http.post(this.environment.URL+'/zone/mrf/bailling/sold',data)
         }
+        getAllMrfSoldByWCId(wcId: any) {
+                return this.http.get(this.environment.URL + '/zone/getAllMrfSoldByWCId/' + wcId)
+        }
+        getPerCostValueSubGdId(wcId: any) {
+                return this.http.get(this.environment.URL + '/zone/getPerCostValueSubGdId/' + wcId)
+        }
+
+        updateVehicleMantenanceStatus(data:any){
+                return this.http.post(this.environment.URL+'/update/vehicle/maintenance' , data)
+        }
+        getVehicleMainTenanceListByWcId() {
+                return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
+        }
+        
+
 }

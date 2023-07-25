@@ -15,7 +15,7 @@ export class GoodsSubMasterComponent {
         subGoodsId:any
         goodsId:any
         goods: any
-        wcId : any = 0;
+        wcId : any ;
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.wcId = localStorage.getItem('wcId');
                 this.getList()
@@ -82,7 +82,7 @@ export class GoodsSubMasterComponent {
                         const goods = this.goodsList[this.goodsList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
                         const data = {
                                 "subGoodsDesc": this.form.value.subGoodsDesc,
-                                // "subGoodsPerKg": this.form.value.subGoodsPerKg,
+                                 "subGoodsPerKg": this.form.value.subGoodsPerKg,
                                 "subgoodsName": this.form.value.subgoodsName,
                                 "goods": goods,
                                 "wcId":{"wcId":localStorage.getItem("wcId")},
@@ -132,7 +132,8 @@ export class GoodsSubMasterComponent {
         }
 
         updateWcc() {
-                if (this.form.status === 'INVALID') {
+                debugger;
+            //    if (this.form.status === 'INVALID') {
                         const goods = this.form.value.goodsId;
                         if (!goods) {
                                 this.toastService.showWarning('Goods is required.');
@@ -148,9 +149,13 @@ export class GoodsSubMasterComponent {
                                 this.toastService.showWarning('Sub-goods per kg is required.');
                                 return;
                         }
-                        return;
-                }
+                   //     return;
+           //     }
                 this.form.value.wcId = parseInt(this.wcId);
+
+                 
+
+                this.form.value.subGoodsPerKg=String(this.form.value.subGoodsPerKg);
                 this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
                         data => {
                                 this.toastService.showSuccess("Sub-goods data updated successfully")
@@ -160,9 +165,17 @@ export class GoodsSubMasterComponent {
                                 this.form.reset()
                         },
                         error => {
+                                console.log(error)
                                 this.toastService.showError("something went wrong")
                         }
                 );
+
+
+
+
+
+
+                 
 
         }
 }

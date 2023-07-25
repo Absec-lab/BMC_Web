@@ -1,6 +1,7 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReportGenerate } from '../model/pit.model';
+import { environment } from 'src/environments/environment';
 
 
 export class DeactivationDto {
@@ -8,15 +9,6 @@ export class DeactivationDto {
         activationStatus: Boolean = false
 }
 
-const environment = {
-
-
-                             REPORT_SERVICE_URL: 'http://43.204.240.44:8065'// Prod IP
-
-//                             REPORT_SERVICE_URL: 'http://localhost:8065'// Dev IP
-
- //                          REPORT_SERVICE_URL: 'http://15.207.62.200:8065'// Local IP
-}
 
 @Injectable({
         providedIn: 'root'
@@ -28,7 +20,7 @@ export class ReportService {
         get(path: string): any {
                 return new Promise(async (resolve, reject) => {
                         try {
-                                let url = environment.REPORT_SERVICE_URL + path;
+                                let url = `${environment.url}:${environment.port}` + path;
                                 let callData = await this.http.get(url).toPromise();
                                 resolve(callData);
                         } catch (error) {
@@ -38,7 +30,7 @@ export class ReportService {
         }
         post(path: string, body: any): any {
                 return new Promise(async (resolve, reject) => {
-                        let url = environment.REPORT_SERVICE_URL + path;
+                        let url = `${environment.url}:${environment.port}` + path;
                         this.http.post(url, body)
                                 .subscribe((callData: any) => {
                                         resolve(callData);
@@ -50,7 +42,7 @@ export class ReportService {
         delete(path: string): any {
                 return new Promise(async (resolve, reject) => {
                         try {
-                                const url = environment.REPORT_SERVICE_URL + path
+                                const url = `${environment.url}:${environment.port}` + path
                                 console.log(url)
                                 const res = await this.http.delete(url, { responseType: 'text' }).toPromise()
                                 resolve(res);
@@ -60,18 +52,16 @@ export class ReportService {
                 });
         }
 
-
         //Arbind code
         getInventoryReport(payload : ReportGenerate) {
-             return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-inventory', payload);      
+             return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-inventory', payload);      
         }
 
         getGarbageReport(payload : ReportGenerate) {
-                return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-garbage', payload);      
+                return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-garbage', payload);      
         }
 
         getTripReport(payload : ReportGenerate) {
-                return this.http.post<any>(environment.REPORT_SERVICE_URL + '/generate-report-trip', payload);      
+                return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-trip', payload);      
         }
-        
 }
