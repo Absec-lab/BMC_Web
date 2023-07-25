@@ -6,14 +6,13 @@ import { ReportGenerate, PitHistoryReq, PitModel, PitProcessMain, PitStageRoot, 
 import { PitInitModel, SubmitWorkflowPayload, UpdatePitStatusPayload } from '../model/pitInit.model';
 import { TodayTaskModel } from '../model/todaytask.model';
 import { PitStatusModel } from '../model/pit-status.model';
+import { environment } from 'src/environments/environment';
 
 
 
-//     const endpoint =  `http://15.207.62.200`;  //DEV
-       const endpoint = `http://43.204.240.44`;   //PROD
-//     const endpoint = `http://localhost`;       //LOCCAL
+ const endpoint =  environment.url;  
 
-const environment = {
+const environmentVar = {
 
   URL: endpoint+':9091',  //dev url
   AUTH_SERVICE_URL: endpoint+':8064/bmcwastemanagement/auth/users/login',
@@ -40,7 +39,7 @@ export class PitService {
 
   getAllPitsByMcc(pitPay : pitPayload): Observable<PitModel> {
     let param = pitPay;
-    let urlString =   environment.PIT_SERVICE_URL +'pit/v1/getAllPitListByMccId';
+    let urlString =   environmentVar.PIT_SERVICE_URL +'pit/v1/getAllPitListByMccId';
     return this.http.post<PitModel>(urlString, param);
   }
 
@@ -49,43 +48,43 @@ export class PitService {
     const requestHeaders = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict), 
     };
-    let urlString = environment.PIT_SERVICE_URL + environment.savePitInit;
+    let urlString = environmentVar.PIT_SERVICE_URL + environmentVar.savePitInit;
     return this.http.post<PitInitModel>(urlString, inParam , requestHeaders);
   }
 
   onFetchPitHistoryDetails(inParam: PitHistoryReq): Observable<PitProcessMain> {
-    let urlString = environment.PIT_SERVICE_URL + environment.getPitHistory;
+    let urlString = environmentVar.PIT_SERVICE_URL + environmentVar.getPitHistory;
     return this.http.post<PitProcessMain>(urlString, inParam);
   }
 
   submitRequestForBatchBeforeCompost(inParam: SubmitWorkflowPayload): Observable<PitModel> {
-    let urlString = environment.PIT_SERVICE_URL + environment.submitWorkflowInit;
+    let urlString = environmentVar.PIT_SERVICE_URL + environmentVar.submitWorkflowInit;
     return this.http.post<PitModel>(urlString, inParam);
   }
 
   updateRequestForStatusUpdate(inParam: UpdatePitStatusPayload): Observable<PitModel> {
-    let urlString = environment.PIT_SERVICE_URL + environment.pitstatusUpdate;
+    let urlString = environmentVar.PIT_SERVICE_URL + environmentVar.pitstatusUpdate;
     return this.http.post<PitModel>(urlString, inParam);
   }
 
   
   onReportGenerate(inParam: ReportGenerate): Observable<PitModel> {
-    let urlString = environment.PIT_SERVICE_URL + environment.reportService;
+    let urlString = environmentVar.PIT_SERVICE_URL + environmentVar.reportService;
     return this.http.post<PitModel>(urlString, inParam);
   }
 
   getTodayTaskList(payload: {
     mccId: Number
   }) {
-    return this.http.post<TodayTaskModel>(`${environment.PIT_SERVICE_URL}pit/v1/getTodaysTaskView`, payload);
+    return this.http.post<TodayTaskModel>(`${environmentVar.PIT_SERVICE_URL}pit/v1/getTodaysTaskView`, payload);
   }
 
   getAllPitStatus() {
-    return this.http.get<PitStatusModel>(`${environment.PIT_SERVICE_URL}pit/v1/getAllPitStatus`)
+    return this.http.get<PitStatusModel>(`${environmentVar.PIT_SERVICE_URL}pit/v1/getAllPitStatus`)
   }
 
   getAllPitStagesStatus(payload:any){
-     return this.http.post<PitStageRoot>(`${environment.PIT_SERVICE_URL}pit/v1/getPitAllStageDetails`,payload)
+     return this.http.post<PitStageRoot>(`${environmentVar.PIT_SERVICE_URL}pit/v1/getPitAllStageDetails`,payload)
   }
 
   updatePitStatus(payload: {
@@ -93,6 +92,6 @@ export class PitService {
     "operationStatus": Number,
     "remarks":string
   }) {
-    return this.http.post<{code: Number; message:string;}>(`${environment.PIT_SERVICE_URL}pit/v1/updatePitOperationStatus`, payload);
+    return this.http.post<{code: Number; message:string;}>(`${environmentVar.PIT_SERVICE_URL}pit/v1/updatePitOperationStatus`, payload);
   }
 }
