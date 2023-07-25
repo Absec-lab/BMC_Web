@@ -386,4 +386,11 @@ userDetails:any=[]
         getAllTts(){
                 return this.http.get(this.environment.URL+'/get/all/tts/users')
         }
+        updateVehicleMantenanceStatus(data:any){
+                return this.http.post(this.environment.URL+'/update/vehicle/maintenance' , data)
+        }
+        getVehicleMainTenanceListByWcId() {
+                return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
+        }
+        
 }

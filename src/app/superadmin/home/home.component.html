@@ -18,7 +18,7 @@
                     <h5>MCC</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/mrf-tab" class="home-card home-card-3">
+            <a routerLink="/superadmin/mrf-tab" class="home-card home-card-3" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/glass.png" alt="" class="home-card-icon">
                     <h5>MRF</h5>
@@ -30,13 +30,13 @@
                     <h5>Waste Trip</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/drying-yard/compost-drying" class="home-card home-card-7">
+            <a routerLink="/superadmin/drying-yard/compost-drying" class="home-card home-card-7" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/fertilizer.png" alt="" class="home-card-icon">
                     <h5>Mo Khata</h5>
                 </div>
             </a>
-            <a routerLink="/superadmin/vehicle/management" class="home-card home-card-5">
+            <a routerLink="/superadmin/vehicle/management" class="home-card home-card-5" *ngIf="role != 'bmcsuperadminuser'">
                 <div class="text-center">
                     <img src="/assets/images/icons/truck.png" alt="" class="home-card-icon">
                     <h5>Vehicle Mgmt</h5>

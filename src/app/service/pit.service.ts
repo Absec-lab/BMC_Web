@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 
 
 
-      const endpoint =  environment.url;  
+ const endpoint =  environment.url;  
 
 const environmentVar = {
 

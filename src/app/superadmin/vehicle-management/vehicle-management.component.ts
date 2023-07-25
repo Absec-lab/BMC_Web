@@ -27,7 +27,6 @@ export class VehicleManagementComponent implements OnInit {
   studentName: any;
   studentEmail: any;
   submitted = false;
-
   id: any;
   studentBranch: any;
 
@@ -54,7 +53,7 @@ export class VehicleManagementComponent implements OnInit {
 
     forkJoin([
       this.service.getZoneAllData(),
-      this.service.getVehicleListByWcId(),
+      this.service.getVehicleMainTenanceListByWcId(),
     ]).subscribe({
       next: ([zoneData, vehicleListData]) => {
         this.zoneList = zoneData;
@@ -74,32 +73,64 @@ export class VehicleManagementComponent implements OnInit {
     this.form.controls["vehicleStatus"].setValue(ev.target.value);
   }
 
-  onSubmit() {
-    let payload = {
-      activateBy: "string",
-      createdBy: "string",
-      createdDate: "string",
-      id: 0,
-      inactivateBy: "string",
-      maintenanceImage1: "string",
-      maintenanceImage2: "string",
-      maintenanceImage3: "string",
-      underMaintenance:
-        this.form.controls["vehicleStatus"].value,
-      underMaintenanceDate: "string",
-      underMaintenanceReason: this.form.controls["comment"].value,
-      updatedBy: "string",
-      updatedDate: "string",
-      vehicleActivateDate: "string",
-      vehicleActivateImage: "string",
-      vehicleActivateReason: String,
-      vehicleNo: "string",
-    }; 
+  onSubmitUpdateStatus(vehicle:any , i:number) {
+   let payload = {
+      "activateBy": "",
+      "createdBy": "",
+      "createdDate": "",
+      "id": 0,
+      "inactivateBy": "",
+      "maintenanceImage1": "",
+      "maintenanceImage2": "",
+      "maintenanceImage3": "",
+      "underMaintenance": false,
+      "underMaintenanceDate": "",
+      "underMaintenanceReason": "",
+      "updatedBy": "",
+      "updatedDate": "",
+      "vehicleActivateDate": "",
+      "vehicleActivateImage": "",
+      "vehicleActivateReason": "",
+      "vehicleNo": "",
+      "wc": {
+        "wcId": 0
+      },
+      "zone": {
+        "zoneId": 0
+      }
+    }
+    console.log('Vahicle :  ',vehicle);
+    console.log('Index :  ',i);
+    var uId : any = localStorage.getItem('userUniqueUserId');
+    payload.wc.wcId = vehicle.wc.wcId
+    payload.zone.zoneId = vehicle.zone.zoneId
+    payload.vehicleNo = vehicle.vehicleNo
+    if(this.form.controls["vehicleStatus"].value == true){  // 
+      payload.underMaintenance = true
+      payload.underMaintenanceReason = this.form.controls["comment"].value
+      payload.inactivateBy = uId
+    }else if(this.form.controls["vehicleStatus"].value == false){
+      payload.underMaintenance = false
+      payload.vehicleActivateReason = this.form.controls["comment"].value
+      payload.vehicleNo = vehicle.vehicleNo
+      payload.activateBy = uId
+    }
 
-    console.log(payload)
+    this.updateVehicleStatus(payload);
   }
 
   updateVehicleStatus(data: any) {
-    console.log(data);
+    console.log('  Update status :::   {} ' , data);
+    this.service.updateVehicleMantenanceStatus(data)
+          .subscribe({
+            next:(response : any)=>{
+              console.log('Logged success  ',response);
+            },
+            error(err:any){
+              console.error('Logged error  ',err);
+            }
+    })
   }
+
+
 }
