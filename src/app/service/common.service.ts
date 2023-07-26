@@ -415,6 +415,8 @@ export class CommonService {
         getVehicleMainTenanceListByWcId() {
                 return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
         }
-        
+        getAllTts(){
+                return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
+        } 
 
 }

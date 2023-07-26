@@ -375,8 +375,8 @@ export class MrfTabComponent implements OnInit {
         this.toastService.showWarning('Inert material must be a valid number.');
         return;
       }
-      return;
-    }
+      
+   
 
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
     const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
@@ -426,6 +426,7 @@ export class MrfTabComponent implements OnInit {
     this.getList()
     this.form.reset()
   }
+}
   updateMrf() {
 
 
