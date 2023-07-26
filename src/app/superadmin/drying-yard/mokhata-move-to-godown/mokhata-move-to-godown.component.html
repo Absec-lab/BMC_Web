@@ -15,196 +15,191 @@
 					<div class="breadcrumb">
 						<a routerLink="/superadmin/dashboard"><i class="fa-solid fa-home"></i></a>
 						<span class="mx-2">/</span>
-						<span>Mo Khata Move to Godown</span>
+          <span>Mo Khata Move to Godown</span>
+        </div>
+					<div class="mt-4">
+						<div class="card rounded-0">
+							<div class="card-header rounded-0">
+								Mo Khata Move to Godown
+      			</div>
+							<div class="card-body">
+								<form [formGroup]="form">
+									<div class="row">
+                                        <div class="col-md-6">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Drying Yard
+												</div>
+												<div class="col-md-9">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryyardId">
+														<option [value]="item.dryyardId" *ngFor="let item of dryingyardList" selected>{{item.centerName}}</option>
+													</select>
+												</div>
+											</div>
+										</div>										
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Godown
+												</div>
+												<div class="col-md-9">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="godownId">
+														<option [value]="item.godownId" *ngFor="let item of godownList" selected>{{item.godownName}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Vehicle No
+												</div>
+												<div class="col-md-9">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="vehicleId" (ngModelChange)="getAllDriverByvehicleId()" [(ngModel)]="vehicleNo">
+														<option [value]="item.vehicleId" *ngFor="let item of vehicleList" selected>{{item.vehicleNo}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Driver Name
+												</div>
+												<div class="col-md-9">
+												<select name="" id="" class="form-control form-select bg-white text-black" formControlName="driverId"> 
+														<option [value]="item.driverId" *ngFor="let item of driverList" selected>{{item.driverName}}</option>
+													</select>												
+												</div>
+												
+											</div>
+										</div>
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Packet Wt
+												</div>
+												<div class="col-md-9">
+													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="packetWt">
+														<option value="10"  selected>10</option>
+                                                        <option value="20"  selected>20</option>
+                                                        <option value="50"  selected>30</option>
+                                                        <option value="100"  selected>50</option>
+
+													</select>
+												</div>
+											</div>
+										</div>										
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Packet Cost
+												</div>
+												<div class="col-md-9">
+													<input type="text" name="" id="" class="form-control" formControlName="packetCost">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													No Of Packets
+												</div>
+												<div class="col-md-9">
+													<input type="text" name="" id="" class="form-control" formControlName="noOfPacket">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Total Cost
+												</div>
+												<div class="col-md-9">
+													<input type="text" name="" id="" class="form-control" formControlName="totalCost">
+												</div>
+											</div>
+										</div>
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Date
+												</div>
+												<div class="col-md-9">
+													<div class="input-group">
+												<input type="date" name="" id="" class="form-control" formControlName="date"> 
+												</div>
+											</div>												
+											</div>
+										</div>
+                                        <div class="col-md-6 mt-3">
+											<div class="row">
+												<div class="col-md-3 d-flex align-items-center pe-0">
+													Description
+												</div>
+												<div class="col-md-9">
+													<input type="text" name="" id="" class="form-control" formControlName="description">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="text-end mt-3" *ngIf="isAdd">
+            <button class="btn btn-primary px-5 py-2" (click)="saveMoKhataToGodown()">Add</button>
+						</div>
+						<div class="text-end mt-3" *ngIf="isUpdate">
+							<button class="btn btn-primary px-5 py-2" (click)="cancel()">Cancel</button>
+							<button class="btn btn-primary px-5 py-2" style="margin-left: 20px;" (click)="updateCompostDrying()">Update</button>
+          	</div>
 					</div>
-                </div>
-                <div class="mt-4">
-                    <div class="card rounded-0">
-                        <div class="card-header rounded-0">
-                            Mo Khata Move to Godown
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Drying Area</div>
-                                        <div class="col-md-9">
-                                            <select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Godown</div>
-                                        <div class="col-md-9">
-                                            <select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Vehicle No</div>
-                                        <div class="col-md-9">
-                                            <select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Driver Name</div>
-                                        <div class="col-md-9">
-                                            <select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Package Wt</div>
-                                        <div class="col-md-9">
-                                            <select name="" id="" class="form-control form-select bg-transparent text-white">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Package Cost</div>
-                                        <div class="col-md-9">
-                                            <input type="number" name="" id="" class="form-control">
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">No. of Packets</div>
-                                        <div class="col-md-9">
-                                            <input type="number" name="" id="" class="form-control">
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Total Cost</div>
-                                        <div class="col-md-9">
-                                            <input type="number" name="" id="" class="form-control">
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Date</div>
-                                        <div class="col-md-9">
-                                            <input type="date" name="" id="" class="form-control">
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center pe-0">Description</div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="" id="" class="form-control">
-                                        </div>
-                                    </div>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end mt-4">
-                        <button class="btn btn-primary px-5 py-2">ADD</button>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <div class="p-2 d-md-flex align-items-center justify-content-start justify-content-md-end flex-wrap gap-4 border border-b-0" style="background-color: #2B2C4B;">
-                        <div class="d-flex align-items-center gap-2 mb-3 mb-md-0">
-                            <div style="min-width: max-content;">Package Wt.</div>
-                            <select name="" id="" class="form-control" style="min-width: 150px;">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-3 mb-md-0">
-                            <div style="min-width: max-content;">Godown</div>
-                            <select name="" id="" class="form-control" style="min-width: 150px;">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-3 mb-md-0">
-                            <div style="min-width: max-content;">Select Date</div>
-                            <input type="date" name="" id="" placeholder="Select Date" class="form-control" style="min-width: 150px;">
-                        </div>
-                        <button class="btn btn-primary">Search</button>
-                    </div>
-                    <div class="w-100" style="overflow-x: auto;">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>SL No.</th>
-                                    <th>WC Name</th>
+					<div class="mt-4">
+						<table class="table table-bordered table-striped">
+							<thead class="bg-primary text-white text-center">
+								<tr>
+									<th>Sl. No.</th>
+									<th>WC Name</th>
                                     <th>Godown Name</th>
-                                    <th>Vehicle No.</th>
-                                    <th>Driver Name</th>
-                                    <th>Package Wt.</th>
-                                    <th>Package Cost</th>
-                                    <th>No Package</th>
-                                    <th>Total Cost</th>
-                                    <th>Description</th>
-                                    <th>Created Date</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Pokhariput WC</td>
-                                    <td>Godown 1</td>
-                                    <td>Garbage</td>
-                                    <td>Suman</td>
-                                    <td>25 KG</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>PIT Material</td>
-                                    <td>04/04/2023</td>
-                                    <td>
-                                        <div class="d-flex gap-2 h-100">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Pokhariput WC</td>
-                                    <td>Godown 2</td>
-                                    <td>Garbage</td>
-                                    <td>Suman</td>
-                                    <td>25 KG</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>PIT Material</td>
-                                    <td>04/04/2023</td>
-                                    <td>
-                                        <div class="d-flex gap-2 h-100">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                        </div>
-                                    </td>
+                                    <th>Vehicle NO</th>
+									<th>Driver Name</th>
+									<th>Package Cost</th>
+									<th>No. Of Package</th>
+									<th>Total Cost</th>
+									<th>Description</th>
+									<th>Created Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							 <tbody class="text-center">
+                                <tr *ngFor="let x of list; index as i;">
+                                        <td>{{ i + 1}}</td>
+                                        <td>{{ x.wc?.wcName || '--' }}</td>
+                                        <td>{{ x.godown?.godownName || '--' }}</td>
+                                        <td>{{ x.vehicle?.vehicleNo || '--' }}</td>
+                                        <td>{{ x.driver?.driverName || '--' }}</td>
+                                        <td>{{ x.packageCost || '--' }}</td>
+                                        <td>{{ x.noOfPackets || '--' }}</td>
+                                        <td>{{ x.total_cost || '--' }}</td>
+                                        <td>{{ x.description || '--' }}</td>
+                                        <td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
+                                        </td>
+                                        <td
+                                                class="d-flex align-items-center gap-1 justify-content-center">
+                                                <button class="btn btn-primary btn-sm" (click)="updateData(x)">
+                                                        <i class="fa-solid fa-edit"></i>
+                                                </button>
+                                                <button (click)="remove(x.mrfTrnsId)" class="btn btn-danger btn-sm">
+                                                        <i class="fa-solid fa-trash-alt"></i>
+                                                </button>
+                                        </td>
                                 </tr>
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
 <app-footer></app-footer>

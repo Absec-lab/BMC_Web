@@ -241,6 +241,9 @@ export class CommonService {
         saveCompostDrying(data: any) {
                 return this.http.post(this.environment.URL + '/inventory/addDryingCompost', data)
         }
+        saveMokathaMoveToGodown(data: any) {
+                return this.http.post(this.environment.URL + '/inventory/addMokhatamovetogodown', data)
+        }
         saveMrfData(data: any) {
                 return this.http.post(this.environment.URL + '/zone/addMrf', data)
         }
@@ -266,6 +269,9 @@ export class CommonService {
         }
         getAllDriverList() {
                 return this.http.get(this.environment.URL + '/zone/getAllDriver/' + localStorage.getItem("wcId"))
+        }
+        getAllGodownList() {
+                return this.http.get(this.environment.URL + '/inventory/getAllGodown/' + localStorage.getItem("wcId"))
         }
         getAllDriverByVehicleId(id: any) {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)
@@ -409,6 +415,8 @@ export class CommonService {
         getVehicleMainTenanceListByWcId() {
                 return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
         }
-        
+        getAllTts(){
+                return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
+        } 
 
 }
