@@ -132,15 +132,25 @@ export class DashboardComponent {
 
   currentDateSelect(){
     const dateElementFrom = document.querySelector('#filter_from_date') as HTMLInputElement;
-    dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
+    if (dateElementFrom) {
+      dateElementFrom.value = moment(new Date()).format('YYYY-MM-DD');
+    }
     const dateElementTo = document.querySelector('#filter_to_date') as HTMLInputElement;
-    dateElementTo.value = moment(new Date()).format('YYYY-MM-DD');
-
-    this.reportTripPayload.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
-    this.reportTripPayload.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
-
-    this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
-    this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+    if (dateElementTo) {
+      dateElementTo.value = moment(new Date()).format('YYYY-MM-DD');
+    }
+    if (this.reportTripPayload.fromDate) {
+      this.reportTripPayload.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement)?.value +" 00:00:00"
+    }
+    if (this.reportTripPayload.toDate) {
+      this.reportTripPayload.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement)?.value +" 00:00:00"
+    }
+    if (this.payloadInventory.fromDate) {
+      this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement)?.value +" 00:00:00"
+    }
+    if (this.payloadInventory.toDate) {
+      this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement)?.value +" 00:00:00"
+    }
   }
 
   ngOnInit() {
