@@ -187,7 +187,7 @@
                             <table class="table table-bordered text-center mb-0 bg-transparent text-white">
                                 <thead>
                                     <tr>
-                                        <th style="width: 30%">MCC Product Status</th>
+                                        <th style="width: 30%">MRF</th>
                                         <th style="width: 20%">Today</th>
                                         <th style="width: 25%">This Week</th>
                                         <th style="width: 25%">This Month</th>
@@ -195,23 +195,23 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Bailing</td>
-                                        <td>700 KG</td>
-                                        <td>1700 KG</td>
-                                        <td>2200 KG</td>
+                                        <td>MRF Processed</td>
+                                        <td>{{mrfDailyQtm}}</td>
+                                        <td>{{mrfWeeklyQtm}}</td>
+                                        <td>{{mrfMonthlyQtm}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Sold</td>
-                                        <td>460 KG</td>
-                                        <td>1500 KG</td>
-                                        <td>1800 KG</td>
+                                        <td>MRF InStock</td>
+                                        <td>{{mrfDailyInStock}}</td>
+                                        <td>{{mrfWeeklyInStock}}</td>
+                                        <td>{{mrfMonthlyInStock}}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Unsold</td>
                                         <td>640 KG</td>
                                         <td>1200 KG</td>
                                         <td>800 KG</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>

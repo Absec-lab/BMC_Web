@@ -31,16 +31,18 @@ export class VehicleManagementComponent implements OnInit {
   id: any;
   studentBranch: any;
 
-  form = new FormGroup({
-    vehicleStatus: new FormControl(),
-    comment: new FormControl(),
-  });
+  // form = new FormGroup({
+  //   vehicleStatus: new FormControl(),
+  //   comment: new FormControl(),
+  // });
 
   zoneList: any = [];
 
   vehicleList: VehicleManagementModel[] = [];
 
-  vehicleStatus = [{id:0, status:'Active'}, {id:1, status:'Under Maintenance'}];
+  vehicleStatus: boolean = false;
+
+  vehicleStatusArr = [{id:0, status:'Active'}, {id:1, status:'Under Maintenance'}];
 
   constructor(
     private service: CommonService,
@@ -75,7 +77,7 @@ export class VehicleManagementComponent implements OnInit {
   }
 
   onStatusChange(ev: any) {
-    this.form.controls["vehicleStatus"].setValue(ev.target.value);
+      this.vehicleStatus = ev.target.value;
   }
 
   onSubmitUpdateStatus(vehicle:any , i:number) {
@@ -111,13 +113,13 @@ export class VehicleManagementComponent implements OnInit {
     payload.zone.zoneId = vehicle.zone.zoneId
     payload.vehicleNo = vehicle.vehicleNo
     var commentId = "comment"+vehicle.vehicleNo;
-    if(this.form.controls["vehicleStatus"].value == true){  // 
+    if(this.vehicleStatus){  //
       payload.underMaintenance = true
-      payload.underMaintenanceReason = this.form.controls["comment"].value
+      payload.underMaintenanceReason = vehicle.undermaintenanceReason
       payload.inactivateBy = uId
-    }else if(this.form.controls["vehicleStatus"].value == false){
+    }else {
       payload.underMaintenance = false
-      payload.vehicleActivateReason = this.form.controls["comment"].value
+      payload.vehicleActivateReason = vehicle.undermaintenanceReason
       payload.vehicleNo = vehicle.vehicleNo
       payload.activateBy = uId
     }

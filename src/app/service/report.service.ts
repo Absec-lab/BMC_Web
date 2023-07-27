@@ -65,5 +65,8 @@ export class ReportService {
         getTripReport(payload : ReportGenerate) {
                 return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-trip', payload);      
         }
+        getMrfReport(payload : ReportGenerate) {
+                return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-mrf', payload);      
+        }
         
 }

@@ -39,7 +39,7 @@
 							<button class="btn btn-primary" style="font-size: 0.9rem;" hidden>Search</button>
 						</div>
 					</div>
-					<form [formGroup]="form">
+
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -63,16 +63,16 @@
 									<td>{{vehicle.vehicleNo}}</td>
 									<td>{{vehicle.route.routeName}}</td>
 									<td>{{vehicle.rcNo}}</td>
-									<td><select formControlName="vehicleStatus{{i}}"  [id]="i" class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)">
-										<option [value]="status.id" [selected]="!vehicle.isActive && vehicle.isUnderMaintenance ? 1 : 0" *ngFor="let status of vehicleStatus">{{status.status}}</option>
+									<td><select  class="form-control border-dark text-dark bg-transparent form-control-sm" (change)="onStatusChange($event)" >
+										<option [value]="status.id" [selected]="!vehicle.isActive && vehicle.isUnderMaintenance ? 1 : 0" *ngFor="let status of vehicleStatusArr">{{status.status}}</option>
 									</select></td>
-									<td><input type="text" formControlName="comment" id="" class="form-control border-dark text-dark form-control-sm"></td>
-									<td><button class="btn btn-sm btn-dark" type="submit" [disabled]="!form.valid" (click) = "onSubmitUpdateStatus(vehicle , i)">Submit</button></td>
+									<td><input type="text" class="form-control border-dark text-dark form-control-sm" [(ngModel)]="vehicle.undermaintenanceReason"></td>
+									<td><button class="btn btn-sm btn-dark" type="submit" [disabled]="!vehicle.undermaintenanceReason || vehicle.undermaintenanceReason.length === 0" (click)="onSubmitUpdateStatus(vehicle , i)">Submit</button></td>
 								
 							</tr>
 						</tbody>
 					</table>
-				</form>
+
 				</div>
 			</div>
 		</div>
