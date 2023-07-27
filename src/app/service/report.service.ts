@@ -1,3 +1,4 @@
+
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReportGenerate } from '../model/pit.model';
@@ -52,6 +53,7 @@ export class ReportService {
                 });
         }
 
+
         //Arbind code
         getInventoryReport(payload : ReportGenerate) {
              return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-inventory', payload);      
@@ -63,5 +65,8 @@ export class ReportService {
 
         getTripReport(payload : ReportGenerate) {
                 return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-trip', payload);      
+        }
+        getMrfReport(payload : ReportGenerate) {
+                return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-mrf', payload);      
         }
 }
