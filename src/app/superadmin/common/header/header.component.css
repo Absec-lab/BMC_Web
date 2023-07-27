@@ -152,6 +152,12 @@
   font-size: 1.3rem;
 }
 
+@media (max-width: 401px) {
+  .app-name {
+    font-size: 1.1rem;
+  }
+}
+
 .btn-account {
   background: #45C66D;
   display: flex;

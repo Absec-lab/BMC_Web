@@ -1,3 +1,4 @@
+
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -43,6 +44,15 @@ export class DashboardComponent {
   dataMap: any = new Map()
   zoneBasedData : any = []
   reportType = ''
+  mrfResponseWcData : any = []
+  reportMrfResponseWcData : any = []
+  mrfDailyQtm : any = 0
+  mrfDailyWaste : any = 0
+  mrfDailyInStock : any = 0
+  mrfWeeklyQtm : any = 0
+  mrfWeeklyInStock : any = 0
+  mrfMonthlyQtm : any = 0
+  mrfMonthlyInStock : any = 0
 
 
   form = new FormGroup({
@@ -67,6 +77,15 @@ export class DashboardComponent {
     fromDate: '',
     toDate: '',
     reportName: 'TRIP'
+  }
+
+  reportMrfPayload : ReportGenerate = {
+    reportType: 'MRF',
+    type: '',
+    wcId: 0,
+    fromDate: '',
+    toDate: '',
+    reportName: 'MRF'
   }
 
   constructor(private datePipe: DatePipe, private service: CommonService, private reportService: ReportService , private toastService: ToastService){
@@ -113,8 +132,9 @@ export class DashboardComponent {
   } 
   
   callAllCommonReportServices(eventType :string){
-    this.getInventoryRecord();
-    this.fetchReport(eventType);
+   this.getInventoryRecord();
+   this.fetchReport(eventType);
+   this.getReportMrfBasedOnWc()
   }
 
   resetData(){
@@ -141,6 +161,10 @@ export class DashboardComponent {
 
     this.payloadInventory.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
     this.payloadInventory.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+
+    this.reportMrfPayload.fromDate =  (document.querySelector(`input[id="filter_from_date"]`) as HTMLInputElement).value +" 00:00:00"
+    this.reportMrfPayload.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
+
   }
 
   ngOnInit() {
@@ -151,6 +175,7 @@ export class DashboardComponent {
          this.payloadInventory.wcId = localStorage.getItem('wcId')
          this.reportTripPayload.wcId = localStorage.getItem('wcId')
          this.wcSelectId = localStorage.getItem('wcId')
+         this.reportMrfPayload.wcId = this.wcSelectId
     }
     console.log(' wc selected :   ',this.wcSelectId )
     this.callAllCommonReportServices('TODAY');
@@ -185,6 +210,45 @@ export class DashboardComponent {
             console.log(this.zoneName)
           }
     );
+  }
+
+
+
+  getReportMrfBasedOnWc(){
+    this.mrfDailyQtm = 0
+    this.mrfDailyWaste = 0
+    this.mrfDailyInStock  = 0
+    this.mrfWeeklyQtm = 0
+    this.mrfWeeklyInStock = 0
+    this. mrfMonthlyQtm = 0
+    this.mrfMonthlyInStock = 0
+    if (localStorage.getItem("role") != "bmcadmin" && localStorage.getItem("role") != "bmcsuperadminuser") {
+      this.wcSelectId = localStorage.getItem("wcId")
+    }
+    this.reportMrfPayload.wcId = this.wcSelectId
+    try {
+    this.reportService.getMrfReport( this.reportMrfPayload ).subscribe(
+      data => {
+        this.mrfReportList = data
+        console.log(' Mrf report Response :  ', this.mrfReportList);
+        this.mrfDailyQtm = this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0)
+        this.mrfDailyInStock = this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)
+        this.mrfWeeklyQtm = this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)      
+        this.mrfWeeklyInStock = this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) 
+        this.mrfMonthlyQtm = this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0)      
+        this.mrfMonthlyInStock = this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                                      .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0)                                                                                                             
+      }
+    ); 
+    }catch(ex){
+      console.error(ex)
+    }
+
   }
 
   getZones() {
@@ -247,6 +311,7 @@ export class DashboardComponent {
       this.wcSelectId = localStorage.getItem('wcId');
     }
     this.payloadInventory.wcId = this.wcSelectId
+    this.reportMrfPayload.wcId = this.wcSelectId
     this.currentDateSelect();
     this.callAllCommonReportServices('TODAY');
 
@@ -297,11 +362,11 @@ export class DashboardComponent {
   fetchReport(eventType :string){
   
     this.reportService.getTripReport(this.reportTripPayload)
-    .subscribe((response) => {
-     console.log(response);
+         .subscribe((response) => {
+          console.log(response);
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
     this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
-  //  this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
+  //this.reportResponsePopup3 = response.response.TRIPRESPONSE_POPUP3
  
    if((this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null) &&
       (this.reportResponseWcBasedMrfData == undefined || this.reportResponseWcBasedMrfData == null) ){
@@ -310,7 +375,7 @@ export class DashboardComponent {
    }
    //short fix
    if(this.wcSelectId == undefined || (localStorage.getItem('role') != 'bmcsuperadmin' 
-                                    && localStorage.getItem('role') != 'bmcsuperadmin')
+                                    && localStorage.getItem('role') != 'bmcadmin')
                                     && localStorage.getItem('wcId') != '0'){
         this.wcSelectId = localStorage.getItem('wcId')
    }
@@ -325,10 +390,12 @@ export class DashboardComponent {
         });
    }
    
-
-   this.wcBasedMrfData = this.reportResponseWcBasedMrfData.filter( (element:any) => {
-      return element.wealthCenterId == this.wcSelectId
-   });
+   if(this.reportResponseWcBasedMrfData != undefined){
+      this.wcBasedMrfData = this.reportResponseWcBasedMrfData.filter( (element:any) => {
+        return element.wealthCenterId == this.wcSelectId
+      });
+   }
+   
    this.dataMap = new Map()
    console.log('  report response wc based ',this.wcBasedData );
    console.log('  report response wc based mrf ',this.wcBasedMrfData );
@@ -360,47 +427,8 @@ export class DashboardComponent {
                                   this.wcBasedMrfData[0].totalFirstHalfWetWeight :  eventType == 'SECOND_HALF' ?
                                   this.wcBasedMrfData[0].totalSecondHalfWetWeight : 0
     
-    );
- }
-
-   
-
-    
-
-
-    // const groupedByZone = this.groupBy(this.reportResponseWcBasedData, (popup1popup2:any) => popup1popup2.zoneName);
-    // for (let key of groupedByZone.keys()) {
-    // let totalVehicles : number = 0;
-    // let totalNoOfActiveTrip : number = 0;
-    // let totalNoOfCompletedTrip : number = 0;
-    //    groupedByZone.get(key).map( (obj : any) => {
-    //         if(this.zoneDataArr.some((element:any) => element.get('zone') == key )){
-    //           this.zoneMap = new Map()
-    //           const existingzoneMap = this.zoneDataArr.filter((element:any) => element.get('zone') == key)[0];
-    //           this.zoneDataArr.pop(existingzoneMap)
-    //           totalVehicles = obj.numberOfVehicles + existingzoneMap.get('totalvehicle')
-    //           totalNoOfActiveTrip = obj.numberOfActiveTrip + existingzoneMap.get('totalActiveTrip')
-    //           totalNoOfCompletedTrip = obj.numberOfCompletedTrip + existingzoneMap.get('totalCompletedTrip')
-    //           existingzoneMap.set('zoneId' , obj.zoneId);
-    //           existingzoneMap.set('zone' , obj.zoneName);
-    //           existingzoneMap.set('totalvehicle' , totalVehicles);
-    //           existingzoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
-    //           existingzoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
-    //           this.zoneDataArr.push(existingzoneMap)
-    //         }else{
-    //           this.zoneMap = new Map()
-    //           totalVehicles = totalVehicles + obj.numberOfVehicles
-    //           totalNoOfActiveTrip = totalNoOfActiveTrip + obj.numberOfActiveTrip
-    //           totalNoOfCompletedTrip = totalNoOfCompletedTrip + obj.numberOfCompletedTrip
-    //           this.zoneMap.set('zoneId' , obj.zoneId);
-    //           this.zoneMap.set('zone' , obj.zoneName);
-    //           this.zoneMap.set('totalvehicle' , totalVehicles);
-    //           this.zoneMap.set('totalActiveTrip' , totalNoOfActiveTrip);
-    //           this.zoneMap.set('totalCompletedTrip' , totalNoOfCompletedTrip);
-    //           this.zoneDataArr.push(this.zoneMap)
-    //         }
-    //      })
-    //    }
+         );
+       }
     });
   }
 
@@ -845,5 +873,4 @@ export class DashboardComponent {
       },
     });
   }
-
 }
