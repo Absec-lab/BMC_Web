@@ -52,7 +52,6 @@
 					</div>
 				</div>
 			</div>
-
 			<!-- <a class="sidebar-link" data-bs-toggle="collapse" href="/superadmin/portal-dashboards/dashboard-four" role="button" aria-expanded="true" aria-controls="collapseSidebarMasterEntryLinks">
 				<i class="fa-solid fa-gauge-high"></i>
 				<span>Dashboard</span>
@@ -103,7 +102,7 @@
 				<i class="fa-brands fa-bitbucket"></i>
 				<span>MCC</span>
 			</a> -->
-			<a routerLink="/superadmin/mrf" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin'" hidden>
+			<a routerLink="/superadmin/mrf-tab" class="sidebar-link">
 				<i class="fa-brands fa-bitbucket"></i>
 			</a>
 			<a routerLink="/superadmin/mrf-tab" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role != 'bmcsuperadminuser'">

@@ -26,7 +26,7 @@ export class EditActiveTripModalComponent implements OnInit {
     trip_end_reading_image: new FormControl(''),
     trip_end_reading_date: new FormControl('', [Validators.required]),
     tripId: new FormControl(),
-    move_tts: new FormControl,
+     move_tts: new FormControl,
     tts_user_id: new FormControl
   });
 
