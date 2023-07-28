@@ -1,3 +1,4 @@
+
 import { DatePipe } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -208,7 +209,7 @@ export class DashboardComponent {
     this.createChart1();
     //this.createChart2([], []);
     this.createChart4([0,0,0,0]);
-    //this.createChart5([0,0,0]);
+    this.createChart5([0,0,0]);
     this.createChart6();
     if (this.role  == "bmcadmin" || this.role == "bmcsuperadminuser") {
         this.service.getZoneAllData().subscribe(
@@ -927,6 +928,55 @@ export class DashboardComponent {
         color: "white",
         maintainAspectRatio: false,
         skipNull: true
+      },
+    });
+  }
+
+  createChart5(dataArr: number[]) {
+    this.inventoryDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
+    if (this.chart5 != null && this.chart5 != undefined) {
+      this.chart5.destroy()
+    }
+    this.chart5 = new Chart("chart-029ea4bc-fac1-4296-b731-25bb7c6598ac", {
+      type: "bar",
+      data: {
+        labels: ["Purchase", "Issue Stock", "In Stock"],
+        datasets: [
+          {
+            label: "",
+            data: dataArr,
+            backgroundColor: ["#14A2F4", "#EE321F", "#12D881"],
+            barThickness: 20,
+          },
+        ],
+      },
+      // plugins: [ChartDataLabels],
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        scales: {
+          x: {
+            ticks: {
+              color: "white",
+            },
+          },
+          y: {
+            ticks: {
+              color: "white",
+            },
+          },
+        },
+        color: "white",
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+            position: "left",
+            labels: {
+              color: "#fff",
+            },
+          },
+        },
       },
     });
   }

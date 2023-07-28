@@ -1,3 +1,4 @@
+
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReportGenerate } from '../model/pit.model';
@@ -68,5 +69,4 @@ export class ReportService {
         getMrfReport(payload : ReportGenerate) {
                 return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-mrf', payload);      
         }
-        
 }
