@@ -102,9 +102,6 @@
 				<i class="fa-brands fa-bitbucket"></i>
 				<span>MCC</span>
 			</a> -->
-			<a routerLink="/superadmin/mrf-tab" class="sidebar-link">
-				<i class="fa-brands fa-bitbucket"></i>
-			</a>
 			<a routerLink="/superadmin/mrf-tab" class="sidebar-link" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role != 'bmcsuperadminuser'">
                              <i class="fa-brands fa-bitbucket"></i>
 					<span>MRF</span>			
@@ -201,6 +198,14 @@
 			
 		<!-- org: class: sidebar-sub-menu collapse -->
 			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks4" *ngIf="role === 'wcuser' || role === 'bmcadmin' || role != 'bmcsuperadminuser'">
+				<a routerLink="/superadmin/agency-master" class="sidebar-link">
+					<i class="fa-solid fa-arrow-right"></i>
+					<span>Agency Master</span>
+				</a>
+				<a routerLink="/superadmin/godown-master" class="sidebar-link">
+					<i class="fa-solid fa-arrow-right"></i>
+					<span>Godown Master</span>
+				</a>
 				<a routerLink="/superadmin/zone-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Zone Master</span>
@@ -249,6 +254,10 @@
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Vehicle Master</span>
 				</a>
+				<a routerLink="/superadmin/tts-vehicle-master" class="sidebar-link">
+					<i class="fa-solid fa-arrow-right"></i>
+					<span>TTS Vehicle Master</span>
+				</a>
 				<a routerLink="/superadmin/driver-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Driver Master</span>
@@ -260,6 +269,10 @@
 				<a routerLink="/superadmin/tts-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>TTS Master</span>
+				</a>
+				<a routerLink="/superadmin/vendor-master" class="sidebar-link">
+					<i class="fa-solid fa-arrow-right"></i>
+					<span>Vendor Master</span>
 				</a>
 			</div>
 
