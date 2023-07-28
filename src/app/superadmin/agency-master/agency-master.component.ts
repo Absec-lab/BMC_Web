@@ -18,12 +18,11 @@ export class AgencyMasterComponent implements OnInit{
         wealthCentreName:any
         wcName:any
         role:any
+        agencyId:any
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.role =  localStorage.getItem('role');
                 this.wcId =  localStorage.getItem('wcId');
-                this.getList()
-                this.getZones()
-                // this.getWCList()
+                this.getList();
         }
         ngOnInit(){
                 this.isAdd=true
@@ -36,92 +35,69 @@ export class AgencyMasterComponent implements OnInit{
 
          }
         form = new FormGroup({
+                agencyId: new FormControl,
+                agencyName:new FormControl('', [Validators.required]),
+                agencyPhone:new FormControl('', [Validators.required]),
+                agencyAddr:new FormControl('', [Validators.required]),
                 zoneId: new FormControl('', [Validators.required]),
                 wcId: new FormControl('', [Validators.required]),
                 wardId: new FormControl,
-                wardName: new FormControl('', [Validators.required]),
-                wardDesc: new FormControl                
+                agencyDescription: new FormControl                
               });
         editForm = new FormGroup({
+                agencyId: new FormControl,
+                agencyName : new FormControl,
+                agencyPhone : new FormControl,
+                agencyAddr : new FormControl,
                 zoneId: new FormControl,
                 wcId: new FormControl,
                 wardId: new FormControl,
-                wardName: new FormControl,
-                wardDesc: new FormControl, 
-                wc:new FormControl,
-                zone:new FormControl             
+                agencyDescription: new FormControl
+                           
         })
         list: any = []
         zoneList: any = []
         wcList: any = []
-
-        async getZones() {
-                try {
-                        this.zoneList = await this.service.get(`/zone/getAllZone`)
-                        this.zoneList = this.zoneList.sort((a: any, b: any) => a.zoneName - b.zoneName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
-        async getWCList() {
-                try {
-                        this.wcList = await this.service.get(`/zone/getAllWc`)
-                        this.wcList = this.wcList.sort((a: any, b: any) => a.wcName - b.wcName)
-                } catch (e) {
-                        console.error(e)
-                }
-        }
         async getList() {
                 try {
-                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-                        this.list = await this.service.get(`/zone/getAllWard/`+wcId)
-                        this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                        //let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/agency/getAllAgency`)
+                        //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
                 } catch (e) {
                         console.error(e)
                 }
         }
-        getWcById(){
-                console.log(this.form.value.wcId)
-                this.service.getWcById(this.form.value.wcId).subscribe(
-                        data=>{
-                                this.responseData=data
-                                this.form.value.zoneId=this.responseData.zone.zoneId
-                                this.zoneName=this.responseData.zone.zoneName
-                                console.log(this.zoneName)
-                        }
-                );
-        }
+        
         async addNew() {
-                if (this.form.status === 'INVALID') {
-                        const weathCentre = this.form.value.wcId?.trim();
-                        if (!weathCentre) {
-                                this.toastService.showWarning('Wealth centre is required.');
-                                return;
-                        }
-                        const zone = this.form.value.zoneId?.trim();
-                        if (!zone) {
-                                this.toastService.showWarning('Zone is required.');
-                                return;
-                        }
-                        const wardName = this.form.value.wardName?.trim();
-                        if (!wardName) {
-                                this.toastService.showWarning('Ward name is required.');
-                                return;
-                        }
-                        return;
-                }
+                // if (this.form.status === 'INVALID') {
+                //         const weathCentre = this.form.value.wcId?.trim();
+                //         if (!weathCentre) {
+                //                 this.toastService.showWarning('Wealth centre is required.');
+                //                 return;
+                //         }
+                //         const zone = this.form.value.zoneId?.trim();
+                //         if (!zone) {
+                //                 this.toastService.showWarning('Zone is required.');
+                //                 return;
+                //         }
+                //         const wardName = this.form.value.wardName?.trim();
+                //         if (!wardName) {
+                //                 this.toastService.showWarning('Ward name is required.');
+                //                 return;
+                //         }
+                //         return;
+                // }
                 try {
-                        const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
-                        const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
                         const data = {
-                                "wardDesc": this.form.value.wardDesc,
-                                "wardName": this.form.value.wardName,
-                                "zone": zone,
-                                "wc": wc
-                        }
+                                "agencyId":this.form.value.agencyId,
+                                "agencyName": this.form.value.agencyName,
+                                "agencyPhoneNo": this.form.value.agencyPhone,
+                                 "agencyAddress": this.form.value.agencyAddr,
+                                "agencyDesc": this.form.value.agencyDescription
+                                 }
                         console.log(data)
-                        await this.service.post(`/zone/addWard`, data)
-                        this.toastService.showSuccess("Ward data adeed successfully!!")
+                        await this.service.post(`/agency/addAgency`, data)
+                        this.toastService.showSuccess("Agency data adeed successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -131,7 +107,7 @@ export class AgencyMasterComponent implements OnInit{
         }
         async remove(id: string) {
                 try {
-                        const res = await this.service.delete(`/zone/deleteWard/${id}`)
+                        const res = await this.service.delete(`/agency/deleteWard/${id}`)
                         this.getList()
                 } catch (e) {
                         console.error(e)
@@ -140,7 +116,7 @@ export class AgencyMasterComponent implements OnInit{
         deactivateWard(id:any){
                 this.service.deactivateWard(id).subscribe(
                         data=>{
-                                window.alert("Ward deleted successfully")
+                                window.alert("Agency deleted successfully")
                                 this.service.getAllWardData().subscribe(
                                         data=>{
                                                 this.list=data
@@ -175,8 +151,11 @@ export class AgencyMasterComponent implements OnInit{
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         wardId: item.wardId,
-                        wardName: item.wardName,
-                        wardDesc: item.wardDesc             
+                        agencyId:item.agencyId,
+                        agencyName: item.agencyName,
+                        agencyPhone: item.agencyPhone,
+                        agencyAddr: item.agencyAddr,
+                        agencyDescription: item.agencyDescription             
                         
                 })
                 this.service.getZoneAllData().subscribe(
@@ -193,27 +172,27 @@ export class AgencyMasterComponent implements OnInit{
         }
 
         updateWard() {
-                if (this.form.status === 'INVALID') {
-                        const weathCentre = this.form.value.wcId?.trim();
-                        if (!weathCentre) {
-                                this.toastService.showWarning('Wealth centre is required.');
-                                return;
-                        }
-                        const zone = this.form.value.zoneId?.trim();
-                        if (!zone) {
-                                this.toastService.showWarning('Zone is required.');
-                                return;
-                        }
-                        const wardName = this.form.value.wardName?.trim();
-                        if (!wardName) {
-                                this.toastService.showWarning('Ward name is required.');
-                                return;
-                        }
-                        return;
-                }
+                // if (this.form.status === 'INVALID') {
+                //         const weathCentre = this.form.value.wcId?.trim();
+                //         if (!weathCentre) {
+                //                 this.toastService.showWarning('Wealth centre is required.');
+                //                 return;
+                //         }
+                //         const zone = this.form.value.zoneId?.trim();
+                //         if (!zone) {
+                //                 this.toastService.showWarning('Zone is required.');
+                //                 return;
+                //         }
+                //         const wardName = this.form.value.wardName?.trim();
+                //         if (!wardName) {
+                //                 this.toastService.showWarning('Ward name is required.');
+                //                 return;
+                //         }
+                //         return;
+                // }
                 this.service.updateWard(this.form.value).subscribe(
                         data => {
-                                this.toastService.showSuccess("Ward data updated successfully!!")
+                                this.toastService.showSuccess("Agency data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(
@@ -222,7 +201,7 @@ export class AgencyMasterComponent implements OnInit{
                                         }
                                 );
                                 this.form.reset()
-                                this.getList()
+                                //this.getList()
                         },
                         error => {
                                 this.toastService.showError("something went wrong")

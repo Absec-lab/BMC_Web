@@ -67,6 +67,7 @@ export class TtsVehicleMasterComponent implements OnInit{
                 vehicleNo: new FormControl('', [Validators.required]),
                 driverId: new FormControl('', [Validators.required]),
                 helperId: new FormControl('', [Validators.required]),
+                tts: new FormControl('', [Validators.required]),
                 helperIDProof: new FormControl(''),
                 rcNo: new FormControl('', [Validators.required]),
                 rcPhoto: new FormControl('', [Validators.required]),
@@ -217,7 +218,9 @@ export class TtsVehicleMasterComponent implements OnInit{
                                 },
                                 helper: {
                                         helperId: this.form.value.helperId
-                                }
+                                },
+                                tts: 2
+
                         }
                         console.log(data)
                         await this.service.post(`/vehicle/add`, data)

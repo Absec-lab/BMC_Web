@@ -39,15 +39,19 @@ export class GodownMasterComponent implements OnInit{
                 zoneId: new FormControl('', [Validators.required]),
                 wcId: new FormControl('', [Validators.required]),
                 wardId: new FormControl,
-                wardName: new FormControl('', [Validators.required]),
-                wardDesc: new FormControl                
+                godownId: new FormControl,
+                godownName: new FormControl('', [Validators.required]),
+                godownAddr: new FormControl,
+                godownDescription: new FormControl                
               });
         editForm = new FormGroup({
                 zoneId: new FormControl,
                 wcId: new FormControl,
                 wardId: new FormControl,
-                wardName: new FormControl,
-                wardDesc: new FormControl, 
+                godownId: new FormControl,
+                godownName: new FormControl,
+                godownAddr: new FormControl,
+                godownDescription: new FormControl, 
                 wc:new FormControl,
                 zone:new FormControl             
         })
@@ -73,9 +77,9 @@ export class GodownMasterComponent implements OnInit{
         }
         async getList() {
                 try {
-                        let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-                        this.list = await this.service.get(`/zone/getAllWard/`+wcId)
-                        this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+                       // let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+                        this.list = await this.service.get(`/inventory/adgetAlldGodown/`)
+                       /// this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
                 } catch (e) {
                         console.error(e)
                 }
@@ -92,36 +96,37 @@ export class GodownMasterComponent implements OnInit{
                 );
         }
         async addNew() {
-                if (this.form.status === 'INVALID') {
-                        const weathCentre = this.form.value.wcId?.trim();
-                        if (!weathCentre) {
-                                this.toastService.showWarning('Wealth centre is required.');
-                                return;
-                        }
-                        const zone = this.form.value.zoneId?.trim();
-                        if (!zone) {
-                                this.toastService.showWarning('Zone is required.');
-                                return;
-                        }
-                        const wardName = this.form.value.wardName?.trim();
-                        if (!wardName) {
-                                this.toastService.showWarning('Ward name is required.');
-                                return;
-                        }
-                        return;
-                }
+                // if (this.form.status === 'INVALID') {
+                //         const weathCentre = this.form.value.wcId?.trim();
+                //         if (!weathCentre) {
+                //                 this.toastService.showWarning('Wealth centre is required.');
+                //                 return;
+                //         }
+                //         const zone = this.form.value.zoneId?.trim();
+                //         if (!zone) {
+                //                 this.toastService.showWarning('Zone is required.');
+                //                 return;
+                //         }
+                //         const godownName = this.form.value.godownName?.trim();
+                //         if (!godownName) {
+                //                 this.toastService.showWarning('GodownName name is required.');
+                //                 return;
+                //         }
+                //         return;
+                // }
                 try {
-                        const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
-                        const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
+                        //const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
+                       // const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
                         const data = {
-                                "wardDesc": this.form.value.wardDesc,
-                                "wardName": this.form.value.wardName,
-                                "zone": zone,
-                                "wc": wc
+                                "godownId": this.form.value.godownId,
+                                "godownName": this.form.value.godownName,
+                                "godownAddress": this.form.value.godownName,
+                                "godownDesc": this.form.value.godownName
+                                
                         }
                         console.log(data)
-                        await this.service.post(`/zone/addWard`, data)
-                        this.toastService.showSuccess("Ward data adeed successfully!!")
+                        await this.service.post(`/inventory/addGodown/godown`, data)
+                        this.toastService.showSuccess("Godown data adeed successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -131,7 +136,7 @@ export class GodownMasterComponent implements OnInit{
         }
         async remove(id: string) {
                 try {
-                        const res = await this.service.delete(`/zone/deleteWard/${id}`)
+                        const res = await this.service.delete(`/inventory/deleteGodown/${id}`)
                         this.getList()
                 } catch (e) {
                         console.error(e)
@@ -140,7 +145,7 @@ export class GodownMasterComponent implements OnInit{
         deactivateWard(id:any){
                 this.service.deactivateWard(id).subscribe(
                         data=>{
-                                window.alert("Ward deleted successfully")
+                                window.alert("Godown deleted successfully")
                                 this.service.getAllWardData().subscribe(
                                         data=>{
                                                 this.list=data
@@ -175,8 +180,10 @@ export class GodownMasterComponent implements OnInit{
                         zoneId: item.zone.zoneId,
                         wcId: item.wc.wcId,
                         wardId: item.wardId,
-                        wardName: item.wardName,
-                        wardDesc: item.wardDesc             
+                        godownId: item.godownId,
+                        godownName: item.godownName,
+                        godownAddr: item.godownAddr, 
+                        godownDescription: item.godownDescription                  
                         
                 })
                 this.service.getZoneAllData().subscribe(
@@ -193,27 +200,27 @@ export class GodownMasterComponent implements OnInit{
         }
 
         updateWard() {
-                if (this.form.status === 'INVALID') {
-                        const weathCentre = this.form.value.wcId?.trim();
-                        if (!weathCentre) {
-                                this.toastService.showWarning('Wealth centre is required.');
-                                return;
-                        }
-                        const zone = this.form.value.zoneId?.trim();
-                        if (!zone) {
-                                this.toastService.showWarning('Zone is required.');
-                                return;
-                        }
-                        const wardName = this.form.value.wardName?.trim();
-                        if (!wardName) {
-                                this.toastService.showWarning('Ward name is required.');
-                                return;
-                        }
-                        return;
-                }
+                // if (this.form.status === 'INVALID') {
+                //         const weathCentre = this.form.value.wcId?.trim();
+                //         if (!weathCentre) {
+                //                 this.toastService.showWarning('Wealth centre is required.');
+                //                 return;
+                //         }
+                //         const zone = this.form.value.zoneId?.trim();
+                //         if (!zone) {
+                //                 this.toastService.showWarning('Zone is required.');
+                //                 return;
+                //         }
+                //         const wardName = this.form.value.godownName?.trim();
+                //         if (!wardName) {
+                //                 this.toastService.showWarning('Godown name is required.');
+                //                 return;
+                //         }
+                //         return;
+                // }
                 this.service.updateWard(this.form.value).subscribe(
                         data => {
-                                this.toastService.showSuccess("Ward data updated successfully!!")
+                                this.toastService.showSuccess("Godown data updated successfully!!")
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.service.getAllWcData().subscribe(

@@ -313,7 +313,6 @@ export class DashboardComponent {
 
   getReportMrfBasedOnWc(){
 
-    console.log(' Request ::  111111111111111111111 :  ', this.reportMrfPayload);
     this.mrfDailyQtm = 0
     this.mrfDailyWaste = 0
     this.mrfDailyInStock  = 0
@@ -334,9 +333,6 @@ export class DashboardComponent {
           data => {
             this.mrfReportList = data
             console.log(' Mrf report Response :  ', this.mrfReportList);
-            console.log(' Mrf report Response 1111111  :  ', this.mrfReportList.response.MRF_DAILY.length);
-            console.log(' Mrf report Response 2222222  :  ', this.mrfReportList.response.MRF_WEEKLY.length);
-            console.log(' Mrf report Response 3333333  :  ', this.mrfReportList.response.MRF_MONTHLY.length);
             if(this.mrfReportList.response.MRF_DAILY.length == 0 
                                        && this.mrfReportList.response.MRF_WEEKLY.length == 0 
                                                                  && this.mrfReportList.response.MRF_MONTHLY.length == 0){
@@ -758,50 +754,6 @@ export class DashboardComponent {
     });
   }
 
-  // createChart5() {
-  //   this.chart3 = new Chart("chart-23236985-f16855f5-676c-4201-b1d9-ab68c9d8307a", {
-  //     type: "bar",
-  //     data: {
-  //       labels: ["Package", "Unsold", "Sold"],
-  //       datasets: [
-  //         {
-  //           label: "",
-  //           data: [500, 260, 240],
-  //           backgroundColor: ["#11A3F5", "#ED3223", "#15D981"],
-  //           barThickness: 20,
-  //         },
-  //       ],
-  //     },
-  //     // plugins: [ChartDataLabels],
-  //     options: {
-  //       indexAxis: "y",
-  //       responsive: true,
-  //       scales: {
-  //         x: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //         y: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //       },
-  //       color: "white",
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           display: false,
-  //           position: "left",
-  //           labels: {
-  //             color: "#fff",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
 
   createChart2DataSet() {
     this.dataSetChatArr = []
@@ -984,54 +936,4 @@ export class DashboardComponent {
     });
   }
 
-  // createChart5(dataArr: number[]) {
-  //   this.inventoryDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
-  //   if (this.chart5 != null && this.chart5 != undefined) {
-  //     this.chart5.destroy()
-  //   }
-  //   this.chart5 = new Chart("chart-029ea4bc-fac1-4296-b731-25bb7c6598ac", {
-  //     type: "bar",
-  //     data: {
-  //       labels: ["Purchase", "Issue Stock", "In Stock"],
-  //       datasets: [
-  //         {
-  //           label: "",
-  //           data: dataArr,
-  //           backgroundColor: ["#14A2F4", "#EE321F", "#12D881"],
-  //           barThickness: 20,
-  //         },
-  //       ],
-  //     },
-  //     // plugins: [ChartDataLabels],
-  //     options: {
-  //       indexAxis: "y",
-  //       responsive: true,
-  //       scales: {
-  //         x: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //         y: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //       },
-  //       color: "white",
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           display: false,
-  //           position: "left",
-  //           labels: {
-  //             color: "#fff",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
-
 }
-
