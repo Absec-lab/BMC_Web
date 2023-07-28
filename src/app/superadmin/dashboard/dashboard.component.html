@@ -10,18 +10,21 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box"  (change)="onZoneSelect($event)">
-                                    <option value="undefined" selected disabled>Select Zone</option>
+                                   
+                                    <option [value]="'Allzone'"   *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Zone</option>
                                      <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> 
                                 </select>
                             </div>
                             <div class="col-sm-6 mt-3 mt-sm-0">
-                                <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
-                                    <option value="undefined" selected disabled>Select Wc</option>
+                                <select id="wcId_" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
+                                    
+                               
+                                    <option [value]="'Allwc'"  *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Wc</option>
                                     <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> 
                                 </select>
                             </div>
                         </div>
-                        <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>
+                        <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>      
                         <input type="date" class="form-control bg-transparent"  name="filter_to_date" id="filter_to_date" hidden/>
                      </form> 
                     </div>
@@ -158,17 +161,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of wcBasedMrfData">
+                                    <tr>
                                         <td>Wet Garbage Processed</td>
-                                        <td>{{item.totalWetWeight}}</td>
-                                        <td>{{item.totalWeeklyWetWeight}}</td>
-                                        <td>{{item.totalMonthlyWetWeight}}</td>
+                                        <td>{{dataMap.get('totalTodayWetWeightAllwc')}}</td>
+                                        <td>{{dataMap.get('totalWeeklyWetWeightAllwc')}}</td>
+                                        <td>{{dataMap.get('totalMonthlylWetWeightAllwc')}}</td>
                                     </tr>
                                     <tr>
                                         <td>Mo Khata Produced</td>
-                                        <td>640 KG</td>
-                                        <td>1200 KG</td>
-                                        <td>800 KG</td>
+                                        <td>0 KG</td>
+                                        <td>0 KG</td>
+                                        <td>0 KG</td>
                                     </tr>
                                 </tbody>
                             </table>
