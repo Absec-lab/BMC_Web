@@ -17,6 +17,7 @@ export class GarbageComponent implements OnInit {
   constructor(private service: CommonService, private formBuilder: FormBuilder, private httpClient: HttpClient, private toastService: ToastService) {
     this.wcId = localStorage.getItem("wcId");
     this.getRouteList()
+    this.getCompletedTrip()
 
    }
    isAdd: boolean = true
