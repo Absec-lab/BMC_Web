@@ -33,7 +33,7 @@
                                                     Vehicle No<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleNo" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="ttsVehicleNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -45,7 +45,8 @@
                                                 <div class="ms-3 d-flex-1">
                                                         <select formControlName="zoneId" class="form-select">
                                                                 <option value="" selected>Select</option>
-                                                                <option [value]="x.zoneId" *ngFor="let x of zoneList;">{{x.zoneName }}</option>
+                                                                <option value="1">TTS Sainik School</option>
+                                                                <option value="2">TTS Naharkanta</option>
                                                         </select>
                                                 </div>
                                             </div>
@@ -154,7 +155,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="vehicleDesc" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="ttsVehicledescription" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -223,7 +224,7 @@
 								<tr *ngFor="let x of list; index as i;">
                                                                         <td>{{ i + 1}}</td>
                                                                         <td>{{ x.vehicleNo || '--' }}</td>
-                                                                        <td>{{ x.zone?.zoneName || '--' }}</td>
+                                                                        <td>{{ x.vehicleNo || '--' }}</td>
                                                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                                                         <td>{{ x.route?.routeName || '--' }}</td>
                                                                         <td>{{ x.driver?.driverName || '--' }}</td>

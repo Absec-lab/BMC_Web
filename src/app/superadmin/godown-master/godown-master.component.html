@@ -35,7 +35,7 @@
 												</div>
 												<div
 													class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="godownName" type="text" name="" id=""
 															class="form-control">
 													<!-- <select formControlName="wcId"
 														class="form-select"
@@ -60,7 +60,7 @@
 													Address<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="godownAddr" type="text" name="" id=""
 															class="form-control">
 													
 													<!-- <select formControlName="zoneId" class="form-select"
@@ -91,7 +91,7 @@
 													Description
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="godownDescription" type="text" name="" id=""
 														class="form-control">
 												</div>
 											</div>
@@ -152,9 +152,9 @@
 							<tbody class="text-center">
 								<tr *ngFor="let x of list; index as i;">
 									<td>{{ i + 1}}</td>
-									<td>{{ x.zone?.zoneName || '--' }}</td>
-									<td>{{ x.wc?.wcName || '--' }}</td>
-									<td>{{ x.wardDesc || '--' }}</td>
+									<td>{{ x.godownName || '--' }}</td>
+									<td>{{ x.godownAddress || '--' }}</td>
+									<td>{{ x.godownDesc || '--' }}</td>
 									<td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
 									</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center"  *ngIf="role=='bmcadmin'">
