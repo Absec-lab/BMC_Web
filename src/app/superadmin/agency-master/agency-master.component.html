@@ -35,7 +35,7 @@
 												</div>
 												<div
 													class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="agencyName" type="text" name="" id=""
 															class="form-control">
 													<!-- <select formControlName="wcId"
 														class="form-select"
@@ -60,7 +60,7 @@
 													Address<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="agencyAddr" type="text" name="" id=""
 															class="form-control">
 													
 													<!-- <select formControlName="zoneId" class="form-select"
@@ -90,7 +90,7 @@
 													Phone No<span class="text-danger">*</span>
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="wardName" type="text" name="" id=""
+													<input formControlName="agencyPhone" type="text" name="" id=""
 														class="form-control">
 												</div>
 											</div>
@@ -101,7 +101,7 @@
 													Description
 												</div>
 												<div class="ms-3 d-flex-1">
-													<input formControlName="wardDesc" type="text" name="" id=""
+													<input formControlName="agencyDescription" type="text" name="" id=""
 														class="form-control">
 												</div>
 											</div>
@@ -163,17 +163,17 @@
 							<tbody class="text-center">
 								<tr *ngFor="let x of list; index as i;">
 									<td>{{ i + 1}}</td>
-									<td>{{ x.zone?.zoneName || '--' }}</td>
-									<td>{{ x.wc?.wcName || '--' }}</td>
-									<td>{{ x.wardName || '--' }}</td>
-									<td>{{ x.wardDesc || '--' }}</td>
+									<td>{{ x.agencyName || '--' }}</td>
+									<td>{{ x.agencyPhoneNo || '--' }}</td>
+									<td>{{ x.agencyAddress || '--' }}</td>
+									<td>{{ x.agencyDesc || '--' }}</td>
 									<td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
 									</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center"  *ngIf="role=='bmcadmin'">
 										<button class="btn btn-primary btn-sm" (click)="updateData(x)">
 											<i class="fa-solid fa-edit"></i>
 										</button>
-										<button (click)="deactivateWard(x.wardId)" class="btn btn-danger btn-sm">
+										<button (click)="deactivateWard(x.agencyId)" class="btn btn-danger btn-sm">
 											<i class="fa-solid fa-trash-alt"></i>
 										</button>
 									</td>
