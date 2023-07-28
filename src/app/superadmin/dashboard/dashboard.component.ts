@@ -108,6 +108,9 @@ export class DashboardComponent {
   }
 
   verifyWcSelected():boolean{
+    if(this.role == 'bmcsuperadminuser' || this.role == 'bmcadmin'){
+      return true
+    }
     if(this.wcSelectId == 0 || this.wcSelectId == undefined){
        return false;
     }
@@ -126,10 +129,10 @@ export class DashboardComponent {
       // this.reportTripPayload.fromDate =  dateElementCurrent.value
       // this.reportTripPayload.toDate =  dateElementCurrent.value
 
-      this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-      this.payloadInventory.toDate = '2023-07-28 00:00:00'
-      this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-      this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+      // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+      // this.payloadInventory.toDate = '2023-07-28 00:00:00'
+      // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+      // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
 
       this.callAllCommonReportServices(eventType);
   }
@@ -181,12 +184,12 @@ export class DashboardComponent {
     this.reportMrfPayload.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
     
-    this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-    this.payloadInventory.toDate = '2023-07-28 00:00:00'
-    this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-    this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-    this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-    this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
+    // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+    // this.payloadInventory.toDate = '2023-07-28 00:00:00'
+    // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+    // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+    // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
+    // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
 
   }
 
