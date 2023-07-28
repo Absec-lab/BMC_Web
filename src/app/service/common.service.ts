@@ -273,7 +273,7 @@ export class CommonService {
                 return this.http.get(this.environment.URL + '/zone/getAllDriver/' + localStorage.getItem("wcId"))
         }
         getAllGodownList() {
-                return this.http.get(this.environment.URL + '/inventory/getAllGodown/' + localStorage.getItem("wcId"))
+                return this.http.get(this.environment.URL + '/inventory/getAllGodown')
         }
         getAllDriverByVehicleId(id: any) {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)

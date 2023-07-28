@@ -48,7 +48,6 @@ export class LoginComponent {
    * Function used to call Bakend Login service
    */
  public doLogin(): void {
-
   const email: any = this.form.value.emailId?.trim();
   const password: any = this.form.value.password?.trim();
 
@@ -89,6 +88,8 @@ export class LoginComponent {
              rolePermission = true;
          }else if(this.logindata.userdetails[0].attributes.role == 'dryingyarduser'){
              rolePermission = true;
+         }else if(this.logindata.userdetails[0].attributes.role == 'bmcgodownuser'){
+             rolePermission = true;
          }else{
           this.toastService.showError('No Wealth Center Assigned to this User.');
          }
@@ -113,7 +114,7 @@ export class LoginComponent {
       if(this.logindata.userrole != undefined 
              && this.logindata.userrole?.userRole != undefined 
              && this.logindata.userdetails.length == 0 
-             && (this.logindata.userrole?.userRole == 'ttsuser' || this.logindata.userrole?.userRole == 'dryingyarduser')){
+             && (this.logindata.userrole?.userRole == 'ttsuser' || this.logindata.userrole?.userRole == 'dryingyarduser' || this.logindata.userrole?.userRole == 'bmcgodownuser')){
 
               localStorage.setItem('userInfo', '');
               localStorage.setItem('wcId',  '0');
@@ -135,6 +136,10 @@ export class LoginComponent {
       }else if(this.logindata.userdetails.length > 0  && this.logindata.userentity.length > 0 
         && (this.logindata.userdetails[0].attributes.role == 'mccuser')){
           this.route.navigate(['/superadmin/mcc/pit-view'])
+      }else if(this.logindata.userrole != undefined 
+        && this.logindata.userrole?.userRole != undefined 
+        && this.logindata.userrole?.userRole == 'bmcgodownuser'){
+          this.route.navigate(['/superadmin/godown'])
       }else{
           this.route.navigate(['/superadmin/home'])
       }
