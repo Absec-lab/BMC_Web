@@ -1135,16 +1135,15 @@ if (!soldToId || soldToId === '') {
       "soldToId":this.form.value.soldToId,
       "itemCost": itemCost* subgoods.subGoodsPerKg ,
       "mrfDesc": this.form.value.mrfDesc,
-     // "noOfPackets": this.form.value.noOfPackets,
-     
-      "wcId": {
-        "wcId": localStorage.getItem("wcId")
+     // "noOfPackets": this.form.value.noOfPackets,     
+     "wcEntity": {
+      "wcId": localStorage.getItem("wcId")
       }
     }
     console.log(data);
     this.service.mrfSoldBailing(data).subscribe(
       data => {
-        
+        this.form.reset(); 
     window.alert("Bailing Sold successfully");
         this.soldGridResponse = data;
         this.soldGridList = this.soldGridResponse;
