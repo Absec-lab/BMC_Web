@@ -102,23 +102,23 @@ export class GoodsMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
-        updateData(item: any) {
-                this.isUpdate = true
-                this.isAdd = false
-                console.log(item)
+                updateData(item: any) {
+                        this.isUpdate = true
+                        this.isAdd = false
+                        console.log(item)
 
-        this.form.patchValue({
-                goodsId: item.goodsId,
-                goodsName: item.goodsName,
-                goodsPerKg: item.goodsPerKg,
-                goodsDesc: item.goodsDesc
-                })
-               
-         }
-        cancel() {
-                this.isAdd = true
-                this.isUpdate = false
-        }
+                this.form.patchValue({
+                        goodsId: item.goodsId,
+                        goodsName: item.goodsName,
+                        goodsPerKg: item.goodsPerKg,
+                        goodsDesc: item.goodsDesc
+                        })
+                
+                }
+                cancel() {
+                        this.isAdd = true
+                        this.isUpdate = false
+                }
 
         updateGoods(){
                 if (this.form.status === 'INVALID') {
