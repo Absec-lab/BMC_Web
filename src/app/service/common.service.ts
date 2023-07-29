@@ -1,5 +1,6 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export class DeactivationDto {
         id: any
@@ -14,9 +15,10 @@ export class CommonService {
 
 
 
-     endpoint =  `http://15.207.62.200`;   //DEV
-     //  endpoint = 'http://43.204.240.44'; //PROD
-      //endpoint = `http://localhost`; //LOCCAL
+     //    endpoint =  `http://15.207.62.200`;   //DEV
+     //    endpoint = 'http://43.204.240.44'; //PROD
+     //    endpoint = `http://localhost`; //LOCCAL
+           endpoint =  environment.url //Build / Deploy
 
 
 
@@ -24,7 +26,7 @@ export class CommonService {
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
         LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
-    //  LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+      //  LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
        
  }
         
