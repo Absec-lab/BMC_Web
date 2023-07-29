@@ -32,6 +32,8 @@ import { TtsUserAndDryingYardUserAuthGuardService } from './superadmin/auth-guar
 import { BmcWcAdminUserDryingYardUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-adminuser-dryingyarduser-auth-guard.service';
 import { TripStatusReportComponent } from './superadmin/trip-status-report/trip-status-report.component';
 import { VendorMasterComponent } from './superadmin/vendor-master/vendor-master.component';
+import { GodownComponent } from './superadmin/godown/godown.component';
+import { BmcGoDownAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-godown-adminuser-auth-guard.service';
 
 
 const routes: Routes = [
@@ -167,7 +169,12 @@ const routes: Routes = [
     component:TripStatusReportComponent,
     path:'superadmin/trip-status-report',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  } 
+  } ,
+  {
+    component:GodownComponent,
+    path:'/superadmin/godown',
+    canActivate:[LoginGuard,BmcGoDownAdminUserAuthGuardService]
+  }
 ];
 
 @NgModule({

@@ -16,8 +16,9 @@ export class HeadeDashboardComponentComponent implements OnInit {
   totalDryWeight: any;
   totalWetWeight: any;
   mrfResponse: any
+  role: any = ''
   constructor(private service: CommonService) {
-
+    this.role = localStorage.getItem('role')
     this.mrfResponse = this.service.dashboardDetailsV2
     setInterval(()=>{
       this.responseData=this.service.dashboardDetailsV2

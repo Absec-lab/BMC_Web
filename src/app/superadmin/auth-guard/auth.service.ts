@@ -97,4 +97,13 @@ export class AuthService {
     }
   }
 
+  public isAuthenticatedbyGoDownUser(): boolean {
+    let token: any;
+    if (localStorage.getItem('role')?.includes('bmcgodownuser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

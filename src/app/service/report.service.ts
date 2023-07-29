@@ -69,4 +69,7 @@ export class ReportService {
         getMrfReport(payload : ReportGenerate) {
                 return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-mrf', payload);      
         }
+        getMokhataReport(payload : ReportGenerate) {
+                return this.http.post<any>(`${environment.url}:${environment.port}` + '/generate-report-mokhata', payload);      
+        }
 }

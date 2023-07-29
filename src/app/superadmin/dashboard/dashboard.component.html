@@ -168,9 +168,9 @@
                                     </tr>
                                     <tr>
                                         <td>Mo Khata Produced</td>
-                                        <td>0 KG</td>
-                                        <td>0 KG</td>
-                                        <td>0 KG</td>
+                                        <td>{{totalDailyKhata}} KG</td>
+                                        <td>{{totalWeeklyKhata}} KG</td>
+                                        <td>{{totalMonthlyKhata}} KG</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -229,7 +229,29 @@
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">
-                        <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas>
+                        <!-- <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas> -->
+
+                        <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%);" class="p-2">
+                            <table class="table table-bordered text-center mb-0 bg-transparent text-white">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%">MOKHATA</th>
+                                        <th style="width: 20%">Today</th>
+                                        <th style="width: 25%">This Week</th>
+                                        <th style="width: 25%">This Month</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of responseMoKhata">
+                                        <td>{{item.wealthCenter}}</td>
+                                        <td>{{item.totalDailyKhata}}</td>
+                                        <td>{{item.totalWeeklyKhata}}</td>
+                                        <td>{{item.totalMonthlyKhata}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
