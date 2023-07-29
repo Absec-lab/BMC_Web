@@ -120,9 +120,7 @@ export class VendorMasterComponent implements OnInit{
                                 "vendorDesc": this.form.value.vendorDescription,
                                 "vendorId": this.form.value.vendorId,
                                 "vendorName": this.form.value.vendorName,
-                                "vendorPhoneNo": this.form.value.vendorPhone                           
-                                
-                                
+                                "vendorPhoneNo": this.form.value.vendorPhone           
                         }
                         console.log(data)
                         await this.service.post(`/zone/addVendor`, data)
