@@ -163,10 +163,10 @@
 							<tbody class="text-center">
 								<tr *ngFor="let x of list; index as i;">
 									<td>{{ i + 1}}</td>
-									<td>{{ x.zone?.zoneName || '--' }}</td>
-									<td>{{ x.wc?.wcName || '--' }}</td>
-									<td>{{ x.wardName || '--' }}</td>
-									<td>{{ x.wardDesc || '--' }}</td>
+									<td>{{ x.vendorName || '--' }}</td>
+									<td>{{ x.vendorPhoneNo || '--' }}</td>
+									<td>{{ x.vendorAddress || '--' }}</td>
+									<td>{{ x.vendorDesc || '--' }}</td>
 									<td>{{ x.createdDate | date: 'dd/MM/yyyy' }}
 									</td>
 									<td class="d-flex align-items-center gap-1 justify-content-center"  *ngIf="role=='bmcadmin'">

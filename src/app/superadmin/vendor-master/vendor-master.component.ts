@@ -116,16 +116,17 @@ export class VendorMasterComponent implements OnInit{
                         //const zone = this.zoneList[this.zoneList.findIndex((e: any) => e.zoneId == this.form.value.zoneId)]
                         //const wc = this.wcList[this.wcList.findIndex((e: any) => e.wcId == this.form.value.wcId)]
                         const data = {
+                                "vendorAddress": this.form.value.vendorAddr,
+                                "vendorDesc": this.form.value.vendorDescription,
                                 "vendorId": this.form.value.vendorId,
                                 "vendorName": this.form.value.vendorName,
-                                "vendorPhoneNo": this.form.value.vendorPhone,
-                                "vendorAddress": this.form.value.vendorAddr,
-                                "vendorDesc": this.form.value.vendorDescription
+                                "vendorPhoneNo": this.form.value.vendorPhone                           
+                                
                                 
                         }
                         console.log(data)
                         await this.service.post(`/zone/addVendor`, data)
-                        this.toastService.showSuccess("Ward data adeed successfully!!")
+                        this.toastService.showSuccess("Vendor data adeed successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
