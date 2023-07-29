@@ -19,6 +19,7 @@ export class MrfTabComponent implements OnInit {
     this.wcId = localStorage.getItem('wcId')
     this.getList()
     this.getAllGoods()
+    //this.getAllSoldData()
     //this.getList()
   }
 
@@ -44,6 +45,7 @@ export class MrfTabComponent implements OnInit {
   isActive: any
   selectionMode = "multiple";
   wcId: any = 0;
+  id: any = 0;
   vehicleNo: any
   searchText: any;
   activeTripResponse: any
@@ -67,6 +69,7 @@ export class MrfTabComponent implements OnInit {
   totalCostP:any;
   itemStockResponse: any
   form = new FormGroup({
+    id: new FormControl,
     mrfTrnsId: new FormControl,
     goodsId: new FormControl('', [Validators.required]),
     goodssubId: new FormControl('', [Validators.required]),
@@ -94,6 +97,7 @@ export class MrfTabComponent implements OnInit {
     soldToId:new FormControl('', [Validators.required])
   });
   editForm = new FormGroup({
+    id: new FormControl,
     mrfTrnsId: new FormControl,
     goodsId: new FormControl,
     subGoodId: new FormControl,
@@ -166,10 +170,11 @@ export class MrfTabComponent implements OnInit {
           soldTransactionId: item.id,
           wcName: item.wcId?.wcName,
           goods_name: item.goodsEntity.goodsName,
-          sub_goods_name: item.goodssubEntity.subgoodsName,          
+          sub_goods_name: item.goodssubEntity.subgoodsName, 
+          price_per_kg: item.goodssubEntity.subGoodsPerKg,         
           quntaum: item.itemQuantity,
           sold_to:item.soldToId,
-          cost:item.itemCost,
+          cost:item.goodssubEntity.subGoodsPerKg * item.itemQuantity,
           description: item.mrfDesc,
           created_date: item.createdDate
 
@@ -370,8 +375,8 @@ export class MrfTabComponent implements OnInit {
         this.toastService.showWarning('Inert material must be a valid number.');
         return;
       }
-      return;
-    }
+      
+   
 
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
     const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
@@ -421,6 +426,7 @@ export class MrfTabComponent implements OnInit {
     this.getList()
     this.form.reset()
   }
+}
   updateMrf() {
 
 
@@ -1068,11 +1074,6 @@ saveStock() {
  
   }
   soldBailing(){
-    
-
-
-
-
 
 //validation
 if (this.form.status === 'INVALID') {
@@ -1109,39 +1110,40 @@ if (!soldToId || soldToId === '') {
 }
 
 
-  //  console.log(this.totalCostP);
-  const inertMaterial: any = this.totalCostP;
-  if ((inertMaterial != 0 && !inertMaterial) || inertMaterial === '') {
-    this.toastService.showWarning('Total is required.');
-    return;
-  }
-  if (+inertMaterial < 0) {
-    this.toastService.showWarning('Total Cost must be a valid number.');
-    return;
-  }
- // return;
+//   //  console.log(this.totalCostP);
+//   const inertMaterial: any = this.totalCostP;
+//   if ((inertMaterial != 0 && !inertMaterial) || inertMaterial === '') {
+//     this.toastService.showWarning('Total is required.');
+//     return;
+//   }
+//   if (+inertMaterial < 0) {
+//     this.toastService.showWarning('Total Cost must be a valid number.');
+//     return;
+//   }
+//  // return;
 }
  
 
     const goods = this.goodList[this.goodList.findIndex((e: any) => e.goodsId == this.form.value.goodsId)]
     const subgoods = this.subgoodList[this.subgoodList.findIndex((e: any) => e.goodssubId == this.form.value.goodssubId)]
+    const itemCost:any = this.form.value.quntaum
     const data = {
+      "id": this.form.value.id,
       "goodsEntity": goods,
       "goodssubEntity": subgoods,
       "itemQuantity":this.form.value.quntaum,
       "soldToId":this.form.value.soldToId,
-      "itemCost":this.totalCostP,
+      "itemCost": itemCost* subgoods.subGoodsPerKg ,
       "mrfDesc": this.form.value.mrfDesc,
-     // "noOfPackets": this.form.value.noOfPackets,
-     
-      "wcId": {
-        "wcId": localStorage.getItem("wcId")
+     // "noOfPackets": this.form.value.noOfPackets,     
+     "wcEntity": {
+      "wcId": localStorage.getItem("wcId")
       }
     }
     console.log(data);
     this.service.mrfSoldBailing(data).subscribe(
       data => {
-        
+        this.form.reset(); 
     window.alert("Bailing Sold successfully");
         this.soldGridResponse = data;
         this.soldGridList = this.soldGridResponse;
@@ -1169,10 +1171,10 @@ if (!soldToId || soldToId === '') {
           //  wcName: item.wcId?.wcName,
             goods_name: item.goodsEntity.goodsName,
             sub_goods_name: item.goodsSubEntity.subgoodsName,
-            
+            price_per_kg: item.goodsSubEntity.subGoodsPerKg,
             quntaum: item.quntaum,
             sold_to:item.soldToId,
-            cost:item.itemCost,
+            cost:item.goodsSubEntity.subGoodsPerKg * item.quntaum,
             description: item.mrfDesc,
             created_date: item.createdDate
 
@@ -1180,7 +1182,7 @@ if (!soldToId || soldToId === '') {
           };
         });
      //   console.log("MrfList", this.mrfGridList)
-      //  console.log("rowData", rowDataMrf)
+         console.log("rowDataSold", rowDataSold)
         this.rowDataSold = rowDataSold;
         // window.alert("Mrf data updated successfully!!")
         // this.isAdd = true

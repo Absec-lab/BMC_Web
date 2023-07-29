@@ -124,6 +124,7 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.lolginDetails =  JSON.parse(localStorage.getItem('logindetails')??"");
+    console.log(this.lolginDetails);
     this.menuItem_ = this.lolginDetails.menuitem;   
     this.name = this.lolginDetails.userdetails[0].firstName + " "+ this.lolginDetails.userdetails[0].lastName;
     this.role = this.lolginDetails.userdetails[0].attributes.role[0];

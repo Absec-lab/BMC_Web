@@ -9,18 +9,21 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box"  (change)="onZoneSelect($event)">
-                                    <option value="undefined" selected disabled>Select Zone</option>
+                                   
+                                    <option [value]="'Allzone'"   *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Zone</option>
                                      <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> 
                                 </select>
                             </div>
                             <div class="col-sm-6 mt-3 mt-sm-0">
-                                <select id="wcId" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
-                                    <option value="undefined" selected disabled>Select Wc</option>
+                                <select id="wcId_" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
+                                    
+                               
+                                    <option [value]="'Allwc'"  *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Wc</option>
                                     <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> 
                                 </select>
                             </div>
                         </div>
-                        <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>
+                        <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>      
                         <input type="date" class="form-control bg-transparent"  name="filter_to_date" id="filter_to_date" hidden/>
                      </form> 
                     </div>
@@ -157,17 +160,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of wcBasedMrfData">
+                                    <tr>
                                         <td>Wet Garbage Processed</td>
-                                        <td>{{item.totalWetWeight}}</td>
-                                        <td>{{item.totalWeeklyWetWeight}}</td>
-                                        <td>{{item.totalMonthlyWetWeight}}</td>
+                                        <td>{{dataMap.get('totalTodayWetWeightAllwc')}}</td>
+                                        <td>{{dataMap.get('totalWeeklyWetWeightAllwc')}}</td>
+                                        <td>{{dataMap.get('totalMonthlylWetWeightAllwc')}}</td>
                                     </tr>
                                     <tr>
                                         <td>Mo Khata Produced</td>
-                                        <td>640 KG</td>
-                                        <td>1200 KG</td>
-                                        <td>800 KG</td>
+                                        <td>{{totalDailyKhata}} KG</td>
+                                        <td>{{totalWeeklyKhata}} KG</td>
+                                        <td>{{totalMonthlyKhata}} KG</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -187,7 +190,7 @@
                             <table class="table table-bordered text-center mb-0 bg-transparent text-white">
                                 <thead>
                                     <tr>
-                                        <th style="width: 30%">MCC Product Status</th>
+                                        <th style="width: 30%">MRF</th>
                                         <th style="width: 20%">Today</th>
                                         <th style="width: 25%">This Week</th>
                                         <th style="width: 25%">This Month</th>
@@ -195,23 +198,23 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Bailing</td>
-                                        <td>700 KG</td>
-                                        <td>1700 KG</td>
-                                        <td>2200 KG</td>
+                                        <td>MRF Processed</td>
+                                        <td>{{mrfDailyQtm}}</td>
+                                        <td>{{mrfWeeklyQtm}}</td>
+                                        <td>{{mrfMonthlyQtm}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Sold</td>
-                                        <td>460 KG</td>
-                                        <td>1500 KG</td>
-                                        <td>1800 KG</td>
+                                        <td>MRF InStock</td>
+                                        <td>{{mrfDailyInStock}}</td>
+                                        <td>{{mrfWeeklyInStock}}</td>
+                                        <td>{{mrfMonthlyInStock}}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Unsold</td>
                                         <td>640 KG</td>
                                         <td>1200 KG</td>
                                         <td>800 KG</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
@@ -226,7 +229,29 @@
                         </div>
                     </div>
                     <div class="card-body px-4 pb-3">
-                        <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas>
+                        <!-- <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas> -->
+
+                        <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%);" class="p-2">
+                            <table class="table table-bordered text-center mb-0 bg-transparent text-white">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%">MOKHATA</th>
+                                        <th style="width: 20%">Today</th>
+                                        <th style="width: 25%">This Week</th>
+                                        <th style="width: 25%">This Month</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of responseMoKhata">
+                                        <td>{{item.wealthCenter}}</td>
+                                        <td>{{item.totalDailyKhata}}</td>
+                                        <td>{{item.totalWeeklyKhata}}</td>
+                                        <td>{{item.totalMonthlyKhata}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>

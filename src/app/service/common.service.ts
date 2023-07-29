@@ -1,5 +1,6 @@
 import { Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export class DeactivationDto {
         id: any
@@ -14,17 +15,18 @@ export class CommonService {
 
 
 
-     endpoint =  `http://15.207.62.200`;   //DEV
-      // endpoint = 'http://43.204.240.44'; //PROD
-     // endpoint = `http://localhost`; //LOCCAL
+     //    endpoint =  `http://15.207.62.200`;   //DEV
+     //    endpoint = 'http://43.204.240.44'; //PROD
+     //    endpoint = `http://localhost`; //LOCCAL
+           endpoint =  environment.url //Build / Deploy
 
 
 
 
  public environment = {
         URL:  this.endpoint+":9091",  //prod url
-      //  LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
-        LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
+        LOGIN_SERVICE_URL: this.endpoint+":8064/bmcwastemanagement/auth/users/login"
+      //  LOGIN_SERVICE_URL: "http://15.207.62.200:8064/bmcwastemanagement/auth/users/login"
        
  }
         
@@ -212,7 +214,7 @@ export class CommonService {
                 return this.http.get(this.environment.URL + '/get/active/trip/' + localStorage.getItem("wcId"))
         }
         getCompletedTrips() {
-                return this.http.get(this.environment.URL + '/get/inActive/trip/' + localStorage.getItem("wcId"))
+                return this.http.get(this.environment.URL + '/get/CompleteTodayByWcId/trip/' + localStorage.getItem("wcId"))
         }
         getAllItemPurchase() {
                 return this.http.get(this.environment.URL + '/inventory/getAllItemPurchase/' + localStorage.getItem("wcId"))
@@ -241,6 +243,9 @@ export class CommonService {
         saveCompostDrying(data: any) {
                 return this.http.post(this.environment.URL + '/inventory/addDryingCompost', data)
         }
+        saveMokathaMoveToGodown(data: any) {
+                return this.http.post(this.environment.URL + '/inventory/addMokhatamovetogodown', data)
+        }
         saveMrfData(data: any) {
                 return this.http.post(this.environment.URL + '/zone/addMrf', data)
         }
@@ -266,6 +271,9 @@ export class CommonService {
         }
         getAllDriverList() {
                 return this.http.get(this.environment.URL + '/zone/getAllDriver/' + localStorage.getItem("wcId"))
+        }
+        getAllGodownList() {
+                return this.http.get(this.environment.URL + '/inventory/getAllGodown')
         }
         getAllDriverByVehicleId(id: any) {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)
@@ -409,6 +417,8 @@ export class CommonService {
         getVehicleMainTenanceListByWcId() {
                 return this.http.get(this.environment.URL + '/getAll/vehicle/maintenance/' + localStorage.getItem("wcId"))
         }
-        
+        getAllTts(){
+                return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
+        } 
 
 }

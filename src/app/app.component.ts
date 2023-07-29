@@ -18,12 +18,12 @@ export class AppComponent {
   }
 
   handleNavigation() {
-    setTimeout(() => {
-      if (screen.width < 1200) {
-        const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
-        sidebarParentElement && sidebarParentElement.classList.add('hide-on-mobile');
-      }
-    });
+    // setTimeout(() => {
+    //   if (screen.width < 1200) {
+    //     const sidebarParentElement = document.querySelector('.sidebar-parent') as HTMLDivElement;
+    //     sidebarParentElement && sidebarParentElement.classList.add('hide-on-mobile');
+    //   }
+    // });
   }
 
   ngOnInit() {

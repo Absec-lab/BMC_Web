@@ -21,6 +21,8 @@ import { ManpowerComponent } from './superadmin/manpower/manpower.component';
 import { ZoneMasterComponent } from './superadmin/zone-master/zone-master.component';
 import { WealthCenterMasterComponent } from './superadmin/wealth-center-master/wealth-center-master.component';
 import { WardMasterComponent } from './superadmin/ward-master/ward-master.component';
+import { AgencyMasterComponent } from './superadmin/agency-master/agency-master.component';
+import { GodownMasterComponent } from './superadmin/godown-master/godown-master.component';
 import { MccMasterComponent } from './superadmin/mcc-master/mcc-master.component';
 import { TtsUserAuthGuardService } from './superadmin/auth-guard/ttsuser-auth-guard.service';
 import { BmcWcMccUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-mcc-user-auth-guard.service';
@@ -28,6 +30,10 @@ import { BmcWcAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-a
 import { MrfTabComponent } from './superadmin/mrf-tab/mrf-tab.component';
 import { TtsUserAndDryingYardUserAuthGuardService } from './superadmin/auth-guard/ttsuserdryingyarduser-auth-guard.service';
 import { BmcWcAdminUserDryingYardUserAuthGuardService } from './superadmin/auth-guard/bmc-wc-adminuser-dryingyarduser-auth-guard.service';
+import { TripStatusReportComponent } from './superadmin/trip-status-report/trip-status-report.component';
+import { VendorMasterComponent } from './superadmin/vendor-master/vendor-master.component';
+import { GodownComponent } from './superadmin/godown/godown.component';
+import { BmcGoDownAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-godown-adminuser-auth-guard.service';
 
 
 const routes: Routes = [
@@ -54,7 +60,7 @@ const routes: Routes = [
   {
     component:PitViewComponent,
     path:'superadmin/mcc/pit-view',
-    canActivate:[LoginGuard , BmcWcMccUserAuthGuardService ]
+    canActivate:[LoginGuard ,BmcWcMccUserAuthGuardService ]
   },
   {
     component:CompostDryingComponent,
@@ -105,6 +111,11 @@ const routes: Routes = [
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   },
   {
+    component:ManpowerComponent,
+    path:'superadmin/tts-vehicle-management',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  },
+  {
     component:ZoneMasterComponent,
     path:'superadmin/zone-master',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
@@ -120,6 +131,21 @@ const routes: Routes = [
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   },
   {
+    component:AgencyMasterComponent,
+    path:'superadmin/agency-master',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  },
+  {
+    component:GodownMasterComponent,
+    path:'superadmin/godown-master',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  },
+  {
+    component:VendorMasterComponent,
+    path:'superadmin/vendor-master',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  },
+  {
     component:MccMasterComponent,
     path:'superadmin/mcc-master',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
@@ -127,7 +153,7 @@ const routes: Routes = [
   {
     component:TripDetailsComponent,
     path:'superadmin/drying-yard/trip-details',
-    canActivate:[LoginGuard,TtsUserAndDryingYardUserAuthGuardService]
+    canActivate:[LoginGuard,TtsUserAndDryingYardUserAuthGuardService,]
   } ,
   {
     component:DashboardComponent,
@@ -138,7 +164,17 @@ const routes: Routes = [
     component:MrfTabComponent,
     path:'superadmin/mrf-tab',
     canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
-  } 
+  },
+  {
+    component:TripStatusReportComponent,
+    path:'superadmin/trip-status-report',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
+  } ,
+  {
+    component:GodownComponent,
+    path:'/superadmin/godown',
+    canActivate:[LoginGuard,BmcGoDownAdminUserAuthGuardService]
+  }
 ];
 
 @NgModule({
