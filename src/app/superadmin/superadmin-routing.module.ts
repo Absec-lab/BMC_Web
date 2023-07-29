@@ -42,6 +42,10 @@ import { MokhataMoveToGodownComponent } from './drying-yard/mokhata-move-to-godo
 import { LoginGuard } from './auth-guard/LoginGuard';
 import { GodownComponent } from './godown/godown.component';
 import { TtsMasterComponent } from './tts-master/tts-master.component';
+import { AgencyMasterComponent } from './agency-master/agency-master.component';
+import { GodownMasterComponent } from './godown-master/godown-master.component';
+import { VendorMasterComponent } from './vendor-master/vendor-master.component';
+import { TtsVehicleMasterComponent } from './tts-vehicle-master/tts-vehicle-master.component';
 
 
 const routes: Routes = [
@@ -51,12 +55,16 @@ const routes: Routes = [
   {path: 'superadmin/drying-yard-master',component: DryingYardMasterComponent},
   {path: 'superadmin/wealth-center-master',component: WealthCenterMasterComponent},
   {path: 'superadmin/ward-master',component: WardMasterComponent},
+  {path: 'superadmin/agency-master',component: AgencyMasterComponent},  
+  {path: 'superadmin/godown-master',component: GodownMasterComponent},  
+  {path: 'superadmin/vendor-master',component: VendorMasterComponent},  
   {path: 'superadmin/mcc-master',component: MccMasterComponent},
   {path: 'superadmin/pit-master',component: PitMasterComponent},
   {path: 'superadmin/route-master',component: RouteMasterComponent},
   {path: 'superadmin/goods-master',component: GoodsMasterComponent},
   {path: 'superadmin/goods-sub-master',component: GoodsSubMasterComponent},
   {path: 'superadmin/vehicle-master',component: VehicleMasterComponent},
+  {path: 'superadmin/tts-vehicle-master',component: TtsVehicleMasterComponent},
   {path: 'superadmin/driver-master',component: DriverMasterComponent},
   {path: 'superadmin/helper-master',component: HelperMasterComponent},
   {path: 'superadmin/garbage',component: GarbageComponent}, 
@@ -64,8 +72,8 @@ const routes: Routes = [
   {path: 'superadmin/mrf-tab',component: MrfTabComponent},
   {path: 'superadmin/mcc/pit-view',component: PitViewComponent},
   {path: 'superadmin/mcc/today-task',component: TodayTaskComponent},
-  {path:'map/view',component:MapComponent},
-  {path:'superadmin/home',component:HomeComponent},
+  {path: 'map/view',component:MapComponent},
+  {path: 'superadmin/home',component:HomeComponent},
   {path: 'superadmin/dashboard-one',component: DashboardOneComponent},
   {path: 'superadmin/portal-dashboards/dashboard-one',component: DashboardOneComponent},
   {path: 'superadmin/portal-dashboards/dashboard-two',component: DashboardTwoComponent},

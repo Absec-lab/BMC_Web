@@ -65,6 +65,10 @@ import { MrfActionRendererComponent } from './mrf-tab/mrf-action-renderer/mrf-ac
 import { CompostMaterialActionRendererComponent } from './drying-yard/compost-material-action-renderer/compost-material-action-renderer.component';
 import { GodownComponent } from './godown/godown.component';
 import { TtsMasterComponent } from './tts-master/tts-master.component';
+import { AgencyMasterComponent } from './agency-master/agency-master.component';
+import { GodownMasterComponent } from './godown-master/godown-master.component';
+import { VendorMasterComponent } from './vendor-master/vendor-master.component';
+import { TtsVehicleMasterComponent } from './tts-vehicle-master/tts-vehicle-master.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +78,9 @@ import { TtsMasterComponent } from './tts-master/tts-master.component';
     //SidebarComponent,
     WealthCenterMasterComponent,
     WardMasterComponent,
+    AgencyMasterComponent,
+    GodownMasterComponent,
+    VendorMasterComponent,
     ZoneMasterComponent,
     DryingYardMasterComponent,
     MccMasterComponent,
@@ -82,6 +89,7 @@ import { TtsMasterComponent } from './tts-master/tts-master.component';
     GoodsMasterComponent,
     GoodsSubMasterComponent,
     VehicleMasterComponent,
+    TtsVehicleMasterComponent,
     DriverMasterComponent,
     HelperMasterComponent,
     LoginComponent,
@@ -104,7 +112,7 @@ import { TtsMasterComponent } from './tts-master/tts-master.component';
     DryCompostWeighmentComponent,
     ItemCategoryMasterComponent,
     ItemNameMasterComponent,
-    InventoryComponent,
+    InventoryComponent, 
     MccMenuComponent,
     ImageCellRendererComponent,
     ManpowerComponent,
