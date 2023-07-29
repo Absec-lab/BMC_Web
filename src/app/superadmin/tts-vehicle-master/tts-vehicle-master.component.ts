@@ -58,7 +58,6 @@ export class TtsVehicleMasterComponent implements OnInit{
                         data=>{
                                 this.responseData=data
                                 this.list=this.responseData.data
-                               
                         }
                 );
         }
