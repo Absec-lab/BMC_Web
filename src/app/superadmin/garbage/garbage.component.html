@@ -65,7 +65,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="row mt-3">
+													<div class="row mt-3" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0">
 															Trip Start Reading<span class="text-danger">*</span>
 														</div>
@@ -74,7 +74,7 @@
 																name="" id="tripStartReading" class="form-control">
 														</div>
 													</div>
-													<div class="row mt-3 tripStartReadingPictureDiv">
+													<div class="row mt-3 tripStartReadingPictureDiv" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0">
 															Trip Start Reading Picture<span class="text-danger">*</span>
 														</div>
@@ -83,7 +83,7 @@
 																accept="image/*" (change)="onTripStartFileSelected($event)">
 														</div>
 													</div>
-													<div class="row mt-3">
+													<div class="row mt-3" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0 tripEndReadingDiv">
 															Trip End Reading
 														</div>
@@ -92,7 +92,7 @@
 																formControlName="tripEndReading">
 														</div>
 													</div>
-													<div class="row mt-3">
+													<div class="row mt-3" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0 tripEndReadingPictureDiv">
 															Trip End Reading Picture
 														</div>
@@ -101,6 +101,31 @@
 																accept="image/*" (change)="onTripEndFileSelected($event)">
 														</div>
 													</div>
+													
+													<div class="row mt-3" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															DL Number<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="driverDlNo" type="text" name=""
+																id="driverDlNo" class="form-control">
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															Driver Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<!-- <input type="text" name="" id="driverName" class="form-control"
+																formControlName="driverName"> -->
+																<select 
+																class="form-select" formControlName="driverId" id="driverId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.driverId" *ngFor="let item of driverList">{{item.driverName}}</option>
+															</select>
+														</div>
+													</div>
+													
 													<!-- <div class="row mt-3">
 														<div class="col-md-3 d-flex align-items-center pe-0">
 															Vehicle Start Time
@@ -120,7 +145,7 @@
 													</div> -->
 												</div>
 												<div class="col-sm-6 mt-3 mt-sm-0">
-													<div class="row">
+													<div class="row" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0">
 															DL Number<span class="text-danger">*</span>
 														</div>
@@ -129,7 +154,7 @@
 																id="driverDlNo" class="form-control">
 														</div>
 													</div>
-													<div class="row mt-3">
+													<div class="row mt-3" *ngIf="isDisableBov">
 														<div class="col-md-3 pe-0">
 															Driver Name<span class="text-danger">*</span>
 														</div>
@@ -141,6 +166,15 @@
 																<option value="" disabled selected>--Select--</option>
 																<option [value]="item.driverId" *ngFor="let item of driverList">{{item.driverName}}</option>
 															</select>
+														</div>
+													</div>
+													<div class="row" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															Vehicle Type
+														</div>
+														<div class="col-md-9">
+															<input formControlName="vehicleType" readonly type="text" name=""
+																id="vehicleType" class="form-control">
 														</div>
 													</div>
 													<div class="row mt-3">
