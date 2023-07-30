@@ -78,7 +78,7 @@ export class GodownMasterComponent implements OnInit{
         async getList() {
                 try {
                        // let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-                        this.list = await this.service.get(`/inventory/adgetAlldGodown/`)
+                        this.list = await this.service.get(`/inventory/getAllGodown`)
                        /// this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
                 } catch (e) {
                         console.error(e)
