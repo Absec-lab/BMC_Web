@@ -33,7 +33,7 @@
                                                     Vehicle No<span class="text-danger">*</span>
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="ttsVehicleNo" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="vehicleNo" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@
                                                     Description
                                                 </div>
                                                 <div class="ms-3 d-flex-1">
-                                                    <input formControlName="ttsVehicledescription" type="text" name="" id="" class="form-control">
+                                                    <input formControlName="vehicleDesc" type="text" name="" id="" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -175,32 +175,6 @@
 						</div>
                     </div>
                     <div class="mt-4">
-                        <!-- <div
-                            class="py-3 px-3 bg-secondary d-flex align-items-center justify-content-end border-bottom-0 border">
-                            <div>Vehicle No</div>
-                            <div class="ms-3 w-20">
-                                <select name="" id="" class="form-control form-select">
-                                    <option value="">Vehicle No</option>
-                                </select>
-                            </div>
-                            <div class="wc-ml-10">RC</div>
-                            <div class="ms-3 w-20">
-                                <select name="" id="" class="form-control form-select">
-                                    <option value="">RC</option>
-                                </select>
-                            </div>
-                            <div class="wc-ml-10">DL Number</div>
-                            <div class="ms-3 w-20">
-                                <select name="" id="" class="form-control form-select">
-                                    <option value="">DL Number</option>
-                                </select>
-                            </div>
-                            <div class="ms-3">
-                                <button class="btn btn-primary px-3">
-                                    Search
-                                </button>
-                            </div>
-                        </div> -->
                         <table class="table table-bordered table-striped">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
@@ -224,7 +198,6 @@
 								<tr *ngFor="let x of list; index as i;">
                                                                         <td>{{ i + 1}}</td>
                                                                         <td>{{ x.vehicleNo || '--' }}</td>
-                                                                        <td>{{ x.vehicleNo || '--' }}</td>
                                                                         <td>{{ x.wc?.wcName || '--' }}</td>
                                                                         <td>{{ x.route?.routeName || '--' }}</td>
                                                                         <td>{{ x.driver?.driverName || '--' }}</td>
@@ -241,7 +214,7 @@
                                                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                                                         <i class="fa-solid fa-edit"></i>
                                                                                 </button>
-                                                                                <button (click)="deactivateVehicle(x.vehicleId)" class="btn btn-danger btn-sm">
+                                                                                <button (click)="deactivateVehicle(x.ttsVehicleId)" class="btn btn-danger btn-sm">
                                                                                         <i
                                                                                                 class="fa-solid fa-trash-alt"></i>
                                                                                 </button>
