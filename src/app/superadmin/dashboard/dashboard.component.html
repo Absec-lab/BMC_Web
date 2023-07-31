@@ -18,12 +18,10 @@
                       class="form-control form-select dashboard-select-box"
                       (change)="onZoneSelect($event)"
                     >
-                      <option [value]="'Allzone'" [selected]="true">
-                        All Zone
-                      </option>
+                      <option value="All Zone">All Zone</option>
                       <option
-                        *ngFor="let x of zoneList; let i = index"
-                        [value]="x.zoneId"
+                        *ngFor="let x of zoneList;"
+                        value="{{ x.zoneId }}"
                       >
                         {{ x.zoneName }}
                       </option>
