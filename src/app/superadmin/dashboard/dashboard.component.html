@@ -1,354 +1,537 @@
 <app-header></app-header>
 <main class="container-fluid">
-    <div class="page-content p-3 row">
-        <div class="col-xl-3 sidebar-parent ">
-            <app-sidebar></app-sidebar> 
-        </div>
-        <div class="col-xl-9 app-content mt-4 mt-xl-0">
+  <div class="page-content p-3">
+    <div class="row">
+      <div class="col-12 mb-4 mt-2">
+        <div class="row">
+          <div class="col-xl-5">
+            <form [formGroup]="form">
+              <div class="row">
+                <div class="col-sm-6">
+                  <select
+                    id="zoneId"
+                    formControlName="zoneId_"
+                    class="form-control form-select dashboard-select-box"
+                    (change)="onZoneSelect($event)"
+                  >
+                    <option
+                      [value]="'Allzone'"
+                      *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'"
+                      [selected]="true"
+                    >
+                      All Zone
+                    </option>
+                    <option
+                      *ngFor="let x of zoneList; let i = index"
+                      [value]="x.zoneId"
+                      [selected]="i == 0"
+                    >
+                      {{ x.zoneName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-sm-6 mt-3 mt-sm-0">
+                  <select
+                    id="wcId_"
+                    formControlName="wcId"
+                    class="form-control form-select dashboard-select-box"
+                    (change)="onWcSelect($event)"
+                  >
+                    <option
+                      [value]="'Allwc'"
+                      *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'"
+                      [selected]="true"
+                    >
+                      All Wc
+                    </option>
+                    <option
+                      *ngFor="let x of wcList; let i = index"
+                      [value]="x.wcId"
+                      [selected]="i == 0"
+                    >
+                      {{ x.wcName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <input
+                type="date"
+                class="form-control bg-transparent"
+                name="filter_from_date"
+                id="filter_from_date"
+                hidden
+              />
+              <input
+                type="date"
+                class="form-control bg-transparent"
+                name="filter_to_date"
+                id="filter_to_date"
+                hidden
+              />
+            </form>
+          </div>
+          <div class="col-xl-7 mt-4 mt-xl-0">
             <div class="row">
-                <div class="col-12 mb-4 mt-2">
-                    <div class="row">
-                        <div class="col-xl-4">
-                            <form [formGroup]="form"> 
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box"  (change)="onZoneSelect($event)">
-                                    
-                                        <option [value]="'Allzone'" [selected]=true>All Zone</option>
-                                        <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId">{{x.zoneName}}</option> 
-                                    </select>
-                                </div>
-                                <div class="col-sm-6 mt-3 mt-sm-0">
-                                    <select id="wcId_" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
-                                        
-                                        <option [value]="'Allwc'"  [selected]=true>All Wc</option>
-                                        <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" >{{x.wcName}}</option> 
-                                    </select>
-                                </div>
-                            </div>
-                            <input type="date" class="form-control bg-transparent"  name="filter_from_date" id="filter_from_date" hidden/>      
-                            <input type="date" class="form-control bg-transparent"  name="filter_to_date" id="filter_to_date" hidden/>
-                        </form> 
-                        </div>
-                        <div class="col-xl-8 mt-4 mt-xl-0">
-                            <div class="row">
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
-                                    <button class="btn btn-dashboard-date-filter-btn" (click) = "TimeBasedreport('MONTHLY')">
-                                        Monthly
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('WEEKLY')">
-                                    <button class="btn btn-dashboard-date-filter-btn">
-                                        Weekly
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('TODAY')">
-                                    <button class="btn btn-dashboard-date-filter-btn">
-                                        Today
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3 mb-lg-0" (click) = "TimeBasedreport('FIRST_HALF')">
-                                    <button class="btn btn-dashboard-date-filter-btn">
-                                        1st Half
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3 mb-lg-0" (click) = "TimeBasedreport('SECOND_HALF')">
-                                    <button class="btn btn-dashboard-date-filter-btn">
-                                        2nd Half
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-md-4 col-lg-2" hidden>
-                                    <button class="btn btn-dashboard-date-filter-btn">
-                                        Custom Date
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <div class="row">
-                        <div class="col-sm-6 col-xl-3 mb-3 mb-xl-0">
-                            <div class="card h-100">
-                                <div class="card-body d-flex w-100 align-items-start card-1 stat-card">
-                                    <div>
-                                        <h5 class="fw-bold mb-3">Trip Summary</h5>
-                                        <div>Active Trips: {{dataMap.get('totalActiveTrip')}}</div>
-                                        <div style="margin-top: 2px;">Completed Trips: {{dataMap.get('totalCompletedTrip')}}</div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="stat-card-icon">
-                                            <i class="fas fa-truck-fast"></i>
-                                        </div>
-                                        <!-- <div class="mt-4 text-center">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-xl-3 mb-3 mb-xl-0">
-                            <div class="card h-100">
-                                <div class="card-body d-flex w-100 align-items-start card-4 stat-card">
-                                    <div>
-                                        <h5 class="fw-bold mb-3">Garbage Summary</h5>
-                                        <div>Total Dry Weight: {{dataMap.get('totalDryWeight')}} KG</div>
-                                        <div style="margin-top: 2px;">Total Wet Weight: {{dataMap.get('totalWetWeight')}} KG</div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="stat-card-icon">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </div>
-                                        <!-- <div class="mt-4 text-center">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
-                          <div class="card h-100">
-                            <div class="card-body d-flex w-100 align-items-start card-2 stat-card">
-                                <div class="h-100">
-                                    <h5 class="fw-bold mb-3">PIT</h5>
-                                    <div>Total Empty Pit: {{dataMap.get('totalemptypits')}}</div>
-                                    <div style="margin-top: 2px;">Total Filled Pit: {{dataMap.get('totalfilledpits')}}</div>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="stat-card-icon">
-                                        <i class="fas fa-recycle"></i>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-6 col-xl-3 mb-3 mb-xl-0">
-                            <div class="card h-100">
-                                <div class="card-body d-flex w-100 align-items-start card-3 stat-card">
-                                    <div class="h-100">
-                                        <h5 class="fw-bold mb-4">MRF</h5>
-                                        <div class="pt-3">Total MRF: {{dataMap.get('totalMRFWeight')}} KG</div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="stat-card-icon">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </div>
-                                        <!-- <div class="mt-4 text-center">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                            <div class="d-flex align-items-center w-100">
-                                <div class="fw-bold text-uppercase">Micro Composting Center</div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-3">
-                            <div style="background-image: linear-gradient(to bottom right, #44C76D 0%, #1B3EB5 50%, #E44C58 100%); width: 100%; overflow-x: auto;" class="p-2">
-                                <table class="table table-bordered text-center mb-0 bg-transparent text-white">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%">MCC Product Status</th>
-                                            <th style="width: 20%">Today</th>
-                                            <th style="width: 25%">This Week</th>
-                                            <th style="width: 25%">This Month</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Wet Garbage Processed</td>
-                                            <td>{{dataMap.get('totalTodayWetWeightAllwc')}}</td>
-                                            <td>{{dataMap.get('totalWeeklyWetWeightAllwc')}}</td>
-                                            <td>{{dataMap.get('totalMonthlylWetWeightAllwc')}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mo Khata Produced</td>
-                                            <td>{{totalDailyKhata}} KG</td>
-                                            <td>{{totalWeeklyKhata}} KG</td>
-                                            <td>{{totalMonthlyKhata}} KG</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                            <div class="d-flex align-items-center w-100">
-                                <div class="fw-bold text-uppercase">Material Recovery Facility</div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-3">
-                            <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%); width: 100%; overflow-x: auto;" class="p-2">
-                                <table class="table table-bordered text-center mb-0 bg-transparent text-white">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%">MRF</th>
-                                            <th style="width: 20%">Today</th>
-                                            <th style="width: 25%">This Week</th>
-                                            <th style="width: 25%">This Month</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>MRF Processed</td>
-                                            <td>{{mrfDailyQtm}}</td>
-                                            <td>{{mrfWeeklyQtm}}</td>
-                                            <td>{{mrfMonthlyQtm}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>MRF InStock</td>
-                                            <td>{{mrfDailyInStock}}</td>
-                                            <td>{{mrfWeeklyInStock}}</td>
-                                            <td>{{mrfMonthlyInStock}}</td>
-                                        </tr>
-                                        <!-- <tr>
-                                            <td>Unsold</td>
-                                            <td>640 KG</td>
-                                            <td>1200 KG</td>
-                                            <td>800 KG</td>
-                                        </tr> -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                            <div class="d-flex align-items-center">
-                                <div class="fw-bold text-uppercase">Mo Khata</div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-3">
-                            <!-- <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas> -->
-
-                            <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%); width: 100%; overflow-x: auto;" class="p-2">
-                                <table class="table table-bordered text-center mb-0 bg-transparent text-white">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%">MOKHATA</th>
-                                            <th style="width: 20%">Today</th>
-                                            <th style="width: 25%">This Week</th>
-                                            <th style="width: 25%">This Month</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of responseMoKhata">
-                                            <td>{{item.wealthCenter}}</td>
-                                            <td>{{item.totalDailyKhata}}</td>
-                                            <td>{{item.totalWeeklyKhata}}</td>
-                                            <td>{{item.totalMonthlyKhata}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                            <div class="d-flex align-items-center w-100">
-                                <div class="fw-bold text-uppercase">Trip Report (Zone Based)</div>
-                                <div class="ms-auto" hidden>
-                                    <input type="date" name="" id="" class="form-control bg-transparent" value="2023-05-22" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-3">
-                            <div class="">
-                                <!-- <canvas id="chart-e017e3c3-333c-4ca7-8b20-56d7b361c29b" style="height: 400px;">{{ chart2 }}</canvas> -->
-
-                                <div style="background-image: linear-gradient(to bottom right, #3431C0 0%, #742C7E 50%, #C4262F 100%); width: 100%; max-height: 300px; overflow: auto;" class="p-2">
-                                    <table class="table table-bordered text-center mb-0 bg-transparent text-white">
-                                        <thead>
-                                            <tr>
-                                                <th style="min-width: 100px;">Zone</th>
-                                                <th style="min-width: 100px;">WC</th>
-                                                <th style="min-width: 150px;">No Of Vehicle Used</th>
-                                                <th style="min-width: 150px;">No Of completed trip</th>
-                                                <th style="min-width: 120px;">No Of active trip</th>
-                                                <th style="min-width: 100px;">Dry Wt.</th>
-                                                <th style="min-width: 100px;">Wet Wt.</th>
-                                                <th style="min-width: 120px;">MRF processed</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of zoneBasedSelectedData">
-                                                <td>{{item.zoneName}}</td>
-                                                <td>{{item.wealthCenter}}</td>
-                                                <td>{{item.numberOfVehiclesUsed}}</td>
-                                                <td>{{item.numberOfCompletedTrip}}</td>
-                                                <td>{{item.numberOfActiveTrip}}</td>
-                                                <td>{{item.totalDryWeight}}</td>
-                                                <td>{{item.totalWetWeight}}</td>
-                                                <td>{{item.totalMRFProcessed}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <div class="card mb-4" hidden>
-                        <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;" >
-                            <div class="d-flex align-items-center w-100" >
-                                <div class="fw-bold text-uppercase" >Man Power</div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-3" >
-                            <div class="" >
-                                <canvas id="chart-23236985-42b9-4174-9d5a-0a199dd473d9" style="height: 150px;">{{ chart3 }}</canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="fw-bold text-uppercase">Vehicle</div>
-                                    </div>
-                                </div>
-                                <div class="card-body px-4 pb-3">
-                                    <div class="">
-                                        <canvas id="chart-19b8e3bd-bc26-46c8-9ea4-01d6345cb2e2" style="height: 150px;">{{ chart4 }}</canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-4 mt-md-0">
-                            <div class="card">
-                                <div class="card-header rounded-0 border-0 px-4 pt-3 d-flex" style="justify-content: space-between;">
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="fw-bold text-uppercase">Inventory</div>
-                                    </div>
-                                </div>
-                                <div class="card-body px-4 pb-3">
-                                    <div class="">
-                                        <canvas id="chart-029ea4bc-fac1-4296-b731-25bb7c6598ac34" style="height: 150px;">{{ chart6 }}</canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                <button
+                  class="btn btn-dashboard-date-filter-btn"
+                  (click)="TimeBasedreport('MONTHLY')"
+                >
+                  Monthly
+                </button>
+              </div>
+              <div
+                class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0"
+                (click)="TimeBasedreport('WEEKLY')"
+              >
+                <button class="btn btn-dashboard-date-filter-btn">
+                  Weekly
+                </button>
+              </div>
+              <div
+                class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0"
+                (click)="TimeBasedreport('TODAY')"
+              >
+                <button class="btn btn-dashboard-date-filter-btn">Today</button>
+              </div>
+              <div
+                class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0"
+                (click)="TimeBasedreport('FIRST_HALF')"
+              >
+                <button class="btn btn-dashboard-date-filter-btn">
+                  1st Half
+                </button>
+              </div>
+              <div
+                class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0"
+                (click)="TimeBasedreport('SECOND_HALF')"
+              >
+                <button class="btn btn-dashboard-date-filter-btn">
+                  2nd Half
+                </button>
+              </div>
+              <div
+                class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0"
+                (click)="TimeBasedreport('SECOND_HALF')"
+              >
+                <select
+                  id="zoneId"
+                  formControlName="zoneId_"
+                  class="form-control form-select dashboard-select-box"
+                  (change)="onReportSelect($event)"
+                >
+                  <!-- <option
+                    [value]="'Allzone'"
+                    *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'"
+                    [selected]="true"
+                  >
+                    Report
+                  </option> -->
+                  <option
+                    *ngFor="let x of allReportType; let i = index"
+                    [value]="x.name"
+                    [selected]="i == 0"
+                  >
+                    {{ x.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-2" hidden>
+                <button class="btn btn-dashboard-date-filter-btn">
+                  Custom Date
+                </button>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="col-12 mb-4">
+        <div class="row">
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+            <div class="card h-100">
+              <div
+                class="card-body d-flex w-100 align-items-start card-1 stat-card"
+              >
+                <div>
+                  <h5 class="fw-bold mb-3">Trip Summary</h5>
+                  <div>Active Trips: {{ dataMap.get("totalActiveTrip") }}</div>
+                  <div style="margin-top: 2px">
+                    Completed Trips: {{ dataMap.get("totalCompletedTrip") }}
+                  </div>
+                </div>
+                <div class="ms-auto">
+                  <div class="stat-card-icon">
+                    <i class="fas fa-truck-fast"></i>
+                  </div>
+                  <!-- <div class="mt-4 text-center">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+            <div class="card h-100">
+              <div
+                class="card-body d-flex w-100 align-items-start card-4 stat-card"
+              >
+                <div>
+                  <h5 class="fw-bold mb-3">Garbage Summary</h5>
+                  <div>
+                    Total Dry Weight: {{ dataMap.get("totalDryWeight") }} KG
+                  </div>
+                  <div style="margin-top: 2px">
+                    Total Wet Weight: {{ dataMap.get("totalWetWeight") }} KG
+                  </div>
+                </div>
+                <div class="ms-auto">
+                  <div class="stat-card-icon">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                  <!-- <div class="mt-4 text-center">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+            <div class="card h-100">
+              <div
+                class="card-body d-flex w-100 align-items-start card-2 stat-card"
+              >
+                <div class="h-100">
+                  <h5 class="fw-bold mb-4">PIT</h5>
+                  <div class="pt-3">Total Compost: 100 KG</div>
+                </div>
+                <div class="ms-auto">
+                  <div class="stat-card-icon">
+                    <i class="fas fa-recycle"></i>
+                  </div>
+                  <!-- <div class="mt-4 text-center">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+            <div class="card h-100">
+              <div
+                class="card-body d-flex w-100 align-items-start card-3 stat-card"
+              >
+                <div class="h-100">
+                  <h5 class="fw-bold mb-4">MRF</h5>
+                  <div class="pt-3">
+                    Total MRF: {{ dataMap.get("totalMRFWeight") }} KG
+                  </div>
+                </div>
+                <div class="ms-auto">
+                  <div class="stat-card-icon">
+                    <i class="fas fa-trash-alt"></i>
+                  </div>
+                  <!-- <div class="mt-4 text-center">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4 mb-4">
+        <div class="card mb-4 h-100">
+          <div
+            class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+            style="justify-content: space-between"
+          >
+            <div class="d-flex align-items-center w-100">
+              <div class="fw-bold text-uppercase">Micro Composting Center</div>
+            </div>
+          </div>
+          <div class="card-body px-4 pb-3">
+            <div
+              style="
+                background-image: linear-gradient(
+                  to bottom right,
+                  #44c76d 0%,
+                  #1b3eb5 50%,
+                  #e44c58 100%
+                );
+              "
+              class="p-2"
+            >
+              <table
+                class="table table-bordered text-center mb-0 bg-transparent text-white"
+              >
+                <thead>
+                  <tr>
+                    <th style="width: 30%">MCC Product Status</th>
+                    <th style="width: 20%">Today</th>
+                    <th style="width: 25%">This Week</th>
+                    <th style="width: 25%">This Month</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Wet Garbage Processed</td>
+                    <td>{{ dataMap.get("totalTodayWetWeightAllwc") }}</td>
+                    <td>{{ dataMap.get("totalWeeklyWetWeightAllwc") }}</td>
+                    <td>{{ dataMap.get("totalMonthlylWetWeightAllwc") }}</td>
+                  </tr>
+                  <tr>
+                    <td>Mo Khata Produced</td>
+                    <td>{{ totalDailyKhata }} KG</td>
+                    <td>{{ totalWeeklyKhata }} KG</td>
+                    <td>{{ totalMonthlyKhata }} KG</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4 mb-4">
+        <div class="card h-100">
+          <div
+            class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+            style="justify-content: space-between"
+          >
+            <div class="d-flex align-items-center w-100">
+              <div class="fw-bold text-uppercase">
+                Material Recovery Facility
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-4 pb-3">
+            <div
+              style="
+                background-image: linear-gradient(
+                  to bottom right,
+                  #3431c0 0%,
+                  #742c7e 50%,
+                  #c4262f 100%
+                );
+              "
+              class="p-2"
+            >
+              <table
+                class="table table-bordered text-center mb-0 bg-transparent text-white"
+              >
+                <thead>
+                  <tr>
+                    <th style="width: 30%">MRF</th>
+                    <th style="width: 20%">Today</th>
+                    <th style="width: 25%">This Week</th>
+                    <th style="width: 25%">This Month</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>MRF Processed</td>
+                    <td>{{ mrfDailyQtm }}</td>
+                    <td>{{ mrfWeeklyQtm }}</td>
+                    <td>{{ mrfMonthlyQtm }}</td>
+                  </tr>
+                  <tr>
+                    <td>MRF InStock</td>
+                    <td>{{ mrfDailyInStock }}</td>
+                    <td>{{ mrfWeeklyInStock }}</td>
+                    <td>{{ mrfMonthlyInStock }}</td>
+                  </tr>
+                  <!-- <tr>
+                                        <td>Unsold</td>
+                                        <td>640 KG</td>
+                                        <td>1200 KG</td>
+                                        <td>800 KG</td>
+                                    </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4 mb-4">
+        <div class="card h-100">
+          <div
+            class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+            style="justify-content: space-between"
+          >
+            <div class="d-flex align-items-center">
+              <div class="fw-bold text-uppercase">Mo Khata</div>
+            </div>
+          </div>
+          <div class="card-body px-4 pb-3">
+            <!-- <canvas id="chart-99e18e69-3e60-4552-9013-95c594d09659" style="height: 200px;">{{ chart1 }}</canvas> -->
+
+            <div
+              style="
+                background-image: linear-gradient(
+                  to bottom right,
+                  #3431c0 0%,
+                  #742c7e 50%,
+                  #c4262f 100%
+                );
+              "
+              class="p-2"
+            >
+              <table
+                class="table table-bordered text-center mb-0 bg-transparent text-white"
+              >
+                <thead>
+                  <tr>
+                    <th style="width: 30%">MOKHATA</th>
+                    <th style="width: 20%">Today</th>
+                    <th style="width: 25%">This Week</th>
+                    <th style="width: 25%">This Month</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of responseMoKhata">
+                    <td>{{ item.wealthCenter }}</td>
+                    <td>{{ item.totalDailyKhata }}</td>
+                    <td>{{ item.totalWeeklyKhata }}</td>
+                    <td>{{ item.totalMonthlyKhata }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div
+            class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+            style="justify-content: space-between"
+          >
+            <div class="d-flex align-items-center w-100">
+              <div class="fw-bold text-uppercase">Trip Report (Zone Based)</div>
+              <div class="ms-auto" hidden>
+                <input
+                  type="date"
+                  name=""
+                  id=""
+                  class="form-control bg-transparent"
+                  value="2023-05-22"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-4 pb-3">
+            <div class="">
+              <!-- <canvas id="chart-e017e3c3-333c-4ca7-8b20-56d7b361c29b" style="height: 400px;">{{ chart2 }}</canvas> -->
+
+              <div
+                style="
+                  background-image: linear-gradient(
+                    to bottom right,
+                    #3431c0 0%,
+                    #742c7e 50%,
+                    #c4262f 100%
+                  );
+                "
+                class="p-2"
+              >
+                <table
+                  class="table table-bordered text-center mb-0 bg-transparent text-white"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 30%">Zone</th>
+                      <th style="width: 20%">WC</th>
+                      <th style="width: 25%">No Of Vehicle Used</th>
+                      <th style="width: 25%">No Of completed trip</th>
+                      <th style="width: 25%">No Of active trip</th>
+                      <th style="width: 25%">Dry Wt.</th>
+                      <th style="width: 25%">Wet Wt.</th>
+                      <th style="width: 25%">MRF processed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of zoneBasedData">
+                      <td>{{ item.zoneName }}</td>
+                      <td>{{ item.wealthCenter }}</td>
+                      <td>{{ item.numberOfVehiclesUsed }}</td>
+                      <td>{{ item.numberOfCompletedTrip }}</td>
+                      <td>{{ item.numberOfActiveTrip }}</td>
+                      <td>{{ item.totalDryWeight }}</td>
+                      <td>{{ item.totalWetWeight }}</td>
+                      <td>{{ item.totalMRFProcessed }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 mb-4">
+        <div class="card mb-4" hidden>
+          <div
+            class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+            style="justify-content: space-between"
+          >
+            <div class="d-flex align-items-center w-100">
+              <div class="fw-bold text-uppercase">Man Power</div>
+            </div>
+          </div>
+          <div class="card-body px-4 pb-3">
+            <div class="">
+              <canvas
+                id="chart-23236985-42b9-4174-9d5a-0a199dd473d9"
+                style="height: 150px"
+                >{{ chart3 }}</canvas
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div
+                class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+                style="justify-content: space-between"
+              >
+                <div class="d-flex align-items-center w-100">
+                  <div class="fw-bold text-uppercase">Vehicle</div>
+                </div>
+              </div>
+              <div class="card-body px-4 pb-3">
+                <div class="">
+                  <canvas
+                    id="chart-19b8e3bd-bc26-46c8-9ea4-01d6345cb2e2"
+                    style="height: 150px"
+                    >{{ chart4 }}</canvas
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-4 mt-md-0">
+            <div class="card">
+              <div
+                class="card-header rounded-0 border-0 px-4 pt-3 d-flex"
+                style="justify-content: space-between"
+              >
+                <div class="d-flex align-items-center w-100">
+                  <div class="fw-bold text-uppercase">Inventory</div>
+                </div>
+              </div>
+              <div class="card-body px-4 pb-3">
+                <div class="">
+                  <canvas
+                    id="chart-029ea4bc-fac1-4296-b731-25bb7c6598ac34"
+                    style="height: 150px"
+                    >{{ chart6 }}</canvas
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </main>
 <app-footer></app-footer>
