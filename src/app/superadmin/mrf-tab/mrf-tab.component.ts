@@ -136,8 +136,8 @@ export class MrfTabComponent implements OnInit {
           goods: item.goods.goodsPerKg,
           inert_material: item.interMaterial,
           quntaum: item.quntaum,
-          price_per_kg:item.subGood.subGoodsPerKg,
-          total_subgoods_price: item.subGood.subGoodsPerKg * item.quntaum,
+          price_per_kg:'Rs '+ item.subGood.subGoodsPerKg,
+          total_subgoods_price:'Rs '+  item.subGood.subGoodsPerKg * item.quntaum,
           description: item.mrfDesc,
           created_date: item.createdDate
 
@@ -171,10 +171,10 @@ export class MrfTabComponent implements OnInit {
           wcName: item.wcId?.wcName,
           goods_name: item.goodsEntity.goodsName,
           sub_goods_name: item.goodssubEntity.subgoodsName, 
-          price_per_kg: item.goodssubEntity.subGoodsPerKg,         
+          price_per_kg:'Rs '+  item.goodssubEntity.subGoodsPerKg,         
           quntaum: item.itemQuantity,
           sold_to:item.soldToId,
-          cost:item.goodssubEntity.subGoodsPerKg * item.itemQuantity,
+          cost:'Rs '+ item.goodssubEntity.subGoodsPerKg * item.itemQuantity,
           description: item.mrfDesc,
           created_date: item.createdDate
 
@@ -217,23 +217,37 @@ export class MrfTabComponent implements OnInit {
     this.getAllGoods()
     this.service.getAllBailingStock().subscribe(
       data => {
+       
         this.itemStockResponse = data
-        this.itemStockList = this.itemStockResponse.data
+        this.itemStockList = this.itemStockResponse
         console.log(this.itemStockList,"bailingList")
         const rowDataStock = this.itemStockList.map((item: {
-          stockQuantity: any; goodssubEntity: any; wcEntity:any;
+          quntaum: any; goods:any;wcId:any;subGood:any; 
         }) => {
+          
 
           return {
-            itemName: item.goodssubEntity.subgoodsName,
-            //unit: 0,
-            stockQuantity: item.stockQuantity,
-            wcName:item.wcEntity.wcName
+               
+            wc_name:item.wcId.wcName,
+
+            goods_name: item.goods.goodsName,
+            sub_goods_name:item.subGood.subgoodsName,
+            price_per_kg:'Rs '+ item.subGood.subGoodsPerKg,
+            total_subgoods_price:'Rs '+  item.subGood.subGoodsPerKg * item.quntaum,
+            quntaum: item.quntaum
+         //   stockQuantity: item.stockQuantity,
+            
 
           };
+          
         });
-        console.log("itemStockList", this.itemStockList)
-        console.log("rowDataStock", rowDataStock)
+     //   alert(rowDataStock);
+
+        
+      //  alert(this.itemStockList)
+
+      //  console.log("itemStockList", this.itemStockList)
+     //   console.log("rowDataStock", rowDataStock)
         this.rowDataStock = rowDataStock;
 
       }
@@ -303,7 +317,7 @@ export class MrfTabComponent implements OnInit {
   async getSoldList() {
     try {
       let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
-      this.soldList = await this.service.get(`/zone/getAllSoldListDataMrf/` + wcId)
+      this.soldList = await this.service.get(`/zone/getAllMrfSoldByWCId/` + wcId)
       // this.goodsList = await this.service.get(`/zone/getAllGoods`)
       //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
 
@@ -655,24 +669,39 @@ saveStock() {
           );
           this.service.getAllBailingStock().subscribe(
             data => {
+             
               this.itemStockResponse = data
-              this.itemStockList = this.itemStockResponse.data
+              this.itemStockList = this.itemStockResponse
               console.log(this.itemStockList,"bailingList")
               const rowDataStock = this.itemStockList.map((item: {
-                stockQuantity: any; itemName: any;
+                quntaum: any; goods:any;wcId:any;subGood:any; 
               }) => {
-
+                
+      
                 return {
-                  itemName: item.itemName.itemname,
-                  //unit: 0,
-                  stockQuantity: item.stockQuantity
-
+                     
+                  wc_name:item.wcId.wcName,
+  
+                  goods_name: item.goods.goodsName,
+                  sub_goods_name:item.subGood.subgoodsName,
+                  price_per_kg:'Rs '+ item.subGood.subGoodsPerKg,
+                  total_subgoods_price:'Rs '+  item.subGood.subGoodsPerKg * item.quntaum,
+                  quntaum: item.quntaum
+               //   stockQuantity: item.stockQuantity,
+                  
+      
                 };
+                
               });
-              console.log("itemStockList", this.itemStockList)
-              console.log("rowDataStock", rowDataStock)
+           //   alert(rowDataStock);
+  
+              
+            //  alert(this.itemStockList)
+  
+            //  console.log("itemStockList", this.itemStockList)
+           //   console.log("rowDataStock", rowDataStock)
               this.rowDataStock = rowDataStock;
-
+      
             }
           );
         }
@@ -732,27 +761,27 @@ saveStock() {
 
             }
           );
-          this.service.getAllItemStockList().subscribe(
-            data => {
-              this.itemStockResponse = data
-              this.itemStockList = this.itemStockResponse
-              const rowDataStock = this.itemStockList.map((item: {
-                stockQuantity: any; itemName: any;
-              }) => {
+          // this.service.getAllItemStockList().subscribe(
+          //   data => {
+          //     this.itemStockResponse = data
+          //     this.itemStockList = this.itemStockResponse
+          //     const rowDataStock = this.itemStockList.map((item: {
+          //       stockQuantity: any; itemName: any;
+          //     }) => {
 
-                return {
-                  itemName: item.itemName.itemname,
-                  //unit: 0,
-                  stockQuantity: item.stockQuantity
+          //       return {
+          //         itemName: item.itemName.itemname,
+          //         //unit: 0,
+          //         stockQuantity: item.stockQuantity
 
-                };
-              });
-              console.log("itemStockList", this.itemStockList)
-              console.log("rowDataStock", rowDataStock)
-              this.rowDataStock = rowDataStock;
+          //       };
+          //     });
+          //     console.log("itemStockList", this.itemStockList)
+          //     console.log("rowDataStock", rowDataStock)
+          //     this.rowDataStock = rowDataStock;
 
-            }
-          );
+          //   }
+          // );
         },
         error => {
           this.errorResponse = error
@@ -1035,10 +1064,10 @@ saveStock() {
           data => {
            
             this.itemStockResponse = data
-            this.itemStockList = this.itemStockResponse.data
+            this.itemStockList = this.itemStockResponse
             console.log(this.itemStockList,"bailingList")
             const rowDataStock = this.itemStockList.map((item: {
-              quntaum: any; goodssubEntity: any;goods:any;wcId:any;subGood:any; wcEntity:any;stockQuantity:any;
+              quntaum: any; goods:any;wcId:any;subGood:any; stockQuantity:any;
             }) => {
               
     
@@ -1047,9 +1076,9 @@ saveStock() {
                 wc_name:item.wcId.wcName,
 
                 goods_name: item.goods.goodsName,
-                sub_goods_name:item.subGood.subgoodsName,
+                sub_goods_name:'Rs '+ item.subGood.subgoodsName,
                 price_per_kg:item.subGood.subGoodsPerKg,
-                total_subgoods_price: item.subGood.subGoodsPerKg * item.quntaum,
+                total_subgoods_price:'Rs '+  item.subGood.subGoodsPerKg * item.quntaum,
                 quntaum: item.quntaum
              //   stockQuantity: item.stockQuantity,
                 
@@ -1171,10 +1200,10 @@ if (!soldToId || soldToId === '') {
           //  wcName: item.wcId?.wcName,
             goods_name: item.goodsEntity.goodsName,
             sub_goods_name: item.goodsSubEntity.subgoodsName,
-            price_per_kg: item.goodsSubEntity.subGoodsPerKg,
+            price_per_kg:'Rs '+ item.goodsSubEntity.subGoodsPerKg,
             quntaum: item.quntaum,
             sold_to:item.soldToId,
-            cost:item.goodsSubEntity.subGoodsPerKg * item.quntaum,
+            cost:'Rs '+ item.goodsSubEntity.subGoodsPerKg * item.quntaum,
             description: item.mrfDesc,
             created_date: item.createdDate
 

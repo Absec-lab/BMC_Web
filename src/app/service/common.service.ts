@@ -424,4 +424,6 @@ export class CommonService {
                 return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
         } 
 
+
+        
 }

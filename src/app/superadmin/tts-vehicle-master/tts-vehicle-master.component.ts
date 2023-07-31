@@ -58,12 +58,12 @@ export class TtsVehicleMasterComponent implements OnInit{
                         data=>{
                                 this.responseData=data
                                 this.list=this.responseData.data
-                               
                         }
                 );
         }
 
         form = new FormGroup({
+                ttsVehicleId: new FormControl(''),
                 vehicleNo: new FormControl('', [Validators.required]),
                 driverId: new FormControl('', [Validators.required]),
                 helperId: new FormControl('', [Validators.required]),
@@ -133,69 +133,70 @@ export class TtsVehicleMasterComponent implements OnInit{
         }
 
         async addNew() {
-                if (this.form.status === 'INVALID') {
-                        const vehicleNo = this.form.value.vehicleNo?.trim();
-                        if (!vehicleNo) {
-                                this.toastService.showWarning('Vehicle number is required.');
-                                return;
-                        }
-                        const zoneId = this.form.value.zoneId?.trim();
-                        if (!zoneId) {
-                                this.toastService.showWarning('Zone is required.');
-                                return;
-                        }
-                        const wcId = this.form.value.wcId?.trim();
-                        if (!wcId) {
-                                this.toastService.showWarning('Wealth center is required.');
-                                return;
-                        }
-                        const routeId = this.form.value.routeId?.trim();
-                        if (!routeId) {
-                                this.toastService.showWarning('Route is required.');
-                                return;
-                        }
-                        const driverId = this.form.value.driverId?.trim();
-                        if (!driverId) {
-                                this.toastService.showWarning('Driver is required.');
-                                return;
-                        }
-                        const rcNumber = this.form.value.rcNo?.trim();
-                        if (!rcNumber) {
-                                this.toastService.showWarning('RC number is required.');
-                                return;
-                        }
-                        if (!this.rcPhoto) {
-                                this.toastService.showWarning('RC photo is required.');
-                                return;
-                        }
-                        if (!this.vehiclePhoto) {
-                                this.toastService.showWarning('Vehicle photo is required.');
-                                return;
-                        }
-                        const insurance = this.form.value.insurance?.trim();
-                        if (!insurance) {
-                                this.toastService.showWarning('Insurance is required.');
-                                return;
-                        }
-                        const vehiclePassingWeight = this.form.value.vehiclePassingWt?.toString().trim();
-                        if (!vehiclePassingWeight) {
-                                this.toastService.showWarning('Vehicle passing weight is required.');
-                                return;
-                        }
-                        const helperId = this.form.value.helperId?.trim();
-                        if (!helperId) {
-                                this.toastService.showWarning('Helper is required.');
-                                return;
-                        }
-                        const vehicleWeight = this.form.value.vehicleWt?.trim();
-                        if (!vehicleWeight) {
-                                this.toastService.showWarning('Vehicle weight is required.');
-                                return;
-                        }
-                        return;
-                }
+                // if (this.form.status === 'INVALID') {
+                //         const vehicleNo = this.form.value.vehicleNo?.trim();
+                //         if (!vehicleNo) {
+                //                 this.toastService.showWarning('Vehicle number is required.');
+                //                 return;
+                //         }
+                //         const zoneId = this.form.value.zoneId?.trim();
+                //         if (!zoneId) {
+                //                 this.toastService.showWarning('Zone is required.');
+                //                 return;
+                //         }
+                //         const wcId = this.form.value.wcId?.trim();
+                //         if (!wcId) {
+                //                 this.toastService.showWarning('Wealth center is required.');
+                //                 return;
+                //         }
+                //         const routeId = this.form.value.routeId?.trim();
+                //         if (!routeId) {
+                //                 this.toastService.showWarning('Route is required.');
+                //                 return;
+                //         }
+                //         const driverId = this.form.value.driverId?.trim();
+                //         if (!driverId) {
+                //                 this.toastService.showWarning('Driver is required.');
+                //                 return;
+                //         }
+                //         const rcNumber = this.form.value.rcNo?.trim();
+                //         if (!rcNumber) {
+                //                 this.toastService.showWarning('RC number is required.');
+                //                 return;
+                //         }
+                //         if (!this.rcPhoto) {
+                //                 this.toastService.showWarning('RC photo is required.');
+                //                 return;
+                //         }
+                //         if (!this.vehiclePhoto) {
+                //                 this.toastService.showWarning('Vehicle photo is required.');
+                //                 return;
+                //         }
+                //         const insurance = this.form.value.insurance?.trim();
+                //         if (!insurance) {
+                //                 this.toastService.showWarning('Insurance is required.');
+                //                 return;
+                //         }
+                //         const vehiclePassingWeight = this.form.value.vehiclePassingWt?.toString().trim();
+                //         if (!vehiclePassingWeight) {
+                //                 this.toastService.showWarning('Vehicle passing weight is required.');
+                //                 return;
+                //         }
+                //         const helperId = this.form.value.helperId?.trim();
+                //         if (!helperId) {
+                //                 this.toastService.showWarning('Helper is required.');
+                //                 return;
+                //         }
+                //         const vehicleWeight = this.form.value.vehicleWt?.trim();
+                //         if (!vehicleWeight) {
+                //                 this.toastService.showWarning('Vehicle weight is required.');
+                //                 return;
+                //         }
+                //         return;
+                // }
                 try {
                         const data = {
+                                ttsVehicleId: this.form.value.ttsVehicleId,
                                 vehicleNo: this.form.value.vehicleNo,
                                 rcNo: this.form.value.rcNo,
                                 rcPhoto: this.form.value.rcPhoto,
@@ -204,15 +205,7 @@ export class TtsVehicleMasterComponent implements OnInit{
                                 vehiclePassingWt: this.form.value.vehiclePassingWt,
                                 vehicleWt: this.form.value.vehicleWt,
                                 vehicleDesc: this.form.value.vehicleDesc,
-                                zone: {
-                                        zoneId: this.form.value.zoneId
-                                },
-                                wc: {
-                                        wcId: this.form.value.wcId
-                                },
-                                route: {
-                                        routeId: this.form.value.routeId
-                                },
+                                agency: 2 ,
                                 driver: {
                                         driverId: this.form.value.driverId
                                 },
@@ -223,7 +216,7 @@ export class TtsVehicleMasterComponent implements OnInit{
 
                         }
                         console.log(data)
-                        await this.service.post(`/vehicle/add`, data)
+                        await this.service.post(`/addTtsVehicle`, data)
                         this.form.reset()
                         this.getList()
                 } catch (e) {
