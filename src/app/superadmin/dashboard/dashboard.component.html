@@ -14,16 +14,15 @@
                                 <div class="col-sm-6">
                                     <select id="zoneId" formControlName="zoneId_" class="form-control form-select dashboard-select-box"  (change)="onZoneSelect($event)">
                                     
-                                        <option [value]="'Allzone'"   *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Zone</option>
-                                        <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId" [selected]="i == 0">{{x.zoneName}}</option> 
+                                        <option [value]="'Allzone'" [selected]=true>All Zone</option>
+                                        <option *ngFor="let x of zoneList; let i = index" [value]="x.zoneId">{{x.zoneName}}</option> 
                                     </select>
                                 </div>
                                 <div class="col-sm-6 mt-3 mt-sm-0">
                                     <select id="wcId_" formControlName="wcId" class="form-control form-select dashboard-select-box" (change)="onWcSelect($event)" >
                                         
-                                
-                                        <option [value]="'Allwc'"  *ngIf="role == 'bmcadmin' || role == 'bmcsuperadminuser'" [selected] = true>All Wc</option>
-                                        <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" [selected]="i == 0">{{x.wcName}}</option> 
+                                        <option [value]="'Allwc'"  [selected]=true>All Wc</option>
+                                        <option  *ngFor="let x of wcList;let i = index" [value]="x.wcId" >{{x.wcName}}</option> 
                                     </select>
                                 </div>
                             </div>
