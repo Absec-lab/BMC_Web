@@ -17,7 +17,7 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['../../common.css', './dashboard.component.css']
 })
 export class DashboardComponent {
-
+  allReportType:any;
   chart1: any;
   chart2: any;
   chart3: any;
@@ -39,12 +39,14 @@ export class DashboardComponent {
   reportResponseWcBasedData : any
   reportResponseWcBasedMrfData : any
   reportResponseWcBasedPitData : any = []
+  reportResponseWcBasedTripData : any = []
   zoneMap = new Map()
   zoneDataArr : any = []
   wcBasedData : any
   wcBasedMrfData : any
   dataMap: any = new Map()
   zoneBasedData : any = []
+  zoneBasedSelectedData : any = []
   reportType = ''
   mrfResponseWcData : any = []
   reportMrfResponseWcData : any = []
@@ -55,8 +57,6 @@ export class DashboardComponent {
   mrfWeeklyInStock : number = 0
   mrfMonthlyQtm : number = 0
   mrfMonthlyInStock : number = 0
-  selectZone:any = ''
-  selectWc :any=''
   dataSetArr: any[] = []
   dataSetChatArr: any[] = []
   issueItemsMap = new Map<string, number>();
@@ -137,25 +137,26 @@ export class DashboardComponent {
       return;
     }
       const dateElementCurrent  = document.querySelector('#filter_from_date') as HTMLInputElement;
-      // this.payloadInventory.fromDate = dateElementCurrent.value
-      // this.payloadInventory.toDate = dateElementCurrent.value
-      // this.reportTripPayload.fromDate =  dateElementCurrent.value
-      // this.reportTripPayload.toDate =  dateElementCurrent.value
-        // this.reportMrfPayload.fromDate =  dateElementCurrent.value
-      // this.reportMrfPayload.toDate =  dateElementCurrent.value
-      // this.payloadMoKhata.fromDate = dateElementCurrent.value
-      // this.payloadMoKhata.toDate = dateElementCurrent.value
+      this.payloadInventory.fromDate = dateElementCurrent.value
+      this.payloadInventory.toDate = dateElementCurrent.value
+      this.reportTripPayload.fromDate =  dateElementCurrent.value
+      this.reportTripPayload.toDate =  dateElementCurrent.value
+        this.reportMrfPayload.fromDate =  dateElementCurrent.value
+      this.reportMrfPayload.toDate =  dateElementCurrent.value
+      this.payloadMoKhata.fromDate = dateElementCurrent.value
+      this.payloadMoKhata.toDate = dateElementCurrent.value
 
-      this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-      this.payloadInventory.toDate = '2023-07-28 00:00:00'
-      this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-      this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-      this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-      this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-      this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-      this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+      // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+      // this.payloadInventory.toDate = '2023-07-28 00:00:00'
+      // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+      // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+      // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
+      // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
+      // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
+      // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
 
-      this.callAllCommonReportServices(eventType);
+     // this.callAllCommonReportServices(eventType);
+      this.defaultCallService(eventType)
   }
 
  
@@ -207,14 +208,14 @@ export class DashboardComponent {
     this.payloadMoKhata.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
     
-    this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-    this.payloadInventory.toDate = '2023-07-28 00:00:00'
-    this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-    this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-    this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-    this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-    this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-    this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+    // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+    // this.payloadInventory.toDate = '2023-07-28 00:00:00'
+    // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+    // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+    // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
+    // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
+    // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
+    // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
 
   }
 
@@ -222,15 +223,9 @@ export class DashboardComponent {
    this.resetData();
    this.currentDateSelect();
    if(this.role == 'bmcadmin' || this.role == 'bmcsuperadminuser'){
-      this.selectZone = 'Allzone'
-      this.selectWc = 'Allwc'
+      this.zoneSelectId = 'Allzone'
+      this.wcSelectId = 'Allwc'
    } 
-    if(localStorage.getItem('wcId') != undefined && localStorage.getItem('wcId') != '0'){
-         this.wcSelectId = localStorage.getItem('wcId')
-         this.payloadInventory.wcId =  this.wcSelectId
-         this.reportTripPayload.wcId = this.wcSelectId
-         this.reportMrfPayload.wcId =  this.wcSelectId
-    }
     this.getZones();
     //this.createChart1();
     //this.createChart2([], []);
@@ -262,7 +257,8 @@ export class DashboardComponent {
           );
      }
      this.currentDateSelect();
-     this.callAllCommonReportServices('TODAY');
+   //  this.callAllCommonReportServices('TODAY');
+     this.defaultCallService('TODAY')
   }
 
   getZones() {
@@ -275,9 +271,15 @@ export class DashboardComponent {
             let tempArr: any = []
             tempArr = response
             this.zoneList.push(tempArr.filter((temp: any) => temp.zoneId == localStorage.getItem('zoneId'))[0]);
-            const e = new Event("change");
-            const element = document.querySelector('#zoneId')
-            element?.dispatchEvent(e);
+            // const e = new Event("change",{bubbles:true});
+            // const dropdownElement = document.getElementById('#zoneId') as HTMLInputElement;
+            // dropdownElement.value = "Allzone";
+            // dropdownElement?.dispatchEvent(e);
+
+            // const eWc = new Event("change",{bubbles:true});
+            // const dropdownElementWc = document.getElementById('#wcId_') as HTMLInputElement;
+            // dropdownElementWc.value = "Allwc";
+            // dropdownElementWc?.dispatchEvent(eWc);
           }
 
         });
@@ -290,26 +292,38 @@ export class DashboardComponent {
     if(ev.target.value !== 'undefined'){
       this.zoneSelectId = ev.target.value
       if(ev.target.value != 'Allzone'){
-        this.selectWc = ''
-        this.selectZone = ''
-       
-      }else{
-        this.selectZone = 'Allzone'
-        this.selectWc = 'Allwc'
+        this.wcSelectId = '0'
+      }else if(ev.target.value == 'Allzone'){
+        this.zoneSelectId = 'Allzone'
+        this.wcSelectId = 'Allwc'
       }
     }else{
       this.zoneSelectId = this.zoneList[0].zoneId;
     }
     this.wcList = []
     this.getWcListByZoneId();
-    this.fetchReport('TODAY')
     if(this.zoneSelectId != 'Allzone'){
-        this.callDataSetBasedonZoneSelect(this.zoneSelectId)
+        this.defaultCallService('TODAY');
+    }
+    if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == 0 || this.wcSelectId == undefined)){ // When user select other zone but didnt choose any WC
+          //this.defaultCallService('TODAY');
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone but choosed any WC
+        
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone and choosed All WC
+        
+    }else if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select All zone and choosed All WC
+        this.currentDateSelect();
+        this.defaultCallService('TODAY')
     }
   }
 
   callDataSetBasedonZoneSelect(zoneSelectId : number){
-    //alert(zoneSelectId)
+
+    let noOfActiveTrip = 0;
+    let noOfCompletedTrip = 0;
+    let totalDryWt = 0;
+    let totalWetWt = 0;
+
     if(this.reportResponseWcBasedPitData == undefined || this.reportResponseWcBasedPitData.length == 0){
       this.dataMap.set('totalemptypits', 0);
       this.dataMap.set('totalfilledpits', 0);
@@ -325,29 +339,30 @@ export class DashboardComponent {
     let zoneBasedData = this.reportResponseWcBasedData.filter( (element:any) => {
       return element.zoneId == zoneSelectId
     })
-    let noOfActiveTrip = 0;
-    let noOfCompletedTrip = 0;
-    let totalDryWt = 0;
-    let totalWetWt = 0;
-    let totalemptypits = 0;
-    let totalfilledpits = 0;
-
+   
     zoneBasedData.forEach((wcElement:any) => {
       noOfActiveTrip = noOfActiveTrip + Number(wcElement.numberOfActiveTrip.toString().replaceAll(',',''))
       noOfCompletedTrip = noOfCompletedTrip + Number(wcElement.numberOfCompletedTrip.toString().replaceAll(',',''))
       totalDryWt = totalDryWt + Number(wcElement.totalDryWeight.toString().replaceAll(',',''))
       totalWetWt = totalWetWt + Number(wcElement.totalWetWeight.toString().replaceAll(',',''))
     })
-    
-    
-    
     this.dataMap.set('totalActiveTrip', noOfActiveTrip);
     this.dataMap.set('totalCompletedTrip',noOfCompletedTrip);
     this.dataMap.set('totalDryWeight', totalDryWt);
     this.dataMap.set('totalWetWeight', totalWetWt);
     this.dataMap.set('totalemptypits', this.reportResponseWcBasedPitData.filter((element:any) => element.zoneId == zoneSelectId).reduce((totalEmptyPits:number, item:any) => totalEmptyPits + Number(item.totalNoOfEmptyPits), 0) );
     this.dataMap.set('totalfilledpits', this.reportResponseWcBasedPitData.filter((element:any) => element.zoneId == zoneSelectId).reduce((totalFilledPits:number, item:any) => totalFilledPits + Number(item.totalNoOfFilledPits), 0) );
+   
+    if(this.reportResponseWcBasedMrfData != undefined){
+      this.wcBasedMrfData = this.reportResponseWcBasedMrfData.filter( (element:any) => {
+        return element.zoneId == this.zoneSelectId
+      });
+    }
 
+    this.dataMap.set('totalTodayWetWeightAllwc', this.wcBasedMrfData[0].totalWetWeight);
+    this.dataMap.set('totalWeeklyWetWeightAllwc', this.wcBasedMrfData[0].totalWeeklyWetWeight);
+    this.dataMap.set('totalMonthlylWetWeightAllwc',this.wcBasedMrfData[0].totalMonthlyWetWeight);
+  
   }
 
   getWcListByZoneId() {
@@ -373,90 +388,70 @@ export class DashboardComponent {
   onWcSelect(ev: any) {
     if(ev.target.value != 'undefined'){
       this.wcSelectId = ev.target.value;
-      if(ev.target.value != 'Allwc'){
-        this.selectWc = ''
-        this.selectZone = ''
-      }else{
-        this.selectWc = 'Allwc'
+      if(ev.target.value == 'Allwc'){
+        this.wcSelectId = 'Allwc'
       }
     }else if(localStorage.getItem('wcId') != '0'){
       this.wcSelectId = localStorage.getItem('wcId');
     }
-    this.payloadInventory.wcId = this.wcSelectId
-    this.reportMrfPayload.wcId = this.wcSelectId
-    this.reportTripPayload.wcId = this.wcSelectId
+    if(this.wcSelectId == 'Allwc'){// Dont pass Allwc to service layer................
+      this.payloadInventory.wcId = 0
+      this.reportMrfPayload.wcId = 0
+      this.reportTripPayload.wcId = 0
+      this.payloadMoKhata.wcId = 0
+    }else{
+      this.payloadInventory.wcId = this.wcSelectId
+      this.reportMrfPayload.wcId = this.wcSelectId
+      this.reportTripPayload.wcId = this.wcSelectId
+      this.payloadMoKhata.wcId = this.wcSelectId
+    }
     this.currentDateSelect();
-    this.callAllCommonReportServices('TODAY');
+    if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == 0 || this.wcSelectId == undefined)){ // When user select other zone but didnt choose any WC
+          this.defaultCallService('TODAY')
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone but choosed any WC
+          this.defaultCallService('TODAY');
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone and choosed All WC
+          this.defaultCallService('TODAY');
+    }else if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select All zone and choosed All WC
+          this.defaultCallService('TODAY')
+    }
   }
 
-  getReportMrfBasedOnWc(){
-    this.mrfDailyQtm = 0
-    this.mrfDailyWaste = 0
-    this.mrfDailyInStock  = 0
-    this.mrfWeeklyQtm = 0
-    this.mrfWeeklyInStock = 0
-    this. mrfMonthlyQtm = 0
-    this.mrfMonthlyInStock = 0
-    if (localStorage.getItem("role") != "bmcadmin" && localStorage.getItem("role") != "bmcsuperadminuser") {
-            this.wcSelectId = localStorage.getItem("wcId")
-            this.reportMrfPayload.wcId = this.wcSelectId
-            this.selectWc = ''
-            this.selectZone = ''
-    }
 
-    try {
-        this.reportService.getMrfReport( this.reportMrfPayload ).subscribe(
-          data => {
-            this.mrfReportList = data
-            if(this.mrfReportList.response.MRF_DAILY.length == 0 
-                                       && this.mrfReportList.response.MRF_WEEKLY.length == 0 
-                                                                 && this.mrfReportList.response.MRF_MONTHLY.length == 0){
-                return;
+
+  defaultCallService(eventType:string){
+    this.fetchReportForPopup1Popup2Popup3(eventType)
+    this.fetchReport(eventType)
+    this.getInventoryRecord()
+    this.getMoKhataRecord()
+    this.getReportMrfBasedOnWc()  
+  }
+
+
+  // Service data from server.........
+  fetchReportForPopup1Popup2Popup3(eventType:string){
+    this.dataMap = new Map()
+    this.reportService.getTripReport(this.reportTripPayload)
+         .subscribe((response) => {
+            this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
+            this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
+            this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE
+            this.reportResponseWcBasedTripData = response.response.TRIP_SUMMARY
+            if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc'){
+              this.getAllzoneAllwcDataForReports(eventType)
             }
-          
-            if(this.selectWc == 'Allwc' && this.selectZone == 'Allzone'){
-              this.mrfDailyQtm = this.mrfReportList.response.MRF_DAILY.length != 0 ? 
-                              Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
-                              : 0   
-              this.mrfDailyInStock = this.mrfReportList.response.MRF_DAILY.length != 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
-                              : 0  
-              this.mrfWeeklyQtm = this.mrfReportList.response.MRF_WEEKLY.length != 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0) + Number.EPSILON) * 100) / 100 
-                              : 0       
-              this.mrfWeeklyInStock = this.mrfReportList.response.MRF_WEEKLY.length != 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
-                              : 0  
-              this.mrfMonthlyQtm = this.mrfReportList.response.MRF_MONTHLY.length != 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100  
-                              : 0      
-              this.mrfMonthlyInStock = this.mrfReportList.response.MRF_MONTHLY.length != 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
-                              : 0    
-            }else{
-      
-              this.mrfDailyQtm = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                         .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100
-              this.mrfDailyInStock = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)  + Number.EPSILON) * 100) / 100
-              this.mrfWeeklyQtm = Math.round((  this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)  + Number.EPSILON) * 100) / 100     
-              this.mrfWeeklyInStock = Math.round(( this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100
-              this.mrfMonthlyQtm = Math.round(( this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100     
-              this.mrfMonthlyInStock = Math.round((  this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100        
-            }                                                                                                       
-          }
-        ); 
-    }catch(ex){
-      console.error(ex)
-    }
-
+            if(this.zoneSelectId != 'Allzone' &&  (this.wcSelectId == 0 || this.wcSelectId == undefined || this.wcSelectId == 'Allwc')){
+              this.getZoneSelectNoWcSelectReports(eventType)
+            }   
+            if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && this.wcSelectId != 0){
+              this.getAnyZoneSelectAnyWcSelectReports(eventType)
+            } 
+    });
+ 
   }
 
 
+  // Fetch Inventory Data..........
   getInventoryRecord(){
  
     try {
@@ -495,6 +490,7 @@ export class DashboardComponent {
     }
   }
 
+  // Fetch MoKhata Data...........
   getMoKhataRecord(){
  
     try {
@@ -505,22 +501,455 @@ export class DashboardComponent {
            if(this.responseMoKhata == undefined || this.responseMoKhata.length == 0){
               return;
            }
-           this.totalDailyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalDailyKhata, 0)
-           this.totalWeeklyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalWeeklyKhata, 0)
-           this.totalMonthlyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalMonthlyKhata, 0) 
-           
-           
+           if(this.wcSelectId == 'Allwc' && this.zoneSelectId == 'Allzone'){
+            this.totalDailyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalDailyKhata, 0)
+            this.totalWeeklyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalWeeklyKhata, 0)
+            this.totalMonthlyKhata =   this.responseMoKhata.reduce((sum:number, item:any) => sum + item.totalMonthlyKhata, 0)
+           }else if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 ||this.wcSelectId == '' || this.wcSelectId == 'Allwc')){
+            this.totalDailyKhata =   this.responseMoKhata.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + item.totalDailyKhata, 0)
+            this.totalWeeklyKhata =   this.responseMoKhata.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + item.totalWeeklyKhata, 0)
+            this.totalMonthlyKhata =   this.responseMoKhata.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + item.totalMonthlyKhata, 0)
+            this.responseMoKhata = this.responseMoKhata.filter((element : any) => element.zoneId == this.zoneSelectId)
+          }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != undefined && this.wcSelectId != 0 && this.wcSelectId != 'Allwc'){
+            this.totalDailyKhata =   this.responseMoKhata.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + item.totalDailyKhata, 0)
+            this.totalWeeklyKhata =   this.responseMoKhata.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + item.totalWeeklyKhata, 0)
+            this.totalMonthlyKhata =   this.responseMoKhata.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + item.totalMonthlyKhata, 0)
+            this.responseMoKhata = this.responseMoKhata.filter((element : any) => element.wealthCenterId == this.wcSelectId) 
+          }
+          
         });
     } catch (e) {
       console.error(e)
     }
   }
 
+  //When dropdown choose all zone and all wc.........
+  getAllzoneAllwcDataForReports(eventType : string){
+    this.dataMap = new Map()
+    let numberOfActiveTrip_:number = 0
+    let numberOfCompletedTrip_:number = 0
+    let totalDryWeight_:number = 0
+    let totalWetWeight_:number = 0
+    let totalMRFProcessed_:number = 0
+    let numberOfVehicles_:number = 0
+    let numberOfUnderMaintenanceVehicles_ :number = 0
+    
+    if((this.reportResponseWcBasedData == undefined || this.reportResponseWcBasedData == null) &&
+      (this.reportResponseWcBasedMrfData == undefined || this.reportResponseWcBasedMrfData == null) ){
+          this.resetData();
+          return;
+    }
+    if(this.wcSelectId == 'Allwc' && this.zoneSelectId == 'Allzone'){
+      this.wcBasedData = this.reportResponseWcBasedData
+      this.zoneBasedData = this.reportResponseWcBasedData
+      this.zoneBasedSelectedData = this.zoneBasedData
+      this.wcBasedMrfData = this.reportResponseWcBasedMrfData
+    }
+
+    if( this.wcBasedData != undefined && this.wcBasedData.length > 0){
+
+          this.wcBasedData.forEach((wcElement:any) => {
+                numberOfActiveTrip_ = numberOfActiveTrip_ + Number(wcElement.numberOfActiveTrip.toString().replaceAll(',',''))
+                numberOfCompletedTrip_ = numberOfCompletedTrip_ + Number(wcElement.numberOfCompletedTrip.toString().replaceAll(',',''))
+                totalDryWeight_ = totalDryWeight_ + Number(wcElement.totalDryWeight.toString().replaceAll(',',''))
+                totalWetWeight_ = totalWetWeight_ + Number(wcElement.totalWetWeight.toString().replaceAll(',',''))
+                totalMRFProcessed_ = totalMRFProcessed_ + Number(wcElement.totalMRFProcessed.toString().replaceAll(',',''))
+                numberOfVehicles_ = numberOfVehicles_ + Number(wcElement.numberOfVehicles.toString().replaceAll(',',''))
+                numberOfUnderMaintenanceVehicles_ = numberOfUnderMaintenanceVehicles_ + Number(wcElement.numberOfUnderMaintenanceVehicles.toString().replaceAll(',',''))
+          })
+          this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+          this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+          this.dataMap.set('totalDryWeight', totalDryWeight_);
+          this.dataMap.set('totalWetWeight', totalWetWeight_);
+          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          this.dataMap.set('numberOfVehicles', numberOfVehicles_);
+          this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
+          this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
+          this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
+        
+          if(eventType == 'MONTHLY'){
+            numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+            numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+          }else if(eventType == 'WEEKLY'){
+            numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+            numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+          }
+          this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+          this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+      
+          // Vehicle Management Chart................ 
+          this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
+                            this.dataMap.get('numberOfVehicles') - this.dataMap.get('numberOfActiveTrip')]);
+    }
+
+
+        this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyDryWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfDryWeight.toString().replaceAll(',','')), 0)  : 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0));
+
+        this.dataMap.set('totalWetWeight', eventType == 'MONTHLY' ?
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfWetWeight.toString().replaceAll(',','')), 0) : 
+        this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0))
+
+  
+        this.dataMap.set('totalTodayWetWeightAllwc', this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalWeeklyWetWeightAllwc', this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalMonthlylWetWeightAllwc',this.wcBasedMrfData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalemptypits',  0);
+        this.dataMap.set('totalfilledpits',  0);
+
+        let emptyPits = this.reportResponseWcBasedPitData.reduce((totalEmptyPits:number, item:any) => totalEmptyPits + Number(item.totalNoOfEmptyPits), 0)
+        let filledPits = this.reportResponseWcBasedPitData.reduce((totalFilledPits:number, item:any) => totalFilledPits + Number(item.totalNoOfFilledPits), 0)
+        if(emptyPits == undefined){
+        emptyPits = 0;
+        filledPits = 0
+        }
+        this.dataMap.set('totalemptypits',  emptyPits);
+        this.dataMap.set('totalfilledpits',  filledPits);
+
+
+        // MRF Data Set........................................................................only for Today Event
+        if(this.zoneSelectId != undefined && this.zoneSelectId == 'Allzone'){
+          totalMRFProcessed_ = this.zoneBasedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
+          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          if(eventType == 'MONTHLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+          }else if(eventType == 'WEEKLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+          }
+        }
+
+  }
+
+    // MRF Table Data Set .............................
+  getReportMrfBasedOnWc(){
+      this.mrfDailyQtm = 0
+      this.mrfDailyWaste = 0
+      this.mrfDailyInStock  = 0
+      this.mrfWeeklyQtm = 0
+      this.mrfWeeklyInStock = 0
+      this. mrfMonthlyQtm = 0
+      this.mrfMonthlyInStock = 0
+      // if (localStorage.getItem("role") != "bmcadmin" && localStorage.getItem("role") != "bmcsuperadminuser") {
+      //         this.wcSelectId = localStorage.getItem("wcId")
+      //         this.reportMrfPayload.wcId = this.wcSelectId
+      //         this.wcSelectId = ''
+      //         this.zoneSelectId = ''
+      // }
+  
+      try {
+          this.reportService.getMrfReport( this.reportMrfPayload ).subscribe(
+            data => {
+              this.mrfReportList = data
+              if(this.mrfReportList.response.MRF_DAILY.length == 0 
+                                         && this.mrfReportList.response.MRF_WEEKLY.length == 0 
+                                                                   && this.mrfReportList.response.MRF_MONTHLY.length == 0){
+                  return;
+              }
+            
+              if(this.wcSelectId == 'Allwc' && this.zoneSelectId == 'Allzone'){
+                this.mrfDailyQtm = this.mrfReportList.response.MRF_DAILY.length != 0 ? 
+                                Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
+                                : 0   
+                this.mrfDailyInStock = this.mrfReportList.response.MRF_DAILY.length != 0 ?
+                                Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
+                                : 0  
+                this.mrfWeeklyQtm = this.mrfReportList.response.MRF_WEEKLY.length != 0 ?
+                                Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0) + Number.EPSILON) * 100) / 100 
+                                : 0       
+                this.mrfWeeklyInStock = this.mrfReportList.response.MRF_WEEKLY.length != 0 ?
+                                Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
+                                : 0  
+                this.mrfMonthlyQtm = this.mrfReportList.response.MRF_MONTHLY.length != 0 ?
+                                Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100  
+                                : 0      
+                this.mrfMonthlyInStock = this.mrfReportList.response.MRF_MONTHLY.length != 0 ?
+                                Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
+                                : 0    
+              }else if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 ||this.wcSelectId == '' || this.wcSelectId == 'Allwc')){
+                let mrfTableData : any
+                mrfTableData = this.mrfReportList.response
+                //filter((element:any) => element.zoneId == this. zoneSelectId)
+
+                this.mrfDailyQtm = mrfTableData.MRF_DAILY.length != 0 ? 
+                                Math.round(( mrfTableData.MRF_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
+                : 0   
+                this.mrfDailyInStock = mrfTableData.MRF_DAILY.length != 0 ?
+                                Math.round(( mrfTableData.MRF_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
+                                : 0  
+                this.mrfWeeklyQtm = mrfTableData.MRF_WEEKLY.length != 0 ?
+                                Math.round(( mrfTableData.MRF_WEEKLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0) + Number.EPSILON) * 100) / 100 
+                                : 0       
+                this.mrfWeeklyInStock = mrfTableData.MRF_WEEKLY.length != 0 ?
+                                Math.round(( mrfTableData.MRF_WEEKLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
+                                : 0  
+                this.mrfMonthlyQtm = mrfTableData.MRF_MONTHLY.length != 0 ?
+                                Math.round(( mrfTableData.MRF_MONTHLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100  
+                                : 0      
+                this.mrfMonthlyInStock = mrfTableData.MRF_MONTHLY.length != 0 ?
+                                Math.round(( mrfTableData.MRF_MONTHLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
+                                : 0    
+
+              }else{
+        
+                this.mrfDailyQtm = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                           .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100
+                this.mrfDailyInStock = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                          .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)  + Number.EPSILON) * 100) / 100
+                this.mrfWeeklyQtm = Math.round((  this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                          .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)  + Number.EPSILON) * 100) / 100     
+                this.mrfWeeklyInStock = Math.round(( this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                          .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100
+                this.mrfMonthlyQtm = Math.round(( this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                          .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100     
+                this.mrfMonthlyInStock = Math.round((  this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                          .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100        
+              }                                                                                                       
+            }
+          ); 
+      }catch(ex){
+        console.error(ex)
+      }
+  
+  }
+
+
+  // This will be called when user select Specific zone but No WC. So filter based on zoneSelectedId ................
+  getZoneSelectNoWcSelectReports(eventType : string){
+    this.dataMap = new Map()
+    let numberOfActiveTrip_:number = 0
+    let numberOfCompletedTrip_:number = 0
+    let totalDryWeight_:number = 0
+    let totalWetWeight_:number = 0
+    let totalMRFProcessed_:number = 0
+    let numberOfVehicles_:number = 0
+    let numberOfUnderMaintenanceVehicles_ :number = 0
+    if( this.wcBasedData != undefined && this.wcBasedData.length > 0){
+
+              this.wcBasedData.forEach((wcElement:any) => {
+                    if(wcElement.zoneId == this.zoneSelectId){
+                      numberOfActiveTrip_ = numberOfActiveTrip_ + Number(wcElement.numberOfActiveTrip.toString().replaceAll(',',''))
+                      numberOfCompletedTrip_ = numberOfCompletedTrip_ + Number(wcElement.numberOfCompletedTrip.toString().replaceAll(',',''))
+                      totalDryWeight_ = totalDryWeight_ + Number(wcElement.totalDryWeight.toString().replaceAll(',',''))
+                      totalWetWeight_ = totalWetWeight_ + Number(wcElement.totalWetWeight.toString().replaceAll(',',''))
+                      totalMRFProcessed_ = totalMRFProcessed_ + Number(wcElement.totalMRFProcessed.toString().replaceAll(',',''))
+                      numberOfVehicles_ = numberOfVehicles_ + Number(wcElement.numberOfVehicles.toString().replaceAll(',',''))
+                      numberOfUnderMaintenanceVehicles_ = numberOfUnderMaintenanceVehicles_ + Number(wcElement.numberOfUnderMaintenanceVehicles.toString().replaceAll(',',''))
+                    }
+              })
+              this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+              this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+              this.dataMap.set('totalDryWeight', totalDryWeight_);
+              this.dataMap.set('totalWetWeight', totalWetWeight_);
+              this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+              this.dataMap.set('numberOfVehicles', numberOfVehicles_);
+              this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
+              this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
+              this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
+            
+              if(eventType == 'MONTHLY'){
+                numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+                numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+              }else if(eventType == 'WEEKLY'){
+                numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+                numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+              }
+              this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+              this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+          
+              // Vehicle Management Chart................ 
+              this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
+                                this.dataMap.get('numberOfVehicles') - this.dataMap.get('numberOfActiveTrip')]);
+      }
+
+      let zoneSelectedFilteredData = this.wcBasedMrfData
+      zoneSelectedFilteredData = zoneSelectedFilteredData.filter((element:any) =>  element.zoneId == this.zoneSelectId) // Filtered MRF Data based on zone Selected.......
+
+      this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyDryWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfDryWeight.toString().replaceAll(',','')), 0)  : 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0));
+
+      this.dataMap.set('totalWetWeight', eventType == 'MONTHLY' ?
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfWetWeight.toString().replaceAll(',','')), 0) : 
+      zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0))
+
+
+      this.dataMap.set('totalTodayWetWeightAllwc', zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0));
+      this.dataMap.set('totalWeeklyWetWeightAllwc', zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0));
+      this.dataMap.set('totalMonthlylWetWeightAllwc',zoneSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0));
+      this.dataMap.set('totalemptypits',  0);
+      this.dataMap.set('totalfilledpits',  0);
+
+    
+
+      let zoneSelectedFilteredDataForPit = this.reportResponseWcBasedPitData
+      zoneSelectedFilteredDataForPit = zoneSelectedFilteredDataForPit.filter((element:any) => element.zoneId == this.zoneSelectId)
+
+      let emptyPits = zoneSelectedFilteredDataForPit.reduce((totalEmptyPits:number, item:any) => totalEmptyPits + Number(item.totalNoOfEmptyPits), 0)
+      let filledPits = zoneSelectedFilteredDataForPit.reduce((totalFilledPits:number, item:any) => totalFilledPits + Number(item.totalNoOfFilledPits), 0)
+      if(emptyPits == undefined){
+      emptyPits = 0;
+      filledPits = 0
+      }
+      this.dataMap.set('totalemptypits',  emptyPits);
+      this.dataMap.set('totalfilledpits',  filledPits);
+
+      
+      let zoneSelectedNoWcData:any
+      zoneSelectedNoWcData = this.zoneBasedData.filter((element:any) => element.zoneId == this.zoneSelectId)
+      this.zoneBasedSelectedData = zoneSelectedNoWcData
+      // MRF Data Set........................................................................only for Today Event
+      if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 || this.wcSelectId == '')){
+        totalMRFProcessed_ = zoneSelectedNoWcData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
+        this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+        if(eventType == 'MONTHLY'){
+          this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+        }else if(eventType == 'WEEKLY'){
+          this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+        }
+      }
+
+
+  }
+
+    // This will be called when user select Specific zone with Any WC. So filter based on wcId ................
+  getAnyZoneSelectAnyWcSelectReports(eventType : string){
+      this.dataMap = new Map()
+      let numberOfActiveTrip_:number = 0
+      let numberOfCompletedTrip_:number = 0
+      let totalDryWeight_:number = 0
+      let totalWetWeight_:number = 0
+      let totalMRFProcessed_:number = 0
+      let numberOfVehicles_:number = 0
+      let numberOfUnderMaintenanceVehicles_ :number = 0
+      if( this.wcBasedData != undefined && this.wcBasedData.length > 0){
+  
+                this.wcBasedData.forEach((wcElement:any) => {
+                      if(wcElement.wealthCenterId == this.wcSelectId){
+                        numberOfActiveTrip_ = numberOfActiveTrip_ + Number(wcElement.numberOfActiveTrip.toString().replaceAll(',',''))
+                        numberOfCompletedTrip_ = numberOfCompletedTrip_ + Number(wcElement.numberOfCompletedTrip.toString().replaceAll(',',''))
+                        totalDryWeight_ = totalDryWeight_ + Number(wcElement.totalDryWeight.toString().replaceAll(',',''))
+                        totalWetWeight_ = totalWetWeight_ + Number(wcElement.totalWetWeight.toString().replaceAll(',',''))
+                        totalMRFProcessed_ = totalMRFProcessed_ + Number(wcElement.totalMRFProcessed.toString().replaceAll(',',''))
+                        numberOfVehicles_ = numberOfVehicles_ + Number(wcElement.numberOfVehicles.toString().replaceAll(',',''))
+                        numberOfUnderMaintenanceVehicles_ = numberOfUnderMaintenanceVehicles_ + Number(wcElement.numberOfUnderMaintenanceVehicles.toString().replaceAll(',',''))
+                      }
+                })
+                this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+                this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+                this.dataMap.set('totalDryWeight', totalDryWeight_);
+                this.dataMap.set('totalWetWeight', totalWetWeight_);
+                this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+                this.dataMap.set('numberOfVehicles', numberOfVehicles_);
+                this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
+                this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
+                this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
+              
+                if(eventType == 'MONTHLY'){
+                  numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+                  numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+                }else if(eventType == 'WEEKLY'){
+                  numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+                  numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+                }
+                this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+                this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+            
+            
+                // Vehicle Management Chart................ 
+                this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
+                                  this.dataMap.get('numberOfVehicles') - this.dataMap.get('numberOfActiveTrip')]);
+        }
+  
+        let wcSelectedFilteredData = this.wcBasedMrfData
+        wcSelectedFilteredData = wcSelectedFilteredData.filter((element:any) =>  element.wealthCenterId == this.wcSelectId) // Filtered MRF Data based on zone Selected.......
+  
+        this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyDryWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfDryWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfDryWeight.toString().replaceAll(',','')), 0)  : 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalDryWeight.toString().replaceAll(',','')), 0));
+  
+        this.dataMap.set('totalWetWeight', eventType == 'MONTHLY' ?
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0) : eventType == 'WEEKLY' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'TODAY' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'FIRST_HALF' ? 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalFirstHalfWetWeight.toString().replaceAll(',','')), 0) :  eventType == 'SECOND_HALF' ?
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalSecondHalfWetWeight.toString().replaceAll(',','')), 0) : 
+        wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0))
+  
+  
+        this.dataMap.set('totalTodayWetWeightAllwc', wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalWeeklyWetWeightAllwc', wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalWeeklyWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalMonthlylWetWeightAllwc',wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0));
+        this.dataMap.set('totalemptypits',  0);
+        this.dataMap.set('totalfilledpits',  0);
+  
+      
+  
+        let wcSelectedFilteredDataForPit = this.reportResponseWcBasedPitData
+        wcSelectedFilteredDataForPit = wcSelectedFilteredDataForPit.filter((element:any) => element.wealthCenterId == this.wcSelectId)
+  
+        let emptyPits = wcSelectedFilteredDataForPit.reduce((totalEmptyPits:number, item:any) => totalEmptyPits + Number(item.totalNoOfEmptyPits), 0)
+        let filledPits = wcSelectedFilteredDataForPit.reduce((totalFilledPits:number, item:any) => totalFilledPits + Number(item.totalNoOfFilledPits), 0)
+        if(emptyPits == undefined){
+        emptyPits = 0;
+        filledPits = 0
+        }
+        this.dataMap.set('totalemptypits',  emptyPits);
+        this.dataMap.set('totalfilledpits',  filledPits);
+  
+  
+        let zoneSelectedWcSelectedData:any
+        zoneSelectedWcSelectedData = this.zoneBasedData.filter((element:any) => element.wealthCenterId == this.wcSelectId)
+        this.zoneBasedSelectedData = this.zoneBasedData.filter((element:any) => element.zoneId == this.zoneSelectId)
+    
+        // MRF Data Set........................................................................only for Today Event
+        if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId != undefined && this.wcSelectId != 0 || this.wcSelectId != 'Allwc')){
+          totalMRFProcessed_ = zoneSelectedWcSelectedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
+          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          if(eventType == 'MONTHLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+          }else if(eventType == 'WEEKLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+          }
+        }
+  
+    }
+
   fetchReport(eventType :string){
     this.dataMap = new Map()
     this.reportService.getTripReport(this.reportTripPayload)
          .subscribe((response) => {
-
+          let listResponseTrip = [];
+          for (var key in response.response) {
+            let obj = {
+              name: "",
+              data: "",
+            };
+            obj.name = key;
+            obj.data = response.response[key];
+            listResponseTrip.push(obj);
+          }
+          this.allReportType = listResponseTrip;
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
     this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
     this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE
@@ -536,7 +965,7 @@ export class DashboardComponent {
                                     && localStorage.getItem('wcId') != '0'){
         this.wcSelectId = localStorage.getItem('wcId')
    }
-   if(this.selectWc == 'Allwc' && this.selectZone == 'Allzone'){
+   if(this.wcSelectId == 'Allwc' && this.zoneSelectId == 'Allzone'){
           this.wcBasedData = this.reportResponseWcBasedData
           this.zoneBasedData = this.reportResponseWcBasedData
           this.wcBasedMrfData = this.reportResponseWcBasedMrfData
@@ -603,7 +1032,7 @@ export class DashboardComponent {
                              this.dataMap.get('numberOfVehicles') - this.dataMap.get('numberOfActiveTrip')]);
    }
 
-   if(this.selectWc == 'Allwc' && this.selectZone == 'Allzone'){
+   if(this.wcSelectId == 'Allwc' && this.zoneSelectId == 'Allzone'){
 
             this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? 
                                                 this.wcBasedMrfData.reducec : eventType == 'WEEKLY' ? 
@@ -637,7 +1066,7 @@ export class DashboardComponent {
              }
              this.dataMap.set('totalemptypits',  emptyPits);
              this.dataMap.set('totalfilledpits',  filledPits);
-          }else{
+  }else{
           if( this.wcBasedMrfData != undefined && this.wcBasedMrfData.length > 0){
             this.dataMap.set('totalDryWeight', eventType == 'MONTHLY' ? this.wcBasedMrfData[0].totalMonthlyDryWeight : eventType == 'WEEKLY' ? 
                                                                         this.wcBasedMrfData[0].totalWeeklyDryWeight :  eventType == 'TODAY' ? 
@@ -888,6 +1317,37 @@ export class DashboardComponent {
         },
       },
     });
+  }
+  onReportSelect(event: any) {
+    let selectedReport = this.allReportType.filter(
+      (x: any) => x.name == event.target.value
+    );
+    let keys = Array.from(
+      selectedReport[0]["data"].reduce(
+        (s: any, o: any) => Object.keys(o).reduce((t, k) => t.add(k), s),
+        new Set()
+      )
+    );
+    console.log(keys);
+    let fileName = event.target.value + ".csv";
+    let columnNames = keys;
+    let header = columnNames.join(",");
+    let csv = header;
+    csv += "\r\n";
+    selectedReport[0]["data"].map((c: any) => {
+      csv += [keys.map((eachKey: any) => c[eachKey])].join(",");
+      csv += "\r\n";
+    });
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    if (link.download !== undefined) {
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   // createChart5() {
