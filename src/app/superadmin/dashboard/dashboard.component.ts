@@ -225,13 +225,15 @@ export class DashboardComponent {
    if(this.role == 'bmcadmin' || this.role == 'bmcsuperadminuser'){
       this.zoneSelectId = 'Allzone'
       this.wcSelectId = 'Allwc'
-   } 
+   }
     this.getZones();
-    //this.createChart1();
-    //this.createChart2([], []);
-    this.createChart4([0,0,0,0]);
-    this.createChart5([0,0,0]);
-    this.createChart6();
+    try {
+      this.createChart4([0,0,0,0]);
+      this.createChart5([0,0,0]);
+      this.createChart6();
+    } catch (err) {
+      console.log(`Some error occured while loading the charts!`);
+    }
     if (this.role  == "bmcadmin" || this.role == "bmcsuperadminuser") {
         this.service.getZoneAllData().subscribe(
               data => {
