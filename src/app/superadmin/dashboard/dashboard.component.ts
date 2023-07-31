@@ -39,6 +39,7 @@ export class DashboardComponent {
   reportResponseWcBasedData : any
   reportResponseWcBasedMrfData : any
   reportResponseWcBasedPitData : any = []
+  reportResponseWcBasedTripData : any = []
   zoneMap = new Map()
   zoneDataArr : any = []
   wcBasedData : any
@@ -145,17 +146,17 @@ export class DashboardComponent {
       this.payloadMoKhata.fromDate = dateElementCurrent.value
       this.payloadMoKhata.toDate = dateElementCurrent.value
 
-      // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-      // this.payloadInventory.toDate = '2023-07-28 00:00:00'
-      // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-      // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-      // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-      // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-      // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-      // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+      this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+      this.payloadInventory.toDate = '2023-07-28 00:00:00'
+      this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+      this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+      this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
+      this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
+      this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
+      this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
 
      // this.callAllCommonReportServices(eventType);
-     this.defaultCallService(eventType)
+      this.defaultCallService(eventType)
   }
 
  
@@ -207,14 +208,14 @@ export class DashboardComponent {
     this.payloadMoKhata.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
     
-    // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-    // this.payloadInventory.toDate = '2023-07-28 00:00:00'
-    // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-    // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-    // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-    // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-    // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-    // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+    this.payloadInventory.fromDate = '2023-07-28 00:00:00'
+    this.payloadInventory.toDate = '2023-07-28 00:00:00'
+    this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
+    this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
+    this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
+    this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
+    this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
+    this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
 
   }
 
@@ -270,9 +271,15 @@ export class DashboardComponent {
             let tempArr: any = []
             tempArr = response
             this.zoneList.push(tempArr.filter((temp: any) => temp.zoneId == localStorage.getItem('zoneId'))[0]);
-            const e = new Event("change");
-            const element = document.querySelector('#zoneId')
-            element?.dispatchEvent(e);
+            // const e = new Event("change",{bubbles:true});
+            // const dropdownElement = document.getElementById('#zoneId') as HTMLInputElement;
+            // dropdownElement.value = "Allzone";
+            // dropdownElement?.dispatchEvent(e);
+
+            // const eWc = new Event("change",{bubbles:true});
+            // const dropdownElementWc = document.getElementById('#wcId_') as HTMLInputElement;
+            // dropdownElementWc.value = "Allwc";
+            // dropdownElementWc?.dispatchEvent(eWc);
           }
 
         });
@@ -428,6 +435,7 @@ export class DashboardComponent {
             this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
             this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
             this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE
+            this.reportResponseWcBasedTripData = response.response.TRIP_SUMMARY
             if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc'){
               this.getAllzoneAllwcDataForReports(eventType)
             }
@@ -558,6 +566,15 @@ export class DashboardComponent {
           this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
           this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
         
+          if(eventType == 'MONTHLY'){
+            numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+            numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+          }else if(eventType == 'WEEKLY'){
+            numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+            numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+          }
+          this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+          this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
       
           // Vehicle Management Chart................ 
           this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
@@ -602,6 +619,11 @@ export class DashboardComponent {
         if(this.zoneSelectId != undefined && this.zoneSelectId == 'Allzone'){
           totalMRFProcessed_ = this.zoneBasedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
           this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          if(eventType == 'MONTHLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+          }else if(eventType == 'WEEKLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+          }
         }
 
   }
@@ -732,6 +754,15 @@ export class DashboardComponent {
               this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
               this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
             
+              if(eventType == 'MONTHLY'){
+                numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+                numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+              }else if(eventType == 'WEEKLY'){
+                numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+                numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+              }
+              this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+              this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
           
               // Vehicle Management Chart................ 
               this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
@@ -786,6 +817,11 @@ export class DashboardComponent {
       if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 || this.wcSelectId == '')){
         totalMRFProcessed_ = zoneSelectedNoWcData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
         this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+        if(eventType == 'MONTHLY'){
+          this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+        }else if(eventType == 'WEEKLY'){
+          this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+        }
       }
 
 
@@ -824,6 +860,16 @@ export class DashboardComponent {
                 this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
                 this.dataMap.set('numberOfAvailableVehicle', numberOfVehicles_ - Number(numberOfActiveTrip_));
               
+                if(eventType == 'MONTHLY'){
+                  numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyActiveTrip), 0)
+                  numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfMonthlyCompletedTrip), 0)
+                }else if(eventType == 'WEEKLY'){
+                  numberOfActiveTrip_ =  this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyActiveTrip), 0)
+                  numberOfCompletedTrip_ = this.reportResponseWcBasedTripData.filter((element:any) => element.wealthCenterId == this.wcSelectId).reduce((sum:number, item:any) => sum + Number( item.numberOfWeeklyCompletedTrip), 0)
+                }
+                this.dataMap.set('totalActiveTrip', numberOfActiveTrip_);
+                this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
+            
             
                 // Vehicle Management Chart................ 
                 this.createChart4([this.dataMap.get('numberOfVehicles'),this.dataMap.get('numberOfActiveTrip'), numberOfUnderMaintenanceVehicles_ , 
@@ -879,6 +925,11 @@ export class DashboardComponent {
         if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId != undefined && this.wcSelectId != 0 || this.wcSelectId != 'Allwc')){
           totalMRFProcessed_ = zoneSelectedWcSelectedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
           this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          if(eventType == 'MONTHLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+          }else if(eventType == 'WEEKLY'){
+            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+          }
         }
   
     }
