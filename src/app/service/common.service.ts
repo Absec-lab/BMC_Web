@@ -100,6 +100,9 @@ export class CommonService {
         getZoneAllData() {
                 return this.http.get(this.environment.URL + '/zone/getAllZone')
         }
+        getAllReports() {
+                return this.http.get(this.environment.URL + '/generate-report-trip')
+        }
         getDryingYardAllData() {
                 return this.http.get(this.environment.URL + '/inventory/getAllDryingyard/' + localStorage.getItem("wcId"))
         }
@@ -421,4 +424,6 @@ export class CommonService {
                 return this.http.get(this.environment.URL+'/zone/get/all/bailing/'+localStorage.getItem("wcId"))
         } 
 
+
+        
 }

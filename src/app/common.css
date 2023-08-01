@@ -826,3 +826,9 @@ table td {
   padding: 0.5rem 0.7rem;
   background: #E2E8F0;
 }
+
+.btn-dashboard-date-filter-btn {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
