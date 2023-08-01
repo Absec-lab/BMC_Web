@@ -17,7 +17,7 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['../../common.css', './dashboard.component.css']
 })
 export class DashboardComponent {
-
+  allReportType:any;
   chart1: any;
   chart2: any;
   chart3: any;
@@ -424,9 +424,40 @@ export class DashboardComponent {
     this.getInventoryRecord()
     this.getMoKhataRecord()
     this.getReportMrfBasedOnWc()  
+    this.fetchReport(eventType)
   }
 
-
+  onReportSelect(event: any) {
+    let selectedReport = this.allReportType.filter(
+      (x: any) => x.name == event.target.value
+    );
+    let keys = Array.from(
+      selectedReport[0]["data"].reduce(
+        (s: any, o: any) => Object.keys(o).reduce((t, k) => t.add(k), s),
+        new Set()
+      )
+    );
+    console.log(keys);
+    let fileName = event.target.value + ".csv";
+    let columnNames = keys;
+    let header = columnNames.join(",");
+    let csv = header;
+    csv += "\r\n";
+    selectedReport[0]["data"].map((c: any) => {
+      csv += [keys.map((eachKey: any) => c[eachKey])].join(",");
+      csv += "\r\n";
+    });
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    if (link.download !== undefined) {
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
   // Service data from server.........
   fetchReportForPopup1Popup2Popup3(eventType:string){
     this.dataMap = new Map()
@@ -938,7 +969,17 @@ export class DashboardComponent {
     this.dataMap = new Map()
     this.reportService.getTripReport(this.reportTripPayload)
          .subscribe((response) => {
-
+          let listResponseTrip = [];
+          for (var key in response.response) {
+            let obj = {
+              name: "",
+              data: "",
+            };
+            obj.name = key;
+            obj.data = response.response[key];
+            listResponseTrip.push(obj);
+          }
+          this.allReportType = listResponseTrip;
     this.reportResponseWcBasedData = response.response.TRIPRESPONSE_POPUP1_POUP2
     this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
     this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE

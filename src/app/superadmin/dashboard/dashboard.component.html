@@ -32,30 +32,46 @@
                         </div>
                         <div class="col-xl-8 mt-4 mt-xl-0">
                             <div class="row">
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0">
+                                <div class="col-sm-6 col-md-2 col-lg-2 mb-3 mb-lg-0">
                                     <button class="btn btn-dashboard-date-filter-btn" (click) = "TimeBasedreport('MONTHLY')">
                                         Monthly
                                     </button>
                                 </div>
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('WEEKLY')">
+                                <div class="col-sm-6 col-md-2 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('WEEKLY')">
                                     <button class="btn btn-dashboard-date-filter-btn">
                                         Weekly
                                     </button>
                                 </div>
-                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('TODAY')">
+                                <div class="col-sm-6 col-md-2 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('TODAY')">
                                     <button class="btn btn-dashboard-date-filter-btn">
                                         Today
                                     </button>
                                 </div>
-                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3 mb-lg-0" (click) = "TimeBasedreport('FIRST_HALF')">
+                                <div class="col-sm-6 col-md-2 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('FIRST_HALF')">
                                     <button class="btn btn-dashboard-date-filter-btn">
                                         1st Half
                                     </button>
                                 </div>
-                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3 mb-lg-0" (click) = "TimeBasedreport('SECOND_HALF')">
+                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" (click) = "TimeBasedreport('SECOND_HALF')">
                                     <button class="btn btn-dashboard-date-filter-btn">
                                         2nd Half
                                     </button>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-2 mb-3 mb-lg-0" >
+                                    <select
+                                    id="zoneId"
+                                    formControlName="zoneId_"
+                                    class="form-control form-select dashboard-select-box"
+                                    (change)="onReportSelect($event)"
+                                  >
+                                    <option
+                                      *ngFor="let x of allReportType; let i = index"
+                                      [value]="x.name"
+                                      [selected]="i == 0"
+                                    >
+                                      {{ x.name }}
+                                    </option>
+                                  </select>
                                 </div>
                                 <div class="col-sm-6 col-md-4 col-lg-2" hidden>
                                     <button class="btn btn-dashboard-date-filter-btn">
