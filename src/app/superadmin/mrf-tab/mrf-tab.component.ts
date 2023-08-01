@@ -923,8 +923,7 @@ saveStock() {
     defaultColDef: {
       ...this.defaultColDef
     },
-    pagination: true,
-    paginationPageSize: 25,
+    pagination: false,
     rowStyle: { background: '#e2e8f0' },
     copyHeadersToClipboard: true,
     enableRangeSelection: true,
@@ -942,9 +941,8 @@ saveStock() {
     { field: 'wc_name', headerName: 'Wc Name', unSortIcon: true, resizable: true },
     { field: 'sub_goods_name', headerName: 'Stock List', unSortIcon: true, resizable: true, },
     { field: 'quntaum', headerName: 'Quantity', unSortIcon: true, resizable: true, },
-    { field: 'price_per_kg', headerName: 'Sub Goods Price(Per Kg)', unSortIcon: true, resizable: true },
+    { field: 'price_per_kg', headerName: 'Sub Goods Price(Per Kg)', unSortIcon: true, resizable: true, width: 250 },
     { field: 'total_subgoods_price', headerName: 'Total Price', unSortIcon: true, resizable: true },
-
   ];
 
 
@@ -958,8 +956,7 @@ saveStock() {
     defaultColDef: {
       ...this.defaultColDefComp
     },
-    pagination: true,
-    paginationPageSize: 20,
+    pagination: false,
     rowStyle: { background: '#e2e8f0' }
   }
   rowDataPurchase = [
