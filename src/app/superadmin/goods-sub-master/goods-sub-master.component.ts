@@ -21,15 +21,6 @@ export class GoodsSubMasterComponent {
                 this.getList()
                 this.getGoodsList()
         }
-        ngOnInit() {
-                this.isAdd = true
-                this.isUpdate = false
-                this.service.getAllSubGood(this.wcId).subscribe(
-                        data => {
-                                this.list = data
-                        }
-                );
-        }
 
         form = new FormGroup({
                 goodssubId: new FormControl,
@@ -98,11 +89,6 @@ export class GoodsSubMasterComponent {
                         }
                         console.log(data)
                         await this.service.post(`/zone/addGoodssub`, data)
-                        this.service.getAllSubGood(this.wcId).subscribe(
-                                data => {
-                                        this.list = data
-                                }
-                        );
                         this.form.reset()
                         this.getList()
                 } catch (e) {
