@@ -87,6 +87,11 @@ export class GoodsMasterComponent implements OnInit{
                 }
                 try {
                         await this.service.post(`/zone/addGoods`, data)
+                        this.service.getAllGoods(this.wcId).subscribe(
+                                data => {
+                                        this.list = data
+                                }
+                        );
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -101,6 +106,21 @@ export class GoodsMasterComponent implements OnInit{
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        deactivateGoods(id:any){
+                this.service.deactivateGoods(id).subscribe(
+                        data=>{
+                                window.alert("Goods deleted successfully")
+                                this.service.getAllGoods(this.wcId).subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
+                        },
+                        error=>{
+                                window.alert("Something went wrong!!")
+                        }
+                );
         }
                 updateData(item: any) {
                         this.isUpdate = true
