@@ -158,6 +158,21 @@ export class HelperMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
+        deactivateHelper(id:any){
+                this.service.deactivateHelper(id).subscribe(
+                        data=>{
+                                window.alert(" Helper deleted successfully")
+                                this.service.getHelperByWcId().subscribe(
+                                        data=>{
+                                                this.list=data
+                                        }
+                                       );
+                        },
+                        error=>{
+                                window.alert("Something went wrong!!")
+                        }
+                );
+        }
         updateData(item: any) {
                 this.isUpdate = true
                 this.isAdd = false
