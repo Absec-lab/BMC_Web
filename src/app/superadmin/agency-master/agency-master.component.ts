@@ -27,7 +27,7 @@ export class AgencyMasterComponent implements OnInit{
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
-                this.service.getAllWcData().subscribe(
+                this.service.getAllAgency().subscribe(
                         data=>{
                                 this.wcList=data
                         }
@@ -97,6 +97,11 @@ export class AgencyMasterComponent implements OnInit{
                                  }
                         console.log(data)
                         await this.service.post(`/agency/addAgency`, data)
+                        this.service.getAllAgency().subscribe(
+                                data=>{
+                                        this.wcList=data
+                                }
+                        );
                         this.toastService.showSuccess("Agency data adeed successfully!!")
                         this.form.reset()
                         this.getList()
@@ -113,13 +118,13 @@ export class AgencyMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
-        deactivateWard(id:any){
-                this.service.deactivateWard(id).subscribe(
+        deactivateAgency(id:any){
+                this.service.deactivateAgency(id).subscribe(
                         data=>{
                                 window.alert("Agency deleted successfully")
-                                this.service.getAllWardData().subscribe(
+                                this.service.getAllAgency().subscribe(
                                         data=>{
-                                                this.list=data
+                                                this.wcList=data
                                         }
                                 );
                         },
