@@ -30,7 +30,7 @@ export class GoodsMasterComponent implements OnInit{
                 goodsId: new FormControl,
                 wcId: new FormControl(0, [Validators.required]),
                 goodsName: new FormControl('', [Validators.required]),
-                //goodsPerKg: new FormControl('',),
+                goodsPerKg: new FormControl('',),
                 goodsDesc: new FormControl
               });
 
@@ -38,7 +38,7 @@ export class GoodsMasterComponent implements OnInit{
                 goodsId: new FormControl,
                 wcId: new FormControl,
                 goodsName: new FormControl,
-                //goodsPerKg: new FormControl,
+                goodsPerKg: new FormControl,
                 goodsDesc: new FormControl
         })
         list: any = []
@@ -70,11 +70,11 @@ export class GoodsMasterComponent implements OnInit{
                                 this.toastService.showWarning('Goods name is required.');
                                 return;
                         }
-                        // const goodsPerKg = this.form.value.goodsPerKg;
-                        // if (!goodsPerKg) {
-                        //         this.toastService.showWarning('Goods per kg is required.');
-                        //         return;
-                        // }
+                        const goodsPerKg = this.form.value.goodsPerKg;
+                        if (!goodsPerKg) {
+                                this.toastService.showWarning('Goods per kg is required.');
+                                return;
+                        }
                 }
                 this.form.value.wcId = parseInt(this.wcId);
                 const data={
@@ -87,11 +87,6 @@ export class GoodsMasterComponent implements OnInit{
                 }
                 try {
                         await this.service.post(`/zone/addGoods`, data)
-                        this.service.getAllGoods(this.wcId).subscribe(
-                                data => {
-                                        this.list = data
-                                }
-                        );
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -115,7 +110,7 @@ export class GoodsMasterComponent implements OnInit{
                 this.form.patchValue({
                         goodsId: item.goodsId,
                         goodsName: item.goodsName,
-                        //: item.goodsPerKg,
+                        goodsPerKg: item.goodsPerKg,
                         goodsDesc: item.goodsDesc
                         })
                 
@@ -136,12 +131,12 @@ export class GoodsMasterComponent implements OnInit{
                                 this.toastService.showWarning('Goods name is required.');
                                 return;
                         }
-                        // const goodsPerKg = this.form.value.goodsPerKg;
-                        // if (!goodsPerKg) {
-                        //         this.toastService.showWarning('Goods per kg is required.');
-                        //         return;
-                        // }
-                        // return;
+                        const goodsPerKg = this.form.value.goodsPerKg;
+                        if (!goodsPerKg) {
+                                this.toastService.showWarning('Goods per kg is required.');
+                                return;
+                        }
+                        return;
                 }
                 this.form.value.wcId = parseInt(this.wcId);
                 const data={
