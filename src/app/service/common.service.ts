@@ -133,6 +133,10 @@ export class CommonService {
         deactivateSubGoods(id: any) {
                 return this.http.get(this.environment.URL + '/goodssub/deactivate?id=' + id)
         }
+
+        deactivateAgency(id: any) {
+                return this.http.get(this.environment.URL + '/agency/deactivate?id=' + id)
+        }
         getAllWcData() {
                 return this.http.get(this.environment.URL + '/zone/getAllWc/' + localStorage.getItem("wcId"))
         }
@@ -289,6 +293,10 @@ export class CommonService {
         }
         getAllGodownList() {
                 return this.http.get(this.environment.URL + '/inventory/getAllGodown')
+        }
+
+        getAllAgency() {
+                return this.http.get(this.environment.URL + '/agency/getAllAgency')
         }
         getAllDriverByVehicleId(id: any) {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)
