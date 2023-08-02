@@ -126,6 +126,9 @@
 										<div class="mt-3 text-end add-mrf-btn" *ngIf="isAdd">
 											<button class="px-5 py-2 btn btn-primary" (click)="saveMrf()">Add</button>
 										</div>
+										<div class="mt-3 text-end add-mrf-btn">
+											<button class="px-5 py-2 btn btn-primary" (click)="downloadReport('MRF')">Download Report</button>
+										</div>
 										<div class="mt-3 text-end update-mrf-btn d-none">
 											<button class="px-5 py-2 btn btn-primary" (click)="updateMrf()">Update</button>
 										</div>
@@ -156,6 +159,7 @@
 										<!--	<div class="card-header rounded-0">
 												 BAILING 
 											</div>-->
+										
 											<div class="card-body">
 												<!-- <form [formGroup]="form">
 													<div class="row">
@@ -233,6 +237,9 @@
 														</div>
 													</div>
 												</form> -->
+												<div class="text-end add-mrf-btn">
+													<button class="px-5 py-2 btn btn-primary" (click)="downloadReport('STOCK')">Download Report</button>
+												</div>
 											</div>
 										</div>
 										<!-- <div class="mt-3 text-end" *ngIf="isAdd">
@@ -374,6 +381,9 @@
 								<div class="mt-3 text-end" *ngIf="isAdd">
 									<button class="px-5 py-2 btn btn-primary" (click)="soldBailing()">Add</button>
 									
+								</div>
+								<div class="mt-2 text-end add-mrf-btn">
+									<button class="px-5 py-2 btn btn-primary" (click)="downloadReport('SOLD')">Download Report</button>
 								</div>
 								<div class="mt-3 text-end" *ngIf="isUpdate">
 									<button class="px-5 py-2 btn btn-primary" (click)="cancel()">Cancel</button>
