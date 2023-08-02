@@ -124,6 +124,9 @@ export class CommonService {
         deactivateGoods(id: any) {
                 return this.http.get(this.environment.URL + '/goods/deactivate?id=' + id)
         }
+        deactivateSubGoods(id: any) {
+                return this.http.get(this.environment.URL + '/goodssub/deactivate?id=' + id)
+        }
         getAllWcData() {
                 return this.http.get(this.environment.URL + '/zone/getAllWc/' + localStorage.getItem("wcId"))
         }

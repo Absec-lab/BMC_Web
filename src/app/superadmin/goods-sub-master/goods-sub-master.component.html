@@ -136,9 +136,8 @@
                                                 <button class="btn btn-primary btn-sm" (click)="updateData(x)">
                                                         <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <button (click)="remove(x.goodssubId)" class="btn btn-danger btn-sm">
-                                                        <i
-                                                                class="fa-solid fa-trash-alt"></i>
+                                                <button  class="btn btn-danger btn-sm" (click)="deactivateSubGoods(x.goodssubId)">
+                                                    <i class="fa-solid fa-trash-alt"></i>
                                                 </button>
                                         </td>
                                 </tr>
