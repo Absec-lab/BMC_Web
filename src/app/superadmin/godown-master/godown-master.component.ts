@@ -28,7 +28,7 @@ export class GodownMasterComponent implements OnInit{
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
-                this.service.getAllWcData().subscribe(
+                this.service.getAllGodownList().subscribe(
                         data=>{
                                 this.wcList=data
                         }
@@ -126,6 +126,11 @@ export class GodownMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/inventory/addGodown/godown`, data)
+                        this.service.getAllGodownList().subscribe(
+                                data=>{
+                                        this.wcList=data
+                                }
+                        );
                         this.toastService.showSuccess("Godown data adeed successfully!!")
                         this.form.reset()
                         this.getList()
