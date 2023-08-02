@@ -125,6 +125,11 @@ export class HelperMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/zone/addHelper`, data)
+                        this.service.getHelperByWcId().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                         this.form.reset()
                         // this.getList()
                         this.service.getHelperByWcId().subscribe(
