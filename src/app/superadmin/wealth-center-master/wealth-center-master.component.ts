@@ -88,6 +88,11 @@ export class WealthCenterMasterComponent implements OnInit{
                                 "zone": zone
                         }
                         await this.service.post(`/zone/addWc`, data)
+                        this.service.getAllWcData().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                         this.form.reset()
                         this.getList()
                 } catch (e) {
