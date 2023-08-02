@@ -118,6 +118,9 @@ export class CommonService {
         deactivateDriver(id: any) {
                 return this.http.get(this.environment.URL + '/driver/deactivate?id=' + id)
         }
+        deactivateHelper(id: any) {
+                return this.http.get(this.environment.URL + '/helper/deactivate?id=' + id)
+        }
         deactivateItemName(id: any) {
                 return this.http.get(this.environment.URL + '/itemName/deactivate?id=' + id)
         }
