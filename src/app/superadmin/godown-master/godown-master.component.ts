@@ -147,13 +147,13 @@ export class GodownMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
-        deactivateWard(id:any){
-                this.service.deactivateWard(id).subscribe(
+        deactivateGodown(id:any){
+                this.service.deactivateGodown(id).subscribe(
                         data=>{
                                 window.alert("Godown deleted successfully")
-                                this.service.getAllWardData().subscribe(
+                                this.service.getAllGodownList().subscribe(
                                         data=>{
-                                                this.list=data
+                                                this.wcList=data
                                         }
                                 );
                         },
