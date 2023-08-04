@@ -1,6 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ColDef } from 'ag-grid-community';
+import { CommonService } from 'src/app/service/common.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-godown',
@@ -8,6 +11,10 @@ import { ColDef } from 'ag-grid-community';
   styleUrls: ['../../common.css', './godown.component.css']
 })
 export class GodownComponent {
+  constructor(private service: CommonService, private formBuilder: FormBuilder, private datePipe: DatePipe, private toastService: ToastService) {
+    this.getStockData();
+  }
+
   isAdd: boolean = true
   isUpdate: boolean = false
   goodList: any = []
@@ -18,7 +25,7 @@ export class GodownComponent {
   mrfGridResponse: any
   soldGridList: any = []
   soldGridResponse: any
-  list: any = []
+  godownStockList: any = []
   soldList:any=[]
   goodsList: any = []
   goodsName: any
@@ -111,6 +118,19 @@ export class GodownComponent {
       actionRenderer: null,
     },
   };
+
+  async getStockData() {
+    try {
+      let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+      this.godownStockList = await this.service.get(`/inventory/getAll/moKhata/stock/` + wcId)
+      // this.goodsList = await this.service.get(`/zone/getAllGoods`)
+      //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  
   cancel() {
     this.isAdd = true
     this.isUpdate = false
