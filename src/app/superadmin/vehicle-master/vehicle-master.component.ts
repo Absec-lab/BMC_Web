@@ -221,6 +221,14 @@ export class VehicleMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/vehicle/add`, data)
+                        this.service.getVehicleListByWcId().subscribe(
+                                data=>{
+                                        this.responseData=data
+                                        this.list=this.responseData.data
+                                       
+                                }
+                        );
+                        window.alert("Vehicle Added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -230,6 +238,7 @@ export class VehicleMasterComponent implements OnInit{
         async remove(id: string) {
                 try {
                         const res = await this.service.delete(`/vehicle/delete/${id}`)
+                        this.form.reset()
                         this.getList()
                 } catch (e) {
                         console.error(e)
@@ -355,10 +364,11 @@ export class VehicleMasterComponent implements OnInit{
                 this.service.deactivateVehicle(id).subscribe(
                         data => {
                                 window.alert("Vehicle deleted successfully")
-                                this.service.getAllActiveVehicle().subscribe(
-                                        data => {
-                                                this.vehicleResponse = data
-                                                this.list=this.vehicleResponse.data
+                                this.service.getVehicleListByWcId().subscribe(
+                                        data=>{
+                                                this.responseData=data
+                                                this.list=this.responseData.data
+                                               
                                         }
                                 );
                         },

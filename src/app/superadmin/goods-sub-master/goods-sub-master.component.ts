@@ -21,6 +21,15 @@ export class GoodsSubMasterComponent {
                 this.getList()
                 this.getGoodsList()
         }
+        ngOnInit() {
+                this.isAdd = true
+                this.isUpdate = false
+                this.service.getAllSubGood(this.wcId).subscribe(
+                        data => {
+                                this.list = data
+                        }
+                );
+        }
 
         form = new FormGroup({
                 goodssubId: new FormControl,
@@ -89,6 +98,12 @@ export class GoodsSubMasterComponent {
                         }
                         console.log(data)
                         await this.service.post(`/zone/addGoodssub`, data)
+                        this.service.getAllSubGood(this.wcId).subscribe(
+                                data => {
+                                        this.list = data
+                                }
+                        );
+                        window.alert(" subGoods added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
@@ -102,6 +117,21 @@ export class GoodsSubMasterComponent {
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        deactivateSubGoods(id:any){
+                this.service.deactivateSubGoods(id).subscribe(
+                        data=>{
+                                window.alert(" subGoods deleted successfully")
+                                this.service.getAllSubGood(this.wcId).subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
+                        },
+                        error=>{
+                                window.alert("Something went wrong!!")
+                        }
+                );
         }
         updateData(item: any) {
                 this.isUpdate = true

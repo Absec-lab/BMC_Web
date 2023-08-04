@@ -28,7 +28,7 @@ export class GodownMasterComponent implements OnInit{
         ngOnInit(){
                 this.isAdd=true
                 this.isUpdate=false
-                this.service.getAllWcData().subscribe(
+                this.service.getAllGodownList().subscribe(
                         data=>{
                                 this.wcList=data
                         }
@@ -95,6 +95,7 @@ export class GodownMasterComponent implements OnInit{
                         }
                 );
         }
+        
         async addNew() {
                 // if (this.form.status === 'INVALID') {
                 //         const weathCentre = this.form.value.wcId?.trim();
@@ -126,6 +127,11 @@ export class GodownMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/inventory/addGodown/godown`, data)
+                        this.service.getAllGodownList().subscribe(
+                                data=>{
+                                        this.wcList=data
+                                }
+                        );
                         this.toastService.showSuccess("Godown data adeed successfully!!")
                         this.form.reset()
                         this.getList()
@@ -142,13 +148,13 @@ export class GodownMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
-        deactivateWard(id:any){
-                this.service.deactivateWard(id).subscribe(
+        deactivateGodown(id:any){
+                this.service.deactivateGodown(id).subscribe(
                         data=>{
                                 window.alert("Godown deleted successfully")
-                                this.service.getAllWardData().subscribe(
+                                this.service.getAllGodownList().subscribe(
                                         data=>{
-                                                this.list=data
+                                                this.wcList=data
                                         }
                                 );
                         },

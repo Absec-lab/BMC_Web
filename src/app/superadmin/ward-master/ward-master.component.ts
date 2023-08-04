@@ -121,6 +121,11 @@ export class WardMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/zone/addWard`, data)
+                        this.service.getAllWcData().subscribe(
+                                data=>{
+                                        this.wcList=data
+                                }
+                        );
                         this.toastService.showSuccess("Ward data adeed successfully!!")
                         this.form.reset()
                         this.getList()
@@ -129,6 +134,7 @@ export class WardMasterComponent implements OnInit{
                         this.toastService.showError('Some error occured.');
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteWard/${id}`)

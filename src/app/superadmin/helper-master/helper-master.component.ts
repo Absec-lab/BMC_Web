@@ -125,6 +125,11 @@ export class HelperMasterComponent implements OnInit{
                         }
                         console.log(data)
                         await this.service.post(`/zone/addHelper`, data)
+                        this.service.getHelperByWcId().subscribe(
+                                data=>{
+                                        this.list=data
+                                }
+                               );
                         this.form.reset()
                         // this.getList()
                         this.service.getHelperByWcId().subscribe(
@@ -139,6 +144,7 @@ export class HelperMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.get(`/helper/deactivate/${id}`)
@@ -152,6 +158,21 @@ export class HelperMasterComponent implements OnInit{
                 } catch (e) {
                         console.error(e)
                 }
+        }
+        deactivateHelper(id:any){
+                this.service.deactivateHelper(id).subscribe(
+                        data=>{
+                                window.alert(" Helper deleted successfully")
+                                this.service.getHelperByWcId().subscribe(
+                                        data=>{
+                                                this.list=data
+                                        }
+                                       );
+                        },
+                        error=>{
+                                window.alert("Something went wrong!!")
+                        }
+                );
         }
         updateData(item: any) {
                 this.isUpdate = true

@@ -118,8 +118,24 @@ export class CommonService {
         deactivateDriver(id: any) {
                 return this.http.get(this.environment.URL + '/driver/deactivate?id=' + id)
         }
+        deactivateHelper(id: any) {
+                return this.http.get(this.environment.URL + '/helper/deactivate?id=' + id)
+        }
         deactivateItemName(id: any) {
                 return this.http.get(this.environment.URL + '/itemName/deactivate?id=' + id)
+        }
+        deactivateGoods(id: any) {
+                return this.http.get(this.environment.URL + '/goods/deactivate?id=' + id)
+        }
+        deactivateGodown(id: any) {
+                return this.http.get(this.environment.URL + '/Godown/deactivate?id=' + id)
+        }
+        deactivateSubGoods(id: any) {
+                return this.http.get(this.environment.URL + '/goodssub/deactivate?id=' + id)
+        }
+
+        deactivateAgency(id: any) {
+                return this.http.get(this.environment.URL + '/agency/deactivate?id=' + id)
         }
         getAllWcData() {
                 return this.http.get(this.environment.URL + '/zone/getAllWc/' + localStorage.getItem("wcId"))
@@ -278,10 +294,15 @@ export class CommonService {
         getAllGodownList() {
                 return this.http.get(this.environment.URL + '/inventory/getAllGodown')
         }
+
+        getAllAgency() {
+                return this.http.get(this.environment.URL + '/agency/getAllAgency')
+        }
         getAllDriverByVehicleId(id: any) {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)
                 // return  this.http.get(this.environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
         }
+        
         getAllWcVehicle(id: any) {
                 return this.http.get(this.environment.URL + '/get/vehicle/by/wc/Id/{wcId}?wcId=' + id)
         }
