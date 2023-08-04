@@ -28,12 +28,13 @@
                                         <div class="col-md-6">
 											<div class="row">
 												<div class="col-md-3 d-flex align-items-center pe-0">
-													Drying Yard
+													Welcenter Name
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="dryyardId">
-														<option [value]="item.dryyardId" *ngFor="let item of dryingyardList" selected>{{item.centerName}}</option>
-													</select>
+													<input type="" name="" id="" class="form-control bg-grey text-white" *ngFor="let item of wcList" formControlName="wcId" [(ngModel)]="item.wcName" readonly>
+													<!-- <select name="" id="" class="form-control form-select bg-white text-black" formControlName="wcId">
+														<option [value]="item.wcId" *ngFor="let item of wcList" selected aria-readonly="true">{{item.wcName}}</option>
+													</select> -->
 												</div>
 											</div>
 										</div>										
