@@ -1460,7 +1460,51 @@ wetWeightCal(){
       this.allVehicleResponse = response     
     })
   }
-
+  downloadReport(type:any){
+    var todayDate = new Date().toISOString().slice(0, 10);
+    let selectedReport:any=[];
+    switch(type) {
+      case 'ACTIVE':
+        // code block
+        selectedReport= this.rowData
+        break;
+      case 'COMPLETED':
+        // code block
+        selectedReport=this.rowDataComp
+        break;
+      default:
+        // code block
+    }
+   if(selectedReport.length <=0){
+   return this.toastService.showWarning('No data Found!!!');
+   }
+    let keys = Array.from(
+      selectedReport.reduce(
+        (s: any, o: any) => Object.keys(o).reduce((t, k) => t.add(k), s),
+        new Set()
+      )
+    );
+    console.log(keys);
+    let fileName =  type+todayDate+".csv";
+    let columnNames = keys;
+    let header = columnNames.join(",");
+    let csv = header;
+    csv += "\r\n";
+    selectedReport.map((c: any) => {
+      csv += [keys.map((eachKey: any) => c[eachKey])].join(",");
+      csv += "\r\n";
+    });
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    if (link.download !== undefined) {
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
 
   getVehicleNumberAuto($event:any){
     let vehicleShortNo = (<HTMLInputElement>document.getElementById('vehicleNumber')).value;
