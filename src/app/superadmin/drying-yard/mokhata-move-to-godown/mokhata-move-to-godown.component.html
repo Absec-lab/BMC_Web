@@ -55,7 +55,8 @@
 													Vehicle No
 												</div>
 												<div class="col-md-9">
-													<select name="" id="" class="form-control form-select bg-white text-black" formControlName="vehicleId" (ngModelChange)="getAllDriverByvehicleId()" [(ngModel)]="vehicleNo">
+													<!-- <select name="" id="" class="form-control form-select bg-white text-black" formControlName="vehicleId" (ngModelChange)="getAllDriverByvehicleId()" [(ngModel)]="vehicleNo"> -->
+														<select name="" id="" class="form-control form-select bg-white text-black" formControlName="vehicleId" >
 														<option [value]="item.vehicleId" *ngFor="let item of vehicleList" selected>{{item.vehicleNo}}</option>
 													</select>
 												</div>
