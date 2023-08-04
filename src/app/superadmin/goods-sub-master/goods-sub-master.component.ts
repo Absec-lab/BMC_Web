@@ -103,6 +103,7 @@ export class GoodsSubMasterComponent {
                                         this.list = data
                                 }
                         );
+                        window.alert(" subGoods added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {

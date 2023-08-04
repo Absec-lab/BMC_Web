@@ -93,6 +93,7 @@ export class WealthCenterMasterComponent implements OnInit{
                                         this.list=data
                                 }
                                );
+                        window.alert("Wealth Centre added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
