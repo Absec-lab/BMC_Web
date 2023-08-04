@@ -144,6 +144,7 @@ export class HelperMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.get(`/helper/deactivate/${id}`)

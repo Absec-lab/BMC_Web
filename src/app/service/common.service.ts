@@ -302,6 +302,7 @@ export class CommonService {
                 return this.http.get(this.environment.URL + '/get/Driver/by/' + id)
                 // return  this.http.get(this.environment.URL+'/get/vehicle/by/driver/Id/{driverId}?driverId='+id)
         }
+        
         getAllWcVehicle(id: any) {
                 return this.http.get(this.environment.URL + '/get/vehicle/by/wc/Id/{wcId}?wcId=' + id)
         }

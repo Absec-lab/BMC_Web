@@ -118,6 +118,7 @@ export class AgencyMasterComponent implements OnInit{
                         console.error(e)
                 }
         }
+        
         deactivateAgency(id:any){
                 this.service.deactivateAgency(id).subscribe(
                         data=>{
