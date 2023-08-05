@@ -134,6 +134,7 @@ export class WardMasterComponent implements OnInit{
                         this.toastService.showError('Some error occured.');
                 }
         }
+        
         async remove(id: string) {
                 try {
                         const res = await this.service.delete(`/zone/deleteWard/${id}`)

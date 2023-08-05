@@ -228,6 +228,7 @@ export class VehicleMasterComponent implements OnInit{
                                        
                                 }
                         );
+                        window.alert("Vehicle Added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {

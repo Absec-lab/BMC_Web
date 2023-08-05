@@ -95,6 +95,7 @@ export class GodownMasterComponent implements OnInit{
                         }
                 );
         }
+        
         async addNew() {
                 // if (this.form.status === 'INVALID') {
                 //         const weathCentre = this.form.value.wcId?.trim();
