@@ -157,17 +157,19 @@
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Item List</th>
+									<th>Stock Id</th>
+									<th>Package Wt Type</th>
 									<th>No. of Stocks (KG)</th>
 									<th>Cost/KG</th>
 									<th>Total Cost</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let item of stockData">
-									<td>{{ item.item_name }}</td>
-									<td>{{ item.stock_count }}</td>
-									<td>{{ item.cost_per_kg }}</td>
+								<tr *ngFor="let item of godownStockList">
+									<td>{{ item.stockId }}</td>
+                                    					<td>{{ item.packageWtType }}</td>
+									<td>{{ item.noOfPackets }}</td>
+									<td>{{ item.amountPerKg }}</td>
 									<td>{{ item.total_cost }}</td>
 								</tr>
 							</tbody>
