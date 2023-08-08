@@ -39,6 +39,7 @@ export class CompostMaterialPackagingComponent implements OnInit {
   composePackingList: any = [];
   packagingType: any = [5, 10, 15, 20];
   wcId: any = 0;
+  godownStockList:any =[];
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -73,26 +74,7 @@ export class CompostMaterialPackagingComponent implements OnInit {
 
   rowData: any = [];
 
-  stockData: any = [
-    {
-      item_name: '25 KG Packets',
-      stock_count: 25,
-      cost_per_kg: 50,
-      total_cost: 1250
-    },
-    {
-      item_name: '30 KG Packets',
-      stock_count: 25,
-      cost_per_kg: 50,
-      total_cost: 1250
-    },
-    {
-      item_name: '40 KG Packets',
-      stock_count: 25,
-      cost_per_kg: 50,
-      total_cost: 1250
-    }
-  ];
+  
 
   constructor(
     private service: CommonService,
@@ -104,6 +86,7 @@ export class CompostMaterialPackagingComponent implements OnInit {
     this.getList();
     this.getAllWC();
     this.getAllDryingYard();
+    this.getStockData();
   }
   ngOnInit() {
     this.service.getAllMrf(parseInt(this.wcId)).subscribe((data) => {
@@ -184,6 +167,18 @@ export class CompostMaterialPackagingComponent implements OnInit {
       //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  async getStockData() {
+    try {
+      let wcId = localStorage.getItem('role') != 'bmcadmin' ? this.wcId : 0
+      this.godownStockList = await this.service.get(`/inventory/getAll/moKhata/stock/` + wcId)
+      // this.goodsList = await this.service.get(`/zone/getAllGoods`)
+      //this.list = this.list.sort((a: any, b: any) => a.zoneName - b.zoneName)
+
+    } catch (e) {
+      console.error(e)
     }
   }
   saveMrf() {
