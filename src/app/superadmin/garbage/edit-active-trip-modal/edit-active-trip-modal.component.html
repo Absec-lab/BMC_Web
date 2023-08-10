@@ -151,11 +151,11 @@
                                 <label for="" class="text-white">Move To TTS</label>
                             </div>
                             <div class="col-md-7">
-                             <select class="form-select" formControlName="tts_user_id" id="move_tts" (change)="moveToTTs()">
+                             <select class="form-select" formControlName="move_tts" id="move_tts" (change)="moveToTTs()">
                                         <option value="" disabled selected>--Select--</option>
-                                        <!-- <option value="Yes">YES</option>
-                                        <option value="No">NO</option> -->
-                                        <option [value]="x.userUniqueId" *ngFor="let x of ttsUserList;">{{x.userName}}</option>
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                        <!-- <option [value]="x.userUniqueId" *ngFor="let x of ttsUserList;">{{x.userName}}</option> -->
                                 </select>
                             </div>
                             
