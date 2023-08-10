@@ -60,7 +60,7 @@ export class EditActiveTripModalComponent implements OnInit {
         "tripTransactionId": this.activeTripsEditForm.value.tripId,
         "vehicleNo": this.activeTripsEditForm.value.vehicle_no,
         "wetWt": this.activeTripsEditForm.value.wet_weight,
-        "moveToTts": "Yes",
+        "moveToTts": this.activeTripsEditForm.value.move_tts,
         "ttsUserId": this.activeTripsEditForm.value.tts_user_id
       
     }
