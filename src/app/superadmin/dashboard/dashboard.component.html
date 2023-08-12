@@ -34,8 +34,8 @@
                       class="form-control form-select dashboard-select-box"
                       (change)="onWcSelect($event)"
                     >
-                      <option [value]="'Allwc'" [selected]="true">
-                        All Wc
+                      <option [value]="'AllWC'" [selected]="true">
+                        All WC
                       </option>
                       <option
                         *ngFor="let x of wcList; let i = index"
@@ -69,7 +69,8 @@
                     class="btn btn-dashboard-date-filter-btn"
                     (click)="TimeBasedreport('MONTHLY')"
                   >
-                    Monthly
+                    <!-- Monthly -->
+                    Last 30 Days
                   </button>
                 </div>
                 <div
@@ -77,7 +78,7 @@
                   (click)="TimeBasedreport('WEEKLY')"
                 >
                   <button class="btn btn-dashboard-date-filter-btn">
-                    Weekly
+                    Last 7 Days
                   </button>
                 </div>
                 <div
