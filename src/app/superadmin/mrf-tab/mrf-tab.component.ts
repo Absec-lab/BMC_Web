@@ -452,7 +452,7 @@ export class MrfTabComponent implements OnInit {
       "quntaum": this.form.value.quntaum,
       "subGood": subgoods,
       "wcId": {
-        "wcId": 118
+        "wcId": localStorage.getItem("wcId")
       }
     }
     console.log(data)
