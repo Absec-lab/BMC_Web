@@ -11,7 +11,9 @@ import { ToastService } from 'src/app/service/toast.service';
 export class GoodsMasterComponent implements OnInit{
         isAdd: boolean = false
         isUpdate: boolean = false
+        responseData: any
         wcId : any = 0;
+        
         constructor(private service: CommonService, private formBuilder:FormBuilder, private toastService: ToastService) {
                 this.getWCList();
                 this.wcId = localStorage.getItem('wcId');
@@ -90,12 +92,18 @@ export class GoodsMasterComponent implements OnInit{
                         this.service.getAllGoods(this.wcId).subscribe(
                                 data => {
                                         this.list = data
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
                                 }
                         );
                         window.alert("Good Added Successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
+                        this.responseData=e
+                        this.toastService.showError(this.responseData.error.message)
                         console.error(e)
                 }
         }
@@ -105,6 +113,7 @@ export class GoodsMasterComponent implements OnInit{
                         window.alert("Good Deleted Successfully!!")
                         this.getList()
                 } catch (e) {
+        
                         console.error(e)
                 }
         }

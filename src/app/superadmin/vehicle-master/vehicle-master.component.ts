@@ -226,12 +226,18 @@ export class VehicleMasterComponent implements OnInit{
                                         this.responseData=data
                                         this.list=this.responseData.data
                                        
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
                                 }
                         );
-                        window.alert("Vehicle Added successfully")
+                         window.alert("Vehicle Added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
+                        this.responseData=e
+                        this.toastService.showError(this.responseData.error.message)
                         console.error(e)
                 }
         }
