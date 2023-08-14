@@ -146,14 +146,14 @@ export class DashboardComponent {
       this.payloadMoKhata.fromDate = dateElementCurrent.value
       this.payloadMoKhata.toDate = dateElementCurrent.value
 
-      // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-      // this.payloadInventory.toDate = '2023-07-28 00:00:00'
-      // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-      // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-      // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-      // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-      // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-      // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+      // this.payloadInventory.fromDate = '2023-08-12 00:00:00'
+      // this.payloadInventory.toDate = '2023-08-12 00:00:00'
+      // this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
+      // this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
+      // this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
+      // this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
+      // this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
+      // this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
 
      // this.callAllCommonReportServices(eventType);
       this.defaultCallService(eventType)
@@ -208,14 +208,14 @@ export class DashboardComponent {
     this.payloadMoKhata.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
     
-    // this.payloadInventory.fromDate = '2023-07-28 00:00:00'
-    // this.payloadInventory.toDate = '2023-07-28 00:00:00'
-    // this.reportTripPayload.fromDate =  '2023-07-28 00:00:00'
-    // this.reportTripPayload.toDate =  '2023-07-28 00:00:00'
-    // this.reportMrfPayload.fromDate =  '2023-07-28 00:00:00'
-    // this.reportMrfPayload.toDate =  '2023-07-28 00:00:00'
-    // this.payloadMoKhata.fromDate =  '2023-07-29 00:00:00'
-    // this.payloadMoKhata.toDate =  '2023-07-29 00:00:00'
+    // this.payloadInventory.fromDate = '2023-08-12 00:00:00'
+    // this.payloadInventory.toDate = '2023-08-12 00:00:00'
+    // this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
+    // this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
+    // this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
+    // this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
+    // this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
+    // this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
 
   }
 
@@ -439,13 +439,13 @@ export class DashboardComponent {
             this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
             this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE
             this.reportResponseWcBasedTripData = response.response.TRIP_SUMMARY
-            if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc'){
+            if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc'){ // All zone All wc
               this.getAllzoneAllwcDataForReports(eventType)
             }
-            if(this.zoneSelectId != 'Allzone' &&  (this.wcSelectId == 0 || this.wcSelectId == undefined || this.wcSelectId == 'Allwc')){
+            if(this.zoneSelectId != 'Allzone' &&  (this.wcSelectId == 0 || this.wcSelectId == undefined || this.wcSelectId == 'Allwc')){ // Any zone All wc 
               this.getZoneSelectNoWcSelectReports(eventType)
             }   
-            if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && this.wcSelectId != 0){
+            if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && this.wcSelectId != 0){ // Any zone Any wc
               this.getAnyZoneSelectAnyWcSelectReports(eventType)
             } 
     });
@@ -563,7 +563,7 @@ export class DashboardComponent {
           this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
           this.dataMap.set('totalDryWeight', totalDryWeight_);
           this.dataMap.set('totalWetWeight', totalWetWeight_);
-          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
           this.dataMap.set('numberOfVehicles', numberOfVehicles_);
           this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
           this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
@@ -610,10 +610,13 @@ export class DashboardComponent {
 
         let emptyPits = this.reportResponseWcBasedPitData.reduce((totalEmptyPits:number, item:any) => totalEmptyPits + Number(item.totalNoOfEmptyPits), 0)
         let filledPits = this.reportResponseWcBasedPitData.reduce((totalFilledPits:number, item:any) => totalFilledPits + Number(item.totalNoOfFilledPits), 0)
+       
         if(emptyPits == undefined){
-        emptyPits = 0;
-        filledPits = 0
+            emptyPits = 0;
+            filledPits = 0
         }
+
+
         this.dataMap.set('totalemptypits',  emptyPits);
         this.dataMap.set('totalfilledpits',  filledPits);
 
@@ -621,11 +624,11 @@ export class DashboardComponent {
         // MRF Data Set........................................................................only for Today Event
         if(this.zoneSelectId != undefined && this.zoneSelectId == 'Allzone'){
           totalMRFProcessed_ = this.zoneBasedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
-          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          this.dataMap.set('totalMRFWeight',  Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
           if(eventType == 'MONTHLY'){
-            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+            this.dataMap.set('totalMRFWeight', Math.round((this.mrfMonthlyQtm + Number.EPSILON) * 100) / 100 ); 
           }else if(eventType == 'WEEKLY'){
-            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+            this.dataMap.set('totalMRFWeight', Math.round((this.mrfWeeklyQtm + Number.EPSILON) * 100) / 100 ); 
           }
         }
 
@@ -656,22 +659,20 @@ export class DashboardComponent {
               this.mrfDailyQtm = this.mrfReportList.response.MRF_DAILY != undefined && this.mrfReportList.response.MRF_DAILY.length > 0 ? 
                               Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
                               : 0   
-                              alert(this.mrfDailyQtm)  
-              this.mrfDailyInStock = this.mrfReportList.response.MRF_DAILY != undefined && this.mrfReportList.response.MRF_DAILY.length > 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
+              this.mrfDailyInStock = this.mrfReportList.response.MRFINSTOCK_DAILY != undefined && this.mrfReportList.response.MRFINSTOCK_DAILY.length > 0 ?
+                              Math.round(( this.mrfReportList.response.MRFINSTOCK_DAILY.reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
                               : 0  
               this.mrfWeeklyQtm = this.mrfReportList.response.MRF_WEEKLY != undefined && this.mrfReportList.response.MRF_WEEKLY.length > 0 ?
                               Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0) + Number.EPSILON) * 100) / 100 
                               : 0       
-                              alert(this.mrfWeeklyQtm)  
-              this.mrfWeeklyInStock = this.mrfReportList.response.MRF_WEEKLY != undefined && this.mrfReportList.response.MRF_WEEKLY.length > 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
+              this.mrfWeeklyInStock = this.mrfReportList.response.MRFINSTOCK_WEEKLY != undefined && this.mrfReportList.response.MRFINSTOCK_WEEKLY.length > 0 ?
+                              Math.round(( this.mrfReportList.response.MRFINSTOCK_WEEKLY.reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
                               : 0  
               this.mrfMonthlyQtm = this.mrfReportList.response.MRF_MONTHLY != undefined && this.mrfReportList.response.MRF_MONTHLY.length > 0 ?
                               Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100  
                               : 0      
-              this.mrfMonthlyInStock = this.mrfReportList.response.MRF_MONTHLY != undefined && this.mrfReportList.response.MRF_MONTHLY.length > 0 ?
-                              Math.round(( this.mrfReportList.response.MRF_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
+              this.mrfMonthlyInStock = this.mrfReportList.response.MRFINSTOCK_MONTHLY != undefined && this.mrfReportList.response.MRFINSTOCK_MONTHLY.length > 0 ?
+                              Math.round(( this.mrfReportList.response.MRFINSTOCK_MONTHLY.reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
                               : 0  
        
             }else if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 ||this.wcSelectId == '' || this.wcSelectId == 'Allwc')){
@@ -682,35 +683,35 @@ export class DashboardComponent {
               this.mrfDailyQtm = mrfTableData.MRF_DAILY != undefined && mrfTableData.MRF_DAILY.length > 0 ? 
                               Math.round(( mrfTableData.MRF_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
               : 0   
-              this.mrfDailyInStock =  mrfTableData.response.MRF_DAILY != undefined && mrfTableData.MRF_DAILY.length > 0 ?
-                              Math.round(( mrfTableData.MRF_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
+              this.mrfDailyInStock =  mrfTableData.response.MRFINSTOCK_DAILY != undefined && mrfTableData.MRFINSTOCK_DAILY.length > 0 ?
+                              Math.round(( mrfTableData.MRFINSTOCK_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0) + Number.EPSILON) * 100) / 100 
                               : 0  
               this.mrfWeeklyQtm =  mrfTableData.response.MRF_WEEKLY != undefined && mrfTableData.MRF_WEEKLY.length > 0 ?
                               Math.round(( mrfTableData.MRF_WEEKLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0) + Number.EPSILON) * 100) / 100 
                               : 0       
-              this.mrfWeeklyInStock = mrfTableData.response.MRF_WEEKLY != undefined && mrfTableData.MRF_WEEKLY.length > 0 ?
-                              Math.round(( mrfTableData.MRF_WEEKLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
+              this.mrfWeeklyInStock = mrfTableData.response.MRFINSTOCK_WEEKLY != undefined && mrfTableData.MRFINSTOCK_WEEKLY.length > 0 ?
+                              Math.round(( mrfTableData.MRFINSTOCK_WEEKLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 
                               : 0  
               this.mrfMonthlyQtm = mrfTableData.response.MRF_MONTHLY != undefined && mrfTableData.MRF_MONTHLY.length > 0 ?
                               Math.round(( mrfTableData.MRF_MONTHLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100  
                               : 0      
-              this.mrfMonthlyInStock = mrfTableData.response.MRF_MONTHLY != undefined && mrfTableData.MRF_MONTHLY.length > 0 ?
-                              Math.round(( mrfTableData.MRF_MONTHLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
+              this.mrfMonthlyInStock = mrfTableData.response.MRFINSTOCK_MONTHLY != undefined && mrfTableData.MRFINSTOCK_MONTHLY.length > 0 ?
+                              Math.round(( mrfTableData.MRFINSTOCK_MONTHLY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100
                               : 0    
 
             }else{
       
               this.mrfDailyQtm = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                          .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100
-              this.mrfDailyInStock = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+              this.mrfDailyInStock = Math.round(( this.mrfReportList.response.MRFINSTOCK_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                         .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)  + Number.EPSILON) * 100) / 100
               this.mrfWeeklyQtm = Math.round((  this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                         .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)  + Number.EPSILON) * 100) / 100     
-              this.mrfWeeklyInStock = Math.round(( this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+              this.mrfWeeklyInStock = Math.round(( this.mrfReportList.response.MRFINSTOCK_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                         .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100
               this.mrfMonthlyQtm = Math.round(( this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                         .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100     
-              this.mrfMonthlyInStock = Math.round((  this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+              this.mrfMonthlyInStock = Math.round((  this.mrfReportList.response.MRFINSTOCK_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
                         .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100        
             }
             
@@ -748,7 +749,7 @@ export class DashboardComponent {
               this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
               this.dataMap.set('totalDryWeight', totalDryWeight_);
               this.dataMap.set('totalWetWeight', totalWetWeight_);
-              this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+              this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
               this.dataMap.set('numberOfVehicles', numberOfVehicles_);
               this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
               this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
@@ -816,11 +817,11 @@ export class DashboardComponent {
       // MRF Data Set........................................................................only for Today Event
       if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 || this.wcSelectId == '')){
         totalMRFProcessed_ = zoneSelectedNoWcData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
-        this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+        this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
         if(eventType == 'MONTHLY'){
-          this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+          this.dataMap.set('totalMRFWeight', Math.round((this.mrfMonthlyQtm + Number.EPSILON) * 100) / 100 ); 
         }else if(eventType == 'WEEKLY'){
-          this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+          this.dataMap.set('totalMRFWeight', Math.round((this.mrfWeeklyQtm + Number.EPSILON) * 100) / 100 ); 
         }
       }
 
@@ -854,7 +855,7 @@ export class DashboardComponent {
                 this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
                 this.dataMap.set('totalDryWeight', totalDryWeight_);
                 this.dataMap.set('totalWetWeight', totalWetWeight_);
-                this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+                this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
                 this.dataMap.set('numberOfVehicles', numberOfVehicles_);
                 this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
                 this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
@@ -924,11 +925,11 @@ export class DashboardComponent {
         // MRF Data Set........................................................................only for Today Event
         if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone' && (this.wcSelectId != undefined && this.wcSelectId != 0 || this.wcSelectId != 'Allwc')){
           totalMRFProcessed_ = zoneSelectedWcSelectedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
-          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
           if(eventType == 'MONTHLY'){
-            this.dataMap.set('totalMRFWeight', this.mrfMonthlyQtm); 
+            this.dataMap.set('totalMRFWeight', Math.round((this.mrfMonthlyQtm + Number.EPSILON) * 100) / 100 );
           }else if(eventType == 'WEEKLY'){
-            this.dataMap.set('totalMRFWeight', this.mrfWeeklyQtm); 
+            this.dataMap.set('totalMRFWeight', Math.round((this.mrfWeeklyQtm + Number.EPSILON) * 100) / 100 ); 
           }
         }
   
@@ -1020,7 +1021,7 @@ export class DashboardComponent {
           this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
           this.dataMap.set('totalDryWeight', totalDryWeight_);
           this.dataMap.set('totalWetWeight', totalWetWeight_);
-          this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+          this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100);
           this.dataMap.set('numberOfVehicles', numberOfVehicles_);
           this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
           this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
@@ -1102,7 +1103,7 @@ export class DashboardComponent {
           this.dataMap.set('totalfilledpits',  filledPits);
           if(this.zoneSelectId != undefined && this.zoneSelectId != 'Allzone'){
             totalMRFProcessed_ = this.zoneBasedData.reduce((sum:number, item:any) => sum + Number( item.totalMRFProcessed.toString().replaceAll(',','')), 0)
-            this.dataMap.set('totalMRFWeight', totalMRFProcessed_);
+            this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100);
           }
 
 
@@ -1317,6 +1318,7 @@ export class DashboardComponent {
       },
     });
   }
+
   onReportSelect(event: any) {
     let selectedReport = this.allReportType.filter(
       (x: any) => x.name == event.target.value
@@ -1349,50 +1351,6 @@ export class DashboardComponent {
     }
   }
 
-  // createChart5() {
-  //   this.chart3 = new Chart("chart-23236985-f16855f5-676c-4201-b1d9-ab68c9d8307a", {
-  //     type: "bar",
-  //     data: {
-  //       labels: ["Package", "Unsold", "Sold"],
-  //       datasets: [
-  //         {
-  //           label: "",
-  //           data: [500, 260, 240],
-  //           backgroundColor: ["#11A3F5", "#ED3223", "#15D981"],
-  //           barThickness: 20,
-  //         },
-  //       ],
-  //     },
-  //     // plugins: [ChartDataLabels],
-  //     options: {
-  //       indexAxis: "y",
-  //       responsive: true,
-  //       scales: {
-  //         x: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //         y: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //       },
-  //       color: "white",
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           display: false,
-  //           position: "left",
-  //           labels: {
-  //             color: "#fff",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
 
   createChart2DataSet() {
     this.dataSetChatArr = []
@@ -1575,54 +1533,6 @@ export class DashboardComponent {
     });
   }
 
-  // createChart5(dataArr: number[]) {
-  //   this.inventoryDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? "";
-  //   if (this.chart5 != null && this.chart5 != undefined) {
-  //     this.chart5.destroy()
-  //   }
-  //   this.chart5 = new Chart("chart-029ea4bc-fac1-4296-b731-25bb7c6598ac", {
-  //     type: "bar",
-  //     data: {
-  //       labels: ["Purchase", "Issue Stock", "In Stock"],
-  //       datasets: [
-  //         {
-  //           label: "",
-  //           data: dataArr,
-  //           backgroundColor: ["#14A2F4", "#EE321F", "#12D881"],
-  //           barThickness: 20,
-  //         },
-  //       ],
-  //     },
-  //     // plugins: [ChartDataLabels],
-  //     options: {
-  //       indexAxis: "y",
-  //       responsive: true,
-  //       scales: {
-  //         x: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //         y: {
-  //           ticks: {
-  //             color: "white",
-  //           },
-  //         },
-  //       },
-  //       color: "white",
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           display: false,
-  //           position: "left",
-  //           labels: {
-  //             color: "#fff",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
 
 }
 
