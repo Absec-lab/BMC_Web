@@ -21,25 +21,351 @@
 				<div class="mt-4">
 					<form [formGroup]="form">
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
-							<li class="nav-item w-50" role="presentation">
-								<button class="nav-link active w-100 text-uppercase text-white" id="active-tab"
-								data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
-								aria-controls="active-tab-pane" aria-selected="true">Active Trips</button>
+							<li class="nav-item w-33" role="presentation">
+								<button class="nav-link active w-100 h-100 text-uppercase text-white" id="trip-tab"
+									data-bs-toggle="tab" data-bs-target="#trip-tab-pane" type="button" role="tab"
+									aria-controls="trip-tab-pane" aria-selected="true">Waste Received</button>
 							</li>
-							<li class="nav-item w-50" role="presentation">
-								<button class="nav-link w-100 text-uppercase text-white" id="completed-tab"
+							<li class="nav-item w-33" role="presentation">
+								<button class="nav-link w-100 h-100 text-uppercase text-white" id="active-tab"
+									data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab"
+									aria-controls="active-tab-pane" aria-selected="false">Active Trips</button>
+							</li>
+							<li class="nav-item w-33" role="presentation">
+								<button class="nav-link w-100 h-100 text-uppercase text-white" id="completed-tab"
 									data-bs-toggle="tab" data-bs-target="#completed-tab-pane" type="button" role="tab"
 									aria-controls="completed-tab-pane" aria-selected="false">Completed Trips</button>
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent">
-						
-							<div class="tab-pane fade show bg-secondary border border-white border-top-0 active show"
+							<div class="tab-pane fade show active bg-secondary border border-white border-top-0 p-2"
+								id="trip-tab-pane" role="tabpanel" aria-labelledby="trip-tab" tabindex="0">
+								<div class="trip-details">
+									<div class="card rounded-0">
+										<div class="card-header rounded-0">
+											TTS Garbage Operation
+										</div>
+										<div class="card-body">
+
+											<div class="row">
+												<div class="col-sm-6">
+													<div class="row">
+														<div class="col-md-3 pe-0">
+															Vehicle Number<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<div class="input-group">
+																<input formControlName="vehicleNumber" type="text" name=""
+																id="vehicleNumber" class="form-control">
+																<div class="input-group-item">
+																	<button class="btn btn-light rounded-0" (click)="setVehicleNumber()">
+																		<i class="fas fa-arrow-right"></i>
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0">
+															Trip Start Reading<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="tripStartReading" type="number" min="0"
+																name="" id="tripStartReading" class="form-control">
+														</div>
+													</div>
+													
+													<div class="row mt-3" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0 tripEndReadingDiv">
+															Trip End Reading
+														</div>
+														<div class="col-md-9">
+															<input type="number" name="" id="tripEndReading" class="form-control"
+																formControlName="tripEndReading">
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0">
+															Trip Start Reading<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="tripStartReading" type="number" min="0"
+																name="" id="tripStartReading" class="form-control">
+														</div>
+													</div>
+													
+													<div class="row mt-3" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0 tripEndReadingDiv">
+															Trip End Reading
+														</div>
+														<div class="col-md-9">
+															<input type="number" name="" id="tripEndReading" class="form-control"
+																formControlName="tripEndReading">
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															Vehicle Type<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="driverDlNo" type="text" name=""
+																id="driverDlNo" class="form-control">
+														</div>
+													</div>
+																										
+													<div class="row mt-3" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															DL Number<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="driverDlNo" type="text" name=""
+																id="driverDlNo" class="form-control">
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															Driver Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<!-- <input type="text" name="" id="driverName" class="form-control"
+																formControlName="driverName"> -->
+																<select 
+																class="form-select" formControlName="driverId" id="driverId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.driverId" *ngFor="let item of driverList">{{item.driverName}}</option>
+															</select>
+														</div>
+													</div>
+													
+													<!-- <div class="row mt-3">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Vehicle Start Time
+														</div>
+														<div class="col-md-9">
+															<input type="time" name="" id="" class="form-control">
+														</div>
+													</div>
+													<div class="row mt-3">
+														<div class="col-md-3 d-flex align-items-center pe-0">
+															Vehicle End Time
+														</div>
+														<div class="col-md-9">
+															<input type="time" name="" id="" class="form-control"
+																accept="image/*">
+														</div>
+													</div> -->
+												</div>
+												<div class="col-sm-6 mt-3 mt-sm-0">
+													<div class="row" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0">
+															DL Number<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<input formControlName="driverDlNo" type="text" name=""
+																id="driverDlNo" class="form-control">
+														</div>
+													</div>
+													<div class="row mt-3" *ngIf="isDisableBov">
+														<div class="col-md-3 pe-0">
+															Driver Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<!-- <input type="text" name="" id="driverName" class="form-control"
+																formControlName="driverName"> -->
+																<select 
+																class="form-select" formControlName="driverId" id="driverId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.driverId" *ngFor="let item of driverList">{{item.driverName}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="row" *ngIf="!isDisableBov">
+														<div class="col-md-3 pe-0">
+															Vehicle Type
+														</div>
+														<div class="col-md-9">
+															<input formControlName="vehicleType" readonly type="text" name=""
+																id="vehicleType" class="form-control">
+														</div>
+													</div>
+													<div class="row mt-3">
+														<div class="col-md-3 pe-0">
+															Helper Name<span class="text-danger">*</span>
+														</div>
+														<div class="col-md-9">
+															<select 
+																class="form-select" formControlName="helperId" id="helperId">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="item.helperId" *ngFor="let item of helperList">{{item.helperName}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="row mt-3">
+														<div class="col-md-3 pe-0">
+															Route
+														</div>
+														<div class="col-md-9">
+															<select formControlName="routeId" id="routeId" class="form-select">
+																<option value="" disabled selected>--Select--</option>
+																<option [value]="x.routeId" *ngFor="let x of routeList;">{{x.routeName}} - {{x.routeDesc}}</option>
+															</select>
+															<!-- <select name="" id=""
+																class="form-control form-select bg-transparent text-white">
+																<option value="" class="form-control"
+																	formControlName="routeName">
+																 {{this.vehcileDataResponse.data.route.routeName}} 
+																</option>
+															</select> -->
+														</div>
+													</div>
+													<div class="d-block d-md-flex justify-content-md-end gap-2">
+														<div class="trip-button text-end mt-4 mt-md-5 pt-2"
+															*ngIf="tripStartButton; else tripStratButtonNot">
+															<button type="button" class="btn btn-trip btn-warning w-100"
+																(click)="createTrip()">
+																Trip Start
+															</button>
+														</div>
+														<ng-template #tripStratButtonNot>
+															<div class="trip-button text-end mt-4 mt-md-5 pt-2">
+																<button type="button" class="btn btn-trip btn-secondary w-100">
+																	Trip Start
+																</button>
+															</div>
+														</ng-template>
+														<div class="trip-button text-end mt-2 mt-md-5 pt-2"
+															*ngIf="tripEndButton; else tripEndButtonNot">
+															<button type="button" class="btn btn-trip btn-primary w-100"
+																(click)="endTrip()">
+																Trip End
+															</button>
+														</div>
+														<ng-template #tripEndButtonNot>
+															<div class="trip-button text-end mt-2 mt-md-5 pt-2">
+																<button type="button" class="btn btn-trip btn-secondary  w-100">
+																	Trip End
+																</button>
+															</div>
+														</ng-template>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="mt-4">
+									<div class="card rounded-0">
+										<div class="card-header rounded-0 border-0">
+											Garbage Weighment
+										</div>
+										<div class="card-body">
+
+											<div class="row">
+												<div class="col-sm-6 col-md-12 col-lg-8 col-xl-6">
+													<div class="row grossWeightDiv">
+														<div class="col-md-3 pe-0 label">
+															Gross Weight/Kg
+														</div>
+														<div class="col-md-3">
+															<input type="number" min="0" name="" id="grossWeightValue" class="form-control" 
+																formControlName="grossWeightValue">
+														</div>
+														<div class="col-md-3 mt-3 mt-md-0 pe-0 unloadWetWeightDiv">
+															Unload Wet Weight/Kg
+														</div>
+														<div class="col-md-3">
+															<input type="number" min="0" name="" id="unloadId" class="form-control" 
+																formControlName="unloadwetWeightValue" (mouseout)="wetWeightCal()">
+														</div>
+													</div> 
+													<div class="row mt-3">
+														<div class="col-md-3 pe-0 tareWeightDiv">
+															Tare Weight/Kg
+														</div>
+														<div class="col-md-9">
+															<input type="text" min="0" name="" id="tareWeightValue" class="form-control" 
+															formControlName="tareWeightValue">
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6 col-md-12 col-lg-4 col-xl-6 mt-3 mt-sm-0 mt-md-3 mt-lg-0">
+													<div class="row">
+														<div class="col-md-3 col-lg-4 col-xl-3 pe-0 wetWeightDiv">
+															Wet Weight/Kg
+														</div>
+														<div class="col-md-5 col-lg-8 col-xl-9">
+															<input type="number" min="0" name="" id="wetWeightValue" class="form-control"
+																formControlName="wetWeightValue">
+														</div>
+													</div>
+													<div class="row mt-3">
+														<div class="col-md-3 col-lg-4 col-xl-3 pe-0 dryWeightDiv">
+															Dry Weight/Kg
+														</div>
+														<div class="col-md-5 col-lg-8 col-xl-9">
+															<input type="number" min="0" name="" id="dryWeightValue" class="form-control"
+																formControlName="dryWeightValue">
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="mt-4 d-md-flex justify-space-md-between mb-lg-4">
+									<div class="d-flex-1 text-start mx-3"
+										*ngIf="grossWeightCapturedButton; else grossWeightCapturedButtonNot">
+										<button type="button" class="btn btn-gross-weight btn-primary w-100" (click)="setGrossWtValue()">
+											Gross Weight
+										</button>
+									</div>
+									<ng-template #grossWeightCapturedButtonNot>
+										<div class="d-flex-1 text-center mx-3">
+											<button type="button" class="btn btn-gross-weight btn-secondary w-100">
+												Gross Weight
+											</button>
+										</div>
+									</ng-template>
+									<div class="d-flex-1 text-end mx-3 mt-3 mt-md-0"
+										*ngIf="wetWeightCapturedButton; else wetWeightCapturedButtonNot">
+										<button type="button" class="btn btn-wet-weight btn-primary w-100" (click)="setWetWtValue()">
+											Captured Wet Weight
+										</button>
+									</div>
+									<ng-template #wetWeightCapturedButtonNot>
+										<div class="d-flex-1 text-center mx-3 mt-3 mt-md-0">
+											<button type="button" class="btn btn-wet-weight btn-secondary w-100">
+												Captured Wet Weight
+											</button>
+										</div>
+									</ng-template>
+									<div class="d-flex-1 text-center mx-3 mt-3 mt-md-0" *ngIf="dryButton; else dryButtonNot">
+										<button type="button" class="btn btn-dry-weight btn-primary w-100" (click)="setDryWtValue()">
+											Captured Dry Weight
+										</button>
+									</div>
+									<ng-template #dryButtonNot>
+										<div class="d-flex-1 text-center mx-3 my-3 my-md-0">
+											<button type="button" class="btn btn-dry-weight btn-secondary w-100">
+												Captured Dry Weight
+											</button>
+										</div>
+									</ng-template>
+									
+								</div>
+							</div>
+							<div class="tab-pane fade show bg-secondary border border-white border-top-0 p-2"
 								id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
 										Active Trips <i class="fa fa-truck b-green" aria-hidden="true"></i>
+										<div class="mt-2 text-end add-mrf-btn">
+											<button class="px-5 py-2 btn btn-primary" (click)="downloadReport('ACTIVE')">Download Report</button>
+										</div>
 									</div>
+						
 									<div class="card-body">
 										
 										<ag-grid-angular
@@ -60,6 +386,9 @@
 								<div class="card rounded-0">
 									<div class="card-header rounded-0 border-0">
 										Completed Trips <i class="fa fa-truck b-red" aria-hidden="true"></i>
+										<div class="mt-2 text-end add-mrf-btn">
+											<button class="px-5 py-2 btn btn-primary" (click)="downloadReport('COMPLETED')">Download Report</button>
+										</div>
 									</div>
 									<div class="card-body">
 										<!-- <div
@@ -122,6 +451,23 @@
 				</div>
 			</div>
 		</div>
-	</div> 
+	</div>
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary d-none displayImageModalBtn" data-bs-toggle="modal" data-bs-target="#displayImageModal"></button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="displayImageModal" tabindex="-1" aria-labelledby="displayImageModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+		<div class="modal-header border-0" style="background-color: #2B2B4B;">
+		  <h1 class="modal-title fs-5" id="displayImageModalLabel">Preview</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-0">
+		  <img src="" alt="" style="width: 100%;" />
+		</div>
+	  </div>
+	</div>
+  </div>
 </main>
 <app-footer></app-footer>
