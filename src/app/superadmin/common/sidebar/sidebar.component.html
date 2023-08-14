@@ -164,15 +164,20 @@
 				<i class="fa-solid fa-box"></i>
 				<span>Godown</span>
 			</a>
-            <a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks3" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'ttsuser'">
+                       <a class="sidebar-link" data-bs-toggle="collapse" href="#collapseSidebarMasterEntryLinks3" role="button" aria-expanded="false" aria-controls="collapseSidebarMasterEntryLinks" *ngIf="role === 'ttsuser'">
 				<i class="fa-solid fa-wind"></i>
 				<span>TTS</span>
+			</a>
+			<a routerLink="/superadmin/tts-vehicle-master" class="sidebar-link" *ngIf="role === 'ttsuser'">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>TTS Vehicle Master</span>
 			</a>
 			<div class="sidebar-sub-menu collapse" id="collapseSidebarMasterEntryLinks3" >
 				<a routerLink="/superadmin/drying-yard/trip-details" class="sidebar-link" *ngIf="role === 'ttsuser'">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Trip Details</span>
 				</a>
+				
 			</div>
 			<!-- <a routerLink="/superadmin/vehicle-management" class="sidebar-link" >
 				<i class="fa-solid fa-users"></i>
@@ -254,10 +259,7 @@
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Vehicle Master</span>
 				</a>
-				<a routerLink="/superadmin/tts-vehicle-master" class="sidebar-link">
-					<i class="fa-solid fa-arrow-right"></i>
-					<span>TTS Vehicle Master</span>
-				</a>
+				
 				<a routerLink="/superadmin/driver-master" class="sidebar-link">
 					<i class="fa-solid fa-arrow-right"></i>
 					<span>Driver Master</span>
@@ -275,6 +277,7 @@
 					<span>Vendor Master</span>
 				</a>
 			</div>
+
 
 			<!-- <a routerLink="/superadmin/vehicle-management" class="sidebar-link" hidden></a> -->
 
