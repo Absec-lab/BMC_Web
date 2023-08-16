@@ -67,6 +67,8 @@ export class VehicleMasterComponent implements OnInit{
                 vehicleNo: new FormControl('', [Validators.required]),
                 driverId: new FormControl('', [Validators.required]),
                 helperId: new FormControl('', [Validators.required]),
+                helperId2: new FormControl('', [Validators.required]),
+                vehicleType: new FormControl('', [Validators.required]),
                 helperIDProof: new FormControl(''),
                 rcNo: new FormControl('', [Validators.required]),
                 rcPhoto: new FormControl('', [Validators.required]),
@@ -158,6 +160,11 @@ export class VehicleMasterComponent implements OnInit{
                                 this.toastService.showWarning('Driver is required.');
                                 return;
                         }
+                        const vehicleType = this.form.value.vehicleType?.trim();
+                        if (!vehicleType) {
+                                this.toastService.showWarning('vehicleType is required.');
+                                return;
+                        }
                         const rcNumber = this.form.value.rcNo?.trim();
                         if (!rcNumber) {
                                 this.toastService.showWarning('RC number is required.');
@@ -186,6 +193,11 @@ export class VehicleMasterComponent implements OnInit{
                                 this.toastService.showWarning('Helper is required.');
                                 return;
                         }
+                        const helperId2 = this.form.value.helperId2?.trim();
+                        if (!helperId2) {
+                                this.toastService.showWarning('Helper2 is required.');
+                                return;
+                        }
                         const vehicleWeight = this.form.value.vehicleWt?.trim();
                         if (!vehicleWeight) {
                                 this.toastService.showWarning('Vehicle weight is required.');
@@ -202,6 +214,7 @@ export class VehicleMasterComponent implements OnInit{
                                 insurance: this.form.value.insurance,
                                 vehiclePassingWt: this.form.value.vehiclePassingWt,
                                 vehicleWt: this.form.value.vehicleWt,
+                                vehicleType: this.form.value.vehicleWt,
                                 vehicleDesc: this.form.value.vehicleDesc,
                                 zone: {
                                         zoneId: this.form.value.zoneId
@@ -216,6 +229,9 @@ export class VehicleMasterComponent implements OnInit{
                                         driverId: this.form.value.driverId
                                 },
                                 helper: {
+                                        helperId: this.form.value.helperId
+                                },
+                                helper2: {
                                         helperId: this.form.value.helperId
                                 }
                         }
@@ -313,6 +329,11 @@ export class VehicleMasterComponent implements OnInit{
                                 this.toastService.showWarning('Driver is required.');
                                 return;
                         }
+                        const vehicleType = this.form.value.vehicleType?.trim();
+                        if (!vehicleType) {
+                                this.toastService.showWarning('vehicleType is required.');
+                                return;
+                        }
                         const rcNumber = this.form.value.rcNo?.trim();
                         if (!rcNumber) {
                                 this.toastService.showWarning('RC number is required.');
@@ -339,6 +360,11 @@ export class VehicleMasterComponent implements OnInit{
                         const helperId = this.form.value.helperId?.trim();
                         if (!helperId) {
                                 this.toastService.showWarning('Helper is required.');
+                                return;
+                        }
+                        const helperId2 = this.form.value.helperId?.trim();
+                        if (!helperId) {
+                                this.toastService.showWarning('Helper2 is required.');
                                 return;
                         }
                         const vehicleWeight = this.form.value.vehicleWt?.trim();
