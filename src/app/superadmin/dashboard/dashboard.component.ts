@@ -146,14 +146,14 @@ export class DashboardComponent {
       this.payloadMoKhata.fromDate = dateElementCurrent.value
       this.payloadMoKhata.toDate = dateElementCurrent.value
 
-      this.payloadInventory.fromDate = '2023-08-12 00:00:00'
-      this.payloadInventory.toDate = '2023-08-12 00:00:00'
-      this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
-      this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
-      this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
-      this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
-      this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
-      this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
+      // this.payloadInventory.fromDate = '2023-08-12 00:00:00'
+      // this.payloadInventory.toDate = '2023-08-12 00:00:00'
+      // this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
+      // this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
+      // this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
+      // this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
+      // this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
+      // this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
 
       this.defaultCallService(eventType)
   }
@@ -201,14 +201,14 @@ export class DashboardComponent {
     this.payloadMoKhata.toDate =  (document.querySelector(`input[id="filter_to_date"]`) as HTMLInputElement).value +" 00:00:00"
 
     
-    this.payloadInventory.fromDate = '2023-08-12 00:00:00'
-    this.payloadInventory.toDate = '2023-08-12 00:00:00'
-    this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
-    this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
-    this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
-    this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
-    this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
-    this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
+    // this.payloadInventory.fromDate = '2023-08-12 00:00:00'
+    // this.payloadInventory.toDate = '2023-08-12 00:00:00'
+    // this.reportTripPayload.fromDate =  '2023-08-12 00:00:00'
+    // this.reportTripPayload.toDate =  '2023-08-12 00:00:00'
+    // this.reportMrfPayload.fromDate =  '2023-08-12 00:00:00'
+    // this.reportMrfPayload.toDate =  '2023-08-12 00:00:00'
+    // this.payloadMoKhata.fromDate =  '2023-08-12 00:00:00'
+    // this.payloadMoKhata.toDate =  '2023-08-12 00:00:00'
 
   }
 
