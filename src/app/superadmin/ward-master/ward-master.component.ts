@@ -124,14 +124,20 @@ export class WardMasterComponent implements OnInit{
                         this.service.getAllWcData().subscribe(
                                 data=>{
                                         this.wcList=data
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
                                 }
                         );
                         this.toastService.showSuccess("Ward data adeed successfully!!")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
-                        console.error(e)
-                        this.toastService.showError('Some error occured.');
+                        this.responseData=e
+                       // this.toastService.showError('Some error occured.');
+                       this.toastService.showError(this.responseData.error.message)
+                       console.error(e)
                 }
         }
         

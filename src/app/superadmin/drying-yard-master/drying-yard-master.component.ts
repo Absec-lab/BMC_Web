@@ -15,6 +15,7 @@ export class DryingYardMasterComponent implements OnInit {
         isAdd: boolean = false
         isUpdate: boolean = false
         dryingYardResponseById: any
+        responseData:any
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
         }
@@ -84,12 +85,18 @@ export class DryingYardMasterComponent implements OnInit {
                                 this.service.getDryingYardAllData().subscribe(
                                         data => {
                                                 this.dryingYardList = data
+                                        },
+                                        error=>{
+                                                this.responseData=error
+                                                this.toastService.showError(this.responseData.error.message)
                                         }
                                 );
                         },
-                        error => {
-                                this.toastService.showError("Something went wrong")
-                        }
+                        error=>{
+                                this.responseData=error
+                                this.toastService.showError(this.responseData.error.message)
+                                console.error(error)
+                        } 
                 );
         }
         async removeZone(id: string) {

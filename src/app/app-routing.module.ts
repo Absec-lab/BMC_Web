@@ -34,6 +34,7 @@ import { TripStatusReportComponent } from './superadmin/trip-status-report/trip-
 import { VendorMasterComponent } from './superadmin/vendor-master/vendor-master.component';
 import { GodownComponent } from './superadmin/godown/godown.component';
 import { BmcGoDownAdminUserAuthGuardService } from './superadmin/auth-guard/bmc-godown-adminuser-auth-guard.service';
+import { TtsMasterComponent } from './superadmin/tts-master/tts-master.component';
 
 
 const routes: Routes = [
@@ -174,6 +175,11 @@ const routes: Routes = [
     component:GodownComponent,
     path:'/superadmin/godown',
     canActivate:[LoginGuard,BmcGoDownAdminUserAuthGuardService]
+  },
+  {
+    component:TtsMasterComponent,
+    path:'superadmin/tts-master',
+    canActivate:[LoginGuard,BmcWcAdminUserAuthGuardService]
   }
 ];
 

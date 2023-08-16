@@ -15,6 +15,7 @@ export class GoodsSubMasterComponent {
         subGoodsId:any
         goodsId:any
         goods: any
+        responseData:any
         wcId : any ;
         constructor(private service: CommonService, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.wcId = localStorage.getItem('wcId');
@@ -46,6 +47,7 @@ export class GoodsSubMasterComponent {
                 subgoodsName: new FormControl,
                 subGoodsPerKg: new FormControl,
                 subGoodsDesc: new FormControl,
+                wcId: new FormControl,
                 goods: new FormControl
         })
         list: any = []
@@ -101,12 +103,19 @@ export class GoodsSubMasterComponent {
                         this.service.getAllSubGood(this.wcId).subscribe(
                                 data => {
                                         this.list = data
-                                }
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
+                                } 
+                                  
                         );
                         window.alert(" subGoods added successfully")
                         this.form.reset()
                         this.getList()
                 } catch (e) {
+                        this.responseData=e
+                        this.toastService.showError(this.responseData.error.message)
                         console.error(e)
                 }
         }
@@ -130,6 +139,7 @@ export class GoodsSubMasterComponent {
                         },
                         error=>{
                                 window.alert("Something went wrong!!")
+                                
                         }
                 );
         }
@@ -145,6 +155,7 @@ export class GoodsSubMasterComponent {
                         subgoodsName: item.subgoodsName,
                         subGoodsPerKg: item.subGoodsPerKg,
                         subGoodsDesc: item.subGoodsDesc,
+                        wcId:item.wcId,
                         goods: item.goods
                 })
                 this.subGoodsId=item.goodssubId
@@ -161,7 +172,7 @@ export class GoodsSubMasterComponent {
                 this.form.reset()
         }
 
-        updateWcc() {
+        updateSubGood() {
                 debugger;
             //    if (this.form.status === 'INVALID') {
                         const goods = this.form.value.goodsId;
@@ -189,6 +200,11 @@ export class GoodsSubMasterComponent {
                 this.service.updateSubGood(this.form.value,this.subGoodsId).subscribe(
                         data => {
                                 this.toastService.showSuccess("Sub-goods data updated successfully")
+                                this.service.getAllSubGood(this.wcId).subscribe(
+                                        data => {
+                                                this.list = data
+                                        }
+                                );
                                 this.isAdd = true
                                 this.isUpdate = false
                                 this.getList()

@@ -15,6 +15,7 @@ export class ItemCategoryMasterComponent implements OnInit {
         isAdd: boolean = false
         isUpdate: boolean = false
         categoryResponseById: any
+        responseData: any
         deactivationDto: DeactivationDto = new DeactivationDto
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.getItemCategory();
@@ -87,8 +88,9 @@ export class ItemCategoryMasterComponent implements OnInit {
                                 );
                                 this.getItemCategory();
                         },
-                        error => {
-                                this.toastService.showError("Something went wrong")
+                        error=>{
+                                this.responseData=error
+                                this.toastService.showError(this.responseData.error.message)
                         }
                 );
         }
