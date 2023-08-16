@@ -217,9 +217,10 @@ export class MrfComponent implements OnInit{
         this.toastService.showError("something went wrong")
       }
     
-   );   
+   );  
+   this.form.reset() 
    this.getList()
-   this.form.reset()
+   
   }
   getGoodId() {
     // console.log(this.form.value)

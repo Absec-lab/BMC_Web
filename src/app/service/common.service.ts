@@ -94,11 +94,17 @@ export class CommonService {
         addZone(data: any) {
                 return this.http.post(this.environment.URL + '/zone/addZone', data);
         }
+        addTts(data: any) {
+                return this.http.post(this.environment.URL + '/addTts', data);
+        }
         addDryingYard(data: any) {
                 return this.http.post(this.environment.URL + '/inventory/addDryingyard', data);
         }
         getZoneAllData() {
                 return this.http.get(this.environment.URL + '/zone/getAllZone')
+        }
+        getTtsAllData() {
+                return this.http.get(this.environment.URL + '/getAllTts')
         }
         getAllReports() {
                 return this.http.get(this.environment.URL + '/generate-report-trip')
