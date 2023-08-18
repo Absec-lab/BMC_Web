@@ -679,6 +679,7 @@ export class DashboardComponent {
                               : 0                
        
             }else if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == undefined || this.wcSelectId == 0 ||this.wcSelectId == '' || this.wcSelectId == 'Allwc')){
+
               this.mrfDailyQtm = this.mrfReportList.response.MRF_DAILY != undefined && this.mrfReportList.response.MRF_DAILY.length > 0 ? 
                               Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => element.zoneId == this.zoneSelectId).reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 
               : 0   
@@ -699,19 +700,19 @@ export class DashboardComponent {
                               : 0    
 
             }else{
-      
-              this.mrfDailyQtm = Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                         .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100
-              this.mrfDailyInStock = Math.round(( this.mrfReportList.response.MRFINSTOCK_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)  + Number.EPSILON) * 100) / 100
-              this.mrfWeeklyQtm = Math.round((  this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)  + Number.EPSILON) * 100) / 100     
-              this.mrfWeeklyInStock = Math.round(( this.mrfReportList.response.MRFINSTOCK_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100
-              this.mrfMonthlyQtm = Math.round(( this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100     
-              this.mrfMonthlyInStock = Math.round((  this.mrfReportList.response.MRFINSTOCK_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
-                        .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100        
+
+              this.mrfDailyQtm =  this.mrfReportList.response.MRF_DAILY != undefined ?  Math.round(( this.mrfReportList.response.MRF_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                         .reduce((sum:number, item:any) => sum + Number(item.dailyQtm), 0) + Number.EPSILON) * 100) / 100 : 0
+              this.mrfDailyInStock = this.mrfReportList.response.MRFINSTOCK_DAILY != undefined ? Math.round(( this.mrfReportList.response.MRFINSTOCK_DAILY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                        .reduce((sum:number, item:any) => sum + Number(item.dailyinStock), 0)  + Number.EPSILON) * 100) / 100 : 0
+              this.mrfWeeklyQtm = this.mrfReportList.response.MRF_WEEKLY != undefined ? Math.round((  this.mrfReportList.response.MRF_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                        .reduce((sum:number, item:any) => sum + Number(item.weeklyQtm), 0)  + Number.EPSILON) * 100) / 100  : 0    
+              this.mrfWeeklyInStock = this.mrfReportList.response.MRFINSTOCK_WEEKLY != undefined ? Math.round(( this.mrfReportList.response.MRFINSTOCK_WEEKLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                        .reduce((sum:number, item:any) => sum + Number(item.weeklyInStock), 0) + Number.EPSILON) * 100) / 100 : 0
+              this.mrfMonthlyQtm = this.mrfReportList.response.MRF_MONTHLY != undefined ? Math.round(( this.mrfReportList.response.MRF_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                        .reduce((sum:number, item:any) => sum + Number(item.monthQtm), 0) + Number.EPSILON) * 100) / 100   : 0  
+              this.mrfMonthlyInStock = this.mrfReportList.response.MRFINSTOCK_MONTHLY != undefined ? Math.round((  this.mrfReportList.response.MRFINSTOCK_MONTHLY.filter((element:any) => { return element.wealthCenterId == this.wcSelectId  })
+                        .reduce((sum:number, item:any) => sum + Number(item.monthInStock), 0) + Number.EPSILON) * 100) / 100   : 0     
             }
 
             if(eventType == 'MONTHLY'){        
@@ -908,8 +909,6 @@ export class DashboardComponent {
         this.dataMap.set('totalMonthlylWetWeightAllwc',wcSelectedFilteredData.reduce((sum:number, item:any) => sum + Number( item.totalMonthlyWetWeight.toString().replaceAll(',','')), 0));
         this.dataMap.set('totalemptypits',  0);
         this.dataMap.set('totalfilledpits',  0);
-  
-      
   
         let wcSelectedFilteredDataForPit = this.reportResponseWcBasedPitData
         wcSelectedFilteredDataForPit = wcSelectedFilteredDataForPit.filter((element:any) => element.wealthCenterId == this.wcSelectId)
