@@ -296,15 +296,19 @@ export class DashboardComponent {
     }
     this.wcList = []
     this.getWcListByZoneId();
+    this.resetData() 
+    this.currentDateSelect();
     if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == 0 || this.wcSelectId == undefined)){ // When user select other zone but didnt choose any WC
-          //this.defaultCallService('TODAY');
-    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone but choosed any WC
-        
-    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone and choosed All WC
-        
-    }else if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select All zone and choosed All WC
-        this.resetData() 
-        this.currentDateSelect();
+        this.defaultCallService('TODAY');
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && ( this.wcSelectId != undefined || this.wcSelectId > 0 )){// When user select other zone but choosed any WC
+        this.defaultCallService('TODAY')
+    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != undefined || this.wcSelectId > 0 )){// When user select other zone and choosed All WC
+        this.defaultCallService('TODAY')
+    }else if(this.zoneSelectId == 'Allzone' && (this.wcSelectId != undefined || this.wcSelectId > 0) && this.wcSelectId == 'Allwc'){// When user select All zone and choosed All WC
+        // this.payloadInventory.wcId = 0
+        // this.reportMrfPayload.wcId = 0
+        // this.reportTripPayload.wcId = 0
+        // this.payloadMoKhata.wcId = 0 
         this.defaultCallService('TODAY')
     }
   }
@@ -359,7 +363,13 @@ export class DashboardComponent {
 
   getWcListByZoneId() {
     try {
-      this.service.getWcListByZoneId(this.zoneSelectId)
+      let zoneSel = 0;
+      if(this.zoneSelectId == 'Allzone'){
+        zoneSel = 0;
+      }else{
+        zoneSel = this.zoneSelectId
+      }
+      this.service.getWcListByZoneId(zoneSel)
         .subscribe((response: any) => {
           if (this.role == 'bmcadmin' || this.role == "bmcsuperadminuser") {
             this.wcList = response.data
@@ -387,26 +397,29 @@ export class DashboardComponent {
       this.wcSelectId = localStorage.getItem('wcId');
     }
     if(this.wcSelectId == 'Allwc'){// Dont pass Allwc to service layer................
-      this.payloadInventory.wcId = 0
-      this.reportMrfPayload.wcId = 0
-      this.reportTripPayload.wcId = 0
-      this.payloadMoKhata.wcId = 0
+          this.payloadInventory.wcId = 0
+          this.reportMrfPayload.wcId = 0
+          this.reportTripPayload.wcId = 0
+          this.payloadMoKhata.wcId = 0
     }else{
-      this.payloadInventory.wcId = this.wcSelectId
-      this.reportMrfPayload.wcId = this.wcSelectId
-      this.reportTripPayload.wcId = this.wcSelectId
-      this.payloadMoKhata.wcId = this.wcSelectId
+     
+          this.payloadInventory.wcId = this.wcSelectId
+          this.reportMrfPayload.wcId = this.wcSelectId
+          this.reportTripPayload.wcId = this.wcSelectId
+          this.payloadMoKhata.wcId = this.wcSelectId
     }
-    this.currentDateSelect();
-    if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == 0 || this.wcSelectId == undefined)){ // When user select other zone but didnt choose any WC
-          this.defaultCallService('TODAY')
-    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone but choosed any WC
+          this.currentDateSelect();
           this.defaultCallService('TODAY');
-    }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone and choosed All WC
-          this.defaultCallService('TODAY');
-    }else if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select All zone and choosed All WC
-          this.defaultCallService('TODAY')
-    }
+    // if(this.zoneSelectId != 'Allzone' && (this.wcSelectId == 0 || this.wcSelectId == undefined)){ // When user select other zone but didnt choose any WC
+    //       this.defaultCallService('TODAY')
+    // }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone but choosed any WC
+         
+    // }else if(this.zoneSelectId != 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select other zone and choosed All WC 
+    //       this.defaultCallService('TODAY');
+    // }else if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' && (this.wcSelectId != 0 || this.wcSelectId != undefined)){// When user select All zone and choosed All WC  
+    //       this.defaultCallService('TODAY')
+    // }
+    // console.log(' payload ::   :::  '+this.reportTripPayload.wcId)
   }
 
 
@@ -428,17 +441,23 @@ export class DashboardComponent {
             this.reportResponseWcBasedMrfData = response.response.TRIPRESPONSE_MRF
             this.reportResponseWcBasedPitData = response.response.PIT_RESPONSE
             this.reportResponseWcBasedTripData = response.response.TRIP_SUMMARY
+  
+             //Added later when user select zone no wc.. so added...
+              this.wcBasedData = this.reportResponseWcBasedData
+              this.zoneBasedData = this.reportResponseWcBasedData
+              this.zoneBasedSelectedData = this.zoneBasedData
+              this.wcBasedMrfData = this.reportResponseWcBasedMrfData
           
-            if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc'){ // All zone All wc
+            if(this.zoneSelectId == 'Allzone' && this.wcSelectId == 'Allwc' ){ // All zone All wc
               this.getAllzoneAllwcDataForReports(eventType)
             }
-            if(this.zoneSelectId != 'Allzone' &&  (this.wcSelectId == 0 || this.wcSelectId == undefined || this.wcSelectId == 'Allwc')){ // Any zone All wc 
+            if((this.zoneSelectId != 'Allzone' && this.zoneSelectId > 0) &&  (this.wcSelectId == 0 || this.wcSelectId == undefined || this.wcSelectId == 'Allwc')){ // Any zone All wc 
               this.getZoneSelectNoWcSelectReports(eventType)
             }   
-            if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && this.wcSelectId != 0){ // Any zone Any wc
+            if(this.zoneSelectId != 'Allzone' && this.wcSelectId != 'Allwc' && this.wcSelectId > 0){ // Any zone Any wc
               this.getAnyZoneSelectAnyWcSelectReports(eventType)
             } 
-    });
+      });
  
   }
 
@@ -704,7 +723,7 @@ export class DashboardComponent {
             }else if(eventType == 'TODAY'){
               this.dataMap.set('totalMRFWeight', Math.round((this.mrfDailyQtm + Number.EPSILON) * 100) / 100 ); 
               this.totalMRFWeight_ = Math.round((this.mrfDailyQtm + Number.EPSILON) * 100) / 100
-            }            
+            }   
           }
         ); 
     }catch(ex){
@@ -739,8 +758,6 @@ export class DashboardComponent {
               this.dataMap.set('totalCompletedTrip',numberOfCompletedTrip_);
               this.dataMap.set('totalDryWeight', totalDryWeight_);
               this.dataMap.set('totalWetWeight', totalWetWeight_);
-              // this.dataMap.set('totalMRFWeight', Math.round((totalMRFProcessed_ + Number.EPSILON) * 100) / 100 );
-              // console.log(eventType + '  5555555555555555555555555   '+totalMRFProcessed_);
               this.dataMap.set('numberOfVehicles', numberOfVehicles_);
               this.dataMap.set('numberOfActiveTrip', numberOfActiveTrip_);
               this.dataMap.set('numberOfMaintenanceVehicle', numberOfUnderMaintenanceVehicles_);  
@@ -787,8 +804,6 @@ export class DashboardComponent {
       this.dataMap.set('totalemptypits',  0);
       this.dataMap.set('totalfilledpits',  0);
 
-    
-
       let zoneSelectedFilteredDataForPit = this.reportResponseWcBasedPitData
       zoneSelectedFilteredDataForPit = zoneSelectedFilteredDataForPit.filter((element:any) => element.zoneId == this.zoneSelectId)
 
@@ -800,8 +815,6 @@ export class DashboardComponent {
       }
       this.dataMap.set('totalemptypits',  emptyPits);
       this.dataMap.set('totalfilledpits',  filledPits);
-
-      
       let zoneSelectedNoWcData:any
       zoneSelectedNoWcData = this.zoneBasedData.filter((element:any) => element.zoneId == this.zoneSelectId)
       this.zoneBasedSelectedData = zoneSelectedNoWcData
@@ -909,7 +922,6 @@ export class DashboardComponent {
         }
         this.dataMap.set('totalemptypits',  emptyPits);
         this.dataMap.set('totalfilledpits',  filledPits);
-  
   
         let zoneSelectedWcSelectedData:any
         zoneSelectedWcSelectedData = this.zoneBasedData.filter((element:any) => element.wealthCenterId == this.wcSelectId)
