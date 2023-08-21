@@ -17,6 +17,7 @@ export class ZoneMasterComponent implements OnInit {
         zoneResponseById: any
         deactivationDto: DeactivationDto = new DeactivationDto
         userRole : any =""
+        responseData:any
         constructor(private service: CommonService, private route: Router, private formBuilder: FormBuilder, private toastService: ToastService) {
                 this.userRole=localStorage.getItem("role");
         }
@@ -80,6 +81,8 @@ export class ZoneMasterComponent implements OnInit {
                                 );
                         },
                         error => {
+                                this.responseData=error
+                                this.toastService.showError(this.responseData.error.message)
                                 this.toastService.showError("Something went wrong")
                         }
                 );

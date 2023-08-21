@@ -35,6 +35,8 @@ export class GarbageComponent implements OnInit {
   grossWeightCapturedButton: boolean = false
   dryButton: boolean = false
   wetWeightCapturedButton: boolean = false
+  vehicleResponseData:any
+  vehicleAllList: string[] =[]
   tripResponse: any
   errorResponse:any
   helperList:any=[]
@@ -68,6 +70,14 @@ export class GarbageComponent implements OnInit {
     this.service.getAllDriverList().subscribe((data) => {
       this.driverList = data;
     });
+    this.service.getVehicleListByWcId().subscribe((data)=>{
+      this.vehicleResponseData = data;
+      this.vehicleResponseData = this.vehicleResponseData.data;
+      this.vehicleResponseData.map((item: any) => { 
+        this.vehicleAllList.push(item.vehicleNo);   
+      });     
+    }); 
+	
     this.service.getActiveTrip().subscribe(
       data => {
         this.activeTripResponse = data

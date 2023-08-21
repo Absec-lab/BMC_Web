@@ -167,7 +167,7 @@ export class DriverMasterComponent implements OnInit {
                                 this.service.getAllDriverList().subscribe(data => {this.list = data});
                                 return;
                                 }, (error: any) => {
-                                this.toastService.showError(`Unable to complete driver registration. Server error.`);
+                                this.toastService.showError(`Already exist this driver registration..`);
                                 return;
                                 }
                         );

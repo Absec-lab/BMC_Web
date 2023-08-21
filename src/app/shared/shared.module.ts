@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../superadmin/common/header/header.component';
 import { FooterComponent } from '../superadmin/common/footer/footer.component';
 import { SidebarComponent } from '../superadmin/common/sidebar/sidebar.component';
+import { CustomAutocompleteDirective } from '../directive/custom-autocomplete.directive';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -9,7 +10,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    CustomAutocompleteDirective
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    CustomAutocompleteDirective
   ]
 })
 export class SharedModule { }

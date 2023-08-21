@@ -54,9 +54,10 @@
 															Vehicle Number<span class="text-danger">*</span>
 														</div>
 													<div class="col-md-9">
-															<div class="input-group">
+															<div class="input-group">																
 																<input formControlName="vehicleNumber" type="text" name=""
-																id="vehicleNumber" class="form-control">
+																id="vehicleNumber" class="form-control" appCustomAutocomplete
+																[customAutocompleteList]="vehicleAllList">																
 																<div class="input-group-item">
 																	<button class="btn btn-light rounded-0" (click)="setVehicleNumber()">
 																		<i class="fas fa-arrow-right"></i>

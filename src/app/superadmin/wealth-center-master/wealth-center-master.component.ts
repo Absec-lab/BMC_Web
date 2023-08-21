@@ -91,12 +91,20 @@ export class WealthCenterMasterComponent implements OnInit{
                         this.service.getAllWcData().subscribe(
                                 data=>{
                                         this.list=data
+                                },
+                                error=>{
+                                        this.responseData=error
+                                        this.toastService.showError(this.responseData.error.message)
+                                        console.error(this.responseData.error.message)
                                 }
                                );
                         window.alert("Wealth Centre added successfully")
-                        this.form.reset()
+                       
                         this.getList()
+                        this.form.reset()
                 } catch (e) {
+                        this.responseData=e
+                        this.toastService.showError(this.responseData.error.message)
                         console.error(e)
                 }
         }
